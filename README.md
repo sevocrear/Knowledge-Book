@@ -1,7 +1,7 @@
 # Knowledge Book: Deep Learning & AI Education
 # Книга Знаний: Deep Learning & AI Education
 
-This knowledge book contains comprehensive guides on various topics in Deep Learning, Computer Vision, NLP, LLMs, and cutting-edge AI techniques.
+This knowledge book contains comprehensive guides on various topics in Deep Learning, Computer Vision, NLP, LLMs, and cutting-edge AI techniques in Russian.
 
 ## Structure
 
@@ -72,6 +72,14 @@ Documents are organized by topic and include:
    - Области применения: скоринг, медицина, маркетинг, ансамбли (Random Forest, XGBoost)
    - Связь с ROC AUC, Cross Entropy; примеры кода sklearn
    - Related: ROC Curves and ROC AUC, Cross Entropy and Focal Loss
+
+2. **[Support Vector Machines (SVM) и Kernel Trick](./support-vector-machines-svm-and-kernel-trick.md)**
+   - SVM: максимальный запас (margin), опорные векторы, примарная и двойственная задачи
+   - Soft margin и параметр C
+   - Kernel trick: нелинейные границы через ядра без явного отображения $\phi$
+   - Типичные ядра: Linear, Polynomial, RBF (Gaussian), Sigmoid
+   - Примеры кода на sklearn (linear и RBF для линейно и нелинейно разделимых данных)
+   - Related: Decision Trees, ROC AUC, RAG, Bayes
 
 ### NLP and LLM Systems
 
