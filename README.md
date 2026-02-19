@@ -71,7 +71,7 @@ Documents are organized by topic and include:
    - Методы построения: ID3, C4.5, CART; Gain Ratio; техники против переобучения
    - Области применения: скоринг, медицина, маркетинг, ансамбли (Random Forest, XGBoost)
    - Связь с ROC AUC, Cross Entropy; примеры кода sklearn
-   - Related: ROC Curves and ROC AUC, Cross Entropy and Focal Loss
+   - Related: ROC Curves and ROC AUC, Cross Entropy and Focal Loss, Ensemble Methods
 
 2. **[Support Vector Machines (SVM) и Kernel Trick](./support-vector-machines-svm-and-kernel-trick.md)**
    - SVM: максимальный запас (margin), опорные векторы, примарная и двойственная задачи
@@ -80,6 +80,35 @@ Documents are organized by topic and include:
    - Типичные ядра: Linear, Polynomial, RBF (Gaussian), Sigmoid
    - Примеры кода на sklearn (linear и RBF для линейно и нелинейно разделимых данных)
    - Related: Decision Trees, ROC AUC, RAG, Bayes
+
+### Hyperparameter Tuning (Настройка гиперпараметров)
+
+1. **[Hyperparameter Tuning](./hyperparameter-tuning.md)**
+   - Параметры vs гиперпараметры, пространство поиска
+   - Grid Search и Random Search: принципы и сравнение
+   - Bayesian Optimization: GP, TPE, Acquisition Functions, Optuna
+   - Bandit-based методы: Successive Halving, Hyperband, BOHB
+   - Population-Based Training (PBT) для параллельного тюнинга
+   - Эволюционные алгоритмы: CMA-ES
+   - Neural Architecture Search (NAS): DARTS, OFA
+   - Автоматический подбор LR: LR Finder, OneCycleLR, Cosine Annealing
+   - Кросс-валидация: K-Fold, Stratified, Nested CV
+   - Практические рекомендации и что популярно в 2024-2026
+   - Related: Ensemble Methods, Decision Trees, ROC AUC, LoRA, Bayes' Theorem
+
+### Ensemble Methods (Ансамблевые методы)
+
+1. **[Ensemble Methods & Model Combination](./ensemble-methods-model-combination.md)**
+   - Bias-Variance Decomposition: зачем комбинировать модели
+   - Bagging и Random Forest: параллельные ансамбли
+   - Boosting: AdaBoost, Gradient Boosting, XGBoost, LightGBM, CatBoost
+   - Stacking, Voting, Blending — мета-обучение
+   - Mixture of Experts (MoE): sparse activation в LLM (Mixtral, DeepSeek-V3)
+   - Knowledge Distillation: teacher → student, soft labels
+   - Model Merging для LLM: TIES, DARE, SLERP, Model Soups
+   - Ансамбли в DL: TTA, SWA, Snapshot Ensembles, MC Dropout
+   - Что используется больше всего в 2024-2026
+   - Related: Decision Trees, ROC AUC, Transformers, LoRA
 
 ### NLP and LLM Systems
 
@@ -265,6 +294,22 @@ Documents are organized by topic and include:
 5. Explore open-source methods and datasets (Open X-Embodiment)
 6. Study sim-to-real transfer techniques
 7. Apply methods to different robot types: humanoids, quadrupeds, wheeled robots, manipulators
+
+### For Hyperparameter Tuning:
+1. Start with **Decision Trees** and **Ensemble Methods** to understand models with many hyperparameters
+2. Read **Hyperparameter Tuning** for comprehensive coverage of all methods
+3. Learn Grid Search → Random Search → Bayesian Optimization (Optuna)
+4. Study advanced methods: Hyperband, BOHB, PBT
+5. Apply LR Finder and schedules for neural networks
+6. Explore NAS for architecture search
+
+### For Ensemble Methods and Model Combination:
+1. Start with **Decision Trees** as the building block for most ensembles
+2. Read **Ensemble Methods & Model Combination** for comprehensive coverage
+3. Understand Bagging (Random Forest) → Boosting (XGBoost/LightGBM/CatBoost)
+4. Learn Stacking and Voting for combining diverse models
+5. Study **Mixture of Experts** and **Model Merging** for LLM-scale approaches
+6. Explore Knowledge Distillation and DL-specific ensembles (TTA, SWA)
 
 ## Contributing
 

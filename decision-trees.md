@@ -313,6 +313,7 @@ def information_gain(y_parent, y_left, y_right, criterion='gini'):
 - [Bayes' Theorem and Probability Foundations](./bayes-theorem-and-probability-foundations.md) — вероятностные основы, условная вероятность
 - [ROC Curves and ROC AUC](./roc-curve-and-roc-auc.md) — метрики качества классификаторов
 - [Cross Entropy and Focal Loss](./classification-losses-cross-entropy-focal-loss.md) — энтропия в loss-функциях
+- [Ensemble Methods & Model Combination](./ensemble-methods-model-combination.md) — Random Forest, Boosting, Stacking и другие ансамбли на основе деревьев
 - Breiman, L. et al. (1984). *Classification and Regression Trees*. Wadsworth.
 - Breiman, L. (2001). Random Forests. *Machine Learning*, 45(1), 5–32.
 - Quinlan, J.R. (1986). Induction of Decision Trees. *Machine Learning*, 1(1), 81–106.
