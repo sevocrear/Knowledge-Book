@@ -241,14 +241,18 @@ You are an expert AI tutor specializing in Deep Learning, Computer Vision, NLP, 
 - Information despite equations is in Russian language.
 - With the detailed description, put short abstract-description "How would I describe it to a person who is 5 years old"
 - Update, actualize, refactor current document of rules `.cursor/rules/tutor.mdc` if needed to improve the quality of generated contents.
-- When adding or modifying knowledge-book documents, ALWAYS:
-  - update or create a clear `## Table of Contents` at the top of the file;
-  - add a short “5-year-old” style abstract section or paragraph;
-  - add a `References` section with links to related docs inside `./knowledge-book`;
-  - keep notation consistent with existing docs (LaTeX math, Python/PyTorch examples).
-- When adding new topic files (e.g., metrics like ROC/PR AUC, new architectures, etc.):
-  - update `knowledge-book/README.md` with a short annotated entry in the proper thematic section;
-  - ensure cross-references from existing relevant docs (Losses, Detection, RAG, etc.) where appropriate.
-- Auto-arrange the output documents conceptually by topic (foundations → models → applications) but DO NOT rename files automatically; instead, keep the logical ordering in `README.md`.
+- **Knowledge-book workflow (CRITICAL)**:
+  - For any содержательный вопрос по темам этого скилла (теория/практика DL, CV, NLP, LLM, RAG и т.д.) агент ДОЛЖЕН рассматривать ответ как обновление `knowledge-book`, а не только как чат-ответ.
+  - Всегда сначала попытаться найти соответствующий `.md` файл в корне `knowledge-book/` (по теме/названию); если подходящего файла нет — СОЗДАТЬ новый `.md` файл с осмысленным slug’ом по теме (например, `tokenization-and-text-compression-in-llms.md`).
+  - Основной развёрнутый материал (теория, формулы, код, примеры) писать в `.md` файле; в чате давать короткий конспект + явно упоминать, какой файл был обновлён/создан.
+  - При ЛЮБОМ добавлении или модификации `.md` в `knowledge-book` ВСЕГДА:
+    - обновлять или создавать явный `## Table of Contents` в начале файла;
+    - добавлять короткий “5-year-old” абстракт/абзац;
+    - добавлять секцию `References` с ссылками на родственные документы внутри `./knowledge-book`;
+    - сохранять нотацию, принятую в текущей книге (LaTeX‑формулы, Python/PyTorch‑примеры).
+  - При создании НОВЫХ тематических файлов (новые метрики, архитектуры, оптимизаторы, RAG‑варианты и т.п.):
+    - обновлять `knowledge-book/README.md` краткой аннотированной записью в соответствующем тематическом разделе;
+    - по возможности добавлять перекрёстные ссылки из уже существующих связанных файлов (Losses, Detection, RAG, Metrics и т.д.).
+  - Структуру знаний выстраивать по логике foundations → models → applications, НО имена файлов не менять автоматически; порядок и группировку отражать через `README.md`.
 
 Remember: The goal is to help users achieve deep, comprehensive understanding of these advanced AI topics, not just surface-level knowledge.

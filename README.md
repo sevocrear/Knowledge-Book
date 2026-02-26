@@ -131,6 +131,22 @@ Documents are organized by topic and include:
    - Текущее состояние и тренды (2021-2026)
    - Related: Transformers, Attention Mechanisms, RAG
 
+3. **[Tokenization and Text Compression in LLMs](./tokenization-and-text-compression-in-llms.md)**
+   - Что такое токенизатор и зачем он нужен
+   - Как текст превращается в последовательность токенов и ID
+   - Основные техники токенизации: word‑level, char‑level, BPE, WordPiece, Unigram, byte‑level BPE
+   - Почему токенизация — это по сути алгоритм сжатия текста перед входом в LLM
+   - Связь с архитектурой трансформеров и стоимостью внимания
+   - Related: Embeddings and Embedding Matrix
+
+4. **[Embeddings and Embedding Matrix](./embeddings-and-embedding-matrix.md)**
+   - Что такое эмбеддинги (векторное представление дискретных символов/токенов)
+   - Матрица эмбеддингов: размер $V \times d$, lookup по ID токена
+   - Связь с токенизатором: токенизатор даёт ID, матрица эмбеддингов даёт векторы для входа в Transformer
+   - Обучение эмбеддингов в LLM, размерность и размер словаря
+   - Эмбеддинги в RAG и семантическом поиске
+   - Related: Tokenization, Transformers, RAG
+
 ### Transformers, Attention and Vision Transformers
 
 1. **[Transformers, Attention and Vision Transformers (ViT)](./transformers-attention-and-vision-transformers-vit.md)**
@@ -140,6 +156,12 @@ Documents are organized by topic and include:
    - Архитектура ViT, CLS‑токен и классификация на трансформерах
    - Детекция и сегментация с помощью DETR‑подобных архитектур
    - Related: RAG, Non-Maximum Suppression (NMS), Convolutions and Parameters in CNN, Batch/Layer Normalization
+
+2. **[DINOv3: Self-Supervised Vision Transformer и 2D RoPE](./dinov3-self-supervised-vision-transformer-and-2d-rope.md)**
+   - Self-supervised pretraining ViT‑бэкбонов (student–teacher, multi‑view, multi‑loss)
+   - 2D Rotary Positional Embeddings (2D RoPE) для кодирования координат патчей
+   - Глобальные и dense‑фичи DINOv3 и их использование в классификации, детекции и сегментации
+   - Related: Transformers, Non-Maximum Suppression (NMS), Detection/Segmentation Losses, Convolutions in CNN
 
 ### Computer Vision and Object Detection
 

@@ -324,6 +324,9 @@ $$
 - **Low-Rank Adaptation (LoRA)**  
   - Эффективная техника тонкой настройки Transformer моделей (LLM, ViT) через добавление низкоранговых адаптаций к attention и MLP слоям.
 
+- **DINOv3: Self-Supervised Vision Transformer и 2D RoPE**  
+  - Отдельный документ с углублённым разбором self‑supervised обучения ViT‑бэкбонов (student–teacher, multi‑view, multi‑loss) и 2D RoPE для изображений, а также практическим применением DINOv3‑фич для классификации, детекции и сегментации.
+
 ---
 
 ### 9. Как объяснить это 5‑летнему ребёнку
