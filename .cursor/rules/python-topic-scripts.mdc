@@ -1,0 +1,49 @@
+---
+alwaysApply: true
+---
+
+# Python Topic Scripts Rule
+
+## Scope
+
+This rule applies to every Python code example in `knowledge-book`.
+
+## Mandatory topic-local structure
+
+- Each script MUST belong to exactly one topic directory:
+  - `topics/<topic-slug>/scripts/`
+- Scripts MUST be numbered with a two-digit prefix:
+  - `01_<purpose>.py`, `02_<purpose>.py`, ...
+- Tests MUST be colocated in the same topic:
+  - `topics/<topic-slug>/tests/test_01_<purpose>.py`, ...
+- Do not place topic scripts in the repository root.
+
+## Content requirements for each script
+
+- At the top of each script, add concise comments that state:
+  - what the script demonstrates;
+  - what output/behavior to expect.
+- Keep each script focused on one subtopic only.
+- Avoid mixing unrelated demonstrations in one file.
+
+## SOLID expectations
+
+- **Single Responsibility Principle**: one clear reason to change per class/module.
+- **Open/Closed Principle**: extend behavior via composition/interfaces, avoid brittle edits.
+- **Liskov Substitution Principle**: subclasses preserve parent contracts.
+- **Interface Segregation Principle**: small focused interfaces/protocols.
+- **Dependency Inversion Principle**: depend on abstractions, not concrete low-level details.
+
+## Quality and testing workflow
+
+- Every new/updated script MUST have corresponding automated tests.
+- Minimum validation before task completion:
+  - `uv sync`
+  - `uv run pytest`
+- If dependencies are added, prefer minimal CPU-friendly packages.
+
+## Dependency policy
+
+- Python environment is managed from the repository root via `uv`.
+- Prefer standard library and lightweight libraries first.
+- Use `torch`/`torchvision` CPU wheels by default unless GPU is explicitly required.

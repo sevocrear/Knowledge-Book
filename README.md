@@ -12,22 +12,41 @@ Documents are organized by topic and include:
 - Current status and applications
 - References to related topics
 
+Topic-first layout:
+- `topics/<topic-slug>/README.md` - main theory/material for one topic
+- `topics/<topic-slug>/scripts/` - numbered runnable examples (`01_*.py`, `02_*.py`, ...)
+- `topics/<topic-slug>/tests/` - tests for topic scripts (`test_*.py`)
+
+## Conventions
+
+- One topic per directory, one main document per topic: `topics/<topic-slug>/README.md`
+- Keep explicit `## Table of Contents`, a short "5-year-old" abstract, and `References` in each topic README
+- Python examples are required as separate scripts in `scripts/` when code is presented
+- Every script must have a matching automated test in `tests/`
+- Use root-level `uv` environment and CPU-first dependencies by default
+
+## Development (uv)
+
+- `uv sync` - install project and dev dependencies
+- `uv run pytest` - run automated tests
+- `uv run python topics/<topic-slug>/scripts/01_<name>.py` - run a topic example
+
 ## Contents
 
 ### Generative Models
 
-1. **[Variational Autoencoders (VAEs)](./variational-autoencoders-vaes.md)**
+1. **[Variational Autoencoders (VAEs)](./topics/variational-autoencoders-vaes/README.md)**
    - Core concepts, mathematical foundations, implementation
    - Current applications and status (2025-2026)
    - Related: GANs, Diffusion Models
 
-2. **[Generative Adversarial Networks (GANs)](./generative-adversarial-networks-gans.md)**
+2. **[Generative Adversarial Networks (GANs)](./topics/generative-adversarial-networks-gans/README.md)**
    - Adversarial training, architecture, modern variants
    - Comparison with VAEs
    - Current applications and status (2025-2026)
    - Related: VAEs, Diffusion Models
 
-3. **[Diffusion Models](./diffusion-models.md)**
+3. **[Diffusion Models](./topics/diffusion-models/README.md)**
    - Forward and reverse diffusion processes, mathematical foundations
    - DDPM, DDIM, Latent Diffusion Models (Stable Diffusion)
    - Modern variants: Consistency Models, Flow Matching, DiT
@@ -37,7 +56,7 @@ Documents are organized by topic and include:
 
 ### Mathematical Foundations
 
-1. **[Bayes' Theorem and Probability Foundations](./bayes-theorem-and-probability-foundations.md)**
+1. **[Bayes' Theorem and Probability Foundations](./topics/bayes-theorem-and-probability-foundations/README.md)**
    - Теоретико-множественные основы: пространство исходов, события, операции
    - Аксиомы вероятности Колмогорова
    - Условная вероятность и правило умножения
@@ -49,20 +68,20 @@ Documents are organized by topic and include:
    - Связь с VAE, фильтром Калмана, RAG
    - Реализация на Python с нуля
 
-2. **[Gaussian Distribution (Normal Distribution)](./gaussian-distribution.md)**
+2. **[Gaussian Distribution (Normal Distribution)](./topics/gaussian-distribution/README.md)**
    - Definition, properties, PDF and CDF
    - Multivariate Gaussian distribution
    - Applications in machine learning
    - Connection to Diffusion Models and VAEs
    - Visualization and examples
 
-3. **[ROC Curves and ROC AUC](./roc-curve-and-roc-auc.md)**
+3. **[ROC Curves and ROC AUC](./topics/roc-curve-and-roc-auc/README.md)**
    - ROC-кривые, TPR/FPR и их интуиция
    - ROC AUC как метрика ранжирования и качество разделения классов
    - Выбор порога классификации, Youden’s J, контроль FPR
    - Сравнение моделей по ROC/ROC AUC и связь с PR-кривыми
    - Примеры кода на Python/sklearn
-4. **[Confidence, Calibration and Uncertainty](./how-models-predict-confidence-and-calibration.md)**
+4. **[Confidence, Calibration and Uncertainty](./topics/how-models-predict-confidence-and-calibration/README.md)**
    - Как модели получают `logits` и превращают их в `softmax/sigmoid`-“уверенность”
    - Калибровка вероятностей: reliability diagram, ECE, Brier
    - Temperature Scaling и зачем он нужен
@@ -71,7 +90,7 @@ Documents are organized by topic and include:
 
 ### Classical Machine Learning
 
-1. **[Decision Trees (Деревья решений)](./decision-trees.md)**
+1. **[Decision Trees (Деревья решений)](./topics/decision-trees/README.md)**
    - Что такое деревья решений: структура, узлы, ветви, листья
    - Критерии выбора разбиения: Gini, энтропия, прирост информации (Information Gain)
    - Методы построения: ID3, C4.5, CART; Gain Ratio; техники против переобучения
@@ -79,7 +98,7 @@ Documents are organized by topic and include:
    - Связь с ROC AUC, Cross Entropy; примеры кода sklearn
    - Related: ROC Curves and ROC AUC, Cross Entropy and Focal Loss, Ensemble Methods
 
-2. **[Support Vector Machines (SVM) и Kernel Trick](./support-vector-machines-svm-and-kernel-trick.md)**
+2. **[Support Vector Machines (SVM) и Kernel Trick](./topics/support-vector-machines-svm-and-kernel-trick/README.md)**
    - SVM: максимальный запас (margin), опорные векторы, примарная и двойственная задачи
    - Soft margin и параметр C
    - Kernel trick: нелинейные границы через ядра без явного отображения $\phi$
@@ -89,7 +108,7 @@ Documents are organized by topic and include:
 
 ### Hyperparameter Tuning (Настройка гиперпараметров)
 
-1. **[Hyperparameter Tuning](./hyperparameter-tuning.md)**
+1. **[Hyperparameter Tuning](./topics/hyperparameter-tuning/README.md)**
    - Параметры vs гиперпараметры, пространство поиска
    - Grid Search и Random Search: принципы и сравнение
    - Bayesian Optimization: GP, TPE, Acquisition Functions, Optuna
@@ -104,7 +123,7 @@ Documents are organized by topic and include:
 
 ### Ensemble Methods (Ансамблевые методы)
 
-1. **[Ensemble Methods & Model Combination](./ensemble-methods-model-combination.md)**
+1. **[Ensemble Methods & Model Combination](./topics/ensemble-methods-model-combination/README.md)**
    - Bias-Variance Decomposition: зачем комбинировать модели
    - Bagging и Random Forest: параллельные ансамбли
    - Boosting: AdaBoost, Gradient Boosting, XGBoost, LightGBM, CatBoost
@@ -118,7 +137,7 @@ Documents are organized by topic and include:
 
 ### NLP and LLM Systems
 
-1. **[Retrieval-Augmented Generation (RAG)](./retrieval-augmented-generation-rag.md)**
+1. **[Retrieval-Augmented Generation (RAG)](./topics/retrieval-augmented-generation-rag/README.md)**
    - Как работает RAG: архитектура и компоненты
    - Типы RAG систем: Naive, Advanced, Modular, Self-RAG, Corrective RAG, LightRAG, Agentic RAG
    - Техники улучшения: query rewriting, re-ranking, context compression
@@ -127,7 +146,7 @@ Documents are organized by topic and include:
    - Текущее состояние и тренды (2023-2026)
    - Related: Large Language Models, Attention Mechanisms
 
-2. **[Low-Rank Adaptation (LoRA)](./low-rank-adaptation-lora.md)**
+2. **[Low-Rank Adaptation (LoRA)](./topics/low-rank-adaptation-lora/README.md)**
    - Проблема тонкой настройки больших языковых моделей
    - Математическая основа: разложение матриц низкого ранга
    - Архитектура LoRA и применение к Transformer слоям
@@ -137,7 +156,7 @@ Documents are organized by topic and include:
    - Текущее состояние и тренды (2021-2026)
    - Related: Transformers, Attention Mechanisms, RAG
 
-3. **[Tokenization and Text Compression in LLMs](./tokenization-and-text-compression-in-llms.md)**
+3. **[Tokenization and Text Compression in LLMs](./topics/tokenization-and-text-compression-in-llms/README.md)**
    - Что такое токенизатор и зачем он нужен
    - Как текст превращается в последовательность токенов и ID
    - Основные техники токенизации: word‑level, char‑level, BPE, WordPiece, Unigram, byte‑level BPE
@@ -145,7 +164,7 @@ Documents are organized by topic and include:
    - Связь с архитектурой трансформеров и стоимостью внимания
    - Related: Embeddings and Embedding Matrix
 
-4. **[Embeddings and Embedding Matrix](./embeddings-and-embedding-matrix.md)**
+4. **[Embeddings and Embedding Matrix](./topics/embeddings-and-embedding-matrix/README.md)**
    - Что такое эмбеддинги (векторное представление дискретных символов/токенов)
    - Матрица эмбеддингов: размер $V \times d$, lookup по ID токена
    - Связь с токенизатором: токенизатор даёт ID, матрица эмбеддингов даёт векторы для входа в Transformer
@@ -155,7 +174,7 @@ Documents are organized by topic and include:
 
 ### Transformers, Attention and Vision Transformers
 
-1. **[Transformers, Attention and Vision Transformers (ViT)](./transformers-attention-and-vision-transformers-vit.md)**
+1. **[Transformers, Attention and Vision Transformers (ViT)](./topics/transformers-attention-and-vision-transformers-vit/README.md)**
    - Scaled Dot-Product Attention, Q/K/V и виды attention
    - KV Cache и оптимизация инференса LLM
    - Позиционное кодирование: абсолютное, относительное, rotary, 2D‑позиции
@@ -163,7 +182,7 @@ Documents are organized by topic and include:
    - Детекция и сегментация с помощью DETR‑подобных архитектур
    - Related: RAG, Non-Maximum Suppression (NMS), Convolutions and Parameters in CNN, Batch/Layer Normalization
 
-2. **[DINOv3: Self-Supervised Vision Transformer и 2D RoPE](./dinov3-self-supervised-vision-transformer-and-2d-rope.md)**
+2. **[DINOv3: Self-Supervised Vision Transformer и 2D RoPE](./topics/dinov3-self-supervised-vision-transformer-and-2d-rope/README.md)**
    - Self-supervised pretraining ViT‑бэкбонов (student–teacher, multi‑view, multi‑loss)
    - 2D Rotary Positional Embeddings (2D RoPE) для кодирования координат патчей
    - Глобальные и dense‑фичи DINOv3 и их использование в классификации, детекции и сегментации
@@ -171,7 +190,7 @@ Documents are organized by topic and include:
 
 ### Computer Vision and Object Detection
 
-1. **[Non-Maximum Suppression (NMS) and Modern End-to-End Detectors](./non-maximum-suppression-nms.md)**
+1. **[Non-Maximum Suppression (NMS) and Modern End-to-End Detectors](./topics/non-maximum-suppression-nms/README.md)**
    - Non-Maximum Suppression (NMS): алгоритм и реализация
    - Agnostic NMS (Class-Agnostic NMS)
    - Проблемы NMS в production и деплое
@@ -181,7 +200,7 @@ Documents are organized by topic and include:
    - Текущее состояние и тренды (2023-2026)
    - Related: Unscented Kalman Filter (для отслеживания объектов)
 
-2. **[Convolutions and Parameters in CNN](./convolutions-and-parameters-in-cnn.md)**
+2. **[Convolutions and Parameters in CNN](./topics/convolutions-and-parameters-in-cnn/README.md)**
    - Почему в CNN популярны свёртки `3×3` и нечётные ядра
    - Эффективность больших свёрток `5×5`, `7×7`
    - Формулы размеров feature map для Conv/Pooling и Transposed Conv
@@ -190,7 +209,7 @@ Documents are organized by topic and include:
 
 ### Normalization and Training Stabilization
 
-1. **[Batch Normalization and Layer Normalization](./normalization-layers-batchnorm-layernorm.md)**
+1. **[Batch Normalization and Layer Normalization](./topics/normalization-layers-batchnorm-layernorm/README.md)**
    - Зачем нужна нормализация активаций в глубоких сетях
    - Формулы и интуиция Batch Normalization
    - Формулы и интуиция Layer Normalization
@@ -199,14 +218,14 @@ Documents are organized by topic and include:
 
 ### Loss Functions for Classification and Detection
 
-1. **[Cross Entropy and Focal Loss](./classification-losses-cross-entropy-focal-loss.md)**
+1. **[Cross Entropy and Focal Loss](./topics/classification-losses-cross-entropy-focal-loss/README.md)**
    - Кросс‑энтропия в бинарной и многоклассовой классификации
    - Интуиция: почему CE так популярна
    - Focal Loss: мотивация, формула, роль параметров α и γ
    - Применение в object detection и задачах с дисбалансом классов
    - Related: Non-Maximum Suppression (NMS), Convolutions and Parameters in CNN
 
-2. **[Losses for Detection, Segmentation, and 3D Detection](./detection-segmentation-3d-losses.md)**
+2. **[Losses for Detection, Segmentation, and 3D Detection](./topics/detection-segmentation-3d-losses/README.md)**
    - Составные loss’ы в современных детекторах и сегментаторах
    - Классификационные loss’ы (CE, Focal, Quality Focal, Varifocal)
    - Loss’ы для регрессии боксов (L1/Smooth L1, IoU, GIoU/DIoU/CIoU)
@@ -216,7 +235,7 @@ Documents are organized by topic and include:
 
 ### Filtering and Object Tracking
 
-1. **[Unscented Kalman Filter and Modern Tracking Methods](./unscented-kalman-filter-and-tracking.md)**
+1. **[Unscented Kalman Filter and Modern Tracking Methods](./topics/unscented-kalman-filter-and-tracking/README.md)**
    - Unscented Kalman Filter (UKF): теория и алгоритм
    - Сравнение с Kalman Filter, Extended Kalman Filter, Particle Filter
    - Современные методы отслеживания объектов (DeepSORT, ByteTrack, Transformer-based)
@@ -228,7 +247,7 @@ Documents are organized by topic and include:
 
 ### Reinforcement Learning and Control
 
-1. **[Deep Reinforcement Learning](./deep-reinforcement-learning.md)**
+1. **[Deep Reinforcement Learning](./topics/deep-reinforcement-learning/README.md)**
    - Основы Reinforcement Learning и MDP
    - Deep Q-Network (DQN), Policy Gradient, Actor-Critic методы
    - Современные методы: PPO, SAC, TD3
@@ -240,7 +259,7 @@ Documents are organized by topic and include:
 
 ### Robotics and Embodied AI
 
-1. **[Vision-Language-Action (VLA) Models](./vision-language-action-models-vla.md)**
+1. **[Vision-Language-Action (VLA) Models](./topics/vision-language-action-models-vla/README.md)**
    - Что такое VLA модели и зачем они нужны
    - Архитектура: объединение Vision, Language и Action
    - Ключевые компоненты: энкодеры, проекторы, декодеры действий
@@ -252,7 +271,7 @@ Documents are organized by topic and include:
    - Текущее состояние и тренды (2022-2026)
    - Related: Transformers, Deep Reinforcement Learning, Low-Rank Adaptation (LoRA)
 
-2. **[Vision-Based Robot Training Methods](./vision-based-robot-training-methods.md)**
+2. **[Vision-Based Robot Training Methods](./topics/vision-based-robot-training-methods/README.md)**
    - Обучение роботов с визуальным восприятием
    - Основные подходы: Imitation Learning, RL, VLA
    - Лучшие Open-Source методы (2024-2025): OpenVLA, Octo, RT-1/RT-2, AutoRT
@@ -342,11 +361,12 @@ Documents are organized by topic and include:
 ## Contributing
 
 When adding new documents:
+- Create/update a topic directory under `topics/<topic-slug>/`
 - Follow the established structure (Table of Contents, sections, References)
 - Include mathematical formulations with LaTeX
-- Provide code examples in Python/PyTorch
-- Update this README with new entries
-- Add cross-references to related documents
+- If code is included, add numbered scripts under `scripts/` and tests under `tests/`
+- Keep scripts focused on one subtopic and document what each script demonstrates
+- Update this README with new entries and keep cross-references valid
 
 
 ## References
