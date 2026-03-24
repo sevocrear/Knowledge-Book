@@ -187,7 +187,7 @@ $$\lambda_i \sim p(\lambda), \quad i = 1, \ldots, N$$
 
 **Интуиция**: при Grid Search с $n$ точками по каждой оси мы получаем только $n$ уникальных значений каждого гиперпараметра. При Random Search с $n^d$ точками мы получаем $n^d$ уникальных значений каждого — гораздо лучше покрываем важные оси.
 
-![Random vs Grid Search](https://miro.medium.com/v2/resize:fit:1400/1*ZTlQm_WRcrNqL-nLnx6GJA.png)
+**Схема:** [Random vs Grid Search](https://miro.medium.com/v2/resize:fit:1400/1*ZTlQm_WRcrNqL-nLnx6GJA.png)
 
 ### Плюсы и минусы
 

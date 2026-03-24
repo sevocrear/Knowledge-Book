@@ -62,6 +62,12 @@ Documents are organized by topic and include:
    - Выбор порога классификации, Youden’s J, контроль FPR
    - Сравнение моделей по ROC/ROC AUC и связь с PR-кривыми
    - Примеры кода на Python/sklearn
+4. **[Confidence, Calibration and Uncertainty](./how-models-predict-confidence-and-calibration.md)**
+   - Как модели получают `logits` и превращают их в `softmax/sigmoid`-“уверенность”
+   - Калибровка вероятностей: reliability diagram, ECE, Brier
+   - Temperature Scaling и зачем он нужен
+   - Уверенность vs неопределенность: aleatoric/epistemic, ensembles/MC Dropout
+   - Related: ROC Curves and ROC AUC, Cross Entropy, Ensemble Methods
 
 ### Classical Machine Learning
 

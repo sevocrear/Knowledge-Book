@@ -1,6 +1,6 @@
 # Retrieval-Augmented Generation (RAG)
 
-## Содержание
+## Table of Contents
 
 1. [Введение](#введение)
 2. [Как работает RAG](#как-работает-rag)
@@ -1813,7 +1813,7 @@ def answer_relevance(query, answer, llm):
 
 #### 1. Базовая архитектура RAG
 
-![RAG Basic Architecture](https://www.pinecone.io/learn/retrieval-augmented-generation/)
+[Базовая архитектура RAG (интерактивная схема) — Pinecone](https://www.pinecone.io/learn/retrieval-augmented-generation/)
 
 **Источники с визуализациями:**
 - [Pinecone RAG Guide](https://www.pinecone.io/learn/retrieval-augmented-generation/) — интерактивная диаграмма базового RAG
@@ -1827,7 +1827,7 @@ def answer_relevance(query, answer, llm):
 
 #### 3. Self-RAG архитектура
 
-![Self-RAG Flow](https://arxiv.org/abs/2310.11511)
+[Self-RAG Flow (paper на arXiv)](https://arxiv.org/abs/2310.11511)
 
 **Визуализация процесса Self-RAG:**
 - [Self-RAG Paper](https://arxiv.org/abs/2310.11511) — детальная схема процесса саморефлексии
@@ -1885,7 +1885,7 @@ def answer_relevance(query, answer, llm):
 
 ---
 
-## Ссылки
+## References
 
 ### Связанные темы
 
