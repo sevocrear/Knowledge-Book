@@ -2040,6 +2040,7 @@ def track_objects_with_ukf(video, yolo_model):
 ### Связанные Темы
 
 - **[Gaussian Distribution](../gaussian-distribution/README.md)**: Математические основы для Kalman фильтров
+- **[Action Recognition and Object Tracking Metrics](../action-recognition-and-object-tracking-metrics/README.md)**: Как корректно оценивать качество трекинга (HOTA, IDF1, MOTA, SOT метрики)
 - **[Variational Autoencoders](../variational-autoencoders-vaes/README.md)**: Вероятностные модели для генерации
 - **[Diffusion Models](../diffusion-models/README.md)**: Стохастические процессы в генеративных моделях
 

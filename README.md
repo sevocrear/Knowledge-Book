@@ -245,6 +245,13 @@ Topic-first layout:
    - Текущее состояние (2023-2026)
    - Related: Gaussian Distribution, Non-Maximum Suppression
 
+2. **[Action Recognition and Object Tracking Metrics](./topics/action-recognition-and-object-tracking-metrics/README.md)**
+   - Метрики для video-level action recognition: Top-1/Top-5, macro-F1, mAcc
+   - Метрики для temporal localization: mAP@tIoU и average mAP
+   - Метрики для SOT и MOT: Success AUC, IDF1, MOTA, HOTA
+   - Практический guide по выбору метрик под benchmark и постановку
+   - Related: Confidence & Calibration, NMS, UKF Tracking
+
 ### Reinforcement Learning and Control
 
 1. **[Deep Reinforcement Learning](./topics/deep-reinforcement-learning/README.md)**
@@ -323,8 +330,9 @@ Topic-first layout:
 1. Start with **Gaussian Distribution** for understanding probability distributions
 2. Read **Unscented Kalman Filter** for non-linear filtering and object tracking
 3. Understand the evolution from KF → EKF → UKF → Particle Filter
-4. Explore modern deep learning approaches to tracking
-5. Connect with **Non-Maximum Suppression** for object detection pipelines
+4. Read **Action Recognition and Object Tracking Metrics** to choose proper evaluation protocols
+5. Explore modern deep learning approaches to tracking
+6. Connect with **Non-Maximum Suppression** for object detection pipelines
 
 ### For Reinforcement Learning and Control:
 1. Start with **Deep Reinforcement Learning** for understanding RL fundamentals
