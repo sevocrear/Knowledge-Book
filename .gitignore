@@ -1,0 +1,8 @@
+*.svg
+
+__pycache__/
+*pytest_cache/
+*.txt
+*.mp4
+*.ppm
+*.tex

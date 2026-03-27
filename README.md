@@ -172,6 +172,13 @@ Topic-first layout:
    - Эмбеддинги в RAG и семантическом поиске
    - Related: Tokenization, Transformers, RAG
 
+5. **[Contrastive & Metric Learning for Fine-Grained Visual Recognition](./topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md)**
+   - Contrastive learning vs metric learning: что это и когда нужно
+   - Fine-grained пример: “15 похожих сортов яблок” как retrieval/verification
+   - Лоссы (contrastive/triplet/InfoNCE) и mining
+   - Метрики: Recall@K, mAP, ROC/EER и деплой через embedding index
+   - Related: Embeddings, ROC AUC, self-supervised CV
+
 ### Transformers, Attention and Vision Transformers
 
 1. **[Transformers, Attention and Vision Transformers (ViT)](./topics/transformers-attention-and-vision-transformers-vit/README.md)**

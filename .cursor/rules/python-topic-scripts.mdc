@@ -37,10 +37,62 @@ This rule applies to every Python code example in `knowledge-book`.
 ## Quality and testing workflow
 
 - Every new/updated script MUST have corresponding automated tests.
+- Scripts and tests MUST validate not only that code runs, but that it behaves **as the topic claims**.
 - Minimum validation before task completion:
   - `uv sync`
   - `uv run pytest`
 - If dependencies are added, prefer minimal CPU-friendly packages.
+
+## Semantic correctness (mandatory)
+
+For every topic script, the agent MUST actively check **semantic adequacy** of the implementation in addition to passing tests.
+
+### 1) Define an expected signal
+
+Each script MUST expose a clear, measurable “expected behavior” signal aligned with the topic, for example:
+
+- **Optimization/training**: metric improves in the expected direction (e.g. loss decreases, Recall@K increases).
+- **Calibration**: ECE/Brier decreases after temperature scaling.
+- **RAG/retrieval**: Recall@K / MRR increases after a change.
+- **Filtering/tracking**: RMSE decreases, innovation statistics match theory.
+- **Visualization artifacts**: generated artifacts become more structured in a way that matches the concept (e.g. block-diagonal similarity matrix for metric learning).
+
+This signal MUST be documented in the script header (“what output/behavior to expect”).
+
+### 2) Add a deterministic evaluation path
+
+- Provide a reproducible evaluation function or code path (seeded, fixed splits, fixed configs).
+- Prefer CPU-first and small runtimes suitable for CI.
+- Avoid evaluations that can pass by chance; if stochasticity exists, reduce it (seed, larger sample, longer run) or use robust assertions (see below).
+
+### 3) Testing requirements for meaning (not just execution)
+
+Tests MUST assert a topic-relevant invariant, not only “no exception”.
+
+Allowed patterns:
+- **Improvement**: `after > before + margin` for a primary metric (choose a conservative margin).
+- **Non-regression**: secondary metrics may be `after >= before - tol` if known to fluctuate.
+- **Structure checks**: e.g. similarity matrix becomes more block-diagonal; calibration curve improves; constraints hold.
+
+Disallowed patterns:
+- weakening tests until they pass without justification;
+- asserting on arbitrary constants unrelated to the topic;
+- “print-based” validation with no programmatic assertion.
+
+### 4) Agent self-check loop (required when training/metrics are involved)
+
+If a script involves training, mining/sampling, or any metric-driven behavior, the agent MUST:
+
+- run the script at least once end-to-end (or an equivalent small run),
+- inspect produced metrics/artifacts,
+- adjust code (data generation, evaluation, visualization, training loop) until the expected behavior is observable,
+- then encode that expectation into automated tests.
+
+### 5) Code quality constraints (applies to all scripts)
+
+- Keep APIs explicit: configuration via dataclasses/args; avoid hidden globals.
+- Keep visuals/test artifacts deterministic and interpretable (fixed ordering, fixed projection, or stable summaries).
+- Prefer minimal dependencies; if adding visualization dependencies, justify them and keep optional.
 
 ## Dependency policy
 
