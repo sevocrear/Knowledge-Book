@@ -179,6 +179,13 @@ Topic-first layout:
    - Метрики: Recall@K, mAP, ROC/EER и деплой через embedding index
    - Related: Embeddings, ROC AUC, self-supervised CV
 
+6. **[ArcFace and Angular-Margin Losses for Identification](./topics/arcface-and-angular-margin-losses-for-identification/README.md)**
+   - ArcFace: математическая интуиция и формула additive angular margin
+   - Практика face identification (1:1 verification и 1:N identification)
+   - Практика SKU/product identification в open-set режиме
+   - Современные датасеты для metric learning и re-ID (face/person/product/vehicle)
+   - Related: Contrastive & Metric Learning, ROC AUC, Calibration
+
 ### Transformers, Attention and Vision Transformers
 
 1. **[Transformers, Attention and Vision Transformers (ViT)](./topics/transformers-attention-and-vision-transformers-vit/README.md)**
@@ -326,6 +333,12 @@ Topic-first layout:
 3. Learn when to use LoRA vs full fine-tuning
 4. Explore variants like QLoRA for memory-constrained scenarios
 5. Apply LoRA in practice with Hugging Face PEFT library
+
+### For Metric Learning and Identification:
+1. Start with **Embeddings and Embedding Matrix** for representation basics
+2. Read **Contrastive & Metric Learning for Fine-Grained Visual Recognition** for pair/triplet/InfoNCE foundations
+3. Study **ArcFace and Angular-Margin Losses for Identification** for production-grade identification pipelines
+4. Use **ROC Curves and ROC AUC** + **Confidence, Calibration and Uncertainty** for thresholding in open-set setups
 
 ### For Computer Vision and Object Detection:
 1. Start with **Non-Maximum Suppression (NMS)** for understanding traditional object detection pipelines

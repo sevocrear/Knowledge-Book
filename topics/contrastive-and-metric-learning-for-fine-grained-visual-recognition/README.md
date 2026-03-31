@@ -306,6 +306,7 @@ Mining можно делать:
 
 - Внутри knowledge-book:
   - `./topics/embeddings-and-embedding-matrix/README.md`
+  - `./topics/arcface-and-angular-margin-losses-for-identification/README.md`
   - `./topics/dinov3-self-supervised-vision-transformer-and-2d-rope/README.md` (self-supervised contrastive идеи в CV)
   - `./topics/roc-curve-and-roc-auc/README.md` (verification-порог и ROC)
 - Ключевые термины/направления для поиска:
