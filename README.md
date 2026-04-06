@@ -188,6 +188,13 @@ Topic-first layout:
    - Современные датасеты для metric learning и re-ID (face/person/product/vehicle)
    - Related: Contrastive & Metric Learning, ROC AUC, Calibration
 
+7. **[Code Agents, AutoResearch и Loopy Era](./topics/code-agents-autoresearch-and-loopy-era/README.md)**
+   - Что меняется в инженерии при переходе от ручного кода к orchestration
+   - Multi-agent workflows: роли, параллелизм, quality gates
+   - AutoResearch loops: objective, evaluator, verifier, метрики
+   - Rules of thumb и практический checklist для команды
+   - Related: RAG, Hyperparameter Tuning, LoRA
+
 ### Transformers, Attention and Vision Transformers
 
 1. **[Transformers, Attention and Vision Transformers (ViT)](./topics/transformers-attention-and-vision-transformers-vit/README.md)**
@@ -334,6 +341,8 @@ Topic-first layout:
 2. Learn about different RAG architectures and when to use each
 3. Explore advanced techniques for improving retrieval and generation quality
 4. Understand evaluation metrics and best practices
+5. Read **Code Agents, AutoResearch и Loopy Era** to design autonomous multi-agent loops with measurable outcomes
+6. Convert ad-hoc prompting into process engineering: explicit objectives, evaluators, and safety gates
 
 ### For Fine-Tuning Large Language Models:
 1. Read **Transformers, Attention and Vision Transformers** to understand Transformer architecture

@@ -1898,6 +1898,7 @@ def answer_relevance(query, answer, llm):
 - **Large Language Models (LLMs)** — основы работы LLM (в книге пока нет отдельного топика)
 - **Attention Mechanisms** — механизмы внимания в трансформерах (в книге пока нет отдельного топика)
 - **Vector Databases** — детали векторных БД (в книге пока нет отдельного топика)
+- [Code Agents, AutoResearch и Loopy Era](../code-agents-autoresearch-and-loopy-era/README.md) — как строить автономные агентные циклы с метриками и верификацией
 
 ### Полезные ресурсы
 
