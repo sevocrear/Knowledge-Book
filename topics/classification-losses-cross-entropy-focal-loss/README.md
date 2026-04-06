@@ -1,6 +1,6 @@
 ## Cross Entropy и Focal Loss в задачах классификации и детекции
 
-### Contents
+## Table of Contents
 
 1. Интуиция: что делает функция потерь в классификации
 2. Cross Entropy (кросс‑энтропия)

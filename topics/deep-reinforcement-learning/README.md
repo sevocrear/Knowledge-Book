@@ -887,7 +887,7 @@ class RobotArmController:
 - **RT-1, RT-2** (Google): Transformer-based роботы
 - **PaLM-E**: Мультимодальный LLM для роботов
 - **VLA (Vision-Language-Action) модели**: OpenVLA, F1-VLA, Octo
-- **См. подробнее**: [Vision-Language-Action (VLA) Models](.../vision-language-action-models-vla/README.md)
+- **См. подробнее**: [Vision-Language-Action (VLA) Models](../vision-language-action-models-vla/README.md)
 
 **2. Diffusion Policies:**
 - Использование diffusion models для генерации действий
@@ -901,7 +901,7 @@ class RobotArmController:
 **4. Open-Source Методы:**
 - **OpenVLA**: полностью open-source VLA модель
 - **Octo**: diffusion-based policy
-- **См. подробнее**: [Vision-Based Robot Training Methods](.../vision-based-robot-training-methods/README.md)
+- **См. подробнее**: [Vision-Based Robot Training Methods](../vision-based-robot-training-methods/README.md)
 
 ---
 

@@ -42,9 +42,11 @@
 **Как объяснить 5‑летнему ребёнку.**  
 Представь, что у каждого яблока есть “адрес” на карте. Похожие яблоки живут рядом, а разные — далеко. Мы учим модель рисовать такую карту. Потом, когда видим новое яблоко, мы ищем на карте ближайших “соседей” и понимаем, какой это сорт.
 
+**Визуализация (Manim):** до/после обучения в пространстве эмбеддингов, triplet (якорь / позитив / негатив) и смысл лосса.
 
+<video src="./assets/visualizations/contrastive_embedding_space.mp4" controls muted loop playsinline width="100%"></video>
 
-![](./assets/visualizations/contrastive_embedding_space.gif)
+*Если `<video>` не отображается в вашем просмотрщике Markdown, используйте GIF:* `![](./assets/visualizations/contrastive_embedding_space.gif)`
 
 ---
 

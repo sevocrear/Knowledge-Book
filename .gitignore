@@ -3,6 +3,8 @@
 __pycache__/
 *pytest_cache/
 *.txt
-*.mp4
 *.ppm
 *.tex
+
+# Manim cache/output (topic MP4/GIF in assets/visualizations/ should remain trackable)
+**/visualizations/manim/.media/

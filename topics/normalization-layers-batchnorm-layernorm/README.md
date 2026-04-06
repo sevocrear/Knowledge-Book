@@ -1,6 +1,6 @@
 ## Batch Normalization и Layer Normalization
 
-### Contents
+## Table of Contents
 
 1. Мотивация: зачем нужна нормализация активаций
 2. Batch Normalization: идея, формулы, обучение/инференс

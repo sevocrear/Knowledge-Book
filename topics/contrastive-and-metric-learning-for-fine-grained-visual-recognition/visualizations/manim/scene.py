@@ -1,3 +1,8 @@
+"""
+Contrastive / metric learning: embedding space before vs after + triplet intuition.
+Target ~30–40 s @ 30fps: on-screen Russian labels, smooth pacing (3b1b-inspired).
+"""
+
 from __future__ import annotations
 
 import math
@@ -17,8 +22,7 @@ PURPLE = "#9B72CF"
 
 
 def _rng(seed: int) -> random.Random:
-    r = random.Random(seed)
-    return r
+    return random.Random(seed)
 
 
 def _make_points(seed: int, num_classes: int = 6, points_per_class: int = 14):
@@ -43,42 +47,43 @@ class ContrastiveEmbeddingSpace(Scene):
     def construct(self):
         self.camera.background_color = BG
 
-        title = Text("Contrastive / Metric Learning", font_size=44, color=WHITE).to_edge(UP, buff=0.35)
-        subtitle = Text("эмбеддинги: похожие ближе, разные дальше", font_size=22, color=GRAY).next_to(
-            title, DOWN, buff=0.15
+        title = Text("Contrastive / metric learning", font_size=40, color=WHITE).to_edge(UP, buff=0.32)
+        subtitle = Text("похожие ближе, разные дальше в пространстве эмбеддингов", font_size=22, color=GRAY).next_to(
+            title, DOWN, buff=0.12
         )
-        self.play(FadeIn(title), FadeIn(subtitle), run_time=1.0)
-        self.wait(0.3)
+        self.play(
+            LaggedStart(FadeIn(title, shift=UP * 0.12), FadeIn(subtitle, shift=UP * 0.08), lag_ratio=0.45),
+            run_time=1.0,
+            rate_func=smooth,
+        )
+        self.wait(0.2)
 
         plane = NumberPlane(
             x_range=[-3, 3, 1],
             y_range=[-2.5, 2.5, 1],
             background_line_style={"stroke_color": "#202533", "stroke_width": 1.0, "stroke_opacity": 0.85},
             axis_config={"stroke_color": "#31384A", "stroke_width": 2.0},
-        ).scale(0.9).to_edge(DOWN, buff=0.4)
-        self.play(FadeIn(plane), run_time=0.8)
+        ).scale(0.88).to_edge(DOWN, buff=0.35)
+        self.play(FadeIn(plane), run_time=0.7, rate_func=smooth)
 
-        txt_before = Text("До обучения", font_size=28, color=WHITE).next_to(plane, UP, buff=0.2).shift(LEFT * 2.4)
-        txt_after = Text("После обучения", font_size=28, color=WHITE).next_to(plane, UP, buff=0.2).shift(RIGHT * 2.4)
-        self.play(FadeIn(txt_before), FadeIn(txt_after), run_time=0.6)
+        txt_before = Text("до обучения", font_size=24, color=WHITE).next_to(plane, UP, buff=0.15).shift(LEFT * 2.35)
+        txt_after = Text("после обучения", font_size=24, color=WHITE).next_to(plane, UP, buff=0.15).shift(RIGHT * 2.35)
+        self.play(FadeIn(txt_before), FadeIn(txt_after), run_time=0.5, rate_func=smooth)
 
-        # Two clouds: before (left) and after (right).
         pts_b, y_b = _make_points(seed=3)
         pts_a, y_a = _make_points(seed=3)
-
         palette = [BLUE_PRI, ORANGE, GREEN, PURPLE, RED_NEG, "#FFD166"]
 
         def dots_from(points, labels, x_shift: float):
             dots = VGroup()
             for (x, y), c in zip(points, labels, strict=True):
-                d = Dot(point=plane.c2p(x + x_shift, y, 0), radius=0.06, color=palette[c % len(palette)])
-                d.set_opacity(0.9)
+                d = Dot(point=plane.c2p(x + x_shift, y, 0), radius=0.055, color=palette[c % len(palette)])
+                d.set_opacity(0.92)
                 dots.add(d)
             return dots
 
         before = dots_from(pts_b, y_b, x_shift=-1.5)
 
-        # "After" points: slightly pull each class toward its center and push centers apart.
         r = _rng(7)
         centers = []
         for i in range(6):
@@ -94,29 +99,40 @@ class ContrastiveEmbeddingSpace(Scene):
 
         after = dots_from(pts_after, y_a, x_shift=+1.5)
 
-        self.play(LaggedStart(*[FadeIn(d) for d in before], lag_ratio=0.02), run_time=1.2)
-        self.play(LaggedStart(*[FadeIn(d) for d in after], lag_ratio=0.02), run_time=1.2)
-        self.wait(0.4)
+        self.play(LaggedStart(*[FadeIn(d, scale=0.5) for d in before], lag_ratio=0.03), run_time=1.0, rate_func=smooth)
+        self.play(LaggedStart(*[FadeIn(d, scale=0.5) for d in after], lag_ratio=0.03), run_time=1.0, rate_func=smooth)
+        self.wait(0.25)
 
-        # Show one anchor-positive-negative relation on the "before" side.
-        a_idx = 3
-        p_idx = 8
-        n_idx = 25
+        # Triplet on the left cloud
+        a_idx, p_idx, n_idx = 3, 8, 25
         anchor = before[a_idx]
         positive = before[p_idx]
         negative = before[n_idx]
 
-        self.play(Circumscribe(anchor, color=WHITE, time_width=0.8), run_time=0.9)
+        leg_a = Text("якорь", font_size=20, color=WHITE)
+        leg_p = Text("позитив (тот же класс)", font_size=20, color=GREEN)
+        leg_n = Text("негатив (другой класс)", font_size=20, color=RED_NEG)
+        legend = VGroup(leg_a, leg_p, leg_n).arrange(DOWN, aligned_edge=LEFT, buff=0.12)
+        legend.to_corner(UR).shift(LEFT * 0.2 + DOWN * 0.35)
+        self.play(FadeIn(legend, shift=LEFT * 0.1), run_time=0.5, rate_func=smooth)
+
+        self.play(Circumscribe(anchor, color=WHITE, time_width=0.75), run_time=0.75, rate_func=smooth)
 
         ap = Line(anchor.get_center(), positive.get_center(), color=GREEN, stroke_width=4)
         an = Line(anchor.get_center(), negative.get_center(), color=RED_NEG, stroke_width=4)
-        self.play(Create(ap), Create(an), run_time=0.6)
-        self.play(Indicate(positive, color=GREEN, scale_factor=1.35), run_time=0.5)
-        self.play(Indicate(negative, color=RED_NEG, scale_factor=1.35), run_time=0.5)
+        self.play(Create(ap), Create(an), run_time=0.55, rate_func=smooth)
+        self.play(Indicate(positive, color=GREEN, scale_factor=1.28), run_time=0.45)
+        self.play(Indicate(negative, color=RED_NEG, scale_factor=1.28), run_time=0.45)
 
-        eq = MathTex(r"L=\max(0,\ d(a,p)-d(a,n)+m)", font_size=34, color=WHITE).to_edge(DOWN, buff=0.2)
-        self.play(FadeIn(eq), run_time=0.6)
-        self.wait(1.2)
+        eq = MathTex(r"L=\max(0,\ d(a,p)-d(a,n)+m)", font_size=32, color=WHITE).to_edge(DOWN, buff=0.15)
+        triplet_hint = Text("triplet: ближе к позитиву, дальше от негатива", font_size=20, color=GRAY).next_to(
+            eq, UP, buff=0.1
+        )
+        self.play(FadeIn(triplet_hint), Write(eq), run_time=0.9, rate_func=smooth)
+        self.wait(0.9)
 
-        self.play(FadeOut(ap), FadeOut(an), FadeOut(eq), run_time=0.5)
-        self.wait(0.5)
+        self.play(FadeOut(ap), FadeOut(an), FadeOut(eq), FadeOut(triplet_hint), FadeOut(legend), run_time=0.45)
+        takeaway = Text("Итог: компактные кластеры по классам → лучше retrieval / verification", font_size=22, color=WHITE)
+        takeaway.next_to(plane, UP, buff=0.05)
+        self.play(FadeIn(takeaway, shift=UP * 0.08), run_time=0.7, rate_func=smooth)
+        self.wait(0.85)

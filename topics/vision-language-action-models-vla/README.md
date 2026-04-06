@@ -1,6 +1,6 @@
 ## Vision-Language-Action (VLA) Models
 
-### Contents
+## Table of Contents
 
 1. Введение: что такое VLA модели и зачем они нужны
 2. Архитектура VLA: как объединяются Vision, Language и Action

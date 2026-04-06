@@ -383,7 +383,7 @@ def train_vae(model, train_loader, optimizer, device, beta=1.0, epochs=10):
 
 - See: [Generative Adversarial Networks (GANs)](../generative-adversarial-networks-gans/README.md)
 - See: [Diffusion Models](../diffusion-models/README.md)
-- See: [Disentangled Representation Learning](./disentangled-representations.md)
+- See: Disentangled representation learning (например, $\beta$-VAE: https://arxiv.org/abs/1606.05579)
 
 ---
 

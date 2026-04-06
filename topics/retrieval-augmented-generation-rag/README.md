@@ -109,6 +109,12 @@ RAG состоит из трёх основных этапов:
 └─────────────────────────────────────┘
 ```
 
+**Визуализация (Manim):** зачем не «только LLM», затем query → embedding → Top‑K чанков → контекст в промпт → ответ.
+
+<video src="./assets/visualizations/rag_pipeline.mp4" controls muted loop playsinline width="100%"></video>
+
+*Fallback GIF:* `![](./assets/visualizations/rag_pipeline.gif)`
+
 ### Детальный процесс
 
 #### Этап 1: Индексация (Offline)
@@ -1889,9 +1895,9 @@ def answer_relevance(query, answer, llm):
 
 ### Связанные темы
 
-- **[Large Language Models (LLMs)](./large-language-models.md)** — основы работы LLM
-- **[Attention Mechanisms](./attention-mechanisms.md)** — механизмы внимания в трансформерах
-- **[Vector Databases](./vector-databases.md)** — детали векторных БД
+- **Large Language Models (LLMs)** — основы работы LLM (в книге пока нет отдельного топика)
+- **Attention Mechanisms** — механизмы внимания в трансформерах (в книге пока нет отдельного топика)
+- **Vector Databases** — детали векторных БД (в книге пока нет отдельного топика)
 
 ### Полезные ресурсы
 

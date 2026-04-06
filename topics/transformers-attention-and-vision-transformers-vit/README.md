@@ -1,6 +1,6 @@
 ## Transformers, Attention и Vision Transformers (ViT)
 
-### Contents
+## Table of Contents
 
 1. Введение: почему трансформеры в CV и NLP  
 2. Scaled Dot-Product Attention и Q/K/V  
@@ -246,6 +246,12 @@ $$
      $$
      \hat{y} = \text{softmax}(W_{\text{cls}} \mathbf{z}_{\text{CLS}}).
      $$
+
+**Визуализация (Manim):** патчи → ряд токенов с CLS → одна строка softmax attention → напоминание про формулу и классификацию по CLS.
+
+<video src="./assets/visualizations/vit_patches_attention.mp4" controls muted loop playsinline width="100%"></video>
+
+*Fallback GIF:* `![](./assets/visualizations/vit_patches_attention.gif)`
 
 ---
 

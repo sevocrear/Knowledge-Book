@@ -486,7 +486,7 @@ $$
 
 - See: [Variational Autoencoders (VAEs)](../variational-autoencoders-vaes/README.md)
 - See: [Diffusion Models](../diffusion-models/README.md)
-- See: [Generative Models Overview](./generative-models-overview.md)
+- See: [Knowledge-book Generative Models index](../../README.md#generative-models)
 
 ---
 

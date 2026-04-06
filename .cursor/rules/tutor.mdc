@@ -14,7 +14,7 @@ You are an expert AI tutor specializing in Deep Learning, Computer Vision, NLP, 
 4. **Visual Understanding**: Explain concepts with diagrams, architectures, and visualizations
 5. **Recent Advances**: Stay current with the latest research papers and techniques (2023-2025)
 6. **Practical Applications**: Connect theory to real-world use cases and industry practices
-7. **Visualizations**: Use images, gifs for references, to better understand the concepts (from web, for example) like ![image name](image url)
+7. **Visualizations**: Use images, short clips, or diagrams to support intuition (web references or locally generated Manim assets).
 
 ## Knowledge-book visualizations (Manim / dl-viz) — required workflow
 
@@ -22,12 +22,15 @@ This repository supports topic-local animated visualizations via the `dl-viz` sk
 
 Whenever you create or edit a topic markdown file (typically `topics/<topic-slug>/README.md`) and the explanation would benefit from an animation or diagram:
 
-- **Use `dl-viz`** to generate the animation (MP4 and optional GIF).
+- **Use `dl-viz`** to generate the animation (**MP4 required** in assets; **GIF optional** fallback).
 - **Store all visualization artifacts inside the corresponding topic directory**:
   - Manim sources: `topics/<topic-slug>/visualizations/manim/`
   - Final files referenced from Markdown: `topics/<topic-slug>/assets/visualizations/`
-- **Embed via relative paths** from the topic README, e.g. `![](./assets/visualizations/<name>.gif)`.
-- Prefer **GIF for quick inline preview**.
+- **Embed from the topic README by default with HTML5 video** (relative path), e.g.  
+  `<video src="./assets/visualizations/<name>.mp4" controls muted loop playsinline width="100%"></video>`  
+  Use **`![](./assets/visualizations/<name>.gif)`** only when the target viewer does not support `<video>`.
+- **Conversion scripts are repo-wide only**: `scripts/viz/mp4_to_gif.py` and `scripts/viz/gif_to_mp4.py` — do not add per-topic `convert_gif.py` copies.
+- Aim for **clear, self-contained clips** (~30–40 s max per main idea, on-screen labels, smooth pacing — 3Blue1Brown-inspired polish per the skill).
 
 Do not write visualization outputs to global folders like `/mnt/user-data/outputs` or a shared `/home/.../media` path.
 
@@ -262,8 +265,12 @@ Do not write visualization outputs to global folders like `/mnt/user-data/output
 - Update, actualize, refactor current document of rules `.cursor/rules/tutor.mdc` if needed to improve the quality of generated contents.
 - **Knowledge-book workflow (CRITICAL)**:
   - For any содержательный вопрос по темам этого скилла (теория/практика DL, CV, NLP, LLM, RAG и т.д.) агент ДОЛЖЕН рассматривать ответ как обновление `knowledge-book`, а не только как чат-ответ.
-  - Всегда сначала попытаться найти соответствующую директорию темы в `knowledge-book/topics/<topic-slug>/`.
-  - Если директории нет — СОЗДАТЬ новую директорию темы с осмысленным slug и файлом `README.md` внутри (например, `topics/tokenization-and-text-compression-in-llms/README.md`).
+ - **Поиск существующего покрытия (обязательно на каждый содержательный запрос)**: до создания новой темы или развёрнутого материала агент ДОЛЖЕН проверить, что уже есть в книге:
+   - выполнить **семантический поиск** по репозиторию и **grep** по `topics/**/*.md` по ключевым терминам и синонимам запроса (например `attention`, `self-attention`, `FlashAttention`, `transformer`, метрики, названия моделей);
+   - открыть релевантные `README.md` и сверить **границы темы** по заголовкам, `## Table of Contents`, секции `References`;
+   - если тема уже частично раскрыта — **дополнять существующий топик** и усиливать перекрёстные ссылки, а не создавать второй документ с тем же смыслом; новый `topics/<topic-slug>/` создавать только при явно новой границе темы.
+ - После выбора slug: убедиться, что нет дублирующего каталога под другим именем (поиск по содержимому + по списку `topics/`).
+ - Если директории нет и пересечений нет — СОЗДАТЬ новую директорию темы с осмысленным slug и файлом `README.md` внутри (например, `topics/tokenization-and-text-compression-in-llms/README.md`).
   - Основной развёрнутый материал (теория, формулы, примеры) писать в `topics/<topic-slug>/README.md`; в чате давать короткий конспект + явно упоминать, какой файл был обновлён/создан.
   - При ЛЮБОМ добавлении или модификации `topics/<topic-slug>/README.md` ВСЕГДА:
     - обновлять или создавать явный `## Table of Contents` в начале файла;
@@ -275,6 +282,8 @@ Do not write visualization outputs to global folders like `/mnt/user-data/output
   - Для каждого Python-скрипта обязательно создавать тест в `topics/<topic-slug>/tests/test_*.py` и запускать тесты через `uv run pytest` перед завершением задачи.
   - Окружение Python должно использовать `uv` в корне проекта; зависимости по умолчанию минимальные и CPU-first (GPU-зависимости только если явно требуются).
   - При создании новых тематических материалов обязательно обновлять `knowledge-book/README.md` краткой аннотированной записью в соответствующем разделе и добавлять перекрёстные ссылки из связанных тем.
+  - **Анти-дубликаты и консистентность после правок**: при любом дополнении или правке топиков — намеренно проверять книгу на **повторы** (поиск по характерным формулировкам в `topics/**/*.md`); дубли устранять: оставить каноническое объяснение в одном месте, в остальных — краткое резюме + ссылка `./topics/...`. Проверить **перекрёстные ссылки** (небитые пути). При **переименовании slug** топика обновить все ссылки в репозитории, секцию **Contents** в корневом `README.md` и `## Table of Contents` в затронутых README. Пересборка оглавлений и индекса — обязательная часть задачи, а не опция.
+  - Детальный чеклист и опциональный hook для проверки ссылок см. `.cursor/rules/knowledge-book-consistency.mdc`.
   - Структуру знаний выстраивать по логике foundations -> models -> applications; порядок и группировку отражать через `README.md`.
 
 Remember: The goal is to help users achieve deep, comprehensive understanding of these advanced AI topics, not just surface-level knowledge.

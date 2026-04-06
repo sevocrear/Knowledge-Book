@@ -28,8 +28,10 @@ Topic-first layout:
 ## Development (uv)
 
 - `uv sync` - install project and dev dependencies
-- `uv run pytest` - run automated tests
+- `uv sync --group viz` - add Manim + imageio (for local `dl-viz` renders; enables Manim pytest smoke tests)
+- `uv run pytest` - all tests; `@pytest.mark.manim` tests auto-skip if Manim is not installed
 - `uv run python topics/<topic-slug>/scripts/01_<name>.py` - run a topic example
+- `uv run python scripts/viz/mp4_to_gif.py <file.mp4> -o <out.gif>` - GIF from rendered MP4
 
 ## Contents
 
@@ -214,7 +216,13 @@ Topic-first layout:
    - Текущее состояние и тренды (2023-2026)
    - Related: Unscented Kalman Filter (для отслеживания объектов)
 
-2. **[Convolutions and Parameters in CNN](./topics/convolutions-and-parameters-in-cnn/README.md)**
+2. **[SOTA Metrics for Detection, Segmentation, and Multiclass Classification](./topics/sota-metrics-for-detection-segmentation-multiclass-classification/README.md)**
+   - Детекция: COCO AP (AP@[.50:.95]), AP50/AP75, AP_S/M/L, AR
+   - Сегментация: semantic mIoU, instance Mask AP, panoptic PQ
+   - Мультикласс: Top-1/Top-5, macro/micro F1, NLL, калибровка (ECE/Brier)
+   - Related: ROC AUC, Confidence & Calibration, NMS
+
+3. **[Convolutions and Parameters in CNN](./topics/convolutions-and-parameters-in-cnn/README.md)**
    - Почему в CNN популярны свёртки `3×3` и нечётные ядра
    - Эффективность больших свёрток `5×5`, `7×7`
    - Формулы размеров feature map для Conv/Pooling и Transposed Conv

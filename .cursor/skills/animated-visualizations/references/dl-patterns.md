@@ -6,6 +6,7 @@ Working scene blueprints for the most common concepts. Copy and adapt as needed.
 
 ## Table of Contents
 
+0. [B1B-style scene skeleton](#0-b1b-style-scene-skeleton)
 1. [Convolution Operation](#1-convolution-operation)
 2. [Self-Attention Mechanism](#2-self-attention-mechanism)
 3. [Gradient Descent on Loss Landscape](#3-gradient-descent-on-loss-landscape)
@@ -14,6 +15,31 @@ Working scene blueprints for the most common concepts. Copy and adapt as needed.
 6. [Transformer Encoder Block](#6-transformer-encoder-block)
 7. [Non-Maximum Suppression (NMS)](#7-non-maximum-suppression-nms)
 8. [Embedding / Latent Space](#8-embedding--latent-space)
+
+---
+
+## 0. B1B-style scene skeleton
+
+Use for **~30–40 s** clips: hook → one main transform → takeaway. Prefer `rate_func=smooth` and `LaggedStart` instead of long linear `play`s.
+
+```python
+class B1BStyleHookScene(Scene):
+    def construct(self):
+        self.camera.background_color = "#0F1117"
+        title = Text("One clear question?", font_size=44, color="#F0F4FF").to_edge(UP)
+        sub = Text("We show the main transform in one beat", font_size=22, color="#6B7280").next_to(title, DOWN)
+        self.play(
+            LaggedStart(FadeIn(title, shift=UP * 0.15), FadeIn(sub, shift=UP * 0.1), lag_ratio=0.4),
+            run_time=1.2,
+            rate_func=smooth,
+        )
+        body = Square(side_length=1.2, color="#4A9EFF", fill_opacity=0.35).shift(DOWN * 0.2)
+        self.play(FadeIn(body, scale=0.85), run_time=0.8, rate_func=smooth)
+        self.play(Indicate(body, color="#FF7A2F", scale_factor=1.15), run_time=0.7)
+        recap = Text("Takeaway in one line", font_size=26, color="#F0F4FF").to_edge(DOWN)
+        self.play(FadeIn(recap, shift=UP * 0.1), run_time=0.6, rate_func=smooth)
+        self.wait(0.5)
+```
 
 ---
 

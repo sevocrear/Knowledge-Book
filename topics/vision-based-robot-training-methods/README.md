@@ -1,6 +1,6 @@
 ## Vision-Based Robot Training: Open-Source Methods and Best Practices
 
-### Contents
+## Table of Contents
 
 1. Введение: обучение роботов с визуальным восприятием
 2. Основные подходы: Imitation Learning, RL, VLA
