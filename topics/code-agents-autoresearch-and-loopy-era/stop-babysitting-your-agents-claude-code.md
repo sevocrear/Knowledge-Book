@@ -273,6 +273,8 @@ flowchart LR
 
 Karpathy в [основном README](./README.md) даёт **философию** orchestration и AutoResearch; этот доклад — **операционный manual под Claude Code** (skills, Chrome MCP, `/loop`, Routines).
 
+См. также [AI Harness Engineering (Tejas, IBM)](./ai-harness-engineering-tejas-ibm.md) — определение harness, verify/guardrails с нуля (дополняет verification loop, другой продуктовый контекст).
+
 ---
 
 ## References
@@ -280,6 +282,7 @@ Karpathy в [основном README](./README.md) даёт **философию
 ### В этой книге
 
 - [Code Agents, AutoResearch и Loopy Era — главный README](./README.md)
+- [AI Harness Engineering (Tejas, IBM)](./ai-harness-engineering-tejas-ibm.md)
 - [Транскрипт-выжимка: два видео про Ralph](./README.md#транскрипт-выжимка-два-видео-про-ralph)
 - [Кейс Gumloop: Anti-Slop](./README.md#кейс-gumloop-anti-slop-founder-playbook)
 

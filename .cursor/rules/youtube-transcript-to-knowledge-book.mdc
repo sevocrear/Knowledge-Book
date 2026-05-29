@@ -1,0 +1,79 @@
+---
+description: Workflow — YouTube URL/транскрипт → скрипт → verify → конспект в topics/ → индексация knowledge-book
+alwaysApply: true
+---
+
+# YouTube transcript → knowledge-book (обязательный workflow)
+
+Когда пользователь просит **транскрипт**, **разобрать видео**, **о чём это видео** (с YouTube URL или `watch?v=...`) — это задача на обновление книги, не только чат.
+
+## 1. Setup и скачивание (только через скрипт)
+
+```bash
+uv sync --group tools
+uv run python scripts/youtube_fetch_transcript.py "<YOUTUBE_URL_OR_ID>" \
+  -o "outputs/transcripts/<VIDEO_ID>.txt" -v
+```
+
+- Не выдумывать транскрипт и не полагаться на память модели.
+- При блокировке YouTube: `--backend yt-dlp --cookies-from-browser chrome` (нужен `secretstorage` в группе `tools`, профиль Chrome на Linux).
+
+## 2. Verify (обязательно перед разбором)
+
+```bash
+uv run python scripts/verify_youtube_transcript.py "outputs/transcripts/<VIDEO_ID>.txt"
+```
+
+Критерии успеха: exit code `0`, в stderr/stdout `OK: ... (N body lines, ...)`, файл не пустой.
+
+Если verify **FAIL** — не писать конспект в `topics/`; починить fetch (cookies, backend, сеть) и повторить шаги 1–2.
+
+## 3. Разбор содержания
+
+- Прочитать `outputs/transcripts/<VIDEO_ID>.txt` (не только заголовок).
+- Кратко в чате: о чём видео + «для 5-летнего».
+- Зафиксировать: спикер, длительность/формат, ключевые тезисы, отличия от похожих материалов в книге.
+
+## 4. Индексация в knowledge-book
+
+Перед созданием файла — **поиск существующего покрытия** (см. `.cursor/rules/knowledge-book-consistency.mdc`):
+
+- семантический поиск + grep по `topics/**/*.md`;
+- если тема уже есть — **дополнительный** `.md` в том же `topics/<topic-slug>/`, не дублировать канонический `README.md` целиком.
+
+### Именование конспекта
+
+`topics/<topic-slug>/<kebab-slug-from-title>.md` — например `ai-harness-engineering-tejas-ibm.md`.
+
+В файле обязательно:
+
+- `## Table of Contents`
+- короткий абстракт «для 5-летнего»
+- ссылка на видео и на `../../outputs/transcripts/<VIDEO_ID>.txt`
+- `## References` (родственные топики + внешние ссылки)
+
+### Обновить индексацию
+
+В **родительском** `topics/<topic-slug>/README.md`:
+
+- пункт в `## Table of Contents`;
+- краткая секция-указатель со ссылкой на новый `.md`;
+- `References` / «Дополнительные материалы в этом топике».
+
+В **корневом** `README.md` (секция **Contents**) — аннотированная строка со ссылкой на конспект, если материал заметный для раздела.
+
+Перекрёстные ссылки из связанных топиков (например, оба доклада в `code-agents-autoresearch-and-loopy-era`).
+
+## 5. Проверка перед завершением
+
+```bash
+uv run python scripts/kb_validate_links.py
+```
+
+При изменении скриптов в `scripts/` — `uv run pytest` (в т.ч. `tests/test_youtube_fetch_transcript.py`, `tests/test_verify_youtube_transcript.py`).
+
+## 6. Ответ пользователю
+
+- Краткий конспект в чате.
+- Явно: какие файлы созданы/обновлены (`outputs/transcripts/...`, `topics/.../....md`, `README.md`).
+- Если транскрипт не получен — честно сообщить после failed verify, без «конспекта по догадке».

@@ -23,6 +23,11 @@ dev = [
     "pytest>=9.0.2",
     "ruff>=0.15.7",
 ]
+tools = [
+    "youtube-transcript-api>=1.0.0",
+    "yt-dlp>=2026.3.17",
+    "secretstorage>=3.3.3",
+]
 viz = [
     "manim>=0.18.0",
     "imageio>=2.34",

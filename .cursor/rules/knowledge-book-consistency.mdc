@@ -43,10 +43,16 @@ alwaysApply: false
 
 Если hook мешает (частые срабатывания) — оставляйте конфиг как пример (`hooks.json.example`) или временно убирайте запись из `.cursor/hooks.json`.
 
-## 4) Мини-чеклист перед завершением задачи
+## 4) YouTube → транскрипт → топик
+
+Если задача связана с YouTube URL / транскриптом / «о чём видео» — полный pipeline в `.cursor/rules/youtube-transcript-to-knowledge-book.mdc` (скрипт → verify → конспект `.md` в `topics/` → индексация).
+
+## 5) Мини-чеклист перед завершением задачи (ОБЯЗАТЕЛЬНАЯ ПРОВЕРКА)
 
 - [ ] Поиск по `topics/` выполнен, дубликаты не добавлены.
 - [ ] TOC в затронутых README обновлён.
 - [ ] Корневой **Contents** обновлён при смене списка тем.
+- [ ] Для YouTube: `outputs/transcripts/<id>.txt` + verify OK.
+- [ ] Все ссылки (url, документы и т. п.) в созданных файлах рабочие. Проверка проведена
 - [ ] `uv run python scripts/kb_validate_links.py` и `uv run pytest` прошли.
 

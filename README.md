@@ -33,6 +33,13 @@ Topic-first layout:
 - `uv run python topics/<topic-slug>/scripts/01_<name>.py` - run a topic example
 - `uv run python scripts/viz/mp4_to_gif.py <file.mp4> -o <out.gif>` - GIF from rendered MP4
 
+### YouTube transcripts
+
+- `uv sync --group tools` - `youtube-transcript-api`, `yt-dlp`, `secretstorage` (Chrome cookies on Linux)
+- `uv run python scripts/youtube_fetch_transcript.py "<url>" -o outputs/transcripts/<VIDEO_ID>.txt -v`
+- `uv run python scripts/verify_youtube_transcript.py outputs/transcripts/<VIDEO_ID>.txt` - must pass before writing topic notes
+- Agent workflow: `.cursor/rules/youtube-transcript-to-knowledge-book.mdc`
+
 ## Contents
 
 ### Generative Models
@@ -193,6 +200,7 @@ Topic-first layout:
    - Multi-agent workflows: роли, параллелизм, quality gates
    - AutoResearch loops: objective, evaluator, verifier, метрики
    - [Stop Babysitting Your Agents (Claude Code)](./topics/code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code.md): verification skills, `/loop`, Routines
+   - [AI Harness Engineering (Tejas, IBM)](./topics/code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm.md): guardrails, verify step, harness vs prompt
    - Rules of thumb и практический checklist для команды
    - Related: RAG, Hyperparameter Tuning, LoRA
 
