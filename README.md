@@ -192,6 +192,7 @@ Topic-first layout:
    - Что меняется в инженерии при переходе от ручного кода к orchestration
    - Multi-agent workflows: роли, параллелизм, quality gates
    - AutoResearch loops: objective, evaluator, verifier, метрики
+   - [Stop Babysitting Your Agents (Claude Code)](./topics/code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code.md): verification skills, `/loop`, Routines
    - Rules of thumb и практический checklist для команды
    - Related: RAG, Hyperparameter Tuning, LoRA
 
@@ -210,6 +211,12 @@ Topic-first layout:
    - 2D Rotary Positional Embeddings (2D RoPE) для кодирования координат патчей
    - Глобальные и dense‑фичи DINOv3 и их использование в классификации, детекции и сегментации
    - Related: Transformers, Non-Maximum Suppression (NMS), Detection/Segmentation Losses, Convolutions in CNN
+
+3. **[Few-Shot Anomaly Detection: AnomalyDINO](./topics/few-shot-anomaly-detection-anomalydino/README.md)**
+   - Patch-level deep nearest neighbor с DINOv2 без обучения (1–16 эталонов)
+   - Memory bank, zero-shot masking, косинусное расстояние, top-1% агрегация
+   - Pixel-level anomaly map и применение к industrial QC (в т.ч. уровень жидкости)
+   - Related: DINOv3, ROC AUC, SOTA detection/segmentation metrics
 
 ### Computer Vision and Object Detection
 

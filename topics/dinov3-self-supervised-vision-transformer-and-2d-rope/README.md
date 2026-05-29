@@ -411,3 +411,7 @@ $$
   `retrieval-augmented-generation-rag.md`  
   Хотя тема текстовая, многие идеи attention и работы с векторными представлениями схожи с тем, как DINOv3 предоставляет универсальные визуальные эмбеддинги для downstream‑задач.
 
+- **Few-Shot Anomaly Detection: AnomalyDINO**  
+  [../few-shot-anomaly-detection-anomalydino/README.md](../few-shot-anomaly-detection-anomalydino/README.md)  
+  Практическое применение патч‑фич DINOv2 (родственник DINOv3) для industrial anomaly detection без обучения: memory bank, nearest neighbor, pixel-level маски дефектов.
+

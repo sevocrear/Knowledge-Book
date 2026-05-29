@@ -9,10 +9,14 @@
 5. [Ключевые инсайты](#ключевые-инсайты)
 6. [Правила большого пальца (rules of thumb)](#правила-большого-пальца-rules-of-thumb)
 7. [Практические to-dos](#практические-to-dos)
-8. [Ограничения и риски](#ограничения-и-риски)
-9. [Прогноз на 1-3 года](#прогноз-на-1-3-года)
-10. [Кейс Gumloop: Anti-Slop Founder Playbook](#кейс-gumloop-anti-slop-founder-playbook)
-11. [References](#references)
+8. [Ralph Loop: что это и какие разновидности бывают](#ralph-loop-что-это-и-какие-разновидности-бывают)
+9. [Must-have техники на 2026 год для AI-agent engineering](#must-have-техники-на-2026-год-для-ai-agent-engineering)
+10. [Ограничения и риски](#ограничения-и-риски)
+11. [Прогноз на 1-3 года](#прогноз-на-1-3-года)
+12. [Кейс Gumloop: Anti-Slop Founder Playbook](#кейс-gumloop-anti-slop-founder-playbook)
+13. [Транскрипт-выжимка: два видео про Ralph](#транскрипт-выжимка-два-видео-про-ralph)
+14. [Stop Babysitting Your Agents (Claude Code)](#stop-babysitting-your-agents-claude-code)
+15. [References](#references)
 
 ---
 
@@ -153,6 +157,106 @@ $$\text{Leverage} \approx \frac{\text{полезные агентные токе
 
 ---
 
+## Ralph Loop: что это и какие разновидности бывают
+
+`Ralph Loop` - это итеративный паттерн агентной разработки: агент получает один и тот же high-level prompt, а прогресс накапливается во внешнем состоянии (код, git, PRD, progress-файлы, тестовые отчеты). Ключевая практическая идея - повторять цикл до явного `done`-сигнала по критериям качества.
+
+Базовая форма:
+
+```bash
+while ! done; do ai_agent "$PROMPT"; done
+```
+
+### Коротко для 5-летнего
+
+Ты много раз просишь робота: "дострой башню по правилам". После каждого шага робот проверяет, что уже построено, исправляет ошибки и пробует снова, пока башня не станет правильной.
+
+### Основные разновидности
+
+1. **Single-agent loop**  
+   Один агент делает `implement -> test -> fix -> repeat`.
+
+2. **Fresh-session Ralph loop**  
+   Каждая итерация запускается в новой сессии, чтобы уменьшать `context rot`.
+
+3. **Plugin/hook loop**  
+   Повтор запуска через хук/плагин в рамках одного инструмента, обычно с лимитом итераций.
+
+4. **Role-split loop**  
+   Разделение ролей на planner / implementer / reviewer / evaluator.
+
+5. **Test-gated loop**  
+   Выход из цикла только при green quality gates (tests, lint, type checks, perf budget).
+
+6. **Human-approval loop**  
+   Автономные итерации идут до этапа, где нужен ручной approve (prod, security-critical изменения).
+
+### Когда какой подход лучше
+
+- Если задача длинная и контекст деградирует -> лучше fresh-session Ralph loop.
+- Если задача локальная и нужна быстрая автоматическая докрутка -> plugin-loop с `max_iterations` обычно достаточно.
+- Для production-надежности в обоих вариантах нужны: четкий completion signal, внешняя память прогресса, и обязательные quality gates.
+
+---
+
+## Must-have техники на 2026 год для AI-agent engineering
+
+### Коротко для 5-летнего
+
+Чтобы роботы-помощники не ломали важные вещи, им нужны понятные задания, проверка результата, правила безопасности и кнопка "стоп".
+
+### Универсальные must-have
+
+1. **Spec-first execution**  
+   Перед запуском агента всегда есть task card: цель, ограничения, критерии done, артефакты, rollback-план.
+
+2. **Eval before scale**  
+   Сначала строй надежный evaluator, потом увеличивай число агентных итераций/ролей.
+
+3. **Role separation + parallel branches**  
+   Минимум роли `planner`, `implementer`, `reviewer`/`evaluator`; независимые ветки запускай параллельно.
+
+4. **Deterministic environments**  
+   Фиксируй версии зависимостей, компиляторов и датасетов, чтобы результаты были воспроизводимыми.
+
+5. **Policy + sandbox + least privilege**  
+   Минимальные права, аудит действий, scoped secrets, approve-gates на рискованные операции.
+
+6. **Observability для агентов**  
+   Логи решений, tool traces, метрики стоимости/задержки/успешности, регулярные postmortem.
+
+### Must-have для Computer Vision и DL
+
+- `metric contract`: primary + guardrail метрики (например, mAP/Recall и latency/VRAM).
+- versioning датасетов, сплитов и аугментаций + lineage экспериментов.
+- auto-ablation loops с ранжированным отчетом gain/cost.
+- regression-наборы на hard cases (occlusion, low light, domain shift).
+- мониторинг drift/OOD/calibration на прод-инференсе.
+
+### Must-have для Python
+
+- type/lint/tests как hard quality gates в loop exit.
+- contract tests на внешние API и интеграции.
+- property-based тесты для corner cases в агентно-сгенерированном коде.
+- модульная архитектура с явными интерфейсами.
+
+### Must-have для C++
+
+- sharded compile/test для ускорения цикла.
+- sanitizers по умолчанию: ASan/UBSan/TSan.
+- perf regression gates (p95/p99 latency, memory budget).
+- ABI/API stability checks для библиотек и рантаймов.
+
+### Практический minimal stack
+
+1. Оркестратор циклов (Ralph-style scheduling/retries).
+2. Изолированные раннеры (sandbox/worktree/container).
+3. Единый evaluator layer (tests + static checks + perf + security).
+4. Артефактная память (spec, changelog, experiment logs, decision records).
+5. Guarded delivery (human approval на high-risk этапы).
+
+---
+
 ## Ограничения и риски
 
 - **Jaggedness моделей**: сильны в коде, могут проваливаться в нюансе intent.
@@ -250,6 +354,68 @@ $$\text{Leverage} \approx \frac{\text{полезные агентные токе
 
 ---
 
+## Транскрипт-выжимка: два видео про Ralph
+
+Ниже - сжатая выжимка по двум видео, которые ты прислал, с акцентом на практические выводы для инженерного workflow.
+
+### Коротко для 5-летнего
+
+Есть два рассказа про "робота, который повторяет задание". Один говорит: "лучше каждый раз запускать робота заново с чистой головой". Другой: "можно повторять и в том же запуске, но ставь лимиты и четкие правила, чтобы не потратить все монетки".
+
+### Видео 1: *Stop Using The Ralph Loop Plugin* (Chase AI)
+
+Ссылка: [YouTube](https://www.youtube.com/watch?v=yAE3ONleUas&pp=ygUSV2hhdCBpcyBSYWxwaCBsb29w)
+
+Ключевые тезисы из транскрипта:
+
+1. Автор разделяет **"оригинальный Ralph"** и **Claude Code Ralph plugin**.
+2. Главная идея оригинала: **fresh session на каждой итерации** + внешняя память (`prd.md`, `progress`-файл).
+3. Мотивация - борьба с `context rot`: длинная сессия снижает качество решений.
+4. Рабочий контур: PRD -> декомпозиция в дискретные таски -> запуск итераций по незавершенным задачам -> запись прогресса -> новый запуск.
+5. Поинт автора: если loop не дает свежий контекст, теряется часть главного преимущества Ralph-подхода.
+
+Практический вывод:
+- Для длинных задач и сложных репо выгодно использовать оркестрацию с перезапуском сессии и внешним state-tracking.
+
+### Видео 2: *Claude Ralph - The Bizarre Anthropic Plugin...* (Better Stack)
+
+Ссылка: [YouTube](https://www.youtube.com/watch?v=ny_BAA3eYaI&t=33s&pp=ygUSV2hhdCBpcyBSYWxwaCBsb29w)
+
+Ключевые тезисы из транскрипта:
+
+1. Плагин описывается как persistence-loop: повторяет prompt до `completion signal` (`done`, `complete` и т.п.).
+2. Интеграция реализована через hook-механику и state-файл, а не как "голый bash one-liner".
+3. Подчеркиваются реальные кейсы: overnight execution, TDD-сценарии, доработка кода до passing tests.
+4. Важные guardrails: `max iterations`, четкий критерий завершения, избегать задач, где нужен человеческий judgment.
+5. Рекомендуется разбивать сложную цель на шаги, чтобы loop не блуждал.
+
+Практический вывод:
+- Даже без полного session-reset loop полезен как автоматизатор "накатки" тестов/фиксов, если есть строгие стоп-условия.
+
+### Синтез двух позиций (что брать в работу)
+
+1. Если задача длинная и контекст быстро "заиливается" -> приоритет Ralph-режиму с reset между итерациями.
+2. Если задача локальная и нужен быстрый автономный докрут -> plugin-loop с `max iterations` и хорошим prompt может быть достаточен.
+3. В обоих случаях ядро одно: **четкий completion signal + внешний наблюдаемый прогресс + тестовые quality gates**.
+
+---
+
+## Stop Babysitting Your Agents (Claude Code)
+
+Практический доклад **Sid Bindisaria** (founding engineer Claude Code): verification loops, упаковка в self-improving **skills**, multi-clauding без перегруза внимания, **`/loop`** и **Routines** для PR/CI/docs.
+
+**Подробнее (отдельный конспект):** [stop-babysitting-your-agents-claude-code.md](./stop-babysitting-your-agents-claude-code.md)
+
+Кратко — три столпа:
+
+1. **Verification** — тот же цикл, что у человека (build → run → browser/logs/DB → tests); главное — **loop** до success.
+2. **Multi-clauding** — Desktop / `claude agents` / Web / `/remote-control`; держать $\lesssim 4$–$5$ активных сессий.
+3. **Background loops** — `/loop 10 minutes babysit my open prs` и облачные Routines.
+
+Prerequisites: качественный **CLAUDE.md**, MCP-инструменты, remote environment.
+
+---
+
 ## References
 
 ### Связанные темы в книге
@@ -259,7 +425,15 @@ $$\text{Leverage} \approx \frac{\text{полезные агентные токе
 - [Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md)
 - [Embeddings and Embedding Matrix](../embeddings-and-embedding-matrix/README.md)
 
+### Дополнительные материалы в этом топике
+
+- [Stop Babysitting Your Agents (Claude Code) — конспект доклада Sid Bindisaria](./stop-babysitting-your-agents-claude-code.md)
+
 ### Внешние материалы
 
+- [Stop babysitting your agents — Sid Bindisaria (YouTube)](https://www.youtube.com/watch?v=wI0ptqCSL0I)
 - [No Priors podcast episode: *Skill Issue: Andrej Karpathy on Code Agents, AutoResearch, and the Loopy Era of AI*](https://www.youtube.com/watch?v=kwSVtQ7dziU)
 - [YouTube interview with Max (Gumloop) on AI automation, founders, and anti-slop execution](https://www.youtube.com/watch?v=CxFQykWiJqY)
+- [Stop Using The Ralph Loop Plugin (Chase AI)](https://www.youtube.com/watch?v=yAE3ONleUas&pp=ygUSV2hhdCBpcyBSYWxwaCBsb29w)
+- [Claude Ralph - The Bizarre Anthropic Plugin That Every Developer Is Missing (Better Stack)](https://www.youtube.com/watch?v=ny_BAA3eYaI&t=33s&pp=ygUSV2hhdCBpcyBSYWxwaCBsb29w)
+- [Ralph Github Repo](https://github.com/snarktank/ralph?tab=readme-ov-file)
