@@ -38,6 +38,7 @@ Topic-first layout:
 - `uv sync --group tools` - `youtube-transcript-api`, `yt-dlp`, `secretstorage` (Chrome cookies on Linux)
 - `uv run python scripts/youtube_fetch_transcript.py "<url>" -o outputs/transcripts/<VIDEO_ID>.txt -v`
 - `uv run python scripts/verify_youtube_transcript.py outputs/transcripts/<VIDEO_ID>.txt` - must pass before writing topic notes
+- Commit verified files under `outputs/transcripts/` (see [outputs/transcripts/README.md](./outputs/transcripts/README.md)); `.gitignore` allows these `.txt` files
 - Agent workflow: `.cursor/rules/youtube-transcript-to-knowledge-book.mdc`
 
 ## Contents

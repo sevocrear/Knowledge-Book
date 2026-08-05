@@ -1,10 +1,19 @@
 *.svg
 
 __pycache__/
+**/__pycache__/
 *pytest_cache/
-*.txt
+.pytest_cache/
+*.pyc
 *.ppm
 *.tex
+
+# Ignore loose .txt artifacts, but keep committed YouTube transcripts
+*.txt
+!outputs/
+!outputs/transcripts/
+!outputs/transcripts/**/*.txt
+!outputs/transcripts/**/README.md
 
 # Manim cache/output (topic MP4/GIF in assets/visualizations/ should remain trackable)
 **/visualizations/manim/.media/

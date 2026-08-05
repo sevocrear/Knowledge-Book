@@ -422,7 +422,7 @@ Prerequisites: качественный **CLAUDE.md**, MCP-инструмент�
 Talk **Tejas** (IBM): что такое **agent harness** (не ML test harness), из чего он состоит (tools, guardrails, verify, outer loop), live-demo browser-агента на Hacker News **без изменения промпта**, тезис «2026 — год harnesses».
 
 **Подробнее:** [ai-harness-engineering-tejas-ibm.md](./ai-harness-engineering-tejas-ibm.md)  
-**Транскрипт:** [`outputs/transcripts/C_GG5g38vLU.txt`](../../outputs/transcripts/C_GG5g38vLU.txt)
+**Транскрипт:** скачать `C_GG5g38vLU.txt` по [инструкции](../../outputs/transcripts/README.md)
 
 Кратко:
 

@@ -2,16 +2,23 @@
 
 ## Table of Contents
 
-1. [Introduction to VAEs](#introduction-to-vaes)
-2. [Core Idea and Intuition](#core-idea-and-intuition)
-3. [Mathematical Foundations](#mathematical-foundations)
-4. [Architecture and Components](#architecture-and-components)
-5. [Training Process](#training-process)
-6. [Implementation Example](#implementation-example)
-7. [Variants and Extensions](#variants-and-extensions)
-8. [Applications](#applications)
-9. [Current Status (2025-2026)](#current-status-2025-2026)
-10. [References](#references)
+1. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
+2. [Introduction to VAEs](#introduction-to-vaes)
+3. [Core Idea and Intuition](#core-idea-and-intuition)
+4. [Mathematical Foundations](#mathematical-foundations)
+5. [Architecture and Components](#architecture-and-components)
+6. [Training Process](#training-process)
+7. [Implementation Example](#implementation-example)
+8. [Variants and Extensions](#variants-and-extensions)
+9. [Applications](#applications)
+10. [Current Status (2025-2026)](#current-status-2025-2026)
+11. [References](#references)
+
+---
+
+## How would I describe it to a person who is 5 years old
+
+Представь машину, которая учится рисовать похожие картинки. Сначала она смотрит на настоящую картинку и записывает не «каждую точку», а короткое описание «о чём она» — как будто шёпотом. Потом по этому шёпоту рисует картинку заново. Если шёпот чуть изменить, получится *новая*, но всё ещё понятная картинка. Так VAE учится придумывать похожие вещи, а не только копировать.
 
 ---
 
