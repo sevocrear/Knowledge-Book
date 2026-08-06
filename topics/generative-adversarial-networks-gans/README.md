@@ -2,17 +2,24 @@
 
 ## Table of Contents
 
-1. [Introduction to GANs](#introduction-to-gans)
-2. [Core Idea and Intuition](#core-idea-and-intuition)
-3. [Mathematical Foundations](#mathematical-foundations)
-4. [Architecture and Training](#architecture-and-training)
-5. [Implementation Example](#implementation-example)
-6. [Challenges and Solutions](#challenges-and-solutions)
-7. [Modern GAN Variants](#modern-gan-variants)
-8. [Applications](#applications)
-9. [Current Status (2025-2026)](#current-status-2025-2026)
-10. [VAE vs GAN Comparison](#vae-vs-gan-comparison)
-11. [References](#references)
+1. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
+2. [Introduction to GANs](#introduction-to-gans)
+3. [Core Idea and Intuition](#core-idea-and-intuition)
+4. [Mathematical Foundations](#mathematical-foundations)
+5. [Architecture and Training](#architecture-and-training)
+6. [Implementation Example](#implementation-example)
+7. [Challenges and Solutions](#challenges-and-solutions)
+8. [Modern GAN Variants](#modern-gan-variants)
+9. [Applications](#applications)
+10. [Current Status (2025-2026)](#current-status-2025-2026)
+11. [VAE vs GAN Comparison](#vae-vs-gan-comparison)
+12. [References](#references)
+
+---
+
+## How would I describe it to a person who is 5 years old
+
+Два робота играют в игру. Один рисует поддельные картинки, другой угадывает: настоящая это или подделка. Чем лучше угадывает «детектив», тем лучше учится рисовать «художник». Когда детектив уже почти не отличает рисунок от настоящей фотографии — художник научился придумывать очень правдоподобные картинки. Это и есть GAN.
 
 ---
 

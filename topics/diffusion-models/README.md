@@ -2,18 +2,25 @@
 
 ## Table of Contents
 
-1. [Introduction to Diffusion Models](#introduction-to-diffusion-models)
-2. [Core Idea and Intuition](#core-idea-and-intuition)
-3. [Mathematical Foundations](#mathematical-foundations)
-4. [Forward and Reverse Diffusion Processes](#forward-and-reverse-diffusion-processes)
-5. [Training Process](#training-process)
-6. [Sampling and Generation](#sampling-and-generation)
-7. [Implementation Example](#implementation-example)
-8. [Key Variants and Extensions](#key-variants-and-extensions)
-9. [Applications](#applications)
-10. [Current Status (2023-2026)](#current-status-2023-2026)
-11. [Comparison with Other Generative Models](#comparison-with-other-generative-models)
-12. [References](#references)
+1. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
+2. [Introduction to Diffusion Models](#introduction-to-diffusion-models)
+3. [Core Idea and Intuition](#core-idea-and-intuition)
+4. [Mathematical Foundations](#mathematical-foundations)
+5. [Forward and Reverse Diffusion Processes](#forward-and-reverse-diffusion-processes)
+6. [Training Process](#training-process)
+7. [Sampling and Generation](#sampling-and-generation)
+8. [Implementation Example](#implementation-example)
+9. [Key Variants and Extensions](#key-variants-and-extensions)
+10. [Applications](#applications)
+11. [Current Status (2023-2026)](#current-status-2023-2026)
+12. [Comparison with Other Generative Models](#comparison-with-other-generative-models)
+13. [References](#references)
+
+---
+
+## How would I describe it to a person who is 5 years old
+
+Возьми красивую картинку и по чуть-чуть засыпай её песком, пока не останется только шум. Потом учи робота убирать песок шаг за шагом. Когда он научится — можно начать с кучи песка и медленно «вычищать» её, пока не проявится новая картинка. Так работают diffusion models (как Stable Diffusion).
 
 ---
 

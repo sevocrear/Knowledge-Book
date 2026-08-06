@@ -3,7 +3,7 @@
 Конференционный talk **Tejas** (AI Developer Advocate, **IBM**) — deep dive ~18 минут про **agent harness**: обвязку вокруг LLM, которая даёт надёжность, verify и guardrails **без** «промптить сильнее».
 
 - Видео: [YouTube — AI harnesses](https://www.youtube.com/watch?v=C_GG5g38vLU)
-- Транскрипт (локально): [`outputs/transcripts/C_GG5g38vLU.txt`](../../outputs/transcripts/C_GG5g38vLU.txt)
+- Транскрипт (локально): `outputs/transcripts/C_GG5g38vLU.txt` — скачать через workflow ([инструкция](../../outputs/transcripts/README.md)); файл коммитится после `verify_youtube_transcript.py`
 - Канонический топик: [README](./README.md)
 
 > **Не путать** с [Stop Babysitting Your Agents (Claude Code)](./stop-babysitting-your-agents-claude-code.md) (Sid Bindisaria) — другой спикер и фокус (операционный Claude Code vs. теория harness с нуля).
@@ -220,7 +220,7 @@ Tejas упоминает **Open RAG** (IBM): enterprise RAG по Teams, звон
 - [Code Agents, AutoResearch и Loopy Era — README](./README.md)
 - [Stop Babysitting Your Agents (Claude Code)](./stop-babysitting-your-agents-claude-code.md)
 - [Retrieval-Augmented Generation (RAG)](../retrieval-augmented-generation-rag/README.md)
-- [Транскрипт видео](../../outputs/transcripts/C_GG5g38vLU.txt)
+- [Как скачать транскрипт `C_GG5g38vLU.txt`](../../outputs/transcripts/README.md)
 
 ### Внешние материалы
 

@@ -78,3 +78,16 @@ def test_parse_vtt_minimal(tmp_path: Path) -> None:
     assert snippets[0].text == "Hello world"
     assert snippets[0].start == pytest.approx(1.0)
     assert snippets[1].text == "Second line"
+    assert snippets[1].duration == pytest.approx(1.5)
+
+
+def test_default_browser_requires_cookies_db(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    empty = tmp_path / "google-chrome"
+    empty.mkdir()
+    (empty / "Default").mkdir()
+    monkeypatch.setattr(_MOD, "_CHROME_COOKIE_DIRS", (empty,))
+    assert _MOD.default_browser_for_cookies() is None
+
+    cookies = empty / "Default" / "Cookies"
+    cookies.write_bytes(b"")
+    assert _MOD.default_browser_for_cookies() == "chrome"

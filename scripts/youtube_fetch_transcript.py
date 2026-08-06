@@ -27,16 +27,40 @@ import sys
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
-
-from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import (
-    CouldNotRetrieveTranscript,
-    NoTranscriptFound,
-    TranscriptsDisabled,
-    VideoUnavailable,
-)
+from typing import Any
 
 _LOG = logging.getLogger("youtube_fetch_transcript")
+
+# Optional dependency (uv sync --group tools). Parse helpers above work without it.
+YouTubeTranscriptApi: Any = None
+CouldNotRetrieveTranscript = Exception
+NoTranscriptFound = Exception
+TranscriptsDisabled = Exception
+VideoUnavailable = Exception
+try:
+    from youtube_transcript_api import YouTubeTranscriptApi as _YouTubeTranscriptApi
+    from youtube_transcript_api._errors import (
+        CouldNotRetrieveTranscript as _CouldNotRetrieveTranscript,
+        NoTranscriptFound as _NoTranscriptFound,
+        TranscriptsDisabled as _TranscriptsDisabled,
+        VideoUnavailable as _VideoUnavailable,
+    )
+
+    YouTubeTranscriptApi = _YouTubeTranscriptApi
+    CouldNotRetrieveTranscript = _CouldNotRetrieveTranscript
+    NoTranscriptFound = _NoTranscriptFound
+    TranscriptsDisabled = _TranscriptsDisabled
+    VideoUnavailable = _VideoUnavailable
+except ImportError:  # pragma: no cover - exercised when tools group is absent
+    pass
+
+
+def _require_youtube_transcript_api() -> Any:
+    if YouTubeTranscriptApi is None:
+        raise RuntimeError(
+            "youtube-transcript-api is not installed. Run: uv sync --group tools"
+        )
+    return YouTubeTranscriptApi
 
 _VIDEO_ID_RE = re.compile(
     r"(?:youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/)([A-Za-z0-9_-]{11})"
@@ -170,7 +194,9 @@ def resolve_ytdlp_command() -> list[str]:
 def default_browser_for_cookies() -> str | None:
     """Pick a browser profile for yt-dlp cookie export when user did not specify one."""
     for path in _CHROME_COOKIE_DIRS:
-        if path.is_dir():
+        # Require a real Cookies DB — an empty profile dir is common in CI/cloud VMs.
+        cookies_db = path / "Default" / "Cookies"
+        if path.is_dir() and cookies_db.is_file():
             return "chrome" if "chromium" not in path.name else "chromium"
     return None
 
@@ -206,7 +232,7 @@ def _ytdlp_base_cmd(cookies_from_browser: str | None) -> list[str]:
     return cmd
 
 
-def list_tracks_api(api: YouTubeTranscriptApi, video_id: str) -> None:
+def list_tracks_api(api: Any, video_id: str) -> None:
     transcript_list = api.list(video_id)
     print(f"Video: https://www.youtube.com/watch?v={video_id}\n")
     print("backend: youtube-transcript-api\n")
@@ -236,7 +262,7 @@ def list_tracks_ytdlp(
 
 
 def fetch_via_api(
-    api: YouTubeTranscriptApi,
+    api: Any,
     video_id: str,
     languages: list[str],
 ) -> TranscriptBundle:
@@ -401,10 +427,19 @@ def main(argv: list[str] | None = None) -> int:
     if cookies_browser:
         _LOG.info("yt-dlp cookies from browser: %s", cookies_browser)
 
-    api = YouTubeTranscriptApi()
+    api = None
+    if args.backend in ("auto", "api"):
+        try:
+            api_cls = _require_youtube_transcript_api()
+            api = api_cls()
+        except RuntimeError as exc:
+            if args.backend == "api":
+                print(f"error: {exc}", file=sys.stderr)
+                return 1
+            _LOG.warning("%s; will try yt-dlp if backend allows", exc)
 
     if args.list:
-        if args.backend in ("auto", "api"):
+        if api is not None and args.backend in ("auto", "api"):
             try:
                 list_tracks_api(api, video_id)
                 return 0
@@ -423,7 +458,7 @@ def main(argv: list[str] | None = None) -> int:
     bundle: TranscriptBundle | None = None
     errors: list[str] = []
 
-    if args.backend in ("auto", "api"):
+    if api is not None and args.backend in ("auto", "api"):
         try:
             bundle = fetch_via_api(api, video_id, languages)
             _LOG.info("fetched via youtube-transcript-api (%d snippets)", len(bundle.snippets))
