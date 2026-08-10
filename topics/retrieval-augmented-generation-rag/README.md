@@ -1,3 +1,31 @@
+---
+title: Retrieval-Augmented Generation (RAG)
+description: "Архитектуры RAG (Naive/Advanced/Modular/Self-RAG/Corrective/LightRAG), retriever/reranker, chunking, оценка и production-практики."
+tags:
+  - kb/topic
+  - domain/nlp
+  - domain/llm
+  - concept/rag
+  - concept/retrieval
+  - concept/vector-search
+aliases:
+  - RAG
+  - Retrieval-Augmented Generation
+  - Self-RAG
+  - Corrective RAG
+  - LightRAG
+  - vector database
+related:
+  - embeddings-and-embedding-matrix
+  - tokenization-and-text-compression-in-llms
+  - transformers-attention-and-vision-transformers-vit
+  - code-agents-autoresearch-and-loopy-era
+status: canonical
+lang: ru
+type: topic
+slug: retrieval-augmented-generation-rag
+updated: 2026-08-10
+---
 # Retrieval-Augmented Generation (RAG)
 
 ## Table of Contents
@@ -1022,7 +1050,18 @@ Query
 ```
 
 #### Bi-Encoder vs Cross-Encoder
-![[Pasted image 20260120124152.png]]
+
+Битая Obsidian-вставка `![[Pasted image ...]]` заменена на схему ниже (исходный PNG в репозиторий не был закоммичен).
+
+```
+Bi-Encoder (retriever)              Cross-Encoder (reranker)
+──────────────────────              ────────────────────────
+query ──► Enc_q ──► e_q             [query ; doc] ──► Enc ──► score
+doc   ──► Enc_d ──► e_d                    ▲
+                 │                         │
+                 └── cos(e_q, e_d)          один проход на пару
+                 быстрый ANN / top-K       точнее, дороже
+```
 
 Чтобы понять Cross-Encoder, нужно сначала понять Bi-Encoder (который используется в обычном векторном поиске).
 

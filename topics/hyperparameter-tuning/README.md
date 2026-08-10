@@ -1,3 +1,30 @@
+---
+title: Настройка гиперпараметров (Hyperparameter Tuning)
+description: "Grid/Random search, Bayesian Optimization (Optuna/TPE), Hyperband/BOHB, PBT, CMA-ES, NAS и LR schedules."
+tags:
+  - kb/topic
+  - domain/mlops
+  - domain/ml-foundations
+  - concept/hyperparameter-tuning
+  - concept/bayesian-optimization
+  - concept/nas
+aliases:
+  - hyperparameter tuning
+  - Optuna
+  - Hyperband
+  - Bayesian Optimization
+  - NAS
+related:
+  - ensemble-methods-model-combination
+  - decision-trees
+  - low-rank-adaptation-lora
+  - bayes-theorem-and-probability-foundations
+status: canonical
+lang: ru
+type: topic
+slug: hyperparameter-tuning
+updated: 2026-08-10
+---
 # Настройка гиперпараметров (Hyperparameter Tuning)
 
 ## Как объяснить 5-летнему ребёнку

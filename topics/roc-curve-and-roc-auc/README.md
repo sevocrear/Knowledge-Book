@@ -1,3 +1,29 @@
+---
+title: ROC-кривые и ROC AUC
+description: "TPR/FPR, построение ROC, AUC как метрика ранжирования, выбор порога (Youden’s J) и связь с PR-кривыми."
+tags:
+  - kb/topic
+  - domain/ml-foundations
+  - concept/metrics
+  - concept/roc
+  - concept/classification
+aliases:
+  - ROC
+  - ROC AUC
+  - TPR
+  - FPR
+  - Youden J
+  - PR curve
+related:
+  - how-models-predict-confidence-and-calibration
+  - sota-metrics-for-detection-segmentation-multiclass-classification
+  - decision-trees
+status: canonical
+lang: ru
+type: topic
+slug: roc-curve-and-roc-auc
+updated: 2026-08-10
+---
 # ROC-кривые и ROC AUC: Оценка Классификаторов
 
 ## Table of Contents

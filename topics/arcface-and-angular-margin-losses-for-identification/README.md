@@ -1,3 +1,31 @@
+---
+title: ArcFace and Angular-Margin Losses for Identification
+description: "Additive angular margin loss для идентификации: геометрия на гиперсфере, сравнение с CosFace/SphereFace, face/SKU/re-ID и open-set пороги."
+tags:
+  - kb/topic
+  - domain/cv
+  - concept/metric-learning
+  - concept/loss
+  - concept/embeddings
+  - concept/face-recognition
+aliases:
+  - ArcFace
+  - CosFace
+  - SphereFace
+  - angular margin loss
+related:
+  - contrastive-and-metric-learning-for-fine-grained-visual-recognition
+  - embeddings-and-embedding-matrix
+  - roc-curve-and-roc-auc
+  - how-models-predict-confidence-and-calibration
+status: canonical
+lang: ru
+type: topic
+slug: arcface-and-angular-margin-losses-for-identification
+updated: 2026-08-10
+---
+# ArcFace and Angular-Margin Losses for Identification
+
 ## Table of Contents
 
 - Краткий абстракт и объяснение для 5-летнего ребёнка

@@ -1,4 +1,30 @@
-## Vision-Based Robot Training: Open-Source Methods and Best Practices
+---
+title: Vision-Based Robot Training Methods
+description: "Imitation learning, RL и VLA для визуального обучения роботов: OpenVLA, Octo, RT-1/RT-2, Open X-Embodiment и sim-to-real."
+tags:
+  - kb/topic
+  - domain/robotics
+  - domain/embodied-ai
+  - concept/imitation-learning
+  - concept/vla
+  - concept/sim-to-real
+aliases:
+  - robot training
+  - OpenVLA
+  - Octo
+  - Open X-Embodiment
+  - vision-based robotics
+related:
+  - vision-language-action-models-vla
+  - deep-reinforcement-learning
+  - low-rank-adaptation-lora
+status: canonical
+lang: ru
+type: topic
+slug: vision-based-robot-training-methods
+updated: 2026-08-10
+---
+# Vision-Based Robot Training: Open-Source Methods and Best Practices
 
 ## Table of Contents
 
@@ -155,7 +181,7 @@ action = model.predict(
 
 **Архитектура:**
 - Vision: SigLIP + DinoV2 (fused)
-- Language: LLaMA 2 7B
+- Language: LLaMA 2 7B (исторический backbone оригинального OpenVLA; более новые open VLA часто берут Llama 3 / Qwen2.5-VL class bases)
 - Action: MLP decoder
 
 **Использование:**
@@ -995,7 +1021,7 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 - **ROS (Robot Operating System)**: интеграция с роботами
 - **Hugging Face**: модели и датасеты
 
-#### 9.5. Датысеты
+#### 9.5. Датасеты
 
 - **Open X-Embodiment**: [GitHub](https://github.com/google-deepmind/open_x_embodiment)
 - **RT-1 Dataset**: частично доступен

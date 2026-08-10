@@ -1,3 +1,30 @@
+---
+title: Non-Maximum Suppression (NMS) и современные end-to-end детекторы
+description: "Классический NMS/Soft-NMS, проблемы в production и переход к NMS-free детекторам: DETR, RT-DETR, YOLO26 (dual-head)."
+tags:
+  - kb/topic
+  - domain/cv
+  - concept/nms
+  - concept/object-detection
+  - concept/end-to-end-detection
+aliases:
+  - NMS
+  - Non-Maximum Suppression
+  - YOLO26
+  - DETR
+  - RT-DETR
+  - Soft-NMS
+related:
+  - unscented-kalman-filter-and-tracking
+  - transformers-attention-and-vision-transformers-vit
+  - detection-segmentation-3d-losses
+  - sota-metrics-for-detection-segmentation-multiclass-classification
+status: canonical
+lang: ru
+type: topic
+slug: non-maximum-suppression-nms
+updated: 2026-08-10
+---
 # Non-Maximum Suppression (NMS) и Современные End-to-End Детекторы
 
 ## Table of Contents
@@ -559,7 +586,12 @@ decoded_x1 = dfl.decode_coordinate(pred_dist, (0, 640))
 
 ### Архитектурные Изменения
 
-**YOLO26** (январь 2026) полностью переработал архитектуру для устранения необходимости в NMS:
+**YOLO26** (Ultralytics, 2026; paper [arXiv:2606.03748](https://arxiv.org/abs/2606.03748)) по умолчанию даёт **NMS-free end-to-end** инференс через dual-head дизайн:
+
+- **One-to-one head (default):** до ~300 финальных детекций на изображение, без внешнего NMS.
+- **One-to-many head:** классический dense-выход YOLO; нужен NMS. Часть export-форматов (например NCNN/RKNN/Edge TPU) автоматически откатывается на этот режим.
+
+Ключевые архитектурные изменения относительно предыдущих YOLO:
 
 ### Краткое Резюме Ключевых Инноваций
 

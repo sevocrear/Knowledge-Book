@@ -1,3 +1,28 @@
+---
+title: Variational Autoencoders (VAEs)
+description: "ELBO, encoder/decoder, reparameterization trick, латентное пространство и роль VAE в современных generative pipelines."
+tags:
+  - kb/topic
+  - domain/generative
+  - concept/vae
+  - concept/latent-variable
+  - concept/elbo
+aliases:
+  - VAE
+  - Variational Autoencoder
+  - ELBO
+  - reparameterization trick
+related:
+  - gaussian-distribution
+  - generative-adversarial-networks-gans
+  - diffusion-models
+  - bayes-theorem-and-probability-foundations
+status: canonical
+lang: en
+type: topic
+slug: variational-autoencoders-vaes
+updated: 2026-08-10
+---
 # Variational Autoencoders (VAEs): A Comprehensive Guide
 
 ## Table of Contents

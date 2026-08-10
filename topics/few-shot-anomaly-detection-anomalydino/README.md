@@ -1,4 +1,27 @@
-## Few-Shot Anomaly Detection: AnomalyDINO и patch-level nearest neighbors
+---
+title: "Few-Shot Anomaly Detection: AnomalyDINO"
+description: "Patch-level nearest neighbor на DINOv2 без обучения: memory bank, косинусное расстояние и pixel-level anomaly maps для industrial QC."
+tags:
+  - kb/topic
+  - domain/cv
+  - concept/anomaly-detection
+  - concept/few-shot
+  - concept/dino
+aliases:
+  - AnomalyDINO
+  - few-shot anomaly detection
+  - patch nearest neighbor
+related:
+  - dinov3-self-supervised-vision-transformer-and-2d-rope
+  - roc-curve-and-roc-auc
+  - sota-metrics-for-detection-segmentation-multiclass-classification
+status: canonical
+lang: ru
+type: topic
+slug: few-shot-anomaly-detection-anomalydino
+updated: 2026-08-10
+---
+# Few-Shot Anomaly Detection: AnomalyDINO и patch-level nearest neighbors
 
 ## Table of Contents
 

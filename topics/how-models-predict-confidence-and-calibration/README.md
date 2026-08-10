@@ -1,3 +1,28 @@
+---
+title: "Confidence, Calibration and Uncertainty"
+description: "Logits→softmax/sigmoid, reliability diagrams, ECE/Brier, temperature scaling и aleatoric/epistemic uncertainty (ensembles, MC Dropout)."
+tags:
+  - kb/topic
+  - domain/ml-foundations
+  - concept/calibration
+  - concept/uncertainty
+  - concept/confidence
+aliases:
+  - calibration
+  - ECE
+  - temperature scaling
+  - model confidence
+  - uncertainty estimation
+related:
+  - roc-curve-and-roc-auc
+  - classification-losses-cross-entropy-focal-loss
+  - ensemble-methods-model-combination
+status: canonical
+lang: ru
+type: topic
+slug: how-models-predict-confidence-and-calibration
+updated: 2026-08-10
+---
 # Confidence, Calibration and Uncertainty in Classification: как модели предсказывают уверенность
 
 ## Table of Contents

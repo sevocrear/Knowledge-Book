@@ -1,3 +1,30 @@
+---
+title: Метрики оценки Action Recognition и Object Tracking
+description: "Протоколы и метрики для video action recognition, temporal localization, SOT и MOT: Top-1/Top-5, mAP@tIoU, Success AUC, IDF1, MOTA, HOTA."
+tags:
+  - kb/topic
+  - domain/cv
+  - domain/video
+  - concept/metrics
+  - concept/tracking
+  - concept/action-recognition
+aliases:
+  - action recognition metrics
+  - object tracking metrics
+  - MOTA
+  - HOTA
+  - IDF1
+related:
+  - how-models-predict-confidence-and-calibration
+  - non-maximum-suppression-nms
+  - unscented-kalman-filter-and-tracking
+  - sota-metrics-for-detection-segmentation-multiclass-classification
+status: canonical
+lang: ru
+type: topic
+slug: action-recognition-and-object-tracking-metrics
+updated: 2026-08-10
+---
 # Метрики оценки Action Recognition и Object Tracking
 
 ## Table of Contents

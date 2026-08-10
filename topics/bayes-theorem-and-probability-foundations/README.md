@@ -1,3 +1,29 @@
+---
+title: Теорема Байеса и основы теории вероятностей
+description: "Аксиомы Колмогорова, условная вероятность, формула полной вероятности, теорема Байеса, MAP/MLE и наивный Байес в ML."
+tags:
+  - kb/topic
+  - domain/math
+  - domain/ml-foundations
+  - concept/probability
+  - concept/bayes
+aliases:
+  - Bayes theorem
+  - теорема Байеса
+  - conditional probability
+  - MAP
+  - MLE
+related:
+  - gaussian-distribution
+  - variational-autoencoders-vaes
+  - unscented-kalman-filter-and-tracking
+  - retrieval-augmented-generation-rag
+status: canonical
+lang: ru
+type: topic
+slug: bayes-theorem-and-probability-foundations
+updated: 2026-08-10
+---
 # Теорема Байеса и основы теории вероятностей
 
 ## Как объяснить 5-летнему ребёнку

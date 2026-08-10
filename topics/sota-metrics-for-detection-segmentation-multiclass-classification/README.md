@@ -1,3 +1,30 @@
+---
+title: "SOTA-метрики для детекции, сегментации и мультиклассовой классификации"
+description: "COCO AP/AR, mIoU/Mask AP/PQ, Top-1/Top-5, macro/micro F1 и калибровочные метрики как стандартные протоколы сравнения."
+tags:
+  - kb/topic
+  - domain/cv
+  - concept/metrics
+  - concept/object-detection
+  - concept/segmentation
+  - concept/classification
+aliases:
+  - COCO AP
+  - mIoU
+  - panoptic PQ
+  - Mask AP
+  - Top-1 accuracy
+related:
+  - roc-curve-and-roc-auc
+  - how-models-predict-confidence-and-calibration
+  - non-maximum-suppression-nms
+  - action-recognition-and-object-tracking-metrics
+status: canonical
+lang: ru
+type: topic
+slug: sota-metrics-for-detection-segmentation-multiclass-classification
+updated: 2026-08-10
+---
 # SOTA-метрики и протоколы оценки для детекции, сегментации и мультиклассовой классификации
 
 ## Table of Contents

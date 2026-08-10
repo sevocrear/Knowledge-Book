@@ -1,3 +1,31 @@
+---
+title: Tokenization and Text Compression in LLMs
+description: Word/char/BPE/WordPiece/Unigram токенизация как сжатие текста перед LLM и влияние на стоимость attention.
+tags:
+  - kb/topic
+  - domain/nlp
+  - domain/llm
+  - concept/tokenization
+  - concept/bpe
+  - concept/compression
+aliases:
+  - tokenization
+  - BPE
+  - WordPiece
+  - Unigram LM
+  - byte-level BPE
+related:
+  - embeddings-and-embedding-matrix
+  - transformers-attention-and-vision-transformers-vit
+  - retrieval-augmented-generation-rag
+status: canonical
+lang: ru
+type: topic
+slug: tokenization-and-text-compression-in-llms
+updated: 2026-08-10
+---
+# Tokenization and Text Compression in LLMs
+
 ## Table of Contents
 - Введение
 - Объяснение для 5‑летнего

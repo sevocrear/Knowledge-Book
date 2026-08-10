@@ -1,3 +1,27 @@
+---
+title: Гауссово распределение (Normal Distribution)
+description: "Одномерное и многомерное нормальное распределение, PDF/CDF и роль гауссианы в VAE, diffusion и Kalman filtering."
+tags:
+  - kb/topic
+  - domain/math
+  - domain/ml-foundations
+  - concept/probability
+  - concept/gaussian
+aliases:
+  - Gaussian distribution
+  - normal distribution
+  - гауссово распределение
+related:
+  - bayes-theorem-and-probability-foundations
+  - variational-autoencoders-vaes
+  - diffusion-models
+  - unscented-kalman-filter-and-tracking
+status: canonical
+lang: ru
+type: topic
+slug: gaussian-distribution
+updated: 2026-08-10
+---
 # Гауссово Распределение (Normal Distribution): Основы
 
 ## Table of Contents

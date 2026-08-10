@@ -1,3 +1,28 @@
+---
+title: Деревья решений (Decision Trees)
+description: "Структура дерева, Gini/энтропия/Information Gain, ID3/C4.5/CART, переобучение и связь с ансамблями Random Forest/XGBoost."
+tags:
+  - kb/topic
+  - domain/classical-ml
+  - concept/decision-trees
+  - concept/ensemble
+aliases:
+  - decision trees
+  - деревья решений
+  - Gini
+  - CART
+  - Information Gain
+related:
+  - ensemble-methods-model-combination
+  - roc-curve-and-roc-auc
+  - classification-losses-cross-entropy-focal-loss
+  - hyperparameter-tuning
+status: canonical
+lang: ru
+type: topic
+slug: decision-trees
+updated: 2026-08-10
+---
 # Деревья решений (Decision Trees)
 
 ## Как объяснить 5-летнему ребёнку

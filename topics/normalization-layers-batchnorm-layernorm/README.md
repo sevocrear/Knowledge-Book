@@ -1,4 +1,28 @@
-## Batch Normalization и Layer Normalization
+---
+title: Batch Normalization и Layer Normalization
+description: "Нормализация активаций: формулы BatchNorm vs LayerNorm, влияние на обучение, выбор для CNN и Transformer."
+tags:
+  - kb/topic
+  - domain/dl-foundations
+  - concept/normalization
+  - concept/batchnorm
+  - concept/layernorm
+aliases:
+  - BatchNorm
+  - LayerNorm
+  - Batch Normalization
+  - Layer Normalization
+related:
+  - convolutions-and-parameters-in-cnn
+  - transformers-attention-and-vision-transformers-vit
+  - deep-reinforcement-learning
+status: canonical
+lang: ru
+type: topic
+slug: normalization-layers-batchnorm-layernorm
+updated: 2026-08-10
+---
+# Batch Normalization и Layer Normalization
 
 ## Table of Contents
 
@@ -240,7 +264,7 @@ $$
 ### 7. References
 
 - **Связанные документы в этом knowledge‑book**:
-  - `convolutions-and-parameters-in-cnn.md` — про свёртки и число параметров; BatchNorm в CNN обычно используется сразу после Conv.
-  - `deep-reinforcement-learning.md` — в визуальных и RL‑агентах часто применяют и BatchNorm, и LayerNorm.
-  - `retrieval-augmented-generation-rag.md` — использует Transformer‑модели, где LayerNorm является стандартным строительным блоком.
+  - [`convolutions-and-parameters-in-cnn`](../convolutions-and-parameters-in-cnn/README.md) — про свёртки и число параметров; BatchNorm в CNN обычно используется сразу после Conv.
+  - [`deep-reinforcement-learning`](../deep-reinforcement-learning/README.md) — в визуальных и RL‑агентах часто применяют и BatchNorm, и LayerNorm.
+  - [`retrieval-augmented-generation-rag`](../retrieval-augmented-generation-rag/README.md) — использует Transformer‑модели, где LayerNorm является стандартным строительным блоком.
 

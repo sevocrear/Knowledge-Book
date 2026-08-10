@@ -1,3 +1,26 @@
+---
+title: Generative Adversarial Networks (GANs)
+description: "Adversarial training generator/discriminator, mode collapse, современные варианты GAN и сравнение с VAE и diffusion."
+tags:
+  - kb/topic
+  - domain/generative
+  - concept/gan
+  - concept/adversarial-training
+aliases:
+  - GAN
+  - Generative Adversarial Networks
+  - StyleGAN
+  - mode collapse
+related:
+  - variational-autoencoders-vaes
+  - diffusion-models
+  - gaussian-distribution
+status: canonical
+lang: en
+type: topic
+slug: generative-adversarial-networks-gans
+updated: 2026-08-10
+---
 # Generative Adversarial Networks (GANs): A Comprehensive Guide
 
 ## Table of Contents

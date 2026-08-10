@@ -1,4 +1,29 @@
-## Cross Entropy и Focal Loss в задачах классификации и детекции
+---
+title: Cross Entropy и Focal Loss
+description: "Бинарная и многоклассовая кросс-энтропия, Focal Loss (α, γ) для дисбаланса и детекции (RetinaNet), когда выбирать CE vs Focal."
+tags:
+  - kb/topic
+  - domain/cv
+  - domain/ml-foundations
+  - concept/loss
+  - concept/classification
+aliases:
+  - cross entropy
+  - focal loss
+  - кросс-энтропия
+  - RetinaNet loss
+related:
+  - detection-segmentation-3d-losses
+  - non-maximum-suppression-nms
+  - convolutions-and-parameters-in-cnn
+  - how-models-predict-confidence-and-calibration
+status: canonical
+lang: ru
+type: topic
+slug: classification-losses-cross-entropy-focal-loss
+updated: 2026-08-10
+---
+# Cross Entropy и Focal Loss в задачах классификации и детекции
 
 ## Table of Contents
 
@@ -188,6 +213,6 @@ $$
 ### 6. References
 
 - **Связанные документы в этом knowledge‑book**:
-  - `non-maximum-suppression-nms.md` — подробно про пайплайны object detection, где Focal Loss часто используется совместно с NMS или end‑to‑end детекторами.
-  - `convolutions-and-parameters-in-cnn.md` — свёрточные сети, которые обычно стоят перед классификационными head’ами с Cross Entropy или Focal Loss.
-  - `deep-reinforcement-learning.md` — в некоторых алгоритмах RL для policy‑head’ов также используют кросс‑энтропию или её варианты.
+  - [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md) — подробно про пайплайны object detection, где Focal Loss часто используется совместно с NMS или end‑to‑end детекторами.
+  - [`convolutions-and-parameters-in-cnn`](../convolutions-and-parameters-in-cnn/README.md) — свёрточные сети, которые обычно стоят перед классификационными head’ами с Cross Entropy или Focal Loss.
+  - [`deep-reinforcement-learning`](../deep-reinforcement-learning/README.md) — в некоторых алгоритмах RL для policy‑head’ов также используют кросс‑энтропию или её варианты.

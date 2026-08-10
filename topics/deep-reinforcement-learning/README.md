@@ -1,3 +1,30 @@
+---
+title: Deep Reinforcement Learning
+description: "MDP, DQN, policy gradient, actor-critic (PPO/SAC/TD3), sim-to-real и применения в робототехнике и автономном вождении."
+tags:
+  - kb/topic
+  - domain/rl
+  - domain/robotics
+  - concept/rl
+  - concept/ppo
+  - concept/sac
+aliases:
+  - Deep RL
+  - reinforcement learning
+  - DQN
+  - PPO
+  - SAC
+  - TD3
+related:
+  - vision-language-action-models-vla
+  - vision-based-robot-training-methods
+  - unscented-kalman-filter-and-tracking
+status: canonical
+lang: ru
+type: topic
+slug: deep-reinforcement-learning
+updated: 2026-08-10
+---
 # Deep Reinforcement Learning: От Основ к Управлению Роботами и Автономными Автомобилями
 
 ## Table of Contents

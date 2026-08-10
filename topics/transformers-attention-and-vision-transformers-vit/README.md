@@ -1,4 +1,35 @@
-## Transformers, Attention и Vision Transformers (ViT)
+---
+title: "Transformers, Attention и Vision Transformers (ViT)"
+description: "Scaled dot-product attention, QKV, KV cache, positional encodings (в т.ч. RoPE), ViT и DETR-подобные детекция/сегментация."
+tags:
+  - kb/topic
+  - domain/nlp
+  - domain/cv
+  - domain/llm
+  - concept/attention
+  - concept/transformer
+  - concept/vit
+aliases:
+  - Transformer
+  - self-attention
+  - ViT
+  - Vision Transformer
+  - KV cache
+  - RoPE
+  - DETR
+related:
+  - normalization-layers-batchnorm-layernorm
+  - dinov3-self-supervised-vision-transformer-and-2d-rope
+  - non-maximum-suppression-nms
+  - low-rank-adaptation-lora
+  - retrieval-augmented-generation-rag
+status: canonical
+lang: ru
+type: topic
+slug: transformers-attention-and-vision-transformers-vit
+updated: 2026-08-10
+---
+# Transformers, Attention и Vision Transformers (ViT)
 
 ## Table of Contents
 
@@ -315,23 +346,25 @@ $$
 
 ### 8. Связанные темы и References
 
-- **Convolutions and Parameters in CNN**  
+- **[Convolutions and Parameters in CNN](../convolutions-and-parameters-in-cnn/README.md)**  
   - Хорошо понимать CNN и свёртки, прежде чем переходить к ViT и DETR.
 
-- **Non-Maximum Suppression (NMS) and Modern End-to-End Detectors**  
-  - Связано с детекцией, особенно с переходом от NMS к end‑to‑end детекторам на трансформерах (DETR, RT‑DETR).
+- **[Non-Maximum Suppression (NMS) and Modern End-to-End Detectors](../non-maximum-suppression-nms/README.md)**  
+  - Связано с детекцией, особенно с переходом от NMS к end‑to‑end детекторам на трансформерах (DETR, RT‑DETR, YOLO26).
 
-- **Batch Normalization and Layer Normalization**  
+- **[Batch Normalization and Layer Normalization](../normalization-layers-batchnorm-layernorm/README.md)**  
   - LayerNorm — ключевой компонент архитектуры трансформеров (ViT, LLM).
 
-- **Retrieval-Augmented Generation (RAG)**  
+- **[Retrieval-Augmented Generation (RAG)](../retrieval-augmented-generation-rag/README.md)**  
   - Использует attention и кросс‑attention между запросом и документами; концептуально близко к cross‑attention в DETR и ViT‑подобных архитектурах.
 
-- **Low-Rank Adaptation (LoRA)**  
+- **[Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md)**  
   - Эффективная техника тонкой настройки Transformer моделей (LLM, ViT) через добавление низкоранговых адаптаций к attention и MLP слоям.
 
-- **DINOv3: Self-Supervised Vision Transformer и 2D RoPE**  
+- **[DINOv3: Self-Supervised Vision Transformer и 2D RoPE](../dinov3-self-supervised-vision-transformer-and-2d-rope/README.md)**  
   - Отдельный документ с углублённым разбором self‑supervised обучения ViT‑бэкбонов (student–teacher, multi‑view, multi‑loss) и 2D RoPE для изображений, а также практическим применением DINOv3‑фич для классификации, детекции и сегментации.
+
+- Индекс и теги для RAG/Obsidian: [docs/](../../docs/README.md)
 
 ---
 

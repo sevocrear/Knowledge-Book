@@ -1,3 +1,24 @@
+---
+title: "AI Harness Engineering (Tejas, IBM)"
+description: "Конспект про harness engineering: guardrails, verify step и почему обвязка агента важнее одного удачного промпта."
+tags:
+  - kb/note
+  - domain/agents
+  - concept/harness
+  - concept/verification
+  - source/youtube
+aliases:
+  - AI Harness Engineering
+  - agent harness
+  - Tejas IBM
+related:
+  - code-agents-autoresearch-and-loopy-era
+status: notes
+lang: ru
+type: note
+slug: code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm
+updated: 2026-08-10
+---
 # AI Harness Engineering (Tejas, IBM)
 
 Конференционный talk **Tejas** (AI Developer Advocate, **IBM**) — deep dive ~18 минут про **agent harness**: обвязку вокруг LLM, которая даёт надёжность, verify и guardrails **без** «промптить сильнее».
