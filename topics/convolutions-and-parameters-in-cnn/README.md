@@ -1,4 +1,28 @@
-## Свёртки в CNN, размеры карт признаков и число параметров
+---
+title: "Свёртки в CNN, размеры карт признаков и число параметров"
+description: "Почему популярны ядра 3×3, формулы размера feature map, transposed conv и подсчёт параметров Conv/Linear/BatchNorm/depthwise."
+tags:
+  - kb/topic
+  - domain/cv
+  - domain/dl-foundations
+  - concept/cnn
+  - concept/convolution
+aliases:
+  - CNN convolutions
+  - feature map size
+  - transposed convolution
+  - DeConv
+related:
+  - non-maximum-suppression-nms
+  - normalization-layers-batchnorm-layernorm
+  - transformers-attention-and-vision-transformers-vit
+status: canonical
+lang: ru
+type: topic
+slug: convolutions-and-parameters-in-cnn
+updated: 2026-08-10
+---
+# Свёртки в CNN, размеры карт признаков и число параметров
 
 ## Table of Contents
 
@@ -274,7 +298,7 @@ $$
 ### 8. References
 
 - **Связанные документы в этом knowledge‑book**:
-  - `non-maximum-suppression-nms.md` — использует CNN‑детекторы, в которых все эти свёртки реально применяются.
-  - `unscented-kalman-filter-and-tracking.md` — про трекинг объектов, который часто идёт следом за CNN‑детекцией.
-  - `deep-reinforcement-learning.md` — в разделах про визуальное RL часто используются CNN‑фронтенды.
+  - [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md) — использует CNN‑детекторы, в которых все эти свёртки реально применяются.
+  - [`unscented-kalman-filter-and-tracking`](../unscented-kalman-filter-and-tracking/README.md) — про трекинг объектов, который часто идёт следом за CNN‑детекцией.
+  - [`deep-reinforcement-learning`](../deep-reinforcement-learning/README.md) — в разделах про визуальное RL часто используются CNN‑фронтенды.
 

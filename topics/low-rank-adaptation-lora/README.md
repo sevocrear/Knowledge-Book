@@ -1,4 +1,30 @@
-## Low-Rank Adaptation (LoRA)
+---
+title: Low-Rank Adaptation (LoRA)
+description: "PEFT через низкоранговые адаптеры ΔW≈BA: математика, QLoRA/AdaLoRA/DoRA, эффективность памяти и практика в Hugging Face PEFT."
+tags:
+  - kb/topic
+  - domain/llm
+  - concept/peft
+  - concept/lora
+  - concept/fine-tuning
+aliases:
+  - LoRA
+  - QLoRA
+  - AdaLoRA
+  - DoRA
+  - PEFT
+related:
+  - transformers-attention-and-vision-transformers-vit
+  - retrieval-augmented-generation-rag
+  - vision-language-action-models-vla
+  - ensemble-methods-model-combination
+status: canonical
+lang: ru
+type: topic
+slug: low-rank-adaptation-lora
+updated: 2026-08-10
+---
+# Low-Rank Adaptation (LoRA)
 
 ## Table of Contents
 
@@ -17,21 +43,21 @@
 ### 1. Введение: проблема тонкой настройки больших моделей
 
 **Проблема:**
-- Современные LLM (GPT-3, LLaMA, Mistral) содержат миллиарды параметров (7B, 13B, 70B+)
-- Полная тонкая настройка (fine-tuning) требует обновления всех весов модели
-- Это требует огромных вычислительных ресурсов и памяти (часто >100GB GPU памяти)
+- Современные LLM (Llama 3.x/4, Qwen2.5/3, Mistral/Mixtral, Gemma, GPT-class API bases) содержат миллиарды–триллионы параметров
+- Полная тонкая настройка (full fine-tuning) требует обновления всех весов модели
+- Это требует огромных вычислительных ресурсов и памяти (часто десятки–сотни GB GPU-памяти)
 - Для каждой новой задачи нужно хранить полную копию модели
 
 **Решение LoRA:**
 - Вместо обновления всех весов, LoRA добавляет **небольшие адаптивные матрицы** к существующим слоям
-- Обучаются только эти новые матрицы (обычно <1% от исходных параметров)
+- Обучаются только эти новые матрицы (обычно ≪1% от исходных параметров)
 - Можно переиспользовать базовую модель для множества задач
-- Экономия памяти и времени обучения в 10-100 раз
+- Экономия памяти и времени обучения на порядки относительно full FT
 
-**История:**
+**История и статус (2021–2026):**
 - LoRA предложена в работе "LoRA: Low-Rank Adaptation of Large Language Models" (2021)
-- Стала стандартом для эффективной тонкой настройки LLM
-- Лежит в основе многих современных техник (QLoRA, AdaLoRA, DoRA)
+- Де-факто стандарт PEFT для LLM/VLM вместе с QLoRA; распространённые варианты — AdaLoRA, DoRA, LoRA+
+- В экосистеме Hugging Face обычно используют через `peft` + (опционально) `bitsandbytes` для QLoRA
 
 ---
 

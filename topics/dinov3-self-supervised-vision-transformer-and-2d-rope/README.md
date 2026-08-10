@@ -1,4 +1,30 @@
-## DINOv3: Self-Supervised Vision Transformer и 2D RoPE
+---
+title: "DINOv3: Self-Supervised Vision Transformer и 2D RoPE"
+description: "Self-supervised ViT (student–teacher), 2D RoPE для патчей, глобальные и dense-фичи для классификации, детекции и сегментации."
+tags:
+  - kb/topic
+  - domain/cv
+  - concept/self-supervised
+  - concept/vit
+  - concept/rope
+  - concept/dino
+aliases:
+  - DINOv3
+  - DINOv2
+  - 2D RoPE
+  - self-supervised ViT
+related:
+  - transformers-attention-and-vision-transformers-vit
+  - few-shot-anomaly-detection-anomalydino
+  - contrastive-and-metric-learning-for-fine-grained-visual-recognition
+  - non-maximum-suppression-nms
+status: canonical
+lang: ru
+type: topic
+slug: dinov3-self-supervised-vision-transformer-and-2d-rope
+updated: 2026-08-10
+---
+# DINOv3: Self-Supervised Vision Transformer и 2D RoPE
 
 ## Table of Contents
 
@@ -119,7 +145,7 @@ DINOv3 — это очень умный «художник‑детектив»,
      - reshape $Z^{(L)}$ обратно в тензор $h \times w \times D$ и подают в декодер/детектор.
 
 См. общий обзор архитектуры трансформеров и ViT в документе  
-**`transformers-attention-and-vision-transformers-vit.md`**.
+**[`transformers-attention-and-vision-transformers-vit`](../transformers-attention-and-vision-transformers-vit/README.md)**.
 
 ---
 
@@ -176,7 +202,7 @@ DINOv3 — это очень умный «художник‑детектив»,
 ### 5. 2D Rotary Positional Embeddings (2D RoPE) для изображений
 
 Перед чтением этого раздела полезно освежить базовые идеи позиционного кодирования и классического **RoPE** в документе  
-**`transformers-attention-and-vision-transformers-vit.md`**, раздел «Позиционное кодирование».
+**[`transformers-attention-and-vision-transformers-vit`](../transformers-attention-and-vision-transformers-vit/README.md)**, раздел «Позиционное кодирование».
 
 #### 5.1. Напоминание: 1D RoPE
 
@@ -346,8 +372,8 @@ $$
    - **DETR‑подобные детекторы**:
      - DINOv3‑ViT даёт энкодер‑фичи,
      - декодер с набором learnable query‑токенов предсказывает боксы и классы (см.  
-       `non-maximum-suppression-nms.md` и раздел про DETR в  
-       `transformers-attention-and-vision-transformers-vit.md`).
+       [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md) и раздел про DETR в  
+       [`transformers-attention-and-vision-transformers-vit`](../transformers-attention-and-vision-transformers-vit/README.md)).
    - **Anchor‑based/anchor‑free CNN‑детекторы**:
      - ViT‑фичи ресемплируются в подходящий формат (FPN‑подобная пирамида),
      - поверх строятся heads в духе Faster R‑CNN/RetinaNet/YOLO.
@@ -355,7 +381,7 @@ $$
 3. **Fine‑tuning**
    - Обычно ViT‑бэкбон **размораживают частично или полностью**,
    - детектор обучается end‑to‑end с детекционными loss‑ами (CE/Focal, IoU/GIoU и т.д.; см.  
-     `detection-segmentation-3d-losses.md`).
+     [`detection-segmentation-3d-losses`](../detection-segmentation-3d-losses/README.md)).
 
 #### 8.2. Сегментация
 
@@ -380,7 +406,7 @@ $$
        $$
 2. Обучаем с комбинацией:
    - классификационных loss’ов,
-   - mask‑loss’ов (Dice, BCE, Lovász и др.; см. `detection-segmentation-3d-losses.md`).
+   - mask‑loss’ов (Dice, BCE, Lovász и др.; см. [`detection-segmentation-3d-losses`](../detection-segmentation-3d-losses/README.md)).
 
 **Почему DINOv3 хорошо подходит для сегментации:**
 - 2D RoPE сохраняет информацию о **геометрии сцены**;
@@ -392,23 +418,23 @@ $$
 ### 9. Связанные темы и References внутри knowledge‑book
 
 - **Transformers, Attention and Vision Transformers (ViT)**  
-  `transformers-attention-and-vision-transformers-vit.md`  
+  [`transformers-attention-and-vision-transformers-vit`](../transformers-attention-and-vision-transformers-vit/README.md)  
   Общий обзор трансформеров, attention, позиционного кодирования (включая RoPE и 2D‑позиции), архитектуры ViT и применение к классификации, детекции и сегментации.
 
 - **Non-Maximum Suppression (NMS) and Modern End-to-End Detectors**  
-  `non-maximum-suppression-nms.md`  
+  [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md)  
   Исторический и практический контекст object detection, классические и end‑to‑end детекторы, DETR и query‑based подходы.
 
 - **Losses for Detection, Segmentation, and 3D Detection**  
-  `detection-segmentation-3d-losses.md`  
+  [`detection-segmentation-3d-losses`](../detection-segmentation-3d-losses/README.md)  
   Подробный обзор loss‑функций, которые используются при fine‑tuning DINOv3‑бэкбона для детекции и сегментации.
 
 - **Convolutions and Parameters in CNN**  
-  `convolutions-and-parameters-in-cnn.md`  
+  [`convolutions-and-parameters-in-cnn`](../convolutions-and-parameters-in-cnn/README.md)  
   Полезно для сравнения: как устроены CNN‑бэкбоны по сравнению с ViT/DINOv3, какие trade‑off’ы по параметрам и вычислениям.
 
 - **Retrieval-Augmented Generation (RAG)**  
-  `retrieval-augmented-generation-rag.md`  
+  [`retrieval-augmented-generation-rag`](../retrieval-augmented-generation-rag/README.md)  
   Хотя тема текстовая, многие идеи attention и работы с векторными представлениями схожи с тем, как DINOv3 предоставляет универсальные визуальные эмбеддинги для downstream‑задач.
 
 - **Few-Shot Anomaly Detection: AnomalyDINO**  

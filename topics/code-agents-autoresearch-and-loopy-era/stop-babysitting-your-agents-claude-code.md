@@ -1,3 +1,23 @@
+---
+title: Stop Babysitting Your Agents (Claude Code)
+description: "Конспект про verification skills, /loop и Routines в Claude Code: как меньше babysit'ить агентов и больше опираться на verify-циклы."
+tags:
+  - kb/note
+  - domain/agents
+  - concept/verification
+  - concept/claude-code
+  - source/youtube
+aliases:
+  - Stop Babysitting Your Agents
+  - Claude Code loops
+related:
+  - code-agents-autoresearch-and-loopy-era
+status: notes
+lang: ru
+type: note
+slug: code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code
+updated: 2026-08-10
+---
 # Stop Babysitting Your Agents (Claude Code)
 
 Доклад **Sid Bindisaria** (founding engineer Claude Code) — практический playbook уровня «Claude Code 301»: как перестать быть glorified QA и вернуть время за счёт **verification loops**, **параллельных сессий** и **фоновых рутин**.

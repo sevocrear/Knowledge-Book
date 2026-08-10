@@ -1,4 +1,30 @@
-## Loss функции для детекции, сегментации и 3D‑детекции
+---
+title: "Loss функции для детекции, сегментации и 3D-детекции"
+description: "Составные loss'ы детекторов: CE/Focal/QFL, L1/IoU/GIoU/DIoU/CIoU, Dice/Tversky для сегментации и 3D/BEV losses."
+tags:
+  - kb/topic
+  - domain/cv
+  - concept/loss
+  - concept/object-detection
+  - concept/segmentation
+  - concept/3d-detection
+aliases:
+  - detection losses
+  - IoU loss
+  - Dice loss
+  - GIoU
+  - 3D detection loss
+related:
+  - classification-losses-cross-entropy-focal-loss
+  - non-maximum-suppression-nms
+  - sota-metrics-for-detection-segmentation-multiclass-classification
+status: canonical
+lang: ru
+type: topic
+slug: detection-segmentation-3d-losses
+updated: 2026-08-10
+---
+# Loss функции для детекции, сегментации и 3D‑детекции
 
 ## Table of Contents
 
@@ -213,7 +239,7 @@ Focal Loss используют:
 ### 7. References
 
 - **Связанные документы в этом knowledge‑book**:
-  - `classification-losses-cross-entropy-focal-loss.md` — подробный разбор кросс‑энтропии и Focal Loss в общем случае классификации.
-  - `non-maximum-suppression-nms.md` — про пайплайны детекции и современные end‑to‑end детекторы, где используются описанные здесь loss’ы.
-  - `convolutions-and-parameters-in-cnn.md` — архитектурная основа многих детекторов и сегментаторов.
+  - [`classification-losses-cross-entropy-focal-loss`](../classification-losses-cross-entropy-focal-loss/README.md) — подробный разбор кросс‑энтропии и Focal Loss в общем случае классификации.
+  - [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md) — про пайплайны детекции и современные end‑to‑end детекторы, где используются описанные здесь loss’ы.
+  - [`convolutions-and-parameters-in-cnn`](../convolutions-and-parameters-in-cnn/README.md) — архитектурная основа многих детекторов и сегментаторов.
 

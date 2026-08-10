@@ -1,3 +1,32 @@
+---
+title: "Contrastive & Metric Learning for Fine-Grained Visual Recognition"
+description: "Contrastive/triplet/InfoNCE и proxy losses для fine-grained retrieval: mining, Recall@K, ANN-индексы и continual learning новых классов."
+tags:
+  - kb/topic
+  - domain/cv
+  - concept/metric-learning
+  - concept/contrastive-learning
+  - concept/embeddings
+  - concept/retrieval
+aliases:
+  - contrastive learning
+  - metric learning
+  - triplet loss
+  - InfoNCE
+  - fine-grained recognition
+related:
+  - arcface-and-angular-margin-losses-for-identification
+  - embeddings-and-embedding-matrix
+  - roc-curve-and-roc-auc
+  - dinov3-self-supervised-vision-transformer-and-2d-rope
+status: canonical
+lang: ru
+type: topic
+slug: contrastive-and-metric-learning-for-fine-grained-visual-recognition
+updated: 2026-08-10
+---
+# Contrastive & Metric Learning for Fine-Grained Visual Recognition
+
 ## Table of Contents
 
 - Краткий абстракт и объяснение для 5‑летнего ребёнка

@@ -13,18 +13,27 @@ Documents are organized by topic and include:
 - References to related topics
 
 Topic-first layout:
-- `topics/<topic-slug>/README.md` - main theory/material for one topic
-- `topics/<topic-slug>/scripts/` - numbered runnable examples (`01_*.py`, `02_*.py`, ...)
-- `topics/<topic-slug>/tests/` - tests for topic scripts (`test_*.py`)
+- `topics/<topic-slug>/README.md` — main theory/material for one topic (with **Obsidian YAML frontmatter**)
+- `topics/<topic-slug>/scripts/` — numbered runnable examples (`01_*.py`, `02_*.py`, ...)
+- `topics/<topic-slug>/tests/` — tests for topic scripts (`test_*.py`)
+
+Obsidian / RAG index layer:
+- [`docs/README.md`](./docs/README.md) — vault overview
+- [`docs/index.md`](./docs/index.md) — annotated catalog (`description`, tags, aliases)
+- [`docs/mocs/`](./docs/mocs/foundations.md) — Maps of Content (start here)
+- [`docs/tags/`](./docs/tags/README.md) — tag taxonomy pages
+- [`docs/SCHEMA.md`](./docs/SCHEMA.md) — frontmatter schema for retrieval
 
 ## Conventions
 
 - One topic per directory, one main document per topic: `topics/<topic-slug>/README.md`
+- Every topic/note starts with YAML frontmatter: `title`, `description`, `tags`, `aliases`, `related`, `status`, `lang`, `type`, `slug`, `updated`
 - Keep explicit `## Table of Contents`, a short "5-year-old" abstract, and `References` in each topic README
+- Prefer working markdown links in `References` (`../other-slug/README.md`), not bare `` `slug.md` `` filenames
 - Python examples are required as separate scripts in `scripts/` when code is presented
 - Every script must have a matching automated test in `tests/`
 - Use root-level `uv` environment and CPU-first dependencies by default
-
+- After metadata changes: `uv run python scripts/kb_apply_obsidian_frontmatter.py`
 ## Development (uv)
 
 - `uv sync` - install project and dev dependencies
@@ -423,12 +432,13 @@ Topic-first layout:
 
 When adding new documents:
 - Create/update a topic directory under `topics/<topic-slug>/`
+- Add Obsidian frontmatter (or extend `scripts/kb_topic_metadata.py` and regenerate via `kb_apply_obsidian_frontmatter.py`)
 - Follow the established structure (Table of Contents, sections, References)
 - Include mathematical formulations with LaTeX
 - If code is included, add numbered scripts under `scripts/` and tests under `tests/`
 - Keep scripts focused on one subtopic and document what each script demonstrates
 - Update this README with new entries and keep cross-references valid
-
+- Refresh `docs/` indexes and run `uv run python scripts/kb_validate_links.py`
 
 ## References
 - https://github.com/Mathews-Tom/no-magic

@@ -272,9 +272,10 @@ Do not write visualization outputs to global folders like `/mnt/user-data/output
  - После выбора slug: убедиться, что нет дублирующего каталога под другим именем (поиск по содержимому + по списку `topics/`).
  - Если директории нет и пересечений нет — СОЗДАТЬ новую директорию темы с осмысленным slug и файлом `README.md` внутри (например, `topics/tokenization-and-text-compression-in-llms/README.md`).
   - Основной развёрнутый материал (теория, формулы, примеры) писать в `topics/<topic-slug>/README.md`; в чате давать короткий конспект + явно упоминать, какой файл был обновлён/создан.
-  - При ЛЮБОМ добавлении или модификации `topics/<topic-slug>/README.md` ВСЕГДА:
-    - обновлять или создавать явный `## Table of Contents` в начале файла;
-    - добавлять короткий “5-year-old” абстракт/абзац;
+- При ЛЮБОМ добавлении или модификации `topics/<topic-slug>/README.md` ВСЕГДА:
+ - обеспечивать Obsidian YAML frontmatter (`title`, `description`, `tags`, `aliases`, `related`, …; см. `docs/SCHEMA.md`) и обновлять `scripts/kb_topic_metadata.py` + `docs/` индексы;
+ - обновлять или создавать явный `## Table of Contents` в начале файла;
+ - добавлять короткий “5-year-old” абстракт/абзац;
     - если уместны визуализации (архитектуры, алгоритмы, dataflow) — генерировать их через `dl-viz` и сохранять в `topics/<topic-slug>/assets/visualizations/` с относительными ссылками из README;
     - добавлять секцию `References` с ссылками на родственные документы внутри `./topics/...`;
     - сохранять нотацию, принятую в текущей книге (LaTeX-формулы, Python/PyTorch-примеры).

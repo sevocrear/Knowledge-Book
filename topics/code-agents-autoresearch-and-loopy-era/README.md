@@ -1,4 +1,30 @@
-   # Code Agents, AutoResearch и Loopy Era
+---
+title: "Code Agents, AutoResearch и Loopy Era"
+description: "Оркестрация code agents, AutoResearch loops, verification gates, harness engineering и переход от ручного кода к управлению агентными циклами."
+tags:
+  - kb/topic
+  - domain/agents
+  - domain/llm
+  - concept/orchestration
+  - concept/verification
+  - concept/autoresearch
+aliases:
+  - code agents
+  - AutoResearch
+  - loopy era
+  - agent harness
+  - Karpathy agents
+related:
+  - retrieval-augmented-generation-rag
+  - hyperparameter-tuning
+  - low-rank-adaptation-lora
+status: canonical
+lang: ru
+type: topic
+slug: code-agents-autoresearch-and-loopy-era
+updated: 2026-08-10
+---
+# Code Agents, AutoResearch и Loopy Era
 
 ## Table of Contents
 

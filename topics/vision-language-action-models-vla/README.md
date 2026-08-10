@@ -1,4 +1,32 @@
-## Vision-Language-Action (VLA) Models
+---
+title: Vision-Language-Action (VLA) Models
+description: "Объединение vision/language/action: RT-1/RT-2, OpenVLA, Octo, SmolVLA — архитектуры, данные, fine-tuning и сравнение с RL/IL."
+tags:
+  - kb/topic
+  - domain/robotics
+  - domain/embodied-ai
+  - domain/multimodal
+  - concept/vla
+  - concept/foundation-models
+aliases:
+  - VLA
+  - Vision-Language-Action
+  - RT-1
+  - RT-2
+  - OpenVLA
+  - SmolVLA
+related:
+  - vision-based-robot-training-methods
+  - deep-reinforcement-learning
+  - transformers-attention-and-vision-transformers-vit
+  - low-rank-adaptation-lora
+status: canonical
+lang: ru
+type: topic
+slug: vision-language-action-models-vla
+updated: 2026-08-10
+---
+# Vision-Language-Action (VLA) Models
 
 ## Table of Contents
 
@@ -495,7 +523,7 @@ $$
 
 **Архитектура:**
 - Vision: SigLIP + DinoV2 (fused encoder)
-- Language: LLaMA 2 7B
+- Language: LLaMA 2 7B (исторический backbone оригинального OpenVLA; более новые open VLA часто берут Llama 3 / Qwen2.5-VL class bases)
 - Fusion: Cross-attention
 - Action: MLP decoder
 
@@ -931,7 +959,7 @@ action = model.sample_action(
    - [Hugging Face Model](https://huggingface.co/lerobot/smolvla_base)
    - [Website](https://smolvla.net/)
 
-#### 9.4. Датысеты
+#### 9.4. Датасеты
 
 - **Open X-Embodiment**: крупнейший open-source датасет роботических демонстраций
 - **RT-1 Dataset**: 130k демонстраций от Google

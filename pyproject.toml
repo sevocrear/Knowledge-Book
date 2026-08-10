@@ -1,7 +1,7 @@
 [project]
 name = "knowledge-book"
 version = "0.1.0"
-description = "Add your description here"
+description = "Deep Learning & AI knowledge book with Obsidian/RAG-ready topic notes"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

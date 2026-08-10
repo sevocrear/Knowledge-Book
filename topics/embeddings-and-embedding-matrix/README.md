@@ -1,3 +1,30 @@
+---
+title: Embeddings and Embedding Matrix
+description: "Векторные представления токенов, матрица эмбеддингов V×d, lookup по ID и роль эмбеддингов в Transformer и RAG."
+tags:
+  - kb/topic
+  - domain/nlp
+  - domain/llm
+  - concept/embeddings
+  - concept/tokenization
+aliases:
+  - embedding matrix
+  - token embeddings
+  - эмбеддинги
+  - word embeddings
+related:
+  - tokenization-and-text-compression-in-llms
+  - transformers-attention-and-vision-transformers-vit
+  - retrieval-augmented-generation-rag
+  - contrastive-and-metric-learning-for-fine-grained-visual-recognition
+status: canonical
+lang: ru
+type: topic
+slug: embeddings-and-embedding-matrix
+updated: 2026-08-10
+---
+# Embeddings and Embedding Matrix
+
 ## Table of Contents
 - Объяснение для 5‑летнего
 - Введение

@@ -1,3 +1,31 @@
+---
+title: Unscented Kalman Filter и современные методы отслеживания
+description: "UKF vs KF/EKF/PF, sigma-points, DeepSORT/ByteTrack/Transformer tracking и χ²-тест выбросов в трекинге."
+tags:
+  - kb/topic
+  - domain/cv
+  - domain/robotics
+  - concept/kalman-filter
+  - concept/tracking
+  - concept/ukf
+aliases:
+  - UKF
+  - Unscented Kalman Filter
+  - Kalman Filter
+  - ByteTrack
+  - DeepSORT
+  - object tracking
+related:
+  - gaussian-distribution
+  - non-maximum-suppression-nms
+  - action-recognition-and-object-tracking-metrics
+  - bayes-theorem-and-probability-foundations
+status: canonical
+lang: ru
+type: topic
+slug: unscented-kalman-filter-and-tracking
+updated: 2026-08-10
+---
 # Unscented Kalman Filter и Современные Методы Отслеживания Объектов
 
 ## Table of Contents

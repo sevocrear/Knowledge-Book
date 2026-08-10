@@ -1,3 +1,28 @@
+---
+title: Support Vector Machines (SVM) и Kernel Trick
+description: "Max-margin классификация, soft-margin C, dual formulation и kernel trick (linear/poly/RBF) без явного φ(x)."
+tags:
+  - kb/topic
+  - domain/classical-ml
+  - concept/svm
+  - concept/kernel-methods
+aliases:
+  - SVM
+  - support vector machine
+  - kernel trick
+  - RBF kernel
+  - margin
+related:
+  - decision-trees
+  - roc-curve-and-roc-auc
+  - bayes-theorem-and-probability-foundations
+  - retrieval-augmented-generation-rag
+status: canonical
+lang: ru
+type: topic
+slug: support-vector-machines-svm-and-kernel-trick
+updated: 2026-08-10
+---
 # Support Vector Machines (SVM) и Kernel Trick
 
 ## Как объяснить 5-летнему ребёнку

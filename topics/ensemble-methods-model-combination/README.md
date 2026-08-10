@@ -1,3 +1,32 @@
+---
+title: Методы комбинирования моделей (Ensemble Methods)
+description: "Bagging/boosting/stacking, XGBoost/LightGBM/CatBoost, MoE, distillation и model merging (TIES/DARE/SLERP) для LLM."
+tags:
+  - kb/topic
+  - domain/classical-ml
+  - domain/llm
+  - concept/ensemble
+  - concept/boosting
+  - concept/moe
+  - concept/model-merging
+aliases:
+  - ensemble methods
+  - Random Forest
+  - XGBoost
+  - LightGBM
+  - Mixture of Experts
+  - model merging
+related:
+  - decision-trees
+  - hyperparameter-tuning
+  - roc-curve-and-roc-auc
+  - low-rank-adaptation-lora
+status: canonical
+lang: ru
+type: topic
+slug: ensemble-methods-model-combination
+updated: 2026-08-10
+---
 # Методы комбинирования моделей (Ensemble Methods)
 
 ## Как объяснить 5-летнему ребёнку

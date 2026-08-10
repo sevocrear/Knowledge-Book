@@ -1,3 +1,29 @@
+---
+title: Diffusion Models
+description: "Forward/reverse diffusion, DDPM/DDIM, latent diffusion (Stable Diffusion), Consistency Models, Flow Matching и DiT."
+tags:
+  - kb/topic
+  - domain/generative
+  - concept/diffusion
+  - concept/score-matching
+  - concept/latent-diffusion
+aliases:
+  - diffusion models
+  - DDPM
+  - DDIM
+  - Stable Diffusion
+  - Flow Matching
+  - DiT
+related:
+  - variational-autoencoders-vaes
+  - generative-adversarial-networks-gans
+  - gaussian-distribution
+status: canonical
+lang: en
+type: topic
+slug: diffusion-models
+updated: 2026-08-10
+---
 # Diffusion Models: A Comprehensive Guide
 
 ## Table of Contents

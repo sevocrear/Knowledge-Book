@@ -20,6 +20,8 @@ _KB = _load_kb_module()
 validate_markdown_files = _KB.validate_markdown_files
 topic_has_table_of_contents = _KB.topic_has_table_of_contents
 validate_root_readme_topic_index = _KB.validate_root_readme_topic_index
+parse_frontmatter = _KB.parse_frontmatter
+validate_topic_frontmatter = _KB.validate_topic_frontmatter
 
 
 def _write(path: Path, text: str) -> None:
@@ -113,3 +115,53 @@ def test_validate_root_readme_topic_index_missing_and_unknown(tmp_path: Path) ->
     missing, unknown = validate_root_readme_topic_index(repo)
     assert missing == {"on-disk"}
     assert unknown == {"not-on-disk"}
+
+
+def _sample_frontmatter(**overrides: object) -> str:
+    data = {
+        "title": "Example Topic",
+        "description": "A sufficiently long description used for RAG retrieval snippets.",
+        "tags": ["kb/topic", "domain/cv"],
+        "aliases": ["Example"],
+        "related": ["other-topic"],
+        "status": "canonical",
+        "lang": "en",
+        "type": "topic",
+        "slug": "example-topic",
+        "updated": "2026-08-10",
+    }
+    data.update(overrides)
+    lines = ["---"]
+    for key, value in data.items():
+        if isinstance(value, list):
+            lines.append(f"{key}:")
+            for item in value:
+                lines.append(f"  - {item}")
+        else:
+            lines.append(f"{key}: {value}")
+    lines.extend(["---", "", "# Example Topic", "", "## Table of Contents", ""])
+    return "\n".join(lines) + "\n"
+
+
+def test_parse_and_validate_frontmatter_ok(tmp_path: Path) -> None:
+    md = tmp_path / "topics" / "example-topic" / "README.md"
+    _write(md, _sample_frontmatter())
+    assert validate_topic_frontmatter(md) == []
+    fm = parse_frontmatter(md.read_text(encoding="utf-8"))
+    assert fm is not None
+    assert fm["slug"] == "example-topic"
+    assert fm["tags"] == ["kb/topic", "domain/cv"]
+
+
+def test_validate_frontmatter_missing_keys(tmp_path: Path) -> None:
+    md = tmp_path / "note.md"
+    _write(md, "---\ntitle: Only Title\n---\n\n# Only Title\n")
+    problems = validate_topic_frontmatter(md)
+    assert any("missing key" in p for p in problems)
+
+
+def test_validate_frontmatter_requires_kb_tag(tmp_path: Path) -> None:
+    md = tmp_path / "note.md"
+    _write(md, _sample_frontmatter(tags=["domain/cv"]))
+    problems = validate_topic_frontmatter(md)
+    assert any("kb/*" in p for p in problems)

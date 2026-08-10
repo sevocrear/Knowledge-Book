@@ -10,7 +10,19 @@ from typing import Iterable, Iterator
 _MD_LINK_RE = re.compile(r"(!)?\[([^\]]*)\]\(([^)]+)\)")
 _TOC_HEADING_RE = re.compile(r"^## Table of Contents\s*$", re.MULTILINE)
 _ROOT_TOPIC_README_LINK_RE = re.compile(r"\]\(\./topics/([^/]+)/README\.md(?:#[^)]*)?\)")
-
+_FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\s*\n", re.DOTALL)
+_REQUIRED_FRONTMATTER_KEYS = (
+    "title",
+    "description",
+    "tags",
+    "aliases",
+    "related",
+    "status",
+    "lang",
+    "type",
+    "slug",
+    "updated",
+)
 
 def _is_external_link(raw: str) -> bool:
     lower = raw.lower()
@@ -135,6 +147,70 @@ def topic_has_table_of_contents(topic_readme: Path) -> bool:
     return _TOC_HEADING_RE.search(text) is not None
 
 
+def parse_frontmatter(text: str) -> dict[str, object] | None:
+    """Best-effort YAML-ish frontmatter parser for required scalar/list keys."""
+    match = _FRONTMATTER_RE.match(text)
+    if not match:
+        return None
+
+    data: dict[str, object] = {}
+    current_list_key: str | None = None
+    for raw_line in match.group(1).splitlines():
+        line = raw_line.rstrip()
+        if not line.strip() or line.strip().startswith("#"):
+            continue
+        if line.startswith("  - "):
+            if current_list_key is None:
+                return None
+            values = data.setdefault(current_list_key, [])
+            if not isinstance(values, list):
+                return None
+            values.append(line[4:].strip().strip("'\""))
+            continue
+        if ":" not in line:
+            return None
+        key, value = line.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+        if value == "":
+            data[key] = []
+            current_list_key = key
+        else:
+            data[key] = value.strip("'\"").strip('"')
+            current_list_key = None
+    return data
+
+
+def validate_topic_frontmatter(md_file: Path) -> list[str]:
+    """Return human-readable problems for Obsidian/RAG frontmatter."""
+    text = md_file.read_text(encoding="utf-8", errors="replace")
+    fm = parse_frontmatter(text)
+    if fm is None:
+        return ["missing or invalid YAML frontmatter"]
+
+    problems: list[str] = []
+    for key in _REQUIRED_FRONTMATTER_KEYS:
+        if key not in fm:
+            problems.append(f"missing key '{key}'")
+            continue
+        value = fm[key]
+        if key in {"tags", "aliases", "related"}:
+            if not isinstance(value, list) or not value:
+                problems.append(f"'{key}' must be a non-empty list")
+        else:
+            if not isinstance(value, str) or not value.strip():
+                problems.append(f"'{key}' must be a non-empty string")
+
+    description = fm.get("description")
+    if isinstance(description, str) and len(description.strip()) < 40:
+        problems.append("'description' is too short for RAG (< 40 chars)")
+
+    tags = fm.get("tags")
+    if isinstance(tags, list) and not any(isinstance(t, str) and t.startswith("kb/") for t in tags):
+        problems.append("tags must include at least one 'kb/*' tag")
+
+    return problems
+
 def topic_slugs_on_disk(repo_root: Path) -> set[str]:
     slugs: set[str] = set()
     topics = repo_root / "topics"
@@ -166,9 +242,24 @@ def _default_md_files(repo_root: Path) -> list[Path]:
     readme = repo_root / "README.md"
     if readme.exists():
         files.append(readme)
-    files.extend(sorted((repo_root / "topics").rglob("*.md")))
+    for folder in ("topics", "docs"):
+        root = repo_root / folder
+        if root.is_dir():
+            files.extend(sorted(root.rglob("*.md")))
     return files
 
+
+def iter_topic_markdown_notes(repo_root: Path) -> list[Path]:
+    """Topic README.md files plus nested notes under topics/*/."""
+    notes = list(iter_topic_readmes(repo_root))
+    topics = repo_root / "topics"
+    if not topics.is_dir():
+        return notes
+    for path in sorted(topics.rglob("*.md")):
+        if path.name == "README.md":
+            continue
+        notes.append(path.resolve())
+    return notes
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
@@ -232,6 +323,20 @@ def main(argv: list[str] | None = None) -> int:
             print(f"- {slug}")
     if not missing_index and not unknown_slug and (repo_root / "README.md").is_file():
         print("OK: root README.md topic index matches topics/*/README.md on disk.")
+
+    frontmatter_notes = iter_topic_markdown_notes(repo_root)
+    fm_failures = 0
+    for note in frontmatter_notes:
+        problems = validate_topic_frontmatter(note)
+        if problems:
+            fm_failures += 1
+            exit_code = 2
+            rel = note.relative_to(repo_root) if note.is_relative_to(repo_root) else note
+            print(f"Frontmatter issues in {rel}:")
+            for problem in problems:
+                print(f"  - {problem}")
+    if fm_failures == 0 and frontmatter_notes:
+        print(f"OK: Obsidian frontmatter present in all {len(frontmatter_notes)} topic note(s).")
 
     return exit_code
 
