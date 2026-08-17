@@ -16,7 +16,7 @@ status: notes
 lang: ru
 type: note
 slug: code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Stop Babysitting Your Agents (Claude Code)
 

@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: arcface-and-angular-margin-losses-for-identification
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # ArcFace and Angular-Margin Losses for Identification
 

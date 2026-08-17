@@ -24,7 +24,7 @@ status: canonical
 lang: ru
 type: topic
 slug: retrieval-augmented-generation-rag
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Retrieval-Augmented Generation (RAG)
 

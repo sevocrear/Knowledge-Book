@@ -24,7 +24,7 @@ status: canonical
 lang: ru
 type: topic
 slug: unscented-kalman-filter-and-tracking
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Unscented Kalman Filter и Современные Методы Отслеживания Объектов
 

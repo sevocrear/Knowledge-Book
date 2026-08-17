@@ -19,7 +19,7 @@ status: canonical
 lang: en
 type: topic
 slug: generative-adversarial-networks-gans
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Generative Adversarial Networks (GANs): A Comprehensive Guide
 

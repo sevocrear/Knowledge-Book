@@ -6,7 +6,7 @@ tags:
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 
 # Tag `kb/topic`
@@ -18,6 +18,7 @@ updated: 2026-08-10
 - [Теорема Байеса и основы теории вероятностей](../../topics/bayes-theorem-and-probability-foundations/README.md) — Аксиомы Колмогорова, условная вероятность, формула полной вероятности, теорема Байеса, MAP/MLE и наивный Байес в ML.
 - [Cross Entropy и Focal Loss](../../topics/classification-losses-cross-entropy-focal-loss/README.md) — Бинарная и многоклассовая кросс-энтропия, Focal Loss (α, γ) для дисбаланса и детекции (RetinaNet), когда выбирать CE vs Focal.
 - [Code Agents, AutoResearch и Loopy Era](../../topics/code-agents-autoresearch-and-loopy-era/README.md) — Оркестрация code agents, AutoResearch loops, verification gates, harness engineering и переход от ручного кода к управлению агентными циклами.
+- [Компьютерное зрение: вводное руководство для бизнеса](../../topics/computer-vision-business-guide/README.md) — Бизнес-книга (~30+ стр.) на понятном русском: что такое CV, как работает, задачи, отрасли (промышленность, офис, город, retail), внедрение, этика. EPUB + HTML.
 - [Contrastive & Metric Learning for Fine-Grained Visual Recognition](../../topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md) — Contrastive/triplet/InfoNCE и proxy losses для fine-grained retrieval: mining, Recall@K, ANN-индексы и continual learning новых классов.
 - [Свёртки в CNN, размеры карт признаков и число параметров](../../topics/convolutions-and-parameters-in-cnn/README.md) — Почему популярны ядра 3×3, формулы размера feature map, transposed conv и подсчёт параметров Conv/Linear/BatchNorm/depthwise.
 - [Деревья решений (Decision Trees)](../../topics/decision-trees/README.md) — Структура дерева, Gini/энтропия/Information Gain, ID3/C4.5/CART, переобучение и связь с ансамблями Random Forest/XGBoost.

@@ -245,7 +245,10 @@ def _default_md_files(repo_root: Path) -> list[Path]:
     for folder in ("topics", "docs"):
         root = repo_root / folder
         if root.is_dir():
-            files.extend(sorted(root.rglob("*.md")))
+            for path in sorted(root.rglob("*.md")):
+                if "/book/chapters/" in path.as_posix():
+                    continue
+                files.append(path)
     return files
 
 
@@ -257,6 +260,8 @@ def iter_topic_markdown_notes(repo_root: Path) -> list[Path]:
         return notes
     for path in sorted(topics.rglob("*.md")):
         if path.name == "README.md":
+            continue
+        if "/book/chapters/" in path.as_posix():
             continue
         notes.append(path.resolve())
     return notes

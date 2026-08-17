@@ -17,7 +17,7 @@ status: notes
 lang: ru
 type: note
 slug: code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # AI Harness Engineering (Tejas, IBM)
 

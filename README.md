@@ -238,6 +238,12 @@ Obsidian / RAG index layer:
 
 ### Computer Vision and Object Detection
 
+0. **[Компьютерное зрение: вводное руководство для бизнеса](./topics/computer-vision-business-guide/README.md)** *(Business Edition, ~30+ стр.)*
+   - Понятное введение в CV для сотрудников без технического бэкграунда
+   - Задачи, архитектура, данные, ограничения; сценарии: промышленность, офис, город, retail, медицина, логистика
+   - Дорожная карта внедрения, этика, глоссарий; **EPUB + HTML** в `topics/computer-vision-business-guide/dist/`
+   - Related: Convolutions and CNN, NMS, SOTA metrics
+
 1. **[Non-Maximum Suppression (NMS) and Modern End-to-End Detectors](./topics/non-maximum-suppression-nms/README.md)**
    - Non-Maximum Suppression (NMS): алгоритм и реализация
    - Agnostic NMS (Class-Agnostic NMS)

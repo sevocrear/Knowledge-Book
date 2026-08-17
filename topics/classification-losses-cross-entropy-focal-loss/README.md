@@ -21,7 +21,7 @@ status: canonical
 lang: ru
 type: topic
 slug: classification-losses-cross-entropy-focal-loss
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Cross Entropy и Focal Loss в задачах классификации и детекции
 

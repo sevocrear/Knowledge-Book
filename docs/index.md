@@ -6,7 +6,7 @@ tags:
 status: canonical
 lang: en
 type: index
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 
 # Topic Catalog
@@ -47,6 +47,13 @@ Canonical notes live under `topics/<slug>/README.md`. Descriptions below are the
 - **description:** Оркестрация code agents, AutoResearch loops, verification gates, harness engineering и переход от ручного кода к управлению агентными циклами.
 - **tags:** `domain/agents`, `domain/llm`, `concept/orchestration`, `concept/verification`, `concept/autoresearch`
 - **aliases:** code agents, AutoResearch, loopy era, agent harness, Karpathy agents
+
+## [Компьютерное зрение: вводное руководство для бизнеса](../topics/computer-vision-business-guide/README.md)
+
+- **slug:** `computer-vision-business-guide`
+- **description:** Бизнес-книга (~30+ стр.) на понятном русском: что такое CV, как работает, задачи, отрасли (промышленность, офис, город, retail), внедрение, этика. EPUB + HTML.
+- **tags:** `domain/cv`, `domain/mlops`, `concept/classification`, `concept/object-detection`, `concept/segmentation`
+- **aliases:** Computer Vision Business Guide, CV для бизнеса, вводное руководство по компьютерному зрению
 
 ## [Contrastive & Metric Learning for Fine-Grained Visual Recognition](../topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md)
 

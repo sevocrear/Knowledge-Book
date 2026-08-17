@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: detection-segmentation-3d-losses
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Loss функции для детекции, сегментации и 3D‑детекции
 

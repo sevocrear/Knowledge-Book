@@ -865,6 +865,36 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "topic",
     },
+    "computer-vision-business-guide": {
+        "title": "Компьютерное зрение: вводное руководство для бизнеса",
+        "description": (
+            "Бизнес-книга (~30+ стр.) на понятном русском: что такое CV, как работает, "
+            "задачи, отрасли (промышленность, офис, город, retail), внедрение, этика. EPUB + HTML."
+        ),
+        "tags": [
+            "kb/topic",
+            "domain/cv",
+            "domain/mlops",
+            "concept/classification",
+            "concept/object-detection",
+            "concept/segmentation",
+        ],
+        "aliases": [
+            "Computer Vision Business Guide",
+            "CV для бизнеса",
+            "вводное руководство по компьютерному зрению",
+        ],
+        "related": [
+            "convolutions-and-parameters-in-cnn",
+            "non-maximum-suppression-nms",
+            "sota-metrics-for-detection-segmentation-multiclass-classification",
+            "few-shot-anomaly-detection-anomalydino",
+            "action-recognition-and-object-tracking-metrics",
+        ],
+        "status": "canonical",
+        "lang": "ru",
+        "type": "topic",
+    },
 }
 
 NOTE_METADATA: dict[str, TopicMeta] = {
@@ -955,6 +985,7 @@ MOCS: dict[str, dict[str, object]] = {
         "description": "CNN, detection/segmentation, metric learning, SSL и tracking metrics.",
         "tags": ["kb/moc", "domain/cv"],
         "topics": [
+            "computer-vision-business-guide",
             "convolutions-and-parameters-in-cnn",
             "non-maximum-suppression-nms",
             "detection-segmentation-3d-losses",

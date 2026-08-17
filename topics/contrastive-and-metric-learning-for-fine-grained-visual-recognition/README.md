@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: contrastive-and-metric-learning-for-fine-grained-visual-recognition
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Contrastive & Metric Learning for Fine-Grained Visual Recognition
 

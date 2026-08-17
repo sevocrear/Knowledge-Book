@@ -19,7 +19,7 @@ status: canonical
 lang: ru
 type: topic
 slug: few-shot-anomaly-detection-anomalydino
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Few-Shot Anomaly Detection: AnomalyDINO и patch-level nearest neighbors
 

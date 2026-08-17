@@ -6,7 +6,7 @@ tags:
 status: canonical
 lang: en
 type: index
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 
 # Tag Taxonomy
@@ -27,7 +27,7 @@ Tags follow `namespace/value`. Click through for notes that use each tag.
 - [`concept/boosting`](./concept-boosting.md) — 1 note(s)
 - [`concept/bpe`](./concept-bpe.md) — 1 note(s)
 - [`concept/calibration`](./concept-calibration.md) — 1 note(s)
-- [`concept/classification`](./concept-classification.md) — 3 note(s)
+- [`concept/classification`](./concept-classification.md) — 4 note(s)
 - [`concept/claude-code`](./concept-claude-code.md) — 1 note(s)
 - [`concept/cnn`](./concept-cnn.md) — 1 note(s)
 - [`concept/compression`](./concept-compression.md) — 1 note(s)
@@ -64,7 +64,7 @@ Tags follow `namespace/value`. Click through for notes that use each tag.
 - [`concept/nas`](./concept-nas.md) — 1 note(s)
 - [`concept/nms`](./concept-nms.md) — 1 note(s)
 - [`concept/normalization`](./concept-normalization.md) — 1 note(s)
-- [`concept/object-detection`](./concept-object-detection.md) — 3 note(s)
+- [`concept/object-detection`](./concept-object-detection.md) — 4 note(s)
 - [`concept/orchestration`](./concept-orchestration.md) — 1 note(s)
 - [`concept/peft`](./concept-peft.md) — 1 note(s)
 - [`concept/ppo`](./concept-ppo.md) — 1 note(s)
@@ -76,7 +76,7 @@ Tags follow `namespace/value`. Click through for notes that use each tag.
 - [`concept/rope`](./concept-rope.md) — 1 note(s)
 - [`concept/sac`](./concept-sac.md) — 1 note(s)
 - [`concept/score-matching`](./concept-score-matching.md) — 1 note(s)
-- [`concept/segmentation`](./concept-segmentation.md) — 2 note(s)
+- [`concept/segmentation`](./concept-segmentation.md) — 3 note(s)
 - [`concept/self-supervised`](./concept-self-supervised.md) — 1 note(s)
 - [`concept/sim-to-real`](./concept-sim-to-real.md) — 1 note(s)
 - [`concept/svm`](./concept-svm.md) — 1 note(s)
@@ -95,14 +95,14 @@ Tags follow `namespace/value`. Click through for notes that use each tag.
 
 - [`domain/agents`](./domain-agents.md) — 3 note(s)
 - [`domain/classical-ml`](./domain-classical-ml.md) — 3 note(s)
-- [`domain/cv`](./domain-cv.md) — 12 note(s)
+- [`domain/cv`](./domain-cv.md) — 13 note(s)
 - [`domain/dl-foundations`](./domain-dl-foundations.md) — 2 note(s)
 - [`domain/embodied-ai`](./domain-embodied-ai.md) — 2 note(s)
 - [`domain/generative`](./domain-generative.md) — 3 note(s)
 - [`domain/llm`](./domain-llm.md) — 7 note(s)
 - [`domain/math`](./domain-math.md) — 2 note(s)
 - [`domain/ml-foundations`](./domain-ml-foundations.md) — 6 note(s)
-- [`domain/mlops`](./domain-mlops.md) — 1 note(s)
+- [`domain/mlops`](./domain-mlops.md) — 2 note(s)
 - [`domain/multimodal`](./domain-multimodal.md) — 1 note(s)
 - [`domain/nlp`](./domain-nlp.md) — 4 note(s)
 - [`domain/rl`](./domain-rl.md) — 1 note(s)
@@ -112,7 +112,7 @@ Tags follow `namespace/value`. Click through for notes that use each tag.
 ## `kb/`
 
 - [`kb/note`](./kb-note.md) — 2 note(s)
-- [`kb/topic`](./kb-topic.md) — 32 note(s)
+- [`kb/topic`](./kb-topic.md) — 33 note(s)
 
 ## `source/`
 

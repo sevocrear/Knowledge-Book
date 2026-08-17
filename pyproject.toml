@@ -33,6 +33,10 @@ viz = [
     "imageio>=2.34",
     "imageio-ffmpeg>=0.4.9",
 ]
+book = [
+    "pillow>=11.0.0",
+    "ebooklib>=0.18",
+]
 
 [tool.pytest.ini_options]
 markers = [

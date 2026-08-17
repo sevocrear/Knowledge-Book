@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Компьютерное зрение: вводное руководство для бизнеса</title>
+<style>/* Computer Vision Business Guide — book styles */
+
+:root {
+  --navy: #1a365d;
+  --blue: #3182ce;
+  --teal: #38b2ac;
+  --green: #38a169;
+  --orange: #ed8936;
+  --gray-100: #f7fafc;
+  --gray-200: #edf2f7;
+  --gray-600: #718096;
+  --gray-800: #2d3748;
+  --page-width: 210mm;
+  --font-serif: "Georgia", "Times New Roman", "DejaVu Serif", serif;
+  --font-sans: "Segoe UI", "Helvetica Neue", "DejaVu Sans", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-serif);
+  color: var(--gray-800);
+  background: var(--gray-100);
+  line-height: 1.65;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy);
+  color: white;
+  padding: 1.5rem 1rem 2rem;
+  z-index: 100;
+}
+
+.sidebar-brand {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.sidebar .toc {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar .toc li { margin-bottom: 0.35rem; }
+
+.sidebar .toc a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.sidebar .toc a:hover { background: rgba(255,255,255,0.1); color: white; }
+
+.toc-num {
+  color: var(--teal);
+  font-weight: 700;
+  min-width: 1.5rem;
+}
+
+.book {
+  margin-left: 280px;
+  max-width: calc(var(--page-width) + 4rem);
+}
+
+.cover-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  page-break-after: always;
+}
+
+.cover-image {
+  width: 100%;
+  max-height: 55vh;
+  object-fit: cover;
+}
+
+.cover-text {
+  padding: 2.5rem 3rem 3rem;
+}
+
+.cover-label {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--blue);
+  margin: 0 0 1rem;
+}
+
+.cover-text h1 {
+  font-size: 2.4rem;
+  color: var(--navy);
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.cover-subtitle {
+  font-size: 1.15rem;
+  color: var(--gray-600);
+  max-width: 36rem;
+}
+
+.cover-meta {
+  margin-top: 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
+.toc-page {
+  padding: 3rem;
+  background: white;
+  min-height: 80vh;
+  page-break-after: always;
+}
+
+.toc-page h1 {
+  color: var(--navy);
+  border-bottom: 3px solid var(--blue);
+  padding-bottom: 0.5rem;
+}
+
+.toc-full {
+  list-style: none;
+  padding: 0;
+  counter-reset: toc;
+}
+
+.toc-full li {
+  counter-increment: toc;
+  padding: 0.65rem 0;
+  border-bottom: 1px dotted var(--gray-200);
+  font-family: var(--font-sans);
+}
+
+.toc-full li::before {
+  content: counter(toc) ". ";
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.chapter {
+  background: white;
+  padding: 2.5rem 3rem 3rem;
+  margin-bottom: 1rem;
+  page-break-before: always;
+  min-height: 85vh;
+  position: relative;
+}
+
+.chapter-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.chapter-num {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  margin-bottom: 0.35rem;
+}
+
+.chapter h1 {
+  font-size: 2rem;
+  color: var(--navy);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.chapter h2 {
+  font-size: 1.45rem;
+  color: var(--navy);
+  margin: 2rem 0 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.chapter h3 {
+  font-size: 1.15rem;
+  color: var(--blue);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.chapter p {
+  margin: 0 0 1rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.chapter ul, .chapter ol {
+  margin: 0 0 1rem 1.25rem;
+}
+
+.chapter li { margin-bottom: 0.4rem; }
+
+blockquote.callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+  border-left: 4px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+}
+
+blockquote.callout p { margin: 0; font-style: italic; }
+
+figure.illustration {
+  margin: 1.75rem 0;
+  text-align: center;
+}
+
+figure.illustration img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(26,54,93,0.12);
+}
+
+figure.illustration figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  margin-top: 0.5rem;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+}
+
+table.data-table th {
+  background: var(--navy);
+  color: white;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+}
+
+table.data-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+table.data-table tr:nth-child(even) td {
+  background: var(--gray-100);
+}
+
+.chapter-footer {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 3rem;
+  right: 3rem;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--gray-600);
+  border-top: 1px solid var(--gray-200);
+  padding-top: 0.75rem;
+}
+
+.back-cover {
+  page-break-before: always;
+}
+
+.copyright {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
+code {
+  font-family: "Consolas", "DejaVu Sans Mono", monospace;
+  font-size: 0.88em;
+  background: var(--gray-200);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+a { color: var(--blue); }
+
+@media print {
+  .sidebar { display: none; }
+  .book { margin-left: 0; max-width: none; }
+  .chapter { page-break-after: always; box-shadow: none; }
+}
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .book { margin-left: 0; }
+  .chapter { padding: 1.5rem; }
+}
+
+@page {
+  size: A4;
+  margin: 20mm;
+}
+</style>
+</head>
+<body>
+<nav class="sidebar" aria-label="Содержание">
+  <div class="sidebar-brand">Компьютерное зрение: вводное руководство для бизнеса</div>
+  <ol class="toc"><li><a href="#chapter-1"><span class="toc-num">1</span>Введение: зачем бизнесу компьютерное зрение</a></li>
+<li><a href="#chapter-2"><span class="toc-num">2</span>Что такое компьютерное зрение</a></li>
+<li><a href="#chapter-3"><span class="toc-num">3</span>Как машина «видит»: от пикселей к смыслу</a></li>
+<li><a href="#chapter-4"><span class="toc-num">4</span>Основные задачи компьютерного зрения</a></li>
+<li><a href="#chapter-5"><span class="toc-num">5</span>Как устроена система компьютерного зрения</a></li>
+<li><a href="#chapter-6"><span class="toc-num">6</span>Данные, обучение и точность</a></li>
+<li><a href="#chapter-7"><span class="toc-num">7</span>Ограничения, риски и реалистичные ожидания</a></li>
+<li><a href="#chapter-8"><span class="toc-num">8</span>Компьютерное зрение в промышленности</a></li>
+<li><a href="#chapter-9"><span class="toc-num">9</span>Офисы и корпоративные пространства</a></li>
+<li><a href="#chapter-10"><span class="toc-num">10</span>Улица, город и инфраструктура</a></li>
+<li><a href="#chapter-11"><span class="toc-num">11</span>Розничная торговля и e-commerce</a></li>
+<li><a href="#chapter-12"><span class="toc-num">12</span>Медицина и здравоохранение</a></li>
+<li><a href="#chapter-13"><span class="toc-num">13</span>Транспорт и логистика</a></li>
+<li><a href="#chapter-14"><span class="toc-num">14</span>Безопасность и видеонаблюдение</a></li>
+<li><a href="#chapter-15"><span class="toc-num">15</span>Сельское хозяйство и AgriTech</a></li>
+<li><a href="#chapter-16"><span class="toc-num">16</span>Как внедрить CV в компании: дорожная карта</a></li>
+<li><a href="#chapter-17"><span class="toc-num">17</span>Этика, приватность и ответственное использование</a></li>
+<li><a href="#chapter-18"><span class="toc-num">18</span>Будущее компьютерного зрения</a></li>
+<li><a href="#chapter-19"><span class="toc-num">19</span>Глоссарий: термины простым языком</a></li>
+<li><a href="#chapter-20"><span class="toc-num">20</span>Чек-лист для руководителя и итоги</a></li></ol>
+</nav>
+<main class="book">
+  <section class="cover-page" id="cover">
+    <img class="cover-image" src="assets/illustrations/01_cover_hero.png" alt="Обложка">
+    <div class="cover-text">
+      <p class="cover-label">Knowledge Book · Business Edition</p>
+      <h1>Компьютерное зрение: вводное руководство для бизнеса</h1>
+      <p class="cover-subtitle">Понятное руководство для сотрудников без технического бэкграунда</p>
+      <p class="cover-meta">Версия 1.0 · 2026-08-17</p>
+    </div>
+  </section>
+  <section class="toc-page" id="contents">
+    <h1>Содержание</h1>
+    <ol class="toc-full"><li><a href="#chapter-1"><span class="toc-num">1</span>Введение: зачем бизнесу компьютерное зрение</a></li>
+<li><a href="#chapter-2"><span class="toc-num">2</span>Что такое компьютерное зрение</a></li>
+<li><a href="#chapter-3"><span class="toc-num">3</span>Как машина «видит»: от пикселей к смыслу</a></li>
+<li><a href="#chapter-4"><span class="toc-num">4</span>Основные задачи компьютерного зрения</a></li>
+<li><a href="#chapter-5"><span class="toc-num">5</span>Как устроена система компьютерного зрения</a></li>
+<li><a href="#chapter-6"><span class="toc-num">6</span>Данные, обучение и точность</a></li>
+<li><a href="#chapter-7"><span class="toc-num">7</span>Ограничения, риски и реалистичные ожидания</a></li>
+<li><a href="#chapter-8"><span class="toc-num">8</span>Компьютерное зрение в промышленности</a></li>
+<li><a href="#chapter-9"><span class="toc-num">9</span>Офисы и корпоративные пространства</a></li>
+<li><a href="#chapter-10"><span class="toc-num">10</span>Улица, город и инфраструктура</a></li>
+<li><a href="#chapter-11"><span class="toc-num">11</span>Розничная торговля и e-commerce</a></li>
+<li><a href="#chapter-12"><span class="toc-num">12</span>Медицина и здравоохранение</a></li>
+<li><a href="#chapter-13"><span class="toc-num">13</span>Транспорт и логистика</a></li>
+<li><a href="#chapter-14"><span class="toc-num">14</span>Безопасность и видеонаблюдение</a></li>
+<li><a href="#chapter-15"><span class="toc-num">15</span>Сельское хозяйство и AgriTech</a></li>
+<li><a href="#chapter-16"><span class="toc-num">16</span>Как внедрить CV в компании: дорожная карта</a></li>
+<li><a href="#chapter-17"><span class="toc-num">17</span>Этика, приватность и ответственное использование</a></li>
+<li><a href="#chapter-18"><span class="toc-num">18</span>Будущее компьютерного зрения</a></li>
+<li><a href="#chapter-19"><span class="toc-num">19</span>Глоссарий: термины простым языком</a></li>
+<li><a href="#chapter-20"><span class="toc-num">20</span>Чек-лист для руководителя и итоги</a></li></ol>
+  </section>
+  <section class="chapter" id="chapter-1"><header class="chapter-header"><span class="chapter-num">Глава 1</span><h1>Введение: зачем бизнесу компьютерное зрение</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> компьютерное зрение — это когда камера и «умная программа» вместе делают то, что раньше мог только человек: смотреть на картинку и понимать, что на ней происходит.</p>
+</blockquote>
+<h2 id="что-вы-получите-от-этого-руководства">Что вы получите от этого руководства</h2>
+<p>Это руководство написано для сотрудников <strong>без технического бэкграунда</strong>: менеджеров, HR, закупок, операционных директоров, специалистов по безопасности, маркетинга и всех, кто слышит термины «компьютерное зрение», «нейросеть» и «детекция объектов», но хочет понять <strong>смысл</strong>, а не формулы.</p>
+<p>После прочтения вы сможете:</p>
+<ul>
+<li>объяснить коллегам, что такое компьютерное зрение простым языком;</li>
+<li>назвать основные задачи и типичные сценарии применения;</li>
+<li>оценить, где в <strong>вашей</strong> компании CV может принести пользу;</li>
+<li>задавать правильные вопросы IT-подрядчикам и внутренним командам;</li>
+<li>понимать ограничения, риски и этические аспекты.</li>
+</ul>
+<h2 id="почему-тема-актуальна-именно-сейчас">Почему тема актуальна именно сейчас</h2>
+<p>Три фактора сделали компьютерное зрение массовой бизнес-технологией:</p>
+<ol>
+<li><strong>Камеры везде</strong> — смартфоны, IP-камеры, промышленные сенсоры, дроны. Видеопоток стал дешёвым источником данных.</li>
+<li><strong>Мощные модели ИИ</strong> — современные алгоритмы распознают объекты, текст и сцены с точностью, достаточной для реальных процессов.</li>
+<li><strong>Облако и edge-устройства</strong> — можно запускать CV как в дата-центре, так и прямо на камере или контроллере на производстве.</li>
+</ol>
+<p>По данным отраслевых обзоров 2024–2026 годов, компьютерное зрение входит в топ-5 прикладных направлений ИИ в промышленности, ритейле, логистике и «умных городах». Компании, которые понимают базовые принципы, быстрее находят точки ROI и избегают дорогих ошибок при внедрении.</p>
+<h2 id="как-устроена-книга">Как устроена книга</h2>
+<p>Мы идём от общего к частному:</p>
+<ul>
+<li>сначала — <strong>что это</strong> и <strong>как работает</strong> (без математики);</li>
+<li>затем — <strong>какие задачи</strong> решает CV;</li>
+<li>далее — <strong>отрасли и сценарии</strong>: завод, офис, улица, магазин, медицина, логистика;</li>
+<li>в конце — <strong>как внедрять</strong>, <strong>риски</strong>, <strong>глоссарий</strong> и <strong>чек-лист для руководителя</strong>.</li>
+</ul>
+<p>К каждой главе прилагаются иллюстрации — схемы и «картинки-смыслы», которые можно показывать на совещаниях.</p>
+<h2 id="для-кого-не-предназначено-это-руководство">Для кого не предназначено это руководство</h2>
+<p>Если вам нужно <strong>программировать</strong> модели, разбирать архитектуры ResNet или ViT, считать loss-функции — обратитесь к техническим разделам Knowledge Book (Computer Vision, Object Detection, Transformers). Здесь мы сознательно не углубляемся в код и формулы.</p>
+<h2 id="как-читать">Как читать</h2>
+<ul>
+<li><strong>За один раз</strong> — 1–2 главы (15–20 минут).</li>
+<li><strong>Выборочно</strong> — перейдите к главе про вашу отрасль (промышленность, офис, улица и т.д.).</li>
+<li><strong>Для презентации</strong> — используйте иллюстрации из HTML-версии как слайды.</li>
+</ul>
+<p>Давайте начнём с самого главного вопроса: <strong>что вообще такое компьютерное зрение?</strong></p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 1 —</span></footer></section><section class="chapter" id="chapter-2"><header class="chapter-header"><span class="chapter-num">Глава 2</span><h1>Что такое компьютерное зрение</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> это способ научить компьютер «смотреть» на фото или видео и отвечать на вопросы вроде «что это?», «где это?», «всё ли в порядке?».</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/02_human_vs_machine.png" alt="Человек и машина — два способа видеть"><figcaption>Человек и машина — два способа видеть</figcaption></figure>
+<h2 id="определение-без-жаргона">Определение без жаргона</h2>
+<p><strong>Компьютерное зрение (Computer Vision, CV)</strong> — область искусственного интеллекта, которая автоматически извлекает <strong>смысл</strong> из изображений и видео.</p>
+<p>Вход: картинка (один кадр или поток кадров).  </p>
+<p>Выход: <strong>решение</strong> — метка класса, координаты объекта, маска области, текст, сигнал тревоги, команда роботу.</p>
+<p>Примеры решений:</p>
+<ul>
+<li>«На конвейере обнаружена царапина на детали» → отбраковка;</li>
+<li>«Сотрудник без каски в опасной зоне» → предупреждение;</li>
+<li>«На полке закончился товар X» → задача на пополнение;</li>
+<li>«Номер автомобиля: А123БВ777» → открытие шлагбаума.</li>
+</ul>
+<h2 id="чем-cv-отличается-от-обычного-видеонаблюдения">Чем CV отличается от обычного видеонаблюдения</h2>
+<table class="data-table">
+<tr><th>Обычная камера + человек-оператор</th><th>Компьютерное зрение</th></tr>
+<tr><td>Человек смотрит монитор</td><td>Алгоритм анализирует каждый кадр</td></tr>
+<tr><td>Устаёт, пропускает события</td><td>Работает 24/7 с заданной частотой</td></tr>
+<tr><td>Субъективная оценка</td><td>Измеримая точность (метрики)</td></tr>
+<tr><td>Масштабируется только наймом людей</td><td>Один алгоритм — много камер</td></tr>
+</table>
+<p>CV <strong>не заменяет</strong> камеру — оно <strong>добавляет интelligence</strong> к уже существующему видеопотоку или фото.</p>
+<h2 id="где-cv-уже-есть-в-повседневной-жизни">Где CV уже есть в повседневной жизни</h2>
+<p>Скорее всего, вы уже пользуетесь CV, даже не задумываясь:</p>
+<ul>
+<li><strong>Разблокировка телефона по лицу</strong> — распознавание и проверка «живости»;</li>
+<li><strong>Фильтры в соцсетях</strong> — детекция лица и ключевых точек;</li>
+<li><strong>Сканер QR и перевод текста с фото</strong> — детекция + OCR;</li>
+<li><strong>Автопилот и парктроники</strong> — детекция машин, пешеходов, разметки;</li>
+<li><strong>Сортировка посылок на складах</strong> — чтение штрих-кодов и распознавание форм.</li>
+</ul>
+<p>Для бизнеса логика та же: камера → понимание сцены → <strong>действие в процессе</strong>.</p>
+<h2 id="связь-с-другими-технологиями">Связь с другими технологиями</h2>
+<p>Компьютерное зрение часто идёт <strong>в связке</strong>:</p>
+<ul>
+<li><strong>IoT и датчики</strong> — температура + картинка дефекта;</li>
+<li><strong>ERP / MES / WMS</strong> — сигнал CV попадает в учётную систему;</li>
+<li><strong>Робототехника</strong> — «глаза» для манипуляторов и AGV;</li>
+<li><strong>Большие языковые модели (LLM)</strong> — описание сцены текстом, ответы на вопросы по видео.</li>
+</ul>
+<p>Важно: CV — это <strong>не магия</strong>. Качество зависит от данных, условий съёмки и постановки задачи. Об этом — в следующих главах.</p>
+<h2 id="типичные-заблуждения">Типичные заблуждения</h2>
+<ol>
+<li><strong>«CV видит как человек»</strong> — нет, модель видит <strong>паттерны в пикселях</strong>, обученные на примерах. Необычный ракурс или освещение могут сбить систему.</li>
+<li><strong>«Достаточно купить готовую программу»</strong> — часто нужна <strong>адаптация</strong> под ваши камеры, объекты и правила.</li>
+<li><strong>«100% точность»</strong> — на практике всегда есть компромисс между пропусками ошибок и ложными тревогами. Это управляется порогами и процессом.</li>
+</ol>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Компьютерное зрение превращает <strong>изображения в решения</strong>. Для бизнеса это способ автоматизировать контроль, учёт, безопасность и качество там, где раньше требовался непрерывный человеческий взгляд.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 2 —</span></footer></section><section class="chapter" id="chapter-3"><header class="chapter-header"><span class="chapter-num">Глава 3</span><h1>Как машина «видит»: от пикселей к смыслу</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> камера записывает миллионы маленьких цветных точек — пикселей. Программа ищет в них знакомые узоры и на их основе делает вывод.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/03_pixel_to_meaning.png" alt="От пикселей к смыслу"><figcaption>От пикселей к смыслу</figcaption></figure>
+<h2 id="шаг-1-камера-создаёт-изображение">Шаг 1: Камера создаёт изображение</h2>
+<p>Любое цифровое фото — это таблица <strong>пикселей</strong>. У каждого пикселя есть цвет (обычно три числа: красный, зелёный, синий — RGB).</p>
+<p>Разрешение 1920×1080 означает около <strong>2 миллионов пикселей</strong> на один кадр. Видео — это 25–60 таких кадров в секунду. Объём данных огромный, поэтому перед анализом изображение часто <strong>сжимают</strong> и <strong>обрезают</strong> до нужной области.</p>
+<p><strong>Бизнес-вывод:</strong> качество камеры (разрешение, объектив, подсветка, фиксация) напрямую влияет на качество CV. Экономия на камере часто оборачивается дорогой доработкой алгоритма.</p>
+<h2 id="шаг-2-предобработка">Шаг 2: Предобработка</h2>
+<p>Перед «умной» частью картинку готовят:</p>
+<ul>
+<li>выравнивают яркость и контраст;</li>
+<li>убирают шум;</li>
+<li>выделяют <strong>зону интереса</strong> (например, только конвейер, а не весь цех);</li>
+<li>иногда меняют размер для ускорения.</li>
+</ul>
+<p>Это как подготовить документ перед чтением: хороший свет, ровный стол, нужная страница.</p>
+<h2 id="шаг-3-модель-извлекает-признаки">Шаг 3: Модель извлекает признаки</h2>
+<p><strong>Модель</strong> (нейросеть или классический алгоритм) получает подготовленное изображение и строит <strong>внутреннее представление</strong> — набор признаков:</p>
+<ul>
+<li>есть ли на изображении круглые формы;</li>
+<li>похож ли фрагмент на известный дефект;</li>
+<li>где границы объектов.</li>
+</ul>
+<p>Современные модели обучаются на <strong>тысячах и миллионах примеров</strong>, поэтому «узнают» объекты даже при частичном перекрытии или другом освещении — в пределах того, что видели при обучении.</p>
+<h2 id="шаг-4-решение-и-действие">Шаг 4: Решение и действие</h2>
+<p>На выходе модель выдаёт, например:</p>
+<ul>
+<li><strong>класс</strong> — «дефект / норма»;</li>
+<li><strong>уверенность</strong> — «на 94% это царапина»;</li>
+<li><strong>координаты рамки</strong> вокруг объекта;</li>
+<li><strong>маску</strong> — какие именно пиксели принадлежат объекту.</li>
+</ul>
+<p>Дальше <strong>бизнес-логика</strong> решает: остановить линию, отправить уведомление, записать в журнал, открыть ворота.</p>
+<h2 id="аналогия-для-совещания">Аналогия для совещания</h2>
+<p>Представьте <strong>опытного инспектора</strong> на заводе:</p>
+<ol>
+<li>Смотрит на деталь (<strong>камера</strong>).</li>
+<li>Привыкает к освещению и фокусируется на нужной зоне (<strong>предобработка</strong>).</li>
+<li>Сравнивает с памятью о тысячах прошлых деталей (<strong>модель</strong>).</li>
+<li>Ставит штамп «годен / брак» (<strong>решение</strong>).</li>
+</ol>
+<p>CV автоматизирует шаги 1–4, если вы правильно описали, что считать «браком».</p>
+<h2 id="что-важно-знать-нетехническому-руководителю">Что важно знать нетехническому руководителю</h2>
+<table class="data-table">
+<tr><th>Вопрос</th><th>Почему важен</th></tr>
+<tr><td>Где стоит камера?</td><td>Ракурс определяет, видит ли модель нужный объект</td></tr>
+<tr><td>Какое освещение?</td><td>Тени и блики — частая причина ошибок</td></tr>
+<tr><td>Что считать успехом?</td><td>Без KPI (доля брака, время реакции) проект «висит»</td></tr>
+<tr><td>Есть ли примеры «плохих» случаев?</td><td>Модель должна видеть и норму, и отклонения</td></tr>
+</table>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Машина не «понимает» мир как человек — она <strong>находит статистические закономерности</strong> в пикселях. Чем лучше подготовлены данные и условия съёмки, тем надёжнее решения для бизнеса.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 3 —</span></footer></section><section class="chapter" id="chapter-4"><header class="chapter-header"><span class="chapter-num">Глава 4</span><h1>Основные задачи компьютерного зрения</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> у CV есть несколько «умений» — как у человека: назвать предмет, указать пальцем, обвести контур, прочитать надпись, проследить за движением.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/04_cv_tasks.png" alt="Основные задачи CV"><figcaption>Основные задачи CV</figcaption></figure>
+<h2 id="1-классификация-изображений">1. Классификация изображений</h2>
+<p><strong>Вопрос:</strong> «Что на картинке в целом?»</p>
+<p><strong>Пример:</strong> фото продукта → «яблоко» / «апельсин» / «брак упаковки».</p>
+<p><strong>Бизнес:</strong> сортировка, входной контроль, модерация контента.</p>
+<p><strong>Ограничение:</strong> одна метка на всё изображение; если объектов несколько, нужна <strong>детекция</strong>.</p>
+<h2 id="2-детекция-объектов-object-detection">2. Детекция объектов (Object Detection)</h2>
+<p><strong>Вопрос:</strong> «Что и <strong>где</strong>?»</p>
+<p><strong>Пример:</strong> на кадре со склада — три паллеты, две тележки, один человек; вокруг каждого <strong>рамка</strong> и подпись.</p>
+<p><strong>Бизнес:</strong> подсчёт людей, контроль СИЗ (каски, жилеты), retail analytics.</p>
+<h2 id="3-сегментация">3. Сегментация</h2>
+<p><strong>Вопрос:</strong> «Какие <strong>именно пиксели</strong> принадлежат объекту?»</p>
+<p><strong>Пример:</strong> контур дефекта на металле, область пролива на полу, силуэт человека.</p>
+<p><strong>Бизнес:</strong> точный контроль качества, измерение площади, роботы «берут» объект по форме.</p>
+<h2 id="4-распознавание-текста-ocr">4. Распознавание текста (OCR)</h2>
+<p><strong>Вопрос:</strong> «Какой <strong>текст</strong> на изображении?»</p>
+<p><strong>Пример:</strong> номер накладной, VIN на детали, ценник на полке, показания прибора.</p>
+<p><strong>Бизнес:</strong> документооборот, логистика, inventory без ручного ввода.</p>
+<h2 id="5-трекинг-отслеживание">5. Трекинг (отслеживание)</h2>
+<p><strong>Вопрос:</strong> «Куда <strong>движется</strong> объект между кадрами?»</p>
+<p><strong>Пример:</strong> один и тот же человек прошёл через три камеры; машина на парковке заняла место №12.</p>
+<p><strong>Бизнес:</strong> безопасность, аналитика траекторий, спорт, транспорт.</p>
+<h2 id="6-поиск-аномалий">6. Поиск аномалий</h2>
+<p><strong>Вопрос:</strong> «Всё ли <strong>как обычно</strong>?»</p>
+<p><strong>Пример:</strong> на линии всегда была ровная поверхность — появилось пятно; в переговорной пусто 3 часа в рабочий день.</p>
+<p><strong>Бизнес:</strong> predictive quality, мониторинг оборудования, умный офис.</p>
+<h2 id="7-оценка-позы-и-действий">7. Оценка позы и действий</h2>
+<p><strong>Вопрос:</strong> «Что <strong>делает</strong> человек или механизм?»</p>
+<p><strong>Пример:</strong> падение, драка, поднятие тяжести неправильной осанкой, операция «закручивание болта».</p>
+<p><strong>Бизнес:</strong> охрана труда, спорт, контроль операций.</p>
+<h2 id="как-выбрать-задачу-для-вашего-кейса">Как выбрать задачу для вашего кейса</h2>
+<table class="data-table">
+<tr><th>Бизнес-вопрос</th><th>Типичная задача CV</th></tr>
+<tr><td>«Это бракованная деталь?»</td><td>Классификация или детекция дефекта</td></tr>
+<tr><td>«Сколько людей в зале?»</td><td>Детекция + подсчёт</td></tr>
+<tr><td>«Где именно трещина?»</td><td>Сегментация</td></tr>
+<tr><td>«Какой номер на машине?»</td><td>OCR + детекция номера</td></tr>
+<tr><td>«Кто прошёл через турникет?»</td><td>Распознавание лиц + трекинг</td></tr>
+</table>
+<h2 id="комбинации-задач">Комбинации задач</h2>
+<p>В реальных проектах задачи <strong>сочетаются</strong>:</p>
+<ul>
+<li>детекция номера → OCR символов → проверка по базе;</li>
+<li>детекция человека → оценка позы → сигнал «падение»;</li>
+<li>сегментация продукта → классификация сорта.</li>
+</ul>
+<p>При обсуждении с подрядчиком полезно назвать <strong>один главный KPI</strong> и перечислить <strong>вторичные</strong> (например: главное — не пропустить дефект; вторичное — не останавливать линию ложными срабатываниями).</p>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Задачи CV — это готовый «язык» для постановки требований. Чем точнее вы формулируете вопрос («что / где / сколько / как движется / норма или нет»), тем проще оценить сроки, бюджет и ожидаемый эффект.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 4 —</span></footer></section><section class="chapter" id="chapter-5"><header class="chapter-header"><span class="chapter-num">Глава 5</span><h1>Как устроена система компьютерного зрения</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> это конвейер — от камеры до сигнала в вашу систему учёта или сирену. Каждый блок можно купить, арендовать или разработать.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/05_pipeline.png" alt="Типичный конвейер CV"><figcaption>Типичный конвейер CV</figcaption></figure>
+<h2 id="блок-1-источник-изображения">Блок 1: Источник изображения</h2>
+<ul>
+<li><strong>IP-камеры</strong> — офис, улица, склад;</li>
+<li><strong>Промышленные камеры</strong> — высокая частота кадров, триггер по сенсору;</li>
+<li><strong>3D-камеры (depth)</strong> — объём, расстояние до объекта;</li>
+<li><strong>Сканеры, мобильные устройства</strong> — полевые осмотры, аудит.</li>
+</ul>
+<p><strong>Критерии выбора:</strong> разрешение, FPS, интерфейс (GigE, USB), защита (IP67), синхронизация с линией.</p>
+<h2 id="блок-2-передача-и-хранение">Блок 2: Передача и хранение</h2>
+<p>Видеопоток идёт по сети (RTSP, ONVIF) или в <strong>edge-устройство</strong> рядом с камерой. Иногда кадры <strong>не хранят</strong> целиком — обрабатывают на лету и сохраняют только события (нарушение, брак).</p>
+<p><strong>Бизнес-аспект:</strong> хранение видео — расходы и <strong>комpliance</strong> (152-ФЗ, GDPR, корпоративные политики). Часто достаточно коротких клипов вокруг инцидента.</p>
+<h2 id="блок-3-обработка-и-inference">Блок 3: Обработка и inference</h2>
+<p><strong>Inference</strong> — момент, когда модель «думает» над кадром. Варианты:</p>
+<table class="data-table">
+<tr><th>Где считается</th><th>Плюсы</th><th>Минусы</th></tr>
+<tr><td><strong>Облако</strong></td><td>Мощные GPU, лёгкое обновление</td><td>Задержка, зависимость от сети</td></tr>
+<tr><td><strong>Edge (на объекте)</strong></td><td>Быстро, работает offline</td><td>Ограниченная мощность</td></tr>
+<tr><td><strong>Гибрид</strong></td><td>Баланс</td><td>Сложнее архитектура</td></tr>
+</table>
+<p>Для производства с жёстким SLA на остановку линии чаще выбирают <strong>edge</strong>. Для аналитики офиса и «умного города» — облако или гибрид.</p>
+<h2 id="блок-4-бизнес-логика-и-интеграция">Блок 4: Бизнес-логика и интеграция</h2>
+<p>CV редко живёт изолированно. Сигналы уходят в:</p>
+<ul>
+<li><strong>MES / SCADA</strong> — остановка линии;</li>
+<li><strong>ERP / 1C</strong> — учёт;</li>
+<li><strong>Service Desk</strong> — тикет на обслуживание;</li>
+<li><strong>Мобильное приложение</strong> — push-уведомление охране;</li>
+<li><strong>BI-дашборд</strong> — KPI по сменам.</li>
+</ul>
+<p>Без интеграции вы получите «красивую демо-панель», но не изменение процесса.</p>
+<h2 id="блок-5-мониторинг-и-поддержка">Блок 5: Мониторинг и поддержка</h2>
+<p>Рабочая система требует:</p>
+<ul>
+<li><strong>метрик качества</strong> (точность, ложные срабатывания) в динамике;</li>
+<li><strong>алертов</strong> при падении камеры или росте ошибок;</li>
+<li><strong>процедуры дообучения</strong> при смене продукта или освещения.</li>
+</ul>
+<h2 id="типовые-архитектуры">Типовые архитектуры</h2>
+<h3 id="камера-коробка-ai-у-линии">«Камера + коробка AI у линии»</h3>
+<p>Камера → edge-сервер → PLC / сигнал брака. Минимальная задержка, устойчивость к обрыву интернета.</p>
+<h3 id="централизованный-видеосервер">«Централизованный видеосервер»</h3>
+<p>Много камер → VMS → CV-модуль в ЦОД → дашборды и интеграции. Удобно для офисов и ТРЦ.</p>
+<h3 id="saas-платформа">«SaaS-платформа»</h3>
+<p>Камеры клиента подключаются к облачному сервису. Быстрый старт, подписка, меньше CapEx.</p>
+<h2 id="вопросы-для-rfp-тз">Вопросы для RFP / ТЗ</h2>
+<ol>
+<li>Сколько камер и какой <strong>кадр в секунду</strong> нужен для решения?</li>
+<li>Допустимая <strong>задержка</strong> от события до действия?</li>
+<li>Куда должны уходить <strong>сигналы</strong> (конкретные системы)?</li>
+<li>Требования к <strong>хранению</strong> персональных данных?</li>
+<li>Кто <strong>владелец модели</strong> и данных для дообучения?</li>
+</ol>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Система CV — это не только «нейросеть», а <strong>цепочка</strong> от оптики до вашего бизнес-процесса. Слабое звено (камера, сеть, интеграция) обесценивает даже лучшую модель.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 5 —</span></footer></section><section class="chapter" id="chapter-6"><header class="chapter-header"><span class="chapter-num">Глава 6</span><h1>Данные, обучение и точность</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> модель учится на примерах, как новый сотрудник. Чем лучше примеры и чётче правила — тем меньше ошибок на работе.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/06_training_cycle.png" alt="Цикл данные — обучение — внедрение"><figcaption>Цикл данные — обучение — внедрение</figcaption></figure>
+<h2 id="роль-данных">Роль данных</h2>
+<p><strong>Данные</strong> — фото и видео с <strong>разметкой</strong>: «здесь дефект», «это каска», «этот текст — номер накладной №123».</p>
+<p>Без качественных данных даже дорогая модель будет ошибаться. Типичные источники:</p>
+<ul>
+<li>архив камер на объекте;</li>
+<li>специальная съёмка под проект;</li>
+<li>синтетические изображения (3D-рендер) — дополнение, не всегда замена реальности;</li>
+<li>публичные датасеты — редко «из коробки» под ваш продукт.</li>
+</ul>
+<h2 id="этапы-создания-cv-решения">Этапы создания CV-решения</h2>
+<ol>
+<li><strong>Постановка задачи</strong> — KPI, классы объектов, границы ответственности.</li>
+<li><strong>Сбор и разметка</strong> — часто 60–80% бюджета пилота.</li>
+<li><strong>Обучение модели</strong> — работа ML-инженеров или fine-tuning готовой модели.</li>
+<li><strong>Валидация</strong> — тест на <strong>новых</strong> кадрах, не участвовавших в обучении.</li>
+<li><strong>Пилот на площадке</strong> — реальные условия, смены, пыль, зима.</li>
+<li><strong>Эксплуатация и дообучение</strong> — новые SKU, новая линия, смена поставщика камер.</li>
+</ol>
+<h2 id="что-такое-точность-для-бизнеса">Что такое «точность» для бизнеса</h2>
+<p>Технические метрики переводятся в деньги:</p>
+<table class="data-table">
+<tr><th>Метрика</th><th>Смысл для руководителя</th></tr>
+<tr><td><strong>Precision (точность)</strong></td><td>Из всех «брак» сколько реально брак? (мало ложных остановок)</td></tr>
+<tr><td><strong>Recall (полнота)</strong></td><td>Из всего реального брака сколько поймали? (мало пропусков)</td></tr>
+<tr><td><strong>F1 / mAP</strong></td><td>Баланс — обсуждается с технической командой</td></tr>
+<tr><td><strong>Latency</strong></td><td>Уложились ли в время до остановки конвейера?</td></tr>
+</table>
+<p><strong>Пример:</strong> recall 99% звучит отлично, но если линия останавливается 50 раз в смену из-за ложных тревог — операционные потери съедают выгоду.</p>
+<h2 id="готовые-модели-vs-кастом">Готовые модели vs кастом</h2>
+<table class="data-table">
+<tr><th>Подход</th><th>Когда подходит</th></tr>
+<tr><td><strong>Готовый API</strong> (лица, OCR, общие объекты)</td><td>Стандартные объекты, быстрый MVP</td></tr>
+<tr><td><strong>Pretrained + дообучение</strong></td><td>Ваши детали похожи на типовые, мало классов</td></tr>
+<tr><td><strong>Полностью кастом</strong></td><td>Уникальная продукция, строгие требования</td></tr>
+</table>
+<p>Для промышленного дефекта «царапина на зеркале X» почти всегда нужен <strong>кастом или сильное дообучение</strong>.</p>
+<h2 id="сколько-данных-достаточно">Сколько данных «достаточно»</h2>
+<p>Зависит от задачи и вариативности. Ориентиры для разговора с IT:</p>
+<ul>
+<li><strong>классификация</strong> «норма/брак» — от сотен до тысяч снимков <strong>на класс</strong>;</li>
+<li><strong>детекция</strong> — тысячи размеченных объектов;</li>
+<li><strong>анomaly detection</strong> — много «нормы» + десятки/сотни примеров аномалий.</li>
+</ul>
+<p>Важнее <strong>разнообразие</strong>: разное освещение, ракурсы, смены, пыль, скорость линии.</p>
+<h2 id="человек-в-контуре-human-in-the-loop">Человек в контуре (Human-in-the-loop)</h2>
+<p>На старте и при высоких рисках оставляют <strong>человека</strong>:</p>
+<ul>
+<li>CV помечает подозрительные случаи;</li>
+<li>оператор подтверждает или отклоняет;</li>
+<li>подтверждения идут обратно в дообучение.</li>
+</ul>
+<p>Это снижает риск и ускоряет накопление качественной разметки.</p>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>CV — про <strong>данные + процесс</strong>. Заложите в проект время на сбор примеров, согласование метрик и пилот. «Купить модель за неделю» без данных — маркeting, не внедрение.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 6 —</span></footer></section><section class="chapter" id="chapter-7"><header class="chapter-header"><span class="chapter-num">Глава 7</span><h1>Ограничения, риски и реалистичные ожидания</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> компьютерное зрение — сильный помощник, но не всевидящий судья. У него есть «слепые зоны», как у человека после ночной смены.</p>
+</blockquote>
+<h2 id="технические-ограничения">Технические ограничения</h2>
+<h3 id="освещение-и-погода">Освещение и погода</h3>
+<p>Резкие тени, контровой свет, дождь на объективе, ночная съёмка без IR — частые причины падения качества. <strong>Решение:</strong> проектирование света, HDR-кamеры, IR-подсветка, выбор зоны кадра.</p>
+<h3 id="окклюзия-и-перекрытия">Окклюзия и перекрытия</h3>
+<p>Объект частично закрыт другим объектом, рукой, упаковкой. Модель может не увидеть или перепутать. <strong>Решение:</strong> несколько камер, трекинг, логика «несколько кадров подряд».</p>
+<h3 id="новые-объекты-out-of-distribution">Новые объекты (out-of-distribution)</h3>
+<p>Модель обучена на прошлогодней линейке — появился новый цвет упаковки. <strong>Решение:</strong> процесс добавления классов, мониторинг drift.</p>
+<h3 id="скорость-линии">Скорость линии</h3>
+<p>Размытие при высокой скорости конвейера. <strong>Решение:</strong> короткая выдержка, strobe-подсветка, камеры с global shutter.</p>
+<h2 id="операционные-риски">Операционные риски</h2>
+<table class="data-table">
+<tr><th>Риск</th><th>Последствие</th><th>Митигация</th></tr>
+<tr><td>Ложные срабатывания</td><td>Простои, alert fatigue</td><td>Настройка порогов, подтверждение вторым кадром</td></tr>
+<tr><td>Пропуск дефекта</td><td>Рекламация, безопасность</td><td>Выборочный человеческий аудит, recall-метрики</td></tr>
+<tr><td>Простой IT</td><td>Линия без контроля</td><td>Fallback-процедура, резервный режим</td></tr>
+<tr><td>Зависимость от вендора</td><td>Lock-in</td><td>Контракт на данные и экспорт модели</td></tr>
+</table>
+<h2 id="юридические-и-этические-риски">Юридические и этические риски</h2>
+<ul>
+<li><strong>Биометрия и лица</strong> — согласия, локальное хранение, ограничения по законодательству.</li>
+<li><strong>Видеонаблюдение сотрудников</strong> — трудовое право, профсоюзы, прозрачная политика.</li>
+<li><strong>Дискриминация</strong> — модель хуже работает на отдельных группах; нужен аудит fairness.</li>
+</ul>
+<p>Подробнее — в главе про этику.</p>
+<h2 id="когда-cv-не-нужен">Когда CV <strong>не</strong> нужен</h2>
+<p>Иногда проще и дешевле:</p>
+<ul>
+<li><strong>датчик присутствия</strong> вместо камеры в переговорной;</li>
+<li><strong>весы / RFID</strong> вместо CV-подсчёта на конвейере;</li>
+<li><strong>штрих-код</strong> вместо OCR на ровной этикетке.</li>
+</ul>
+<p>CV оправдан, когда <strong>визуальная информация</strong> — единственный или самый дешёвый способ получить решение.</p>
+<h2 id="как-формулировать-ожидания-для-стейкholdеров">Как формулировать ожидания для стейкholdеров</h2>
+<p><strong>Плохо:</strong> «AI будет видеть всё и никогда не ошибаться».</p>
+<p><strong>Хорошо:</strong> «Система поймает 95% дефектов типа A и B; ожидаем не более 3 ложных остановок в смену; оператор проверяет спорные случаи; через 6 месяцев пересмотрим пороги по факту».</p>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Успешные проекты CV честно описывают <strong>границы применимости</strong> и закладывают <strong>процесс</strong>, а не только алгоритм. Это повышает доверие бизнеса и снижает разочарование после пилота.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 7 —</span></footer></section><section class="chapter" id="chapter-8"><header class="chapter-header"><span class="chapter-num">Глава 8</span><h1>Компьютерное зрение в промышленности</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> на заводе камера смотрит на детали и людей так же внимательно, как лучший контролёр, только без перерывов и отвлечений.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/07_industrial.png" alt="Промышленность"><figcaption>Промышленность</figcaption></figure>
+<h2 id="контроль-качества-visual-inspection">Контроль качества (Visual Inspection)</h2>
+<p><strong>Задача:</strong> находить дефекты — царапины, сколы, включения, неправильная сборка.</p>
+<p><strong>Эффект:</strong></p>
+<ul>
+<li>стабильное качество 24/7;</li>
+<li>меньше возвратов от клиентов;</li>
+<li>данные для анализа «где ломается процесс».</li>
+</ul>
+<p><strong>Нюансы:</strong> каждый новый SKU может требовать новых примеров; критичны освещение и синхронизация с линией.</p>
+<h2 id="охрана-труда-и-промышленная-безопасность">Охрана труда и промышленная безопасность</h2>
+<p><strong>Задача:</strong> каски, жилеты, очки, нахождение в опасной зоне, работа под краном без ограждения.</p>
+<p><strong>Эффект:</strong> снижение травматизма, доказательная база для расследований, культура безопасности.</p>
+<p><strong>Нюансы:</strong> согласование с профсоюзом и HR; избегать «карательного» использования без обучения.</p>
+<h2 id="подсчёт-и-учёт-продукции">Подсчёт и учёт продукции</h2>
+<p><strong>Задача:</strong> сколько единиц прошло по конвейеру, сколько паллет на складе, заполненность контейнера.</p>
+<p><strong>Эффект:</strong> автоматическая сверка с ERP, меньше инвентаризационных расхождений.</p>
+<h2 id="предиктивное-обслуживание">Предиктивное обслуживание</h2>
+<p><strong>Задача:</strong> по визуальным признакам (вибрация ремня, потёки масла, износ ножа) предсказать поломку.</p>
+<p><strong>Эффект:</strong> меньше внеплановых простоев, переход от календарного ТО к состоянию.</p>
+<h2 id="роботизация-и-cobots">Роботизация и cobots</h2>
+<p><strong>Задача:</strong> робот «видит» деталь, захват, orientation для сборки или паллетирования.</p>
+<p><strong>Эффект:</strong> гибкость линии при смене продукции (vs жёсткая механика).</p>
+<h2 id="traceability-и-доказательная-база">Traceability и доказательная база</h2>
+<p><strong>Задача:</strong> фото каждой партии с привязкой к серийному номеру.</p>
+<p><strong>Эффект:</strong> быстрый root cause при рекламации; compliance в pharma, automotive, food.</p>
+<h2 id="экономика-как-считать-roi">Экономика: как считать ROI</h2>
+<p>Пример упрощённого расчёта для QC:</p>
+<ul>
+<li><strong>Было:</strong> 4 инспектора × смена × стоимость часа + % пропущенного брака × стоимость рекламации.</li>
+<li><strong>Стало:</strong> CapEx/OpEx системы CV + 1 оператор на эскалации + остаточный брак.</li>
+</ul>
+<p>Пилот на <strong>одной линии</strong> за 2–3 месяца даёт цифры для масштабирования.</p>
+<h2 id="чек-лист-готов-ли-участок-к-cv">Чек-лист «готов ли участок к CV»</h2>
+<ul>
+<li>[ ] Есть повторяющийся визуальный дефект или риск?</li>
+<li>[ ] Камера может быть установлена стабильно?</li>
+<li>[ ] Есть архив «брак / норма» или можно снять?</li>
+<li>[ ] Понятен канал «остановить / маркировать / алерт»?</li>
+<li>[ ] Согласованы владельцы процесса (производство + IT + качество)?</li>
+</ul>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Промышленность — <strong>флагман</strong> CV: высокий ROI, измеримые метрики, понятная интеграция с MES. Начинайте с одной боли (дефект или безопасность), а не с «AI на весь завод».</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 8 —</span></footer></section><section class="chapter" id="chapter-9"><header class="chapter-header"><span class="chapter-num">Глава 9</span><h1>Офисы и корпоративные пространства</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> камеры в офисе помогают не «шпионить ради шпионства», а понимать, как используется пространство, и делать вход безопаснее и удобнее.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/08_office.png" alt="Офис и корпоративные пространства"><figcaption>Офис и корпоративные пространства</figcaption></figure>
+<h2 id="пропускной-режим-и-биометрия">Пропускной режим и биометрия</h2>
+<p><strong>Сценарий:</strong> сотрудник проходит через турникет — система распознаёт лицо (или лицо + бейдж), проверяет <strong>liveness</strong> (что это не фото).</p>
+<p><strong>Выгода:</strong> быстрый поток в час пик, меньше потери карт доступа, журнал событий.</p>
+<p><strong>Важно:</strong> согласие на обработку биометрии, альтернатива (PIN, карта), политика хранения.</p>
+<h2 id="занятость-переговорных-и-рабочих-мест">Занятость переговорных и рабочих мест</h2>
+<p><strong>Сценарий:</strong> датчики или камеры фиксируют «пусто / занято» без идентификации личности — только факт присутствия.</p>
+<p><strong>Выгода:</strong> бронирование через приложение с реальным статусом, меньше «занятых пустых» комнат.</p>
+<p><strong>Тренд гибридного офиса:</strong> heat maps — в какие дни перегружен open space, нужно ли перераспределить зоны.</p>
+<h2 id="безопасность-и-охрана">Безопасность и охрана</h2>
+<p><strong>Сценарий:</strong> незнакомец в серверной, дверь propped open, оставленная сумка в холле.</p>
+<p><strong>Выгода:</strong> оперативное реагирование, интеграция с СКУД и охраной.</p>
+<h2 id="комфорт-и-сервисы">Комфорт и сервисы</h2>
+<p><strong>Сценарии:</strong> очередь в столовой → уведомление «лучше зайти через 10 минут»; контроль освещения по заполненности зоны.</p>
+<p><strong>Выгода:</strong> UX для сотрудников, данные для facility management.</p>
+<h2 id="соблюдение-политик-осторожно">Соблюдение политик (осторожно)</h2>
+<p>Дресс-код, курение в неположенном месте, доступ в зоны с NDA — технически возможно, но <strong>высокий reputational risk</strong>, если нет прозрачности и договорённостей.</p>
+<p>Рекомендация: фокус на <strong>безопасность и ресурсы</strong>, не на микрокontrol.</p>
+<h2 id="отличия-от-промышленности">Отличия от промышленности</h2>
+<table class="data-table">
+<tr><th>Фактор</th><th>Офис</th><th>Завод</th></tr>
+<tr><td>Освещение</td><td>Мягкое, переменное</td><td>Часто жёсткое, стабильное</td></tr>
+<tr><td>Приватность</td><td>Высокая чувствительность</td><td>Фокус на процессе</td></tr>
+<tr><td>KPI</td><td>Комfort, security, utilization</td><td>Брак, простой, травмы</td></tr>
+<tr><td>Интеграция</td><td>СКУД, booking, HR</td><td>MES, ERP</td></tr>
+</table>
+<h2 id="пилот-в-офисе-с-чего-начать">Пилот в офисе: с чего начать</h2>
+<ol>
+<li><strong>Одна боль</strong> — например, ghost bookings переговорок.</li>
+<li><strong>Privacy by design</strong> — анонимизация, минимум хранения, signage «ведётся видеоаналитика».</li>
+<li><strong>Пилот 4–6 недель</strong> на одном этаже.</li>
+<li><strong>Опрос сотрудников</strong> до и после.</li>
+</ol>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>CV в офисе — про <strong>удобство и безопасность</strong> при уважении к приватности. Успех зависит от коммуникации с HR и legal не меньше, чем от качества алгоритма.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 9 —</span></footer></section><section class="chapter" id="chapter-10"><header class="chapter-header"><span class="chapter-num">Глава 10</span><h1>Улица, город и инфраструктура</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> «умный город» — это когда камеры на улице помогают разгружать дороги, находить свободную парковку и быстрее реагировать на проблемы.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/09_street.png" alt="Улица и город"><figcaption>Улица и город</figcaption></figure>
+<h2 id="транспорт-и-перекрёстки">Транспорт и перекрёстки</h2>
+<p><strong>Задачи:</strong> подсчёт потоков машин и пешеходов, адаптивные светофоры, детекция пробок и ДТП.</p>
+<p><strong>Эффект:</strong> меньше заторов, быстрее скорая и службы, данные для urban planning.</p>
+<p><strong>Сложности:</strong> погода, ночь, сезонность; интеграция с городскими IT-системами.</p>
+<h2 id="парковка">Парковка</h2>
+<p><strong>Задачи:</strong> свободные места на уличной парковке, парковочные нарушения, оплата по номеру.</p>
+<p><strong>Эффект:</strong> меньше кругов в поиске места, рост собираемости штрафов/оплат.</p>
+<h2 id="экология-и-содержание-города">Экология и содержание города</h2>
+<p><strong>Задачи:</strong> переполненные урны, несанкционированные свалки, загрязнение водоёмов, состояние озеленения.</p>
+<p><strong>Эффект:</strong> таргетированный выезд бригад вместо обхода «по расписанию».</p>
+<h2 id="общественная-безопасность">Общественная безопасность</h2>
+<p><strong>Задачи:</strong> скопление толпы, оставленные предметы, дым/огонь, vandalism.</p>
+<p><strong>Эффект:</strong> профилактика инцидентов; <strong>важно</strong> — баланс с правами граждан и прозрачностью алгоритмов.</p>
+<h2 id="строительство-и-дорожные-работы">Строительство и дорожные работы</h2>
+<p><strong>Задачи:</strong> контроль техники на площадке, соблюдение ограждений, прогресс работ по фото/видео.</p>
+<p><strong>Эффект:</strong> меньше простоев, доказательная база для подрядчиков.</p>
+<h2 id="ритейл-у-дома">Ритейл «у дома»</h2>
+<p><strong>Задачи:</strong> очереди у входа, витрины, outdoor реклама (audience measurement).</p>
+<p><strong>Эффект:</strong> staffing, промо, compliance с brand book.</p>
+<h2 id="модели-закупки-для-municipality-девелопера">Модели закупки для municipality / девелопера</h2>
+<ul>
+<li><strong>CapEx</strong> — камеры + платформа на балансе;</li>
+<li><strong>конcession</strong> — подрядчик инвестирует, монетизирует данные/сервис;</li>
+<li><strong>гранты</strong> — пилоты «умного города» с KPI от Mинцифры/регионов.</li>
+</ul>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Городской CV — <strong>масштаб и политика</strong>. Технически задачи те же (детекция, подсчёт, OCR номеров), но критичны legal, гражданское доверие и межведомственная интegration.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 10 —</span></footer></section><section class="chapter" id="chapter-11"><header class="chapter-header"><span class="chapter-num">Глава 11</span><h1>Розничная торговля и e-commerce</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> в магазине камера видит, что полка пустеет, а на кассе самообслуживания — что вы положили в корзину (или забыли пробить).</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/10_retail.png" alt="Розница"><figcaption>Розница</figcaption></figure>
+<h2 id="аналитика-полок-on-shelf-availability">Аналитика полок (On-shelf availability)</h2>
+<p><strong>Задача:</strong> пустые места, неправильная выкладка, ценники не на месте.</p>
+<p><strong>Эффект:</strong> меньше lost sales, автоматические задачи персоналу через приложение.</p>
+<p><strong>Форматы:</strong> стационарные камеры в aisle, роботы-сканеры ночью, мобильные обходы с планшетом.</p>
+<h2 id="self-checkout-и-shrinkage">Self-checkout и shrinkage</h2>
+<p><strong>Задача:</strong> сверка товаров в зоне сканера с видео — «пропущенный скан».</p>
+<p><strong>Эффект:</strong> снижение потерь; <strong>осторожно</strong> с UX — ложные обвинения разрушают лояльность.</p>
+<h2 id="очереди-и-staffing">Очереди и staffing</h2>
+<p><strong>Задача:</strong> длина очереди на кассах и в примерочных.</p>
+<p><strong>Эффект:</strong> открытие дополнительной кассы в peak, KPI для директора магазина.</p>
+<h2 id="анти-theft-поведенческая-аналитика">Анти-theft (поведенческая аналитика)</h2>
+<p><strong>Задача:</strong> паттерны «concealment», частые walk-out без оплаты.</p>
+<p><strong>Эффект:</strong> фокus LP на реальных рисках; требует этики и legal review.</p>
+<h2 id="virtual-try-on-и-ar">Virtual try-on и AR</h2>
+<p><strong>Задача:</strong> «примерить» одежду или makeup на экране.</p>
+<p><strong>Эффект:</strong> engagement онлайн и в флагманских магазинах, меньше возвратов при правильной калибровке.</p>
+<h2 id="склад-и-dark-store">Склад и dark store</h2>
+<p><strong>Задача:</strong> picking verification — правильный SKU в заказ; damage при упаковке.</p>
+<p><strong>Эффект:</strong> точность same-day delivery, меньше компенсаций.</p>
+<h2 id="метрики-успеха-для-retail-cv">Метрики успеха для retail CV</h2>
+<table class="data-table">
+<tr><th>KPI</th><th>Описание</th></tr>
+<tr><td>OSA</td><td>% времени товар доступен на полке</td></tr>
+<tr><td>Shrink rate</td><td>Потери vs baseline</td></tr>
+<tr><td>Queue time</td><td>Среднее время в очереди</td></tr>
+<tr><td>Labor productivity</td><td>Задачи на час с/без CV-подсказок</td></tr>
+</table>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Retail — один из самых <strong>коммерчески зрелых</strong> рынков CV. Начните с OSA или очередей: эффект виден в P&amp;L магазина за недели, не годы.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 11 —</span></footer></section><section class="chapter" id="chapter-12"><header class="chapter-header"><span class="chapter-num">Глава 12</span><h1>Медицина и здравоохранение</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> врач по-прежнему главный, но компьютер помогает быстрее заметить подозрительное пятно на снимке или что пациент упал в палате.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/11_healthcare.png" alt="Медицина"><figcaption>Медицина</figcaption></figure>
+<h2 id="анализ-медицинских-изображений">Анализ медицинских изображений</h2>
+<p><strong>Задачи:</strong> подсказки на рентгене, КТ, МРТ, маммографии, сетчатке глаза.</p>
+<p><strong>Эффект:</strong> второе «мнение», triage срочных случаев, разгрузка radiologist в регионах с дефicit кадров.</p>
+<p><strong>Важно:</strong> CV — <strong>assistive</strong>, не замена врача; регистрация как медизделие (FDA, CE, Росздравнадзор) для кlinical use.</p>
+<h2 id="мониторинг-пациентов">Мониторинг пациентов</h2>
+<p><strong>Задачи:</strong> падение в палате, длительное отсутствие движения, выход из кровати после операции.</p>
+<p><strong>Эффект:</strong> быстрее реакция медсестёр, меньше осложнений.</p>
+<p><strong>Приватность:</strong> по возможности без записи лица — только pose / silhouette.</p>
+<h2 id="хирургия-и-навигация">Хирургия и навигация</h2>
+<p><strong>Задачи:</strong> overlay анатомии, контроль инструментов, подсчёт тамpon / инструментов.</p>
+<p><strong>Эффект:</strong> safety checklist в OR, training для резидентов.</p>
+<h2 id="лаборатории-и-микроскопия">Лаборатории и микроскопия</h2>
+<p><strong>Задачи:</strong> подсчёт клеток, классификация патологий на smear.</p>
+<p><strong>Эффект:</strong> стандартизация, throughput в лабораториях.</p>
+<h2 id="документооборот">Документооборот</h2>
+<p><strong>Задачи:</strong> OCR бумажных направлений, рецептов, браслетов.</p>
+<p><strong>Эффект:</strong> меньше ошибок ввода, быстрее admission.</p>
+<h2 id="санитарные-нормы">Санитарные нормы</h2>
+<p><strong>Задачи:</strong> мытьё рук персоналом, наличие перчаток, чистота зон.</p>
+<p><strong>Эффект:</strong> infection control, аудит для аккредитации.</p>
+<h2 id="барьеры-внедрения">Барьеры внедрения</h2>
+<ul>
+<li><strong>Regulatory</strong> — сроки и стоимость сертификации;</li>
+<li><strong>Integration</strong> — HL7, FHIR, PACS;</li>
+<li><strong>Liability</strong> — кто отвечает за ошибку модели;</li>
+<li><strong>Clinical validation</strong> — исследования на вашей популяции.</li>
+</ul>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Healthcare CV — <strong>высокая ценность и высокий барьер входа</strong>. Для бизнеса вне клиник (медстрахование, telehealth, wellness) возможны более лёгкие сценарии без статуса SaMD.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 12 —</span></footer></section><section class="chapter" id="chapter-13"><header class="chapter-header"><span class="chapter-num">Глава 13</span><h1>Транспорт и логистика</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> на складе и в порту камера «видит» посылку и машину так же, как опытный кладовщик — только быстрее и без ошибок от усталости.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/12_logistics.png" alt="Логистика"><figcaption>Логистика</figcaption></figure>
+<h2 id="сортировка-посылок">Сортировка посылок</h2>
+<p><strong>Задача:</strong> чтение этикеток, определение размера/формы, маршрутизация на belt sorter.</p>
+<p><strong>Эффект:</strong> throughput hub&#x27;ов, меньше mis-sort, данные для SLA перевозчиков.</p>
+<p><strong>Технологии:</strong> OCR + barcode + 3D dimensioning.</p>
+<h2 id="склад-inventory-и-picking">Склад: inventory и picking</h2>
+<p><strong>Задача:</strong> где паллета, пуст ли bin, правильно ли уложен товар роботом.</p>
+<p><strong>Эффект:</strong> cycle count без остановки склада, verification перед отгрузкой.</p>
+<h2 id="автопарк-и-adas">Автопарк и ADAS</h2>
+<p><strong>Задача:</strong> контроль дистанции, полосы, усталости водителя (закрытые глаза, зевота).</p>
+<p><strong>Эффект:</strong> снижение аварийности, страховые бонусы, compliance.</p>
+<p><strong>Примечание:</strong> часть функций — regulatory (Euro NCAP, локальные нормы).</p>
+<h2 id="порты-и-контейнеры">Порты и контейнеры</h2>
+<p><strong>Задача:</strong> распознавание номера контейнера, damage inspection при приёмке.</p>
+<p><strong>Эффект:</strong> меньше споров между линиями и терминалом, быстрее turnaround судов.</p>
+<h2 id="last-mile">Last mile</h2>
+<p><strong>Задача:</strong> навигация delivery-robot / drone, подтверждение вручения (фото у двери).</p>
+<p><strong>Эффект:</strong> меньше «не получил заказ», доказательная база.</p>
+<h2 id="трекинг-и-доказательная-база">Трекинг и доказательная база</h2>
+<p><strong>Задача:</strong> видео + GPS + timestamp при погрузке/разгрузке.</p>
+<p><strong>Эффект:</strong> арбитраж претензий B2B.</p>
+<h2 id="kpi-логистического-cv">KPI логистического CV</h2>
+<ul>
+<li>parcels per hour;</li>
+<li>mis-sort rate;</li>
+<li>damage claim rate;</li>
+<li>idle time на gate/inbound dock.</li>
+</ul>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Логистика — <strong>объём и скорость</strong>. CV окупается там, где ошибка стоит дорого (mis-sort premium посылки) или где ручной труд — bottleneck.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 13 —</span></footer></section><section class="chapter" id="chapter-14"><header class="chapter-header"><span class="chapter-num">Глава 14</span><h1>Безопасность и видеонаблюдение</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> вместо сотни мониторов, которые никто не успевает смотреть, система сама подсказывает: «здесь что-то необычное — посмотри сюда».</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/13_security.png" alt="Безопасность"><figcaption>Безопасность</figcaption></figure>
+<h2 id="от-реактивного-архива-к-проактивным-алертам">От реактивного архива к проактивным алертам</h2>
+<p>Классическое CCTV — запись «на потом». CV добавляет <strong>слой событий</strong>:</p>
+<ul>
+<li>пересечение линии периметра;</li>
+<li>человек в запретной зоне в нерабочее время;</li>
+<li>оставленный предмет &gt; N минут;</li>
+<li>дым / огонь;</li>
+<li>скопление толпы.</li>
+</ul>
+<h2 id="контроль-доступа">Контроль доступа</h2>
+<p><strong>Face + liveness</strong> на проходной, сопоставление с whitelist/blacklist, anti-tailgating (два человека на одного).</p>
+<p><strong>Интеграция:</strong> СКУД, HR (увольнение → автоматический ban).</p>
+<h2 id="поиск-и-расследования-forensics">Поиск и расследования (forensics)</h2>
+<p><strong>Задача:</strong> «найти все кадры с красной курткой и рюкзаком» — attribute search по архиву.</p>
+<p><strong>Эффект:</strong> часы вместо дней при расследовании инцидента.</p>
+<p><strong>Эthics:</strong> ограничить круг пользователей, журналировать запросы.</p>
+<h2 id="специализированные-угрозы">Специализированные угрозы</h2>
+<p>Детекция оружия, агрессии, падения — высокий <strong>false positive</strong>; нужны процедуры подтверждения оператором.</p>
+<h2 id="compliance">Compliance</h2>
+<ul>
+<li>сроки хранения видео;</li>
+<li>GDPR / 152-ФЗ — право на удаление, уведомления;</li>
+<li>export для суда — chain of custody.</li>
+</ul>
+<h2 id="организационная-модель">Организационная модель</h2>
+<table class="data-table">
+<tr><th>Роль</th><th>Ответственность</th></tr>
+<tr><td>Security ops</td><td>Реакция на алерты</td></tr>
+<tr><td>IT</td><td>Камеры, сеть, VMS</td></tr>
+<tr><td>Data/AI</td><td>Модели, качество</td></tr>
+<tr><td>Legal</td><td>Политики, DPIA</td></tr>
+</table>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>CV в безопасности — <strong>фильтр внимания</strong> оператора, не замена службы. Успех = правильные SOP на каждый тип алерта + регулярный review ложных срабатываний.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 14 —</span></footer></section><section class="chapter" id="chapter-15"><header class="chapter-header"><span class="chapter-num">Глава 15</span><h1>Сельское хозяйство и AgriTech</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> дрон или камера на тракторе смотрит на поле и говорит: «здесь сорняки», «здесь болеет растение», «здесь созрело».</p>
+</blockquote>
+<h2 id="мониторинг-посевов">Мониторинг посевов</h2>
+<p><strong>Задачи:</strong> стресс растений (вода, болезнь, вредители), NDVI с камер и спектрометров, прогноз урожая.</p>
+<p><strong>Эффект:</strong> точечное внесение удобрений и СЗР, меньше потерь урожая.</p>
+<h2 id="сорняки-и-precision-spraying">Сорняки и precision spraying</h2>
+<p><strong>Задача:</strong> сегментация сорняка → включение форсунки только на weed.</p>
+<p><strong>Эффект:</strong> экономия химии до 70–90% vs сплошная обработка.</p>
+<h2 id="урожай-и-сортировка">Урожай и сортировка</h2>
+<p><strong>Задача:</strong> зрелость плода, размер, дефекты на sorting line.</p>
+<p><strong>Эффект:</strong> premium цена за качество, меньше отходов.</p>
+<h2 id="животноводство">Животноводство</h2>
+<p><strong>Задачи:</strong> поведение стада, дистанция при доении, вес по silhouette, рождение телёнка.</p>
+<p><strong>Эффект:</strong> раннее лечение, welfare compliance.</p>
+<h2 id="дроны-vs-стационарные-камеры">Дроны vs стационарные камеры</h2>
+<table class="data-table">
+<tr><th>Источник</th><th>Плюсы</th><th>Минусы</th></tr>
+<tr><td><strong>Дрон</strong></td><td>Охват поля, 3D</td><td>Погода, регulation полётов</td></tr>
+<tr><td><strong>Трактор / robot</strong></td><td>Регулярность</td><td>Скорость, пыль</td></tr>
+<tr><td><strong>Столб на поле</strong></td><td>Дешевле на малом участке</td><td>Один ракурс</td></tr>
+</table>
+<h2 id="сезонность-и-данные">Сезонность и данные</h2>
+<p>Agri CV сильно зависит от <strong>фазы vegetative cycle</strong> — модель, обученная весной, может drift к осени. Нужен план дообучения по сезонам.</p>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>AgriTech CV — растущий рынок с <strong>экологическим и экономическим</strong> эффектом. Пилот часто начинают с одного поля и одной культуры.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 15 —</span></footer></section><section class="chapter" id="chapter-16"><header class="chapter-header"><span class="chapter-num">Глава 16</span><h1>Как внедрить CV в компании: дорожная карта</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> не покупайте «AI ради AI». Найдите боль, проверьте на маленьком участке, измерьте цифры — и только потом масштабируйте.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/14_implementation.png" alt="Дорожная карта"><figcaption>Дорожная карта</figcaption></figure>
+<h2 id="фаза-1-гипотеза-и-бизнес-кейс-24-недели">Фаза 1: Гипотеза и бизнес-кейс (2–4 недели)</h2>
+<p><strong>Действия:</strong></p>
+<ul>
+<li>workshop с производством / операциями / security;</li>
+<li>список болей, где <strong>зрение</strong> — ключевой сигнал;</li>
+<li>rough ROI: cost of problem × частота;</li>
+<li>проверка legal (лица, персональные данные).</li>
+</ul>
+<p><strong>Выход:</strong> one-pager с KPI пилота и владельцем.</p>
+<h2 id="фаза-2-feasibility-и-данные-48-недель">Фаза 2: Feasibility и данные (4–8 недель)</h2>
+<p><strong>Действия:</strong></p>
+<ul>
+<li>audit камер и мест установки;</li>
+<li>сбор 200–500 сырых кадров «в полях»;</li>
+<li>экспресс-тест готовой модели или консультация ML-команды;</li>
+<li>go / no-go по достижимой точности.</li>
+</ul>
+<p><strong>Выход:</strong> техническое заключение «достижимо / не достижимо / нужны доработки».</p>
+<h2 id="фаза-3-пилот-3090-дней">Фаза 3: Пилот (30–90 дней)</h2>
+<p><strong>Действия:</strong></p>
+<ul>
+<li>разметка данных, обучение, интеграция с <strong>одним</strong> процессом;</li>
+<li>shadow mode (система советует, человек решает) → assisted mode → auto;</li>
+<li>еженедельный review метрик.</li>
+</ul>
+<p><strong>Выход:</strong> отчёт пилота с ROI факт/прогноз.</p>
+<h2 id="фаза-4-масштабирование">Фаза 4: Масштабирование</h2>
+<p><strong>Действия:</strong></p>
+<ul>
+<li>rollout на линии / филиалы;</li>
+<li>MLOps: мониторинг drift, версии моделей;</li>
+<li>обучение персонала и SOP;</li>
+<li>контракт поддержки с SLA.</li>
+</ul>
+<h2 id="команда-внутренняя-vs-внешняя">Команда: внутренняя vs внешняя</h2>
+<table class="data-table">
+<tr><th>Модель</th><th>Когда</th></tr>
+<tr><td><strong>Integrator + vendor</strong></td><td>Нет in-house ML, нужен быстрый результат</td></tr>
+<tr><td><strong>In-house + platform</strong></td><td>Много площадок, чувствительные данные</td></tr>
+<tr><td><strong>Hybrid</strong></td><td>Пилот с vendor, prod с internal team</td></tr>
+</table>
+<h2 id="бюджет-статьи">Бюджет: статьи</h2>
+<ul>
+<li>камеры и монтаж;</li>
+<li>edge/cloud infra;</li>
+<li>разметка и ML (часто недооценивают);</li>
+<li>интеграция с ERP/MES;</li>
+<li>change management.</li>
+</ul>
+<h2 id="типичные-ошибки">Типичные ошибки</h2>
+<ol>
+<li>Нет <strong>владельца процесса</strong> — только IT.</li>
+<li>Пилот без <strong>baseline метрик</strong>.</li>
+<li>Игнорирование <strong>освещения и монтажа</strong>.</li>
+<li>Scope creep — «раз уж камера, давайте ещё 10 задач».</li>
+</ol>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Внедрение CV — <strong>управленческий проект</strong> с технологической начинкой. Дорожная карта «гипотеза → данные → пилот → масштаб» снижает риск и делает ROI видимым для CFO.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 16 —</span></footer></section><section class="chapter" id="chapter-17"><header class="chapter-header"><span class="chapter-num">Глава 17</span><h1>Этика, приватность и ответственное использование</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> камера может многое увидеть — поэтому важно заранее договориться, что можно, а что нельзя, и защитить людей и их данные.</p>
+</blockquote>
+<figure class="illustration"><img src="assets/illustrations/15_ethics.png" alt="Этика и ответственное использование"><figcaption>Этика и ответственное использование</figcaption></figure>
+<h2 id="принципы-responsible-cv">Принципы responsible CV</h2>
+<ol>
+<li><strong>Purpose limitation</strong> — снимаем и анализируем только для заявленной цели.</li>
+<li><strong>Data minimization</strong> — не храним лица, если достаточно «человек в зоне».</li>
+<li><strong>Transparency</strong> — таблички, политики, ответы на вопросы сотрудников.</li>
+<li><strong>Accountability</strong> — владелец системы, audit log, процедура жалob.</li>
+<li><strong>Human oversight</strong> — критичные решения не только алгоритм.</li>
+</ol>
+<h2 id="биометрия-и-распознавание-лиц">Биометрия и распознавание лиц</h2>
+<p>В РФ и EU действуют <strong>специальные режимы</strong> для биометрических данных:</p>
+<ul>
+<li>явное <strong>согласие</strong> или иное законное основание;</li>
+<li><strong>локализация</strong> хранения (требования 152-ФЗ для ряда категорий);</li>
+<li><strong>альтернативный</strong> способ доступа без биометрии;</li>
+<li>периодический <strong>пересмотр</strong> необходимости.</li>
+</ul>
+<p>Для бизнеса: involve legal <strong>до</strong> закупки камер на проходной.</p>
+<h2 id="видеонаблюдение-сотрудников">Видеонаблюдение сотрудников</h2>
+<ul>
+<li>информирование и локальные акты;</li>
+<li>запрет скрытого наблюдения (кроме расследований по law);</li>
+<li>не использовать CV для <strong>скрытого</strong> рейтинга «продуктивности» без договорённостей;</li>
+<li>профсоюз / works council в ряde jurisdiction — обязательные консультации.</li>
+</ul>
+<h2 id="bias-и-справедливость">Bias и справедливость</h2>
+<p>Модели могут хуже работать на отдельных группах (тон кожи, пол, возраст, форма одежды). <strong>Практики:</strong></p>
+<ul>
+<li>тест на representative выборке;</li>
+<li>мониторинг метрик по подгруппам;</li>
+<li>корректировка данных и порогов.</li>
+</ul>
+<h2 id="безопасность-данных">Безопасность данных</h2>
+<ul>
+<li>шифрование потоков и архивов;</li>
+<li>RBAC — кто видит live и archive;</li>
+<li>retention policy — автоудаление;</li>
+<li>защита от deepfake на проходной (liveness, multimodal).</li>
+</ul>
+<h2 id="коммуникация-с-сотрудниками">Коммуникация с сотрудниками</h2>
+<p><strong>Плохо:</strong> «Поставили AI, не спрашивали».</p>
+<p><strong>Хорошо:</strong> «Кamеры в зоне X фиксируют только наличие каски, без записи лиц в архив дольше 24 ч; цель — безопасность; вот контакт для вопросов».</p>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Эthical CV — <strong>конкурентное преимущество</strong>: меньше судов, текучки и реputational crises. Legal и HR — равноправные stakeholders с первого дня проекта.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 17 —</span></footer></section><section class="chapter" id="chapter-18"><header class="chapter-header"><span class="chapter-num">Глава 18</span><h1>Будущее компьютерного зрения</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> камеры станут ещё умнее — будут не только «видеть предмет», но и «понимать сцену» и разговаривать с вами об этом простым языком.</p>
+</blockquote>
+<h2 id="мультимodal-модели-vision-language">Мультимodal модели (Vision + Language)</h2>
+<p><strong>Тренд:</strong> одна модель получает картинку и отвечает на вопросы: «Есть ли на полке наш бренд?», «Опиши инцident на парковке».</p>
+<p><strong>Для бизнеса:</strong> меньше кастомных моделей на каждую мелочь на старте; нужны guardrails и проверка галлюцинаций.</p>
+<h2 id="foundation-models-для-vision">Foundation models для vision</h2>
+<p><strong>DINO, SAM, CLIP-подобные</strong> модели — strong starting point для новых задач с малым числом примеров (few-shot).</p>
+<p><strong>Для бизнеса:</strong> быстрее пилоты, но всё равно нужна валидация на вашем домене.</p>
+<h2 id="edge-ai-и-efficient-models">Edge AI и efficient models</h2>
+<p>Модели сжимаются (quantization, distillation) — inference на <strong>дешёвых</strong> edge-box и даже на камере.</p>
+<p><strong>Для бизнеса:</strong> ниже TCO, меньше зависимость от облака.</p>
+<h2 id="3d-и-spatial-ai">3D и spatial AI</h2>
+<p>Depth, NeRF, digital twin — CV в связке с 3D-моделью завода или store.</p>
+<p><strong>Для бизнеса:</strong> симуляция изменений layout, robot path planning.</p>
+<h2 id="регulation-и-стандарты">Регulation и стандарты</h2>
+<p>EU AI Act, отраслевые стандарты для medical devices, automotive — <strong>compliance by design</strong>.</p>
+<h2 id="что-делать-компании-уже-сейчас">Что делать компании уже сейчас</h2>
+<ol>
+<li>Накопить <strong>качественный архив</strong> видео/фото процессов (с legal ok).</li>
+<li>Обучить 2–3 <strong>internal champions</strong> — не обязательно data scientists, но понимающих CV literacy.</li>
+<li>Выбрать <strong>1–2</strong> пилота с измеримым ROI.</li>
+<li>Заложить <strong>ethical framework</strong> до масштаба.</li>
+</ol>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Будущее CV — <strong>более универсальные модели + больше ответственности</strong>. Компании, которые начнут с понятных кейсов и честных метрик сегодня, легче интегрируют завтрашние breakthroughs.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 18 —</span></footer></section><section class="chapter" id="chapter-19"><header class="chapter-header"><span class="chapter-num">Глава 19</span><h1>Глоссарий: термины простым языком</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> словарь, чтобы на совещании не кивать непонимающе, когда IT говорит «inference на edge».</p>
+</blockquote>
+<h2 id="а">А</h2>
+<p><strong>Annotation (разметка)</strong> — когда человек или инструмент отмечает на фото «здесь дефект», «это человек».</p>
+<p><strong>Anomaly detection</strong> — поиск «не как обычно» без перечисления всех типов брака заранее.</p>
+<h2 id="б">Б</h2>
+<p><strong>Bounding box</strong> — прямоугольник вокруг объекта на кадре.</p>
+<h2 id="в">В</h2>
+<p><strong>Validation set</strong> — набор картинок для проверки модели, не использованных при обучении.</p>
+<h2 id="д">Д</h2>
+<p><strong>Dataset (датасет)</strong> — коллекция изображений (и разметки) для обучения.</p>
+<p><strong>Detection (детекция)</strong> — найти объект и указать, где он на кадре.</p>
+<h2 id="и">И</h2>
+<p><strong>Inference (инференс)</strong> — момент работы модели на новом кадре («предсказание»).</p>
+<p><strong>IoU</strong> — насколько рамка модели совпала с эталоном (техническая метрика).</p>
+<h2 id="к">К</h2>
+<p><strong>Classification (классификация)</strong> — присвоить картинке или объекту класс (метку).</p>
+<p><strong>CNN</strong> — тип нейросети, historically dominant в CV (сверточная сеть).</p>
+<h2 id="m">M</h2>
+<p><strong>mAP</strong> — усреднённая точность детекции по классам (для разговора с ML-командой).</p>
+<p><strong>Model (модель)</strong> — обученная программа, превращающая изображение в ответ.</p>
+<h2 id="o">O</h2>
+<p><strong>OCR</strong> — распознавание текста на изображении.</p>
+<p><strong>Overfitting</strong> — модель «зазубрила» training, плохо работает на новых данных.</p>
+<h2 id="p">P</h2>
+<p><strong>Precision</strong> — из всех «сигналов брак» сколько реально брак.</p>
+<p><strong>Preprocessing</strong> — подготовка кадра перед моделью.</p>
+<h2 id="r">R</h2>
+<p><strong>Recall</strong> — из всего реального брака сколько система поймала.</p>
+<p><strong>ROI</strong> — return on investment, окупаемость.</p>
+<h2 id="s">S</h2>
+<p><strong>Segmentation (сегментация)</strong> — выделение пикселей, принадлежащих объекту.</p>
+<p><strong>SDK / API</strong> — готовый интерфейс для вызова CV-функций из ваших систем.</p>
+<h2 id="t">T</h2>
+<p><strong>Tracking (трекинг)</strong> — сопровождение объекта между кадрами видео.</p>
+<p><strong>Threshold (порог)</strong> — число уверенности, выше которого система «срабатывает».</p>
+<h2 id="e">E</h2>
+<p><strong>Edge computing</strong> — вычисления на месте (у камеры, на заводе), а не в облаке.</p>
+<p><strong>Epoch</strong> — один проход обучения по всему training set (жаргон ML).</p>
+<h2 id="v">V</h2>
+<p><strong>ViT (Vision Transformer)</strong> — современная архитектура CV на базе transformer.</p>
+<p><strong>VMS</strong> — Video Management System, платформа управления камерами.</p>
+<h2 id="краткий-итог">Краткий итог</h2>
+<p>Держите этот глоссарий под рукой на встречах с интеграторами. Не стесняйтесь просить перевести любой новый термин на язык KPI вашего процесса.</p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 19 —</span></footer></section><section class="chapter" id="chapter-20"><header class="chapter-header"><span class="chapter-num">Глава 20</span><h1>Чек-лист для руководителя и итоги</h1></header><div class="chapter-body"><blockquote class="callout">
+<p><strong>Простыми словами:</strong> перед тем как сказать «да» проекту с камерами и AI, пробегитесь по этому списку — он сэкономит месяцы и бюджет.</p>
+</blockquote>
+<h2 id="чек-лист-перед-стартом-проекта-cv">Чек-лист перед стартом проекта CV</h2>
+<h3 id="бизнес">Бизнес</h3>
+<ul>
+<li>[ ] Сформулирована <strong>конкретная боль</strong> (не «хотим AI»).</li>
+<li>[ ] Есть <strong>baseline</strong> — сколько стоит проблема сейчас.</li>
+<li>[ ] Назначен <strong>владелец процесса</strong> (не только IT).</li>
+<li>[ ] Определён <strong>один главный KPI</strong> пилота.</li>
+<li>[ ] Согласован <strong>критерий успеха</strong> пилота (go/no-go).</li>
+</ul>
+<h3 id="данные-и-технология">Данные и технология</h3>
+<ul>
+<li>[ ] Проведён <strong>audit</strong> камер / возможности установки.</li>
+<li>[ ] Собраны <strong>сырые кадры</strong> в реальных условиях.</li>
+<li>[ ] Есть план <strong>разметки</strong> и бюджет на неё.</li>
+<li>[ ] Выбран <strong>edge vs cloud</strong> с учётом задержки и offline.</li>
+<li>[ ] Описана <strong>интegration</strong> — куда уходит сигнал.</li>
+</ul>
+<h3 id="legal-и-hr">Legal и HR</h3>
+<ul>
+<li>[ ] Legal оценил <strong>персональные / биometric</strong> данные.</li>
+<li>[ ] Есть <strong>уведомления</strong> для сотрудников / посетителей.</li>
+<li>[ ] Определены <strong>сроки хранения</strong> видео и логов.</li>
+<li>[ ] Назначен <strong>DPO / контакт</strong> для вопросов.</li>
+</ul>
+<h3 id="эксплуатация">Эксплуатация</h3>
+<ul>
+<li>[ ] SOP на <strong>ложные тревоги</strong> и эскалацию.</li>
+<li>[ ] План <strong>мониторинга</strong> качества модели.</li>
+<li>[ ] Контракт <strong>поддержки</strong> и SLA.</li>
+<li>[ ] Fallback при <strong>простое</strong> системы.</li>
+</ul>
+<h2 id="итоги-книги">Итоги книги</h2>
+<p>Вы прошли путь от определения компьютерного зрения до отраслевых сценариев и дорожной карты внедрения.</p>
+<p><strong>Главные мысли:</strong></p>
+<ol>
+<li>CV превращает <strong>изображения в решения</strong> для процесса.</li>
+<li>Успех = <strong>данные + камеры + интegration + люди</strong>, не только «нейросеть».</li>
+<li>Начинайте с <strong>одного KPI</strong> и <strong>пилота</strong>.</li>
+<li><strong>Ethics и legal</strong> — часть ROI, не препятствие.</li>
+<li>Технические детали — в Knowledge Book; здесь — язык для <strong>принятия решений</strong>.</li>
+</ol>
+<h2 id="что-делать-дальше">Что делать дальше</h2>
+<ol>
+<li>Выберите <strong>главу отрасли</strong>, близкую вашей компании (промышленность, офис, retail…).</li>
+<li>Заполните <strong>чек-лист</strong> с коллегами из IT, legal, operations.</li>
+<li>Запланируйте <strong>2-недельный feasibility</strong> с сбором кадров.</li>
+<li>Обратитесь к техническим топикам книги знаний: Object Detection, Segmentation, Metric Learning — когда пилот перейдёт в фазу реализации.</li>
+</ol>
+<h2 id="обратная-связь">Обратная связь</h2>
+<p>Это издание v1.0 Knowledge Book Business Edition. Предложения по улучшению — через ваш internal channel или issues репозитория knowledge-book.</p>
+<p><strong>Спасибо, что читали. Удачных и ответственных проектов с компьютерным зрением!</strong></p></div><footer class="chapter-footer"><span>Компьютерное зрение: вводное руководство для бизнеса</span><span>— 20 —</span></footer></section>
+  <section class="chapter back-cover">
+    <h2>О руководстве</h2>
+    <p>Это руководство подготовлено в рамках проекта Knowledge Book и предназначено для сотрудников,
+    руководителей и специалистов, которые хотят понять возможности компьютерного зрения без погружения
+    в программирование и математику.</p>
+    <p>Технические детали и углублённые материалы — в разделах
+    <a href="https://github.com">knowledge-book/topics/</a> (Computer Vision, Object Detection и др.).</p>
+    <p class="copyright">© Knowledge Book · 2026</p>
+  </section>
+</main>
+</body>
+</html>

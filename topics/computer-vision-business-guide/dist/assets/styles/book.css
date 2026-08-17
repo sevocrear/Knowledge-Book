@@ -1,0 +1,327 @@
+/* Computer Vision Business Guide — book styles */
+
+:root {
+  --navy: #1a365d;
+  --blue: #3182ce;
+  --teal: #38b2ac;
+  --green: #38a169;
+  --orange: #ed8936;
+  --gray-100: #f7fafc;
+  --gray-200: #edf2f7;
+  --gray-600: #718096;
+  --gray-800: #2d3748;
+  --page-width: 210mm;
+  --font-serif: "Georgia", "Times New Roman", "DejaVu Serif", serif;
+  --font-sans: "Segoe UI", "Helvetica Neue", "DejaVu Sans", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-serif);
+  color: var(--gray-800);
+  background: var(--gray-100);
+  line-height: 1.65;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy);
+  color: white;
+  padding: 1.5rem 1rem 2rem;
+  z-index: 100;
+}
+
+.sidebar-brand {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.sidebar .toc {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar .toc li { margin-bottom: 0.35rem; }
+
+.sidebar .toc a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.sidebar .toc a:hover { background: rgba(255,255,255,0.1); color: white; }
+
+.toc-num {
+  color: var(--teal);
+  font-weight: 700;
+  min-width: 1.5rem;
+}
+
+.book {
+  margin-left: 280px;
+  max-width: calc(var(--page-width) + 4rem);
+}
+
+.cover-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  page-break-after: always;
+}
+
+.cover-image {
+  width: 100%;
+  max-height: 55vh;
+  object-fit: cover;
+}
+
+.cover-text {
+  padding: 2.5rem 3rem 3rem;
+}
+
+.cover-label {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--blue);
+  margin: 0 0 1rem;
+}
+
+.cover-text h1 {
+  font-size: 2.4rem;
+  color: var(--navy);
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.cover-subtitle {
+  font-size: 1.15rem;
+  color: var(--gray-600);
+  max-width: 36rem;
+}
+
+.cover-meta {
+  margin-top: 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
+.toc-page {
+  padding: 3rem;
+  background: white;
+  min-height: 80vh;
+  page-break-after: always;
+}
+
+.toc-page h1 {
+  color: var(--navy);
+  border-bottom: 3px solid var(--blue);
+  padding-bottom: 0.5rem;
+}
+
+.toc-full {
+  list-style: none;
+  padding: 0;
+  counter-reset: toc;
+}
+
+.toc-full li {
+  counter-increment: toc;
+  padding: 0.65rem 0;
+  border-bottom: 1px dotted var(--gray-200);
+  font-family: var(--font-sans);
+}
+
+.toc-full li::before {
+  content: counter(toc) ". ";
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.chapter {
+  background: white;
+  padding: 2.5rem 3rem 3rem;
+  margin-bottom: 1rem;
+  page-break-before: always;
+  min-height: 85vh;
+  position: relative;
+}
+
+.chapter-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.chapter-num {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  margin-bottom: 0.35rem;
+}
+
+.chapter h1 {
+  font-size: 2rem;
+  color: var(--navy);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.chapter h2 {
+  font-size: 1.45rem;
+  color: var(--navy);
+  margin: 2rem 0 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.chapter h3 {
+  font-size: 1.15rem;
+  color: var(--blue);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.chapter p {
+  margin: 0 0 1rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.chapter ul, .chapter ol {
+  margin: 0 0 1rem 1.25rem;
+}
+
+.chapter li { margin-bottom: 0.4rem; }
+
+blockquote.callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+  border-left: 4px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+}
+
+blockquote.callout p { margin: 0; font-style: italic; }
+
+figure.illustration {
+  margin: 1.75rem 0;
+  text-align: center;
+}
+
+figure.illustration img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(26,54,93,0.12);
+}
+
+figure.illustration figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  margin-top: 0.5rem;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+}
+
+table.data-table th {
+  background: var(--navy);
+  color: white;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+}
+
+table.data-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+table.data-table tr:nth-child(even) td {
+  background: var(--gray-100);
+}
+
+.chapter-footer {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 3rem;
+  right: 3rem;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--gray-600);
+  border-top: 1px solid var(--gray-200);
+  padding-top: 0.75rem;
+}
+
+.back-cover {
+  page-break-before: always;
+}
+
+.copyright {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
+code {
+  font-family: "Consolas", "DejaVu Sans Mono", monospace;
+  font-size: 0.88em;
+  background: var(--gray-200);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+a { color: var(--blue); }
+
+@media print {
+  .sidebar { display: none; }
+  .book { margin-left: 0; max-width: none; }
+  .chapter { page-break-after: always; box-shadow: none; }
+}
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .book { margin-left: 0; }
+  .chapter { padding: 1.5rem; }
+}
+
+@page {
+  size: A4;
+  margin: 20mm;
+}

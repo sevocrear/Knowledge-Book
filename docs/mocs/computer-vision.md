@@ -6,7 +6,7 @@ tags:
   - domain/cv
 type: moc
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 
 # MOC: Computer Vision
@@ -15,6 +15,7 @@ CNN, detection/segmentation, metric learning, SSL и tracking metrics.
 
 ## Topics
 
+- [Компьютерное зрение: вводное руководство для бизнеса](../../topics/computer-vision-business-guide/README.md) — Бизнес-книга (~30+ стр.) на понятном русском: что такое CV, как работает, задачи, отрасли (промышленность, офис, город, retail), внедрение, этика. EPUB + HTML.
 - [Свёртки в CNN, размеры карт признаков и число параметров](../../topics/convolutions-and-parameters-in-cnn/README.md) — Почему популярны ядра 3×3, формулы размера feature map, transposed conv и подсчёт параметров Conv/Linear/BatchNorm/depthwise.
 - [Non-Maximum Suppression (NMS) и современные end-to-end детекторы](../../topics/non-maximum-suppression-nms/README.md) — Классический NMS/Soft-NMS, проблемы в production и переход к NMS-free детекторам: DETR, RT-DETR, YOLO26 (dual-head).
 - [Loss функции для детекции, сегментации и 3D-детекции](../../topics/detection-segmentation-3d-losses/README.md) — Составные loss'ы детекторов: CE/Focal/QFL, L1/IoU/GIoU/DIoU/CIoU, Dice/Tversky для сегментации и 3D/BEV losses.

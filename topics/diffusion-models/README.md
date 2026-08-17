@@ -22,7 +22,7 @@ status: canonical
 lang: en
 type: topic
 slug: diffusion-models
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Diffusion Models: A Comprehensive Guide
 

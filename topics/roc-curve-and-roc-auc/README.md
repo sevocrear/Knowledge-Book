@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: roc-curve-and-roc-auc
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # ROC-кривые и ROC AUC: Оценка Классификаторов
 

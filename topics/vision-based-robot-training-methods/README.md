@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: vision-based-robot-training-methods
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Vision-Based Robot Training: Open-Source Methods and Best Practices
 

@@ -21,7 +21,7 @@ status: canonical
 lang: ru
 type: topic
 slug: embeddings-and-embedding-matrix
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Embeddings and Embedding Matrix
 

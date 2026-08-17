@@ -21,7 +21,7 @@ status: canonical
 lang: en
 type: topic
 slug: variational-autoencoders-vaes
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Variational Autoencoders (VAEs): A Comprehensive Guide
 

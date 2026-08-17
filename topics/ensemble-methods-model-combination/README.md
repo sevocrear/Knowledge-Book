@@ -25,7 +25,7 @@ status: canonical
 lang: ru
 type: topic
 slug: ensemble-methods-model-combination
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 # Методы комбинирования моделей (Ensemble Methods)
 
