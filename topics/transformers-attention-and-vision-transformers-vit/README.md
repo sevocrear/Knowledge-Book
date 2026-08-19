@@ -27,11 +27,11 @@ status: canonical
 lang: ru
 type: topic
 slug: transformers-attention-and-vision-transformers-vit
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Transformers, Attention и Vision Transformers (ViT)
 
-## Table of Contents
+## Оглавление
 
 1. Введение: почему трансформеры в CV и NLP  
 2. Scaled Dot-Product Attention и Q/K/V  
@@ -40,7 +40,7 @@ updated: 2026-08-10
 5. Позиционное кодирование: зачем и какие виды бывают  
 6. Архитектура Vision Transformer (ViT)  
 7. Классификация, детекция и сегментация на трансформерах  
-8. Связанные темы и References  
+8. Связанные темы и источники  
 9. Как объяснить это 5‑летнему ребёнку
 
 ---
@@ -344,7 +344,7 @@ $$
 
 ---
 
-### 8. Связанные темы и References
+### 8. Связанные темы и источники
 
 - **[Convolutions and Parameters in CNN](../convolutions-and-parameters-in-cnn/README.md)**  
   - Хорошо понимать CNN и свёртки, прежде чем переходить к ViT и DETR.

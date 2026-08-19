@@ -1,5 +1,5 @@
 ---
-title: ArcFace and Angular-Margin Losses for Identification
+title: ArcFace и angular-margin losses для идентификации
 description: "Additive angular margin loss для идентификации: геометрия на гиперсфере, сравнение с CosFace/SphereFace, face/SKU/re-ID и open-set пороги."
 tags:
   - kb/topic
@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: arcface-and-angular-margin-losses-for-identification
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# ArcFace and Angular-Margin Losses for Identification
+# ArcFace и angular-margin losses для идентификации
 
-## Table of Contents
+## Оглавление
 
 - Краткий абстракт и объяснение для 5-летнего ребёнка
 - Что такое ArcFace и зачем он нужен
@@ -43,7 +43,7 @@ updated: 2026-08-10
   - Vehicle re-identification
 - Практический протокол обучения и оценки
 - Частые ошибки и анти-паттерны
-- References
+- Источники
 
 ---
 
@@ -258,7 +258,7 @@ ArcFace обучается как классификационный лосс, �
 
 ---
 
-## References
+## Источники
 
 - Внутри knowledge-book:
   - `./topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md`

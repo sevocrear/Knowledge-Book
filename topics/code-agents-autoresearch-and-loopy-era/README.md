@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: code-agents-autoresearch-and-loopy-era
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Code Agents, AutoResearch и Loopy Era
 
-## Table of Contents
+## Оглавление
 
 1. [Введение](#введение)
 2. [Коротко для 5-летнего](#коротко-для-5-летнего)
@@ -43,7 +43,7 @@ updated: 2026-08-10
 13. [Транскрипт-выжимка: два видео про Ralph](#транскрипт-выжимка-два-видео-про-ralph)
 14. [Stop Babysitting Your Agents (Claude Code)](#stop-babysitting-your-agents-claude-code)
 15. [AI Harness Engineering (Tejas, IBM)](#ai-harness-engineering-tejas-ibm)
-16. [References](#references)
+16. [Источники](#источники)
 
 ---
 
@@ -458,7 +458,7 @@ Talk **Tejas** (IBM): что такое **agent harness** (не ML test harness)
 
 ---
 
-## References
+## Источники
 
 ### Связанные темы в книге
 

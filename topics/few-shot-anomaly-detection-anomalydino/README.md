@@ -19,11 +19,11 @@ status: canonical
 lang: ru
 type: topic
 slug: few-shot-anomaly-detection-anomalydino
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Few-Shot Anomaly Detection: AnomalyDINO и patch-level nearest neighbors
 
-## Table of Contents
+## Оглавление
 
 1. [Краткий абстракт и объяснение для 5‑летнего ребёнка](#1-краткий-абстракт-и-объяснение-для-5летнего-ребёнка)
 2. [Постановка задачи: industrial anomaly detection](#2-постановка-задачи-industrial-anomaly-detection)
@@ -33,7 +33,7 @@ updated: 2026-08-10
 6. [Метрики и бенчмарки](#6-метрики-и-бенчмарки)
 7. [Применение: недолив / перелив кофе в стакане](#7-применение-недолив--перелив-кофе-в-стакане)
 8. [Ограничения и failure cases](#8-ограничения-и-failure-cases)
-9. [References](#references)
+9. [Источники](#источники)
 
 ---
 
@@ -170,7 +170,7 @@ AnomalyDINO здесь — сильный **baseline без обучения**; 
 
 ---
 
-## References
+## Источники
 
 - Paper: [AnomalyDINO: Boosting Patch-based Few-shot Anomaly Detection with DINOv2](https://arxiv.org/abs/2405.14529) (arXiv:2405.14529, WACV 2025 Oral)
 - Code: [dammsi/AnomalyDINO](https://github.com/dammsi/AnomalyDINO)

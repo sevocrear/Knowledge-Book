@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/latent-diffusion"
-description: Notes tagged concept/latent-diffusion in the knowledge book.
+title: "Тег: concept/latent-diffusion"
+description: Заметки с тегом concept/latent-diffusion в книге знаний.
 tags:
   - concept/latent-diffusion
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/latent-diffusion`
+# Тег `concept/latent-diffusion`
 
-## Notes
+## Заметки
 
-- [Diffusion Models](../../topics/diffusion-models/README.md) — Forward/reverse diffusion, DDPM/DDIM, latent diffusion (Stable Diffusion), Consistency Models, Flow Matching и DiT.
+- [Diffusion Models (диффузионные модели)](../../topics/diffusion-models/README.md) — Прямой и обратный процесс диффузии, DDPM/DDIM, latent diffusion (Stable Diffusion), Consistency Models, Flow Matching и DiT.
 

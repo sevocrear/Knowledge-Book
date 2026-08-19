@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/3d-detection"
-description: Notes tagged concept/3d-detection in the knowledge book.
+title: "Тег: concept/3d-detection"
+description: Заметки с тегом concept/3d-detection в книге знаний.
 tags:
   - concept/3d-detection
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/3d-detection`
+# Тег `concept/3d-detection`
 
-## Notes
+## Заметки
 
 - [Loss функции для детекции, сегментации и 3D-детекции](../../topics/detection-segmentation-3d-losses/README.md) — Составные loss'ы детекторов: CE/Focal/QFL, L1/IoU/GIoU/DIoU/CIoU, Dice/Tversky для сегментации и 3D/BEV losses.
 

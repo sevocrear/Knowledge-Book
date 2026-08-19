@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/contrastive-learning"
-description: Notes tagged concept/contrastive-learning in the knowledge book.
+title: "Тег: concept/contrastive-learning"
+description: Заметки с тегом concept/contrastive-learning в книге знаний.
 tags:
   - concept/contrastive-learning
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/contrastive-learning`
+# Тег `concept/contrastive-learning`
 
-## Notes
+## Заметки
 
-- [Contrastive & Metric Learning for Fine-Grained Visual Recognition](../../topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md) — Contrastive/triplet/InfoNCE и proxy losses для fine-grained retrieval: mining, Recall@K, ANN-индексы и continual learning новых классов.
+- [Contrastive и metric learning для fine-grained распознавания](../../topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md) — Contrastive/triplet/InfoNCE и proxy losses для fine-grained retrieval: mining, Recall@K, ANN-индексы и continual learning новых классов.
 

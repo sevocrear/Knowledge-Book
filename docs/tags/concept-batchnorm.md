@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/batchnorm"
-description: Notes tagged concept/batchnorm in the knowledge book.
+title: "Тег: concept/batchnorm"
+description: Заметки с тегом concept/batchnorm в книге знаний.
 tags:
   - concept/batchnorm
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/batchnorm`
+# Тег `concept/batchnorm`
 
-## Notes
+## Заметки
 
 - [Batch Normalization и Layer Normalization](../../topics/normalization-layers-batchnorm-layernorm/README.md) — Нормализация активаций: формулы BatchNorm vs LayerNorm, влияние на обучение, выбор для CNN и Transformer.
 

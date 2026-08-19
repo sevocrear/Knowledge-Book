@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/harness"
-description: Notes tagged concept/harness in the knowledge book.
+title: "Тег: concept/harness"
+description: Заметки с тегом concept/harness в книге знаний.
 tags:
   - concept/harness
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/harness`
+# Тег `concept/harness`
 
-## Notes
+## Заметки
 
 - [AI Harness Engineering (Tejas, IBM)](../../topics/code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm.md) — Конспект про harness engineering: guardrails, verify step и почему обвязка агента важнее одного удачного промпта.
 

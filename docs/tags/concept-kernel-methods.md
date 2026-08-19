@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/kernel-methods"
-description: Notes tagged concept/kernel-methods in the knowledge book.
+title: "Тег: concept/kernel-methods"
+description: Заметки с тегом concept/kernel-methods в книге знаний.
 tags:
   - concept/kernel-methods
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/kernel-methods`
+# Тег `concept/kernel-methods`
 
-## Notes
+## Заметки
 
 - [Support Vector Machines (SVM) и Kernel Trick](../../topics/support-vector-machines-svm-and-kernel-trick/README.md) — Max-margin классификация, soft-margin C, dual formulation и kernel trick (linear/poly/RBF) без явного φ(x).
 

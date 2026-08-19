@@ -21,7 +21,7 @@ status: canonical
 lang: ru
 type: topic
 slug: decision-trees
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Деревья решений (Decision Trees)
 
@@ -31,7 +31,7 @@ updated: 2026-08-10
 
 ---
 
-## Table of Contents
+## Оглавление
 
 1. [Что такое деревья решений](#что-такое-деревья-решений)
 2. [Критерии выбора разбиения (примеси)](#критерии-выбора-разбиения-примеси)
@@ -42,7 +42,7 @@ updated: 2026-08-10
 4. [Ансамбли на основе деревьев](#ансамбли-на-основе-деревьев)
 5. [Области применения](#области-применения)
 6. [Пример кода на Python](#пример-кода-на-python)
-7. [References](#references)
+7. [Источники](#источники)
 
 ---
 
@@ -333,7 +333,7 @@ def information_gain(y_parent, y_left, y_right, criterion='gini'):
 
 ---
 
-## References
+## Источники
 
 - [Bayes' Theorem and Probability Foundations](../bayes-theorem-and-probability-foundations/README.md) — вероятностные основы, условная вероятность
 - [ROC Curves and ROC AUC](../roc-curve-and-roc-auc/README.md) — метрики качества классификаторов

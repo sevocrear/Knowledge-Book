@@ -20,9 +20,10 @@ This rule applies to every Python code example in `knowledge-book`.
 
 ## Content requirements for each script
 
-- At the top of each script, add concise comments that state:
+- At the top of each script, add concise **Russian** comments that state:
   - what the script demonstrates;
   - what output/behavior to expect.
+  English is allowed only for identifiers, library names, and code.
 - Keep each script focused on one subtopic only.
 - Avoid mixing unrelated demonstrations in one file.
 

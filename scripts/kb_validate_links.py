@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Iterable, Iterator
 
 _MD_LINK_RE = re.compile(r"(!)?\[([^\]]*)\]\(([^)]+)\)")
-_TOC_HEADING_RE = re.compile(r"^## Table of Contents\s*$", re.MULTILINE)
+_TOC_HEADING_RE = re.compile(r"^## Оглавление\s*$", re.MULTILINE)
 _ROOT_TOPIC_README_LINK_RE = re.compile(r"\]\(\./topics/([^/]+)/README\.md(?:#[^)]*)?\)")
 _FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\s*\n", re.DOTALL)
 _REQUIRED_FRONTMATTER_KEYS = (
@@ -263,7 +263,7 @@ def iter_topic_markdown_notes(repo_root: Path) -> list[Path]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Validate knowledge-book markdown: links, topic TOCs, root README index."
+        description="Проверка markdown книги: ссылки, оглавления топиков, индекс корневого README."
     )
     parser.add_argument(
         "--root",
@@ -303,26 +303,26 @@ def main(argv: list[str] | None = None) -> int:
     missing_toc = [p for p in topic_readmes if not topic_has_table_of_contents(p)]
     if missing_toc:
         exit_code = 2
-        print(f"Missing '## Table of Contents' in {len(missing_toc)} topic README(s):")
+        print(f"Нет заголовка '## Оглавление' в {len(missing_toc)} README тем(ы):")
         for p in missing_toc:
             rel = p.relative_to(repo_root) if p.is_relative_to(repo_root) else p
             print(f"- {rel}")
     else:
-        print(f"OK: Table of Contents present in all {len(topic_readmes)} topic README(s).")
+        print(f"OK: заголовок «Оглавление» есть во всех {len(topic_readmes)} README тем.")
 
     missing_index, unknown_slug = validate_root_readme_topic_index(repo_root)
     if missing_index:
         exit_code = 2
-        print("Topics on disk missing from root README.md ## Contents (./topics/<slug>/README.md link):")
+        print("Темы на диске не попали в корневой README.md ## Содержание (ссылка ./topics/<slug>/README.md):")
         for slug in sorted(missing_index):
             print(f"- {slug}")
     if unknown_slug:
         exit_code = 2
-        print("Root README.md links to unknown topic slug (no topics/<slug>/README.md on disk):")
+        print("Корневой README.md ссылается на несуществующий slug (нет topics/<slug>/README.md):")
         for slug in sorted(unknown_slug):
             print(f"- {slug}")
     if not missing_index and not unknown_slug and (repo_root / "README.md").is_file():
-        print("OK: root README.md topic index matches topics/*/README.md on disk.")
+        print("OK: индекс тем в корневом README.md совпадает с topics/*/README.md на диске.")
 
     frontmatter_notes = iter_topic_markdown_notes(repo_root)
     fm_failures = 0

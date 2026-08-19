@@ -1,6 +1,6 @@
 ---
-title: Generative Adversarial Networks (GANs)
-description: "Adversarial training generator/discriminator, mode collapse, современные варианты GAN и сравнение с VAE и diffusion."
+title: Generative Adversarial Networks (GAN)
+description: "Состязательное обучение generator/discriminator, mode collapse, современные варианты GAN и сравнение с VAE и diffusion."
 tags:
   - kb/topic
   - domain/generative
@@ -16,152 +16,152 @@ related:
   - diffusion-models
   - gaussian-distribution
 status: canonical
-lang: en
+lang: ru
 type: topic
 slug: generative-adversarial-networks-gans
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Generative Adversarial Networks (GANs): A Comprehensive Guide
+# Generative Adversarial Networks (GAN)
 
-## Table of Contents
+## Оглавление
 
-1. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
-2. [Introduction to GANs](#introduction-to-gans)
-3. [Core Idea and Intuition](#core-idea-and-intuition)
-4. [Mathematical Foundations](#mathematical-foundations)
-5. [Architecture and Training](#architecture-and-training)
-6. [Implementation Example](#implementation-example)
-7. [Challenges and Solutions](#challenges-and-solutions)
-8. [Modern GAN Variants](#modern-gan-variants)
-9. [Applications](#applications)
-10. [Current Status (2025-2026)](#current-status-2025-2026)
-11. [VAE vs GAN Comparison](#vae-vs-gan-comparison)
-12. [References](#references)
+1. [Как объяснить 5-летнему ребёнку](#как-объяснить-5-летнему-ребёнку)
+2. [Введение в GAN](#введение-в-gan)
+3. [Основная идея и интуиция](#основная-идея-и-интуиция)
+4. [Математические основы](#математические-основы)
+5. [Архитектура и обучение](#архитектура-и-обучение)
+6. [Пример реализации](#пример-реализации)
+7. [Проблемы и решения](#проблемы-и-решения)
+8. [Современные варианты GAN](#современные-варианты-gan)
+9. [Применения](#применения)
+10. [Текущий статус (2025-2026)](#текущий-статус-2025-2026)
+11. [Сравнение VAE и GAN](#сравнение-vae-и-gan)
+12. [Источники](#источники)
 
 ---
 
-## How would I describe it to a person who is 5 years old
+## Как объяснить 5-летнему ребёнку
 
 Два робота играют в игру. Один рисует поддельные картинки, другой угадывает: настоящая это или подделка. Чем лучше угадывает «детектив», тем лучше учится рисовать «художник». Когда детектив уже почти не отличает рисунок от настоящей фотографии — художник научился придумывать очень правдоподобные картинки. Это и есть GAN.
 
 ---
 
-## Introduction to GANs
+## Введение в GAN
 
-**Generative Adversarial Networks (GANs)** were introduced by Goodfellow et al. in 2014 as a novel framework for training generative models. GANs use an adversarial training process where two neural networks compete: a generator that creates fake data and a discriminator that tries to distinguish real from fake data.
+**Generative Adversarial Networks (GAN)** предложили Goodfellow et al. в 2014 году как новый способ обучать генеративные модели. GAN используют состязательное обучение (adversarial training): две нейросети соревнуются. Генератор (generator) создаёт поддельные данные, а дискриминатор (discriminator) пытается отличить настоящие данные от поддельных.
 
-### Key Characteristics
+### Ключевые свойства
 
-- **Adversarial Training**: Two networks trained in opposition
-- **High-Quality Samples**: Can produce very realistic, sharp images
-- **Implicit Distribution**: Models data distribution implicitly (no explicit likelihood)
-- **Game-Theoretic Framework**: Based on minimax optimization
-
----
-
-## Core Idea and Intuition
-
-### The Adversarial Game
-
-GANs frame generation as a two-player minimax game:
-
-1. **Generator (G)**: Tries to create realistic fake data to fool the discriminator
-2. **Discriminator (D)**: Tries to correctly identify real vs. fake data
-
-### Intuitive Analogy
-
-Think of GANs like a counterfeiter and a detective:
-- **Generator (Counterfeiter)**: Creates fake money, trying to make it indistinguishable from real money
-- **Discriminator (Detective)**: Examines money and tries to identify fakes
-- **Training Process**: As the counterfeiter gets better, the detective must improve too, creating an arms race that results in highly realistic fakes
-
-### The Equilibrium
-
-The training converges when:
-- Generator produces data indistinguishable from real data
-- Discriminator can't tell the difference (outputs 0.5 probability for both real and fake)
-- This is the Nash equilibrium of the game
+- **Состязательное обучение (adversarial training)**: две сети обучаются друг против друга
+- **Качественные сэмплы**: могут давать очень реалистичные, резкие изображения
+- **Неявное распределение (implicit distribution)**: моделирует распределение данных неявно (без явного правдоподобия, likelihood)
+- **Теоретико-игровая постановка**: в основе — минимаксная оптимизация (minimax)
 
 ---
 
-## Mathematical Foundations
+## Основная идея и интуиция
 
-### The Minimax Objective
+### Состязательная игра
 
-The GAN objective is:
+GAN формулируют генерацию как минимаксную игру двух игроков:
+
+1. **Generator (G)**: старается создать реалистичные подделки, чтобы обмануть дискриминатор
+2. **Discriminator (D)**: старается правильно отличить настоящие данные от поддельных
+
+### Интуитивная аналогия
+
+GAN похожи на фальшивомонетчика и детектива:
+- **Generator (фальшивомонетчик)**: печатает фальшивые деньги и старается сделать их неотличимыми от настоящих
+- **Discriminator (детектив)**: рассматривает купюры и ищет подделки
+- **Процесс обучения**: чем лучше становится фальшивомонетчик, тем сильнее должен стать детектив. Получается гонка, в итоге подделки выглядят очень правдоподобно
+
+### Равновесие
+
+Обучение сходится, когда:
+- генератор выдаёт данные, неотличимые от настоящих
+- дискриминатор уже не может их различить (даёт вероятность 0.5 и для настоящих, и для поддельных)
+- это равновесие Нэша (Nash equilibrium) этой игры
+
+---
+
+## Математические основы
+
+### Минимаксный критерий
+
+Целевая функция GAN:
 
 $$
 \min_G \max_D V(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}(\mathbf{x})}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z})}[\log(1 - D(G(\mathbf{z})))]
 $$
 
-Where:
-- $D(\mathbf{x})$: Discriminator's probability that $\mathbf{x}$ is real
-- $G(\mathbf{z})$: Generator's output from noise $\mathbf{z}$
-- $p_{\text{data}}(\mathbf{x})$: Real data distribution
-- $p_{\mathbf{z}}(\mathbf{z})$: Prior noise distribution (typically $\mathcal{N}(0, I)$)
+Где:
+- $D(\mathbf{x})$: вероятность, которую дискриминатор приписывает тому, что $\mathbf{x}$ настоящее
+- $G(\mathbf{z})$: выход генератора по шуму $\mathbf{z}$
+- $p_{\text{data}}(\mathbf{x})$: распределение настоящих данных
+- $p_{\mathbf{z}}(\mathbf{z})$: априорное распределение шума (обычно $\mathcal{N}(0, I)$)
 
-### Discriminator Objective
+### Цель дискриминатора
 
-The discriminator wants to maximize:
+Дискриминатор хочет максимизировать:
 
 $$
 \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z})))]
 $$
 
-- Maximize $\log D(\mathbf{x})$ for real data (should be close to 1)
-- Maximize $\log(1 - D(G(\mathbf{z})))$ for fake data (should be close to 0)
+- Максимизировать $\log D(\mathbf{x})$ для настоящих данных (значение должно быть близко к 1)
+- Максимизировать $\log(1 - D(G(\mathbf{z})))$ для поддельных данных (значение $D$ должно быть близко к 0)
 
-### Generator Objective
+### Цель генератора
 
-The generator wants to minimize:
+Генератор хочет минимизировать:
 
 $$
 \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z})))]
 $$
 
-Or equivalently, maximize (non-saturating loss):
+Или, эквивалентно, максимизировать (ненасыщающаяся потеря, non-saturating loss):
 
 $$
 \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log D(G(\mathbf{z}))]
 $$
 
-### Optimal Discriminator
+### Оптимальный дискриминатор
 
-At optimality, the discriminator is:
+В оптимуме дискриминатор имеет вид:
 
 $$
 D^*(\mathbf{x}) = \frac{p_{\text{data}}(\mathbf{x})}{p_{\text{data}}(\mathbf{x}) + p_g(\mathbf{x})}
 $$
 
-When $p_g = p_{\text{data}}$, $D^*(\mathbf{x}) = \frac{1}{2}$ everywhere.
+Когда $p_g = p_{\text{data}}$, $D^*(\mathbf{x}) = \frac{1}{2}$ всюду.
 
-### Global Optimum
+### Глобальный оптимум
 
-The global minimum of the generator is achieved when $p_g = p_{\text{data}}$, i.e., the generator perfectly matches the data distribution.
+Глобальный минимум для генератора достигается при $p_g = p_{\text{data}}$, то есть когда генератор точно воспроизводит распределение данных.
 
 ---
 
-## Architecture and Training
+## Архитектура и обучение
 
-### Generator Architecture
+### Архитектура генератора
 
-- **Input**: Random noise vector $\mathbf{z} \sim \mathcal{N}(0, I)$ (typically 100-512 dimensions)
-- **Architecture**: 
-  - For images: Transposed convolutions (deconvolutions) or upsampling + convolutions
-  - Progressively increases spatial dimensions
-  - Uses batch normalization, ReLU/LeakyReLU activations
-- **Output**: Generated data (e.g., images)
+- **Вход**: случайный вектор шума $\mathbf{z} \sim \mathcal{N}(0, I)$ (обычно 100–512 измерений)
+- **Архитектура**:
+  - Для изображений: транспонированные свёртки (transposed convolutions / deconvolutions) или upsampling + convolutions
+  - Пространственные размеры постепенно растут
+  - Используются batch normalization, активации ReLU/LeakyReLU
+- **Выход**: сгенерированные данные (например, изображения)
 
-### Discriminator Architecture
+### Архитектура дискриминатора
 
-- **Input**: Real or generated data
-- **Architecture**:
-  - For images: Standard CNN with downsampling
-  - Progressively decreases spatial dimensions
-  - Uses batch normalization, LeakyReLU activations
-- **Output**: Single probability (real vs. fake)
+- **Вход**: настоящие или сгенерированные данные
+- **Архитектура**:
+  - Для изображений: обычная CNN с downsampling
+  - Пространственные размеры постепенно уменьшаются
+  - Используются batch normalization, активации LeakyReLU
+- **Выход**: одна вероятность (настоящее vs поддельное)
 
-### Training Algorithm
+### Алгоритм обучения
 
 ```
 1. Sample minibatch of noise: {z₁, z₂, ..., zₘ} ~ p_z(z)
@@ -177,17 +177,17 @@ The global minimum of the generator is achieved when $p_g = p_{\text{data}}$, i.
 5. Repeat until convergence
 ```
 
-### Training Tips
+### Практические советы по обучению
 
-1. **Alternating Updates**: Usually update D more frequently than G (e.g., 5:1 ratio)
-2. **Learning Rates**: Different learning rates for G and D
-3. **Batch Normalization**: Helps stabilize training
-4. **Label Smoothing**: Use 0.9 instead of 1.0 for real labels
-5. **Noise**: Add noise to discriminator inputs
+1. **Чередующиеся обновления**: обычно обновляют D чаще, чем G (например, в отношении 5:1)
+2. **Learning rates**: разные learning rate для G и D
+3. **Batch Normalization**: помогает стабилизировать обучение
+4. **Label smoothing**: для настоящих меток использовать 0.9 вместо 1.0
+5. **Шум**: добавлять шум ко входам дискриминатора
 
 ---
 
-## Implementation Example
+## Пример реализации
 
 ```python
 import torch
@@ -310,221 +310,221 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 
 ---
 
-## Challenges and Solutions
+## Проблемы и решения
 
-### 1. Training Instability
+### 1. Нестабильность обучения
 
-**Problem**: GANs are notoriously difficult to train, with common issues:
-- Generator or discriminator becomes too strong
-- Loss doesn't correlate with sample quality
-- Training collapses
+**Проблема**: GAN печально известны тем, что их трудно обучать. Типичные симптомы:
+- генератор или дискриминатор становится слишком сильным
+- значение loss плохо коррелирует с качеством сэмплов
+- обучение схлопывается (training collapse)
 
-**Solutions**:
-- **Progressive GANs**: Gradually increase resolution
-- **Wasserstein GAN (WGAN)**: Uses Wasserstein distance instead of JS divergence
-- **Gradient Penalty**: WGAN-GP adds gradient penalty for stability
-- **Spectral Normalization**: Constrains discriminator's Lipschitz constant
+**Решения**:
+- **Progressive GAN**: постепенно повышать разрешение
+- **Wasserstein GAN (WGAN)**: вместо дивергенции Йенсена–Шеннона (JS divergence) использовать расстояние Васерштейна (Wasserstein distance)
+- **Gradient Penalty**: WGAN-GP добавляет штраф по градиенту для стабильности
+- **Spectral Normalization**: ограничивает константу Липшица дискриминатора
 
-### 2. Mode Collapse
+### 2. Схлопывание мод (mode collapse)
 
-**Problem**: Generator produces limited variety of samples
+**Проблема**: генератор выдаёт ограниченное разнообразие сэмплов
 
-**Solutions**:
-- **Unrolled GANs**: Unroll discriminator updates
-- **Mini-batch Discrimination**: Encourages diversity
-- **Feature Matching**: Match intermediate features instead of final output
+**Решения**:
+- **Unrolled GANs**: разворачивать несколько шагов обновления дискриминатора
+- **Mini-batch Discrimination**: поощрять разнообразие внутри батча
+- **Feature Matching**: согласовывать промежуточные признаки, а не только финальный выход
 
-### 3. Evaluation
+### 3. Оценка качества
 
-**Problem**: No explicit likelihood, hard to evaluate
+**Проблема**: нет явного правдоподобия (likelihood), оценивать сложно
 
-**Solutions**:
-- **Inception Score (IS)**: Measures quality and diversity
-- **Fréchet Inception Distance (FID)**: Compares distributions in feature space
-- **Human Evaluation**: Subjective quality assessment
+**Решения**:
+- **Inception Score (IS)**: измеряет качество и разнообразие
+- **Fréchet Inception Distance (FID)**: сравнивает распределения в пространстве признаков
+- **Оценка людьми**: субъективная оценка качества
 
 ---
 
-## Modern GAN Variants
+## Современные варианты GAN
 
 ### 1. DCGAN (2015)
 - Deep Convolutional GAN
-- Established architectural guidelines
-- Uses strided convolutions, batch norm
+- Зафиксировал архитектурные рекомендации
+- Использует strided convolutions, batch norm
 
 ### 2. WGAN / WGAN-GP (2017)
-- Wasserstein distance for stability
-- Gradient penalty for Lipschitz constraint
-- More stable training
+- Расстояние Васерштейна для стабильности
+- Gradient penalty как способ обеспечить ограничение Липшица
+- Более стабильное обучение
 
 ### 3. Progressive GAN (2017)
-- Gradually increases resolution
-- Starts with 4x4, doubles resolution progressively
-- Enables high-resolution generation
+- Постепенно повышает разрешение
+- Начинает с 4×4 и удваивает разрешение шаг за шагом
+- Позволяет генерировать изображения высокого разрешения
 
 ### 4. StyleGAN (2019) / StyleGAN2 (2020) / StyleGAN3 (2021)
-- Style-based generator architecture
-- Separates latent code from noise
-- State-of-the-art image quality
-- StyleGAN3 improves on aliasing issues
+- Архитектура генератора на основе стиля (style-based)
+- Отделяет латентный код (latent code) от шума
+- Качество изображений на уровне state-of-the-art
+- StyleGAN3 лучше справляется с алиасингом (aliasing)
 
 ### 5. BigGAN (2018)
-- Large-scale GAN training
-- Class-conditional generation
-- Truncation trick for quality/diversity trade-off
+- Обучение GAN в большом масштабе
+- Условная генерация по классу (class-conditional)
+- Truncation trick для компромисса качество/разнообразие
 
 ### 6. Self-Attention GAN (SAGAN) (2018)
-- Adds self-attention layers
-- Better long-range dependencies
+- Добавляет слои self-attention
+- Лучше моделирует дальнодействующие зависимости
 
 ### 7. Projected GANs (2021)
-- Uses pre-trained feature networks
-- Faster training, better quality
+- Использует предобученные сети признаков
+- Более быстрое обучение и лучше качество
 
 ---
 
-## Applications
+## Применения
 
-### Historical Applications (2014-2020)
+### Исторические применения (2014–2020)
 
-1. **Image Generation**: CelebA, LSUN, ImageNet
-2. **Image-to-Image Translation**: Pix2Pix, CycleGAN
-3. **Super-Resolution**: SRGAN
-4. **Style Transfer**: Various GAN-based methods
-5. **Data Augmentation**: Generating training data
+1. **Генерация изображений**: CelebA, LSUN, ImageNet
+2. **Image-to-image translation**: Pix2Pix, CycleGAN
+3. **Super-resolution**: SRGAN
+4. **Перенос стиля (style transfer)**: разные методы на основе GAN
+5. **Аугментация данных**: генерация обучающих примеров
 
-### Current Applications (2021-2025)
+### Текущие применения (2021–2025)
 
-1. **High-Quality Image Synthesis**: StyleGAN3 for faces, objects
-2. **Image Editing**: GAN inversion for manipulation
-3. **3D Generation**: 3D-GAN, GRAF
-4. **Video Generation**: Video GANs
-5. **Domain Adaptation**: Unsupervised domain transfer
-
----
-
-## Current Status (2025-2026)
-
-### Are GANs Still Used?
-
-**Yes, but less dominant than before:**
-
-1. **Specific Applications**:
-   - **StyleGAN3**: Still state-of-the-art for high-quality face generation
-   - **Image Editing**: GAN inversion for semantic editing
-   - **Domain Transfer**: Unsupervised domain adaptation
-   - **Data Augmentation**: Generating synthetic training data
-
-2. **Research**:
-   - Still active, but less dominant
-   - Focus on specific improvements (e.g., efficiency, controllability)
-   - Hybrid architectures combining GANs with other methods
-
-3. **Industry**:
-   - **Entertainment**: Face generation, character creation
-   - **Fashion**: Virtual try-on, design generation
-   - **Gaming**: Asset generation, procedural content
-
-### Why GANs Are Less Dominant Now
-
-1. **Diffusion Models**: Better quality, more stable training
-2. **Training Difficulty**: GANs remain harder to train
-3. **Evaluation**: No explicit likelihood makes evaluation harder
-4. **Mode Collapse**: Still an issue in many applications
-
-### When to Use GANs in 2025-2026
-
-- **High-Quality Face Generation**: StyleGAN3 still competitive
-- **Fast Generation**: GANs are faster than diffusion models
-- **Image Editing**: GAN inversion enables semantic editing
-- **Specific Domains**: Where GANs have proven effective
+1. **Синтез изображений высокого качества**: StyleGAN3 для лиц и объектов
+2. **Редактирование изображений**: GAN inversion для манипуляций
+3. **3D-генерация**: 3D-GAN, GRAF
+4. **Генерация видео**: Video GANs
+5. **Адаптация домена (domain adaptation)**: unsupervised domain transfer
 
 ---
 
-## VAE vs GAN Comparison
+## Текущий статус (2025-2026)
 
-### Fundamental Differences
+### Используют ли GAN до сих пор?
 
-| Aspect | VAE | GAN |
+**Да, но они уже не так доминируют, как раньше:**
+
+1. **Конкретные применения**:
+   - **StyleGAN3**: всё ещё state-of-the-art для качественной генерации лиц
+   - **Редактирование изображений**: GAN inversion для семантического редактирования
+   - **Перенос домена**: unsupervised domain adaptation
+   - **Аугментация данных**: генерация синтетических обучающих примеров
+
+2. **Исследования**:
+   - Тема живая, но уже не главная
+   - Фокус на точечных улучшениях (например, эффективность, управляемость)
+   - Гибридные архитектуры, где GAN сочетают с другими методами
+
+3. **Индустрия**:
+   - **Развлечения**: генерация лиц, создание персонажей
+   - **Мода**: виртуальная примерка, генерация дизайна
+   - **Игры**: генерация ассетов, процедурный контент
+
+### Почему GAN уже не доминируют
+
+1. **Diffusion models**: лучше качество, стабильнее обучение
+2. **Сложность обучения**: GAN по-прежнему труднее обучать
+3. **Оценка**: отсутствие явного правдоподобия усложняет оценку
+4. **Mode collapse**: всё ещё проблема во многих задачах
+
+### Когда использовать GAN в 2025–2026
+
+- **Качественная генерация лиц**: StyleGAN3 всё ещё конкурентоспособен
+- **Быстрая генерация**: GAN быстрее, чем diffusion models
+- **Редактирование изображений**: GAN inversion даёт семантическое редактирование
+- **Узкие домены**: там, где GAN уже хорошо себя показали
+
+---
+
+## Сравнение VAE и GAN
+
+### Принципиальные различия
+
+| Аспект | VAE | GAN |
 |--------|-----|-----|
-| **Objective** | Maximize ELBO (variational lower bound) | Minimax game (adversarial) |
-| **Training** | Stable, joint optimization | Unstable, alternating optimization |
-| **Latent Space** | Explicit, structured, continuous | Implicit, less structured |
-| **Likelihood** | Explicit (lower bound) | No explicit likelihood |
-| **Sample Quality** | Often blurry | Sharp, high-quality |
-| **Mode Collapse** | Rare | Common problem |
-| **Interpretability** | High (structured latent space) | Lower |
-| **Interpolation** | Smooth (continuous latent) | Less smooth |
-| **Training Speed** | Moderate | Can be slow (alternating) |
-| **Theoretical Foundation** | Strong (variational inference) | Game-theoretic |
+| **Цель** | Максимизация ELBO (вариационная нижняя оценка) | Минимаксная игра (состязательная) |
+| **Обучение** | Стабильное, совместная оптимизация | Нестабильное, чередующаяся оптимизация |
+| **Латентное пространство** | Явное, структурированное, непрерывное | Неявное, менее структурированное |
+| **Правдоподобие (likelihood)** | Явное (нижняя оценка) | Нет явного правдоподобия |
+| **Качество сэмплов** | Часто размытые | Резкие, высокого качества |
+| **Mode collapse** | Редко | Частая проблема |
+| **Интерпретируемость** | Высокая (структурированное латентное пространство) | Ниже |
+| **Интерполяция** | Плавная (непрерывный латентный код) | Менее плавная |
+| **Скорость обучения** | Умеренная | Может быть медленной (из-за чередования) |
+| **Теоретическая база** | Сильная (вариационный вывод) | Теоретико-игровая |
 
-### Mathematical Comparison
+### Математическое сравнение
 
-**VAE Objective**:
+**Целевая функция VAE**:
 $$
 \mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))
 $$
 
-**GAN Objective**:
+**Целевая функция GAN**:
 $$
 \min_G \max_D \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z})))]
 $$
 
-### When to Use Each
+### Когда что выбирать
 
-**Use VAE when**:
-- You need interpretable, structured latent space
-- You want smooth interpolation
-- You need explicit likelihood estimation
-- Stability is important
-- You're doing anomaly detection
-- You need disentangled representations
+**VAE уместен, когда**:
+- нужно интерпретируемое, структурированное латентное пространство
+- важна плавная интерполяция
+- нужна явная оценка правдоподобия
+- важна стабильность
+- вы занимаетесь поиском аномалий (anomaly detection)
+- нужны распутанные представления (disentangled representations)
 
-**Use GAN when**:
-- You need high-quality, sharp images
-- Sample quality is paramount
-- You don't need explicit likelihood
-- You can handle training instability
-- You're doing image-to-image translation
-- You need fast generation
+**GAN уместен, когда**:
+- нужны качественные, резкие изображения
+- качество сэмплов — главный приоритет
+- явное правдоподобие не требуется
+- вы готовы мириться с нестабильным обучением
+- задача — image-to-image translation
+- нужна быстрая генерация
 
-### Hybrid Approaches
+### Гибридные подходы
 
-1. **VAE-GAN**: Combines VAE encoder/decoder with GAN discriminator
-2. **Adversarial Autoencoders**: Uses adversarial training in latent space
-3. **BEGAN**: Uses autoencoder as discriminator
+1. **VAE-GAN**: сочетает encoder/decoder из VAE с дискриминатором GAN
+2. **Adversarial Autoencoders**: состязательное обучение в латентном пространстве
+3. **BEGAN**: использует autoencoder как дискриминатор
 
 ---
 
-## References
+## Источники
 
-### Foundational Papers
+### Основополагающие статьи
 
-1. **Goodfellow et al. (2014)**: "Generative Adversarial Nets" - Original GAN paper
+1. **Goodfellow et al. (2014)**: "Generative Adversarial Nets" — оригинальная статья про GAN
 2. **Radford et al. (2015)**: "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks" (DCGAN)
 3. **Arjovsky et al. (2017)**: "Wasserstein GAN"
 4. **Gulrajani et al. (2017)**: "Improved Training of Wasserstein GANs" (WGAN-GP)
 
-### Modern Variants
+### Современные варианты
 
 5. **Karras et al. (2019)**: "A Style-Based Generator Architecture for Generative Adversarial Networks" (StyleGAN)
 6. **Karras et al. (2020)**: "Analyzing and Improving the Image Quality of StyleGAN" (StyleGAN2)
 7. **Karras et al. (2021)**: "Alias-Free Generative Adversarial Networks" (StyleGAN3)
 8. **Sauer et al. (2021)**: "Projected GANs Converge Faster"
 
-### Related Topics
+### Связанные темы
 
-- See: [Variational Autoencoders (VAEs)](../variational-autoencoders-vaes/README.md)
-- See: [Diffusion Models](../diffusion-models/README.md)
-- See: [Knowledge-book Generative Models index](../../README.md#generative-models)
+- См.: [Variational Autoencoders (VAEs)](../variational-autoencoders-vaes/README.md)
+- См.: [Diffusion Models](../diffusion-models/README.md)
+- См.: [Knowledge-book Generative Models index](../../README.md#generative-models)
 
 ---
 
-## Key Takeaways
+## Ключевые выводы
 
-1. **GANs use adversarial training** between generator and discriminator
-2. **Minimax objective** creates a game-theoretic framework
-3. **High-quality samples** but training instability is a major challenge
-4. **Still used in 2025-2026** for specific applications (StyleGAN3, image editing)
-5. **Less dominant** than diffusion models for general image generation
-6. **Complementary to VAEs**: Different strengths for different use cases
+1. **GAN используют состязательное обучение** между generator и discriminator
+2. **Минимаксный критерий** задаёт теоретико-игровую постановку
+3. **Сэмплы высокого качества**, но нестабильность обучения — главная трудность
+4. **В 2025–2026 всё ещё используются** в узких задачах (StyleGAN3, редактирование изображений)
+5. **Уже не доминируют** относительно diffusion models в общей генерации изображений
+6. **Дополняют VAE**: у каждого свои сильные стороны под разные сценарии

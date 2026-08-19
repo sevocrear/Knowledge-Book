@@ -1,81 +1,84 @@
-# Knowledge Book: Deep Learning & AI Education
-# Книга Знаний: Deep Learning & AI Education
+# Книга знаний: Deep Learning и AI
 
-This knowledge book contains comprehensive guides on various topics in Deep Learning, Computer Vision, NLP, LLMs, and cutting-edge AI techniques in Russian.
+Подробные конспекты по Deep Learning, Computer Vision, NLP, LLM и современным методам AI. Связный текст — на русском; термины, имена моделей и код можно оставлять на английском.
 
-## Structure
+## Структура
 
-Documents are organized by topic and include:
-- Comprehensive explanations
-- Mathematical formulations
-- Code examples
-- Current status and applications
-- References to related topics
+Материалы сгруппированы по темам. В каждом топике обычно есть:
 
-Topic-first layout:
-- `topics/<topic-slug>/README.md` — main theory/material for one topic (with **Obsidian YAML frontmatter**)
-- `topics/<topic-slug>/scripts/` — numbered runnable examples (`01_*.py`, `02_*.py`, ...)
-- `topics/<topic-slug>/tests/` — tests for topic scripts (`test_*.py`)
+- развёрнутое объяснение
+- формулы
+- примеры кода
+- текущий статус и применения
+- ссылки на соседние темы
 
-Obsidian / RAG index layer:
-- [`docs/README.md`](./docs/README.md) — vault overview
-- [`docs/index.md`](./docs/index.md) — annotated catalog (`description`, tags, aliases)
-- [`docs/mocs/`](./docs/mocs/foundations.md) — Maps of Content (start here)
-- [`docs/tags/`](./docs/tags/README.md) — tag taxonomy pages
-- [`docs/SCHEMA.md`](./docs/SCHEMA.md) — frontmatter schema for retrieval
+Как устроен каталог:
 
-## Conventions
+- `topics/<topic-slug>/README.md` — основной материал темы (с **Obsidian YAML frontmatter**)
+- `topics/<topic-slug>/scripts/` — нумерованные запускаемые примеры (`01_*.py`, `02_*.py`, ...)
+- `topics/<topic-slug>/tests/` — тесты к скриптам темы (`test_*.py`)
 
-- One topic per directory, one main document per topic: `topics/<topic-slug>/README.md`
-- Every topic/note starts with YAML frontmatter: `title`, `description`, `tags`, `aliases`, `related`, `status`, `lang`, `type`, `slug`, `updated`
-- Keep explicit `## Table of Contents`, a short "5-year-old" abstract, and `References` in each topic README
-- Prefer working markdown links in `References` (`../other-slug/README.md`), not bare `` `slug.md` `` filenames
-- Python examples are required as separate scripts in `scripts/` when code is presented
-- Every script must have a matching automated test in `tests/`
-- Use root-level `uv` environment and CPU-first dependencies by default
-- After metadata changes: `uv run python scripts/kb_apply_obsidian_frontmatter.py`
-## Development (uv)
+Слой индекса для Obsidian / RAG:
 
-- `uv sync` - install project and dev dependencies
-- `uv sync --group viz` - add Manim + imageio (for local `dl-viz` renders; enables Manim pytest smoke tests)
-- `uv run pytest` - all tests; `@pytest.mark.manim` tests auto-skip if Manim is not installed
-- `uv run python topics/<topic-slug>/scripts/01_<name>.py` - run a topic example
-- `uv run python scripts/viz/mp4_to_gif.py <file.mp4> -o <out.gif>` - GIF from rendered MP4
+- [`docs/README.md`](./docs/README.md) — обзор хранилища
+- [`docs/index.md`](./docs/index.md) — аннотированный каталог (`description`, теги, aliases)
+- [`docs/mocs/`](./docs/mocs/foundations.md) — Maps of Content (с них удобно начинать)
+- [`docs/tags/`](./docs/tags/README.md) — страницы таксономии тегов
+- [`docs/SCHEMA.md`](./docs/SCHEMA.md) — схема frontmatter для поиска
 
-### YouTube transcripts
+## Соглашения
 
-- `uv sync --group tools` - `youtube-transcript-api`, `yt-dlp`, `secretstorage` (Chrome cookies on Linux)
+- Одна тема — одна директория, один основной документ: `topics/<topic-slug>/README.md`
+- У каждого топика/заметки в начале YAML frontmatter: `title`, `description`, `tags`, `aliases`, `related`, `status`, `lang`, `type`, `slug`, `updated`
+- В каждом README темы держать явное `## Оглавление`, короткий абстракт «Как объяснить 5-летнему ребёнку» и секцию `Источники`
+- В `Источниках` — рабочие markdown-ссылки (`../other-slug/README.md`), а не голые имена файлов
+- Если в тексте есть код — выносить его в отдельные скрипты в `scripts/`
+- У каждого скрипта должен быть автотест в `tests/`
+- Окружение — корневой `uv`, зависимости по умолчанию CPU-first
+- После правок метаданных: `uv run python scripts/kb_apply_obsidian_frontmatter.py`
+
+## Разработка (uv)
+
+- `uv sync` — установить зависимости проекта и dev
+- `uv sync --group viz` — добавить Manim + imageio (локальный рендер `dl-viz`; включает smoke-тесты Manim)
+- `uv run pytest` — все тесты; тесты с `@pytest.mark.manim` пропускаются, если Manim не установлен
+- `uv run python topics/<topic-slug>/scripts/01_<name>.py` — запустить пример темы
+- `uv run python scripts/viz/mp4_to_gif.py <file.mp4> -o <out.gif>` — GIF из отрендеренного MP4
+
+### Транскрипты YouTube
+
+- `uv sync --group tools` — `youtube-transcript-api`, `yt-dlp`, `secretstorage` (cookies Chrome на Linux)
 - `uv run python scripts/youtube_fetch_transcript.py "<url>" -o outputs/transcripts/<VIDEO_ID>.txt -v`
-- `uv run python scripts/verify_youtube_transcript.py outputs/transcripts/<VIDEO_ID>.txt` - must pass before writing topic notes
-- Commit verified files under `outputs/transcripts/` (see [outputs/transcripts/README.md](./outputs/transcripts/README.md)); `.gitignore` allows these `.txt` files
-- Agent workflow: `.cursor/rules/youtube-transcript-to-knowledge-book.mdc`
+- `uv run python scripts/verify_youtube_transcript.py outputs/transcripts/<VIDEO_ID>.txt` — должно пройти до написания конспекта
+- Проверенные файлы коммитить в `outputs/transcripts/` (см. [outputs/transcripts/README.md](./outputs/transcripts/README.md)); `.gitignore` разрешает эти `.txt`
+- Workflow агента: `.cursor/rules/youtube-transcript-to-knowledge-book.mdc`
 
-## Contents
+## Содержание
 
-### Generative Models
+### Генеративные модели
 
-1. **[Variational Autoencoders (VAEs)](./topics/variational-autoencoders-vaes/README.md)**
-   - Core concepts, mathematical foundations, implementation
-   - Current applications and status (2025-2026)
-   - Related: GANs, Diffusion Models
+1. **[Variational Autoencoders (VAE)](./topics/variational-autoencoders-vaes/README.md)**
+   - Базовые идеи, математика, реализация
+   - Текущие применения и статус (2025–2026)
+   - Связано: GAN, Diffusion Models
 
-2. **[Generative Adversarial Networks (GANs)](./topics/generative-adversarial-networks-gans/README.md)**
-   - Adversarial training, architecture, modern variants
-   - Comparison with VAEs
-   - Current applications and status (2025-2026)
-   - Related: VAEs, Diffusion Models
+2. **[Generative Adversarial Networks (GAN)](./topics/generative-adversarial-networks-gans/README.md)**
+   - Adversarial training, архитектура, современные варианты
+   - Сравнение с VAE
+   - Текущие применения и статус (2025–2026)
+   - Связано: VAE, Diffusion Models
 
 3. **[Diffusion Models](./topics/diffusion-models/README.md)**
-   - Forward and reverse diffusion processes, mathematical foundations
+   - Прямой и обратный процессы диффузии, математические основы
    - DDPM, DDIM, Latent Diffusion Models (Stable Diffusion)
-   - Modern variants: Consistency Models, Flow Matching, DiT
-   - Applications: text-to-image, video generation, 3D generation
-   - Current state-of-the-art (2023-2026)
-   - Related: VAEs, GANs
+   - Современные варианты: Consistency Models, Flow Matching, DiT
+   - Применения: text-to-image, генерация видео и 3D
+   - Текущий state-of-the-art (2023–2026)
+   - Связано: VAE, GAN
 
-### Mathematical Foundations
+### Математические основы
 
-1. **[Bayes' Theorem and Probability Foundations](./topics/bayes-theorem-and-probability-foundations/README.md)**
+1. **[Теорема Байеса и основы теории вероятностей](./topics/bayes-theorem-and-probability-foundations/README.md)**
    - Теоретико-множественные основы: пространство исходов, события, операции
    - Аксиомы вероятности Колмогорова
    - Условная вероятность и правило умножения
@@ -83,66 +86,67 @@ Obsidian / RAG index layer:
    - Формула полной вероятности
    - Теорема Байеса: вывод, терминология (prior, likelihood, posterior)
    - Байесовский вывод в ML: MAP, MLE, регуляризация
-   - Наивный Байесовский классификатор
+   - Наивный байесовский классификатор
    - Связь с VAE, фильтром Калмана, RAG
    - Реализация на Python с нуля
 
-2. **[Gaussian Distribution (Normal Distribution)](./topics/gaussian-distribution/README.md)**
-   - Definition, properties, PDF and CDF
-   - Multivariate Gaussian distribution
-   - Applications in machine learning
-   - Connection to Diffusion Models and VAEs
-   - Visualization and examples
+2. **[Гауссово распределение (Normal Distribution)](./topics/gaussian-distribution/README.md)**
+   - Определение, свойства, PDF и CDF
+   - Многомерное гауссово распределение
+   - Применения в машинном обучении
+   - Связь с Diffusion Models и VAE
+   - Визуализация и примеры
 
-3. **[ROC Curves and ROC AUC](./topics/roc-curve-and-roc-auc/README.md)**
+3. **[ROC-кривые и ROC AUC](./topics/roc-curve-and-roc-auc/README.md)**
    - ROC-кривые, TPR/FPR и их интуиция
    - ROC AUC как метрика ранжирования и качество разделения классов
    - Выбор порога классификации, Youden’s J, контроль FPR
    - Сравнение моделей по ROC/ROC AUC и связь с PR-кривыми
    - Примеры кода на Python/sklearn
-4. **[Confidence, Calibration and Uncertainty](./topics/how-models-predict-confidence-and-calibration/README.md)**
-   - Как модели получают `logits` и превращают их в `softmax/sigmoid`-“уверенность”
+
+4. **[Уверенность, калибровка и неопределённость](./topics/how-models-predict-confidence-and-calibration/README.md)**
+   - Как модели получают `logits` и превращают их в «уверенность» через `softmax`/`sigmoid`
    - Калибровка вероятностей: reliability diagram, ECE, Brier
    - Temperature Scaling и зачем он нужен
-   - Уверенность vs неопределенность: aleatoric/epistemic, ensembles/MC Dropout
-   - Related: ROC Curves and ROC AUC, Cross Entropy, Ensemble Methods
+   - Уверенность vs неопределённость: aleatoric/epistemic, ensembles/MC Dropout
+   - Связано: ROC-кривые и ROC AUC, кросс-энтропия, ансамбли
 
-### Classical Machine Learning
+### Классическое машинное обучение
 
-1. **[Decision Trees (Деревья решений)](./topics/decision-trees/README.md)**
+1. **[Деревья решений (Decision Trees)](./topics/decision-trees/README.md)**
    - Что такое деревья решений: структура, узлы, ветви, листья
    - Критерии выбора разбиения: Gini, энтропия, прирост информации (Information Gain)
    - Методы построения: ID3, C4.5, CART; Gain Ratio; техники против переобучения
    - Области применения: скоринг, медицина, маркетинг, ансамбли (Random Forest, XGBoost)
-   - Связь с ROC AUC, Cross Entropy; примеры кода sklearn
-   - Related: ROC Curves and ROC AUC, Cross Entropy and Focal Loss, Ensemble Methods
+   - Связь с ROC AUC, кросс-энтропией; примеры кода sklearn
+   - Связано: ROC AUC, Cross Entropy и Focal Loss, ансамбли
 
 2. **[Support Vector Machines (SVM) и Kernel Trick](./topics/support-vector-machines-svm-and-kernel-trick/README.md)**
-   - SVM: максимальный запас (margin), опорные векторы, примарная и двойственная задачи
+   - SVM: максимальный запас (margin), опорные векторы, прямая и двойственная задачи
    - Soft margin и параметр C
    - Kernel trick: нелинейные границы через ядра без явного отображения $\phi$
    - Типичные ядра: Linear, Polynomial, RBF (Gaussian), Sigmoid
    - Примеры кода на sklearn (linear и RBF для линейно и нелинейно разделимых данных)
-   - Related: Decision Trees, ROC AUC, RAG, Bayes
+   - Связано: деревья решений, ROC AUC, RAG, Байес
 
-### Hyperparameter Tuning (Настройка гиперпараметров)
+### Настройка гиперпараметров (Hyperparameter Tuning)
 
-1. **[Hyperparameter Tuning](./topics/hyperparameter-tuning/README.md)**
+1. **[Настройка гиперпараметров](./topics/hyperparameter-tuning/README.md)**
    - Параметры vs гиперпараметры, пространство поиска
    - Grid Search и Random Search: принципы и сравнение
    - Bayesian Optimization: GP, TPE, Acquisition Functions, Optuna
-   - Bandit-based методы: Successive Halving, Hyperband, BOHB
+   - Bandit-методы: Successive Halving, Hyperband, BOHB
    - Population-Based Training (PBT) для параллельного тюнинга
    - Эволюционные алгоритмы: CMA-ES
    - Neural Architecture Search (NAS): DARTS, OFA
    - Автоматический подбор LR: LR Finder, OneCycleLR, Cosine Annealing
    - Кросс-валидация: K-Fold, Stratified, Nested CV
-   - Практические рекомендации и что популярно в 2024-2026
-   - Related: Ensemble Methods, Decision Trees, ROC AUC, LoRA, Bayes' Theorem
+   - Практические рекомендации и что популярно в 2024–2026
+   - Связано: ансамбли, деревья решений, ROC AUC, LoRA, теорема Байеса
 
-### Ensemble Methods (Ансамблевые методы)
+### Ансамблевые методы (Ensemble Methods)
 
-1. **[Ensemble Methods & Model Combination](./topics/ensemble-methods-model-combination/README.md)**
+1. **[Методы комбинирования моделей](./topics/ensemble-methods-model-combination/README.md)**
    - Bias-Variance Decomposition: зачем комбинировать модели
    - Bagging и Random Forest: параллельные ансамбли
    - Boosting: AdaBoost, Gradient Boosting, XGBoost, LightGBM, CatBoost
@@ -151,162 +155,162 @@ Obsidian / RAG index layer:
    - Knowledge Distillation: teacher → student, soft labels
    - Model Merging для LLM: TIES, DARE, SLERP, Model Soups
    - Ансамбли в DL: TTA, SWA, Snapshot Ensembles, MC Dropout
-   - Что используется больше всего в 2024-2026
-   - Related: Decision Trees, ROC AUC, Transformers, LoRA
+   - Что используется больше всего в 2024–2026
+   - Связано: деревья решений, ROC AUC, Transformers, LoRA
 
-### NLP and LLM Systems
+### NLP и LLM-системы
 
 1. **[Retrieval-Augmented Generation (RAG)](./topics/retrieval-augmented-generation-rag/README.md)**
    - Как работает RAG: архитектура и компоненты
-   - Типы RAG систем: Naive, Advanced, Modular, Self-RAG, Corrective RAG, LightRAG, Agentic RAG
+   - Типы RAG-систем: Naive, Advanced, Modular, Self-RAG, Corrective RAG, LightRAG, Agentic RAG
    - Техники улучшения: query rewriting, re-ranking, context compression
    - Векторные базы данных и модели эмбеддингов
    - Реализация и оценка качества
-   - Текущее состояние и тренды (2023-2026)
-   - Related: Large Language Models, Attention Mechanisms
+   - Текущее состояние и тренды (2023–2026)
+   - Связано: LLM, механизмы внимания
 
 2. **[Low-Rank Adaptation (LoRA)](./topics/low-rank-adaptation-lora/README.md)**
    - Проблема тонкой настройки больших языковых моделей
    - Математическая основа: разложение матриц низкого ранга
-   - Архитектура LoRA и применение к Transformer слоям
+   - Архитектура LoRA и применение к слоям Transformer
    - Параметры, эффективность и сравнение с полной настройкой
    - Варианты: QLoRA, AdaLoRA, DoRA
    - Практическое применение и реализация в PyTorch
-   - Текущее состояние и тренды (2021-2026)
-   - Related: Transformers, Attention Mechanisms, RAG
+   - Текущее состояние и тренды (2021–2026)
+   - Связано: Transformers, внимание, RAG
 
-3. **[Tokenization and Text Compression in LLMs](./topics/tokenization-and-text-compression-in-llms/README.md)**
+3. **[Токенизация и сжатие текста в LLM](./topics/tokenization-and-text-compression-in-llms/README.md)**
    - Что такое токенизатор и зачем он нужен
    - Как текст превращается в последовательность токенов и ID
-   - Основные техники токенизации: word‑level, char‑level, BPE, WordPiece, Unigram, byte‑level BPE
-   - Почему токенизация — это по сути алгоритм сжатия текста перед входом в LLM
+   - Основные техники: word-level, char-level, BPE, WordPiece, Unigram, byte-level BPE
+   - Почему токенизация — это по сути сжатие текста перед входом в LLM
    - Связь с архитектурой трансформеров и стоимостью внимания
-   - Related: Embeddings and Embedding Matrix
+   - Связано: эмбеддинги и матрица эмбеддингов
 
-4. **[Embeddings and Embedding Matrix](./topics/embeddings-and-embedding-matrix/README.md)**
+4. **[Эмбеддинги и матрица эмбеддингов](./topics/embeddings-and-embedding-matrix/README.md)**
    - Что такое эмбеддинги (векторное представление дискретных символов/токенов)
    - Матрица эмбеддингов: размер $V \times d$, lookup по ID токена
-   - Связь с токенизатором: токенизатор даёт ID, матрица эмбеддингов даёт векторы для входа в Transformer
+   - Связь с токенизатором: токенизатор даёт ID, матрица эмбеддингов — векторы для входа в Transformer
    - Обучение эмбеддингов в LLM, размерность и размер словаря
    - Эмбеддинги в RAG и семантическом поиске
-   - Related: Tokenization, Transformers, RAG
+   - Связано: токенизация, Transformers, RAG
 
-5. **[Contrastive & Metric Learning for Fine-Grained Visual Recognition](./topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md)**
+5. **[Contrastive и metric learning для fine-grained распознавания](./topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md)**
    - Contrastive learning vs metric learning: что это и когда нужно
-   - Fine-grained пример: “15 похожих сортов яблок” как retrieval/verification
+   - Fine-grained пример: «15 похожих сортов яблок» как retrieval/verification
    - Лоссы (contrastive/triplet/InfoNCE) и mining
    - Метрики: Recall@K, mAP, ROC/EER и деплой через embedding index
-   - Related: Embeddings, ROC AUC, self-supervised CV
+   - Связано: эмбеддинги, ROC AUC, self-supervised CV
 
-6. **[ArcFace and Angular-Margin Losses for Identification](./topics/arcface-and-angular-margin-losses-for-identification/README.md)**
+6. **[ArcFace и angular-margin losses для идентификации](./topics/arcface-and-angular-margin-losses-for-identification/README.md)**
    - ArcFace: математическая интуиция и формула additive angular margin
    - Практика face identification (1:1 verification и 1:N identification)
    - Практика SKU/product identification в open-set режиме
    - Современные датасеты для metric learning и re-ID (face/person/product/vehicle)
-   - Related: Contrastive & Metric Learning, ROC AUC, Calibration
+   - Связано: contrastive и metric learning, ROC AUC, калибровка
 
 7. **[Code Agents, AutoResearch и Loopy Era](./topics/code-agents-autoresearch-and-loopy-era/README.md)**
    - Что меняется в инженерии при переходе от ручного кода к orchestration
    - Multi-agent workflows: роли, параллелизм, quality gates
    - AutoResearch loops: objective, evaluator, verifier, метрики
    - [Stop Babysitting Your Agents (Claude Code)](./topics/code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code.md): verification skills, `/loop`, Routines
-   - [AI Harness Engineering (Tejas, IBM)](./topics/code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm.md): guardrails, verify step, harness vs prompt
-   - Rules of thumb и практический checklist для команды
-   - Related: RAG, Hyperparameter Tuning, LoRA
+   - [AI Harness Engineering (Tejas, IBM)](./topics/code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm.md): guardrails, шаг verify, harness vs prompt
+   - Правила большого пальца и практический checklist для команды
+   - Связано: RAG, настройка гиперпараметров, LoRA
 
-### Transformers, Attention and Vision Transformers
+### Transformers, внимание и Vision Transformers
 
-1. **[Transformers, Attention and Vision Transformers (ViT)](./topics/transformers-attention-and-vision-transformers-vit/README.md)**
+1. **[Transformers, Attention и Vision Transformers (ViT)](./topics/transformers-attention-and-vision-transformers-vit/README.md)**
    - Scaled Dot-Product Attention, Q/K/V и виды attention
    - KV Cache и оптимизация инференса LLM
-   - Позиционное кодирование: абсолютное, относительное, rotary, 2D‑позиции
-   - Архитектура ViT, CLS‑токен и классификация на трансформерах
-   - Детекция и сегментация с помощью DETR‑подобных архитектур
-   - Related: RAG, Non-Maximum Suppression (NMS), Convolutions and Parameters in CNN, Batch/Layer Normalization
+   - Позиционное кодирование: абсолютное, относительное, rotary, 2D-позиции
+   - Архитектура ViT, CLS-токен и классификация на трансформерах
+   - Детекция и сегментация с помощью DETR-подобных архитектур
+   - Связано: RAG, NMS, свёртки в CNN, Batch/Layer Normalization
 
 2. **[DINOv3: Self-Supervised Vision Transformer и 2D RoPE](./topics/dinov3-self-supervised-vision-transformer-and-2d-rope/README.md)**
-   - Self-supervised pretraining ViT‑бэкбонов (student–teacher, multi‑view, multi‑loss)
+   - Self-supervised pretraining ViT-бэкбонов (student–teacher, multi-view, multi-loss)
    - 2D Rotary Positional Embeddings (2D RoPE) для кодирования координат патчей
-   - Глобальные и dense‑фичи DINOv3 и их использование в классификации, детекции и сегментации
-   - Related: Transformers, Non-Maximum Suppression (NMS), Detection/Segmentation Losses, Convolutions in CNN
+   - Глобальные и dense-фичи DINOv3 и их использование в классификации, детекции и сегментации
+   - Связано: Transformers, NMS, loss'ы детекции/сегментации, свёртки в CNN
 
-3. **[Few-Shot Anomaly Detection: AnomalyDINO](./topics/few-shot-anomaly-detection-anomalydino/README.md)**
+3. **[Few-shot anomaly detection: AnomalyDINO](./topics/few-shot-anomaly-detection-anomalydino/README.md)**
    - Patch-level deep nearest neighbor с DINOv2 без обучения (1–16 эталонов)
-   - Memory bank, zero-shot masking, косинусное расстояние, top-1% агрегация
+   - Memory bank, zero-shot masking, косинусное расстояние, агрегация top-1%
    - Pixel-level anomaly map и применение к industrial QC (в т.ч. уровень жидкости)
-   - Related: DINOv3, ROC AUC, SOTA detection/segmentation metrics
+   - Связано: DINOv3, ROC AUC, SOTA-метрики детекции/сегментации
 
-### Computer Vision and Object Detection
+### Компьютерное зрение и детекция объектов
 
-1. **[Non-Maximum Suppression (NMS) and Modern End-to-End Detectors](./topics/non-maximum-suppression-nms/README.md)**
+1. **[Non-Maximum Suppression (NMS) и современные end-to-end детекторы](./topics/non-maximum-suppression-nms/README.md)**
    - Non-Maximum Suppression (NMS): алгоритм и реализация
    - Agnostic NMS (Class-Agnostic NMS)
    - Проблемы NMS в production и деплое
-   - End-to-End детекция без NMS: YOLO26, DETR, RT-DETR
+   - End-to-end детекция без NMS: YOLO26, DETR, RT-DETR
    - Transformer-based детекторы и query-based подходы
    - Сравнение традиционных и end-to-end подходов
-   - Текущее состояние и тренды (2023-2026)
-   - Related: Unscented Kalman Filter (для отслеживания объектов)
+   - Текущее состояние и тренды (2023–2026)
+   - Связано: Unscented Kalman Filter (для отслеживания объектов)
 
-2. **[SOTA Metrics for Detection, Segmentation, and Multiclass Classification](./topics/sota-metrics-for-detection-segmentation-multiclass-classification/README.md)**
+2. **[SOTA-метрики для детекции, сегментации и мультиклассовой классификации](./topics/sota-metrics-for-detection-segmentation-multiclass-classification/README.md)**
    - Детекция: COCO AP (AP@[.50:.95]), AP50/AP75, AP_S/M/L, AR
    - Сегментация: semantic mIoU, instance Mask AP, panoptic PQ
    - Мультикласс: Top-1/Top-5, macro/micro F1, NLL, калибровка (ECE/Brier)
-   - Related: ROC AUC, Confidence & Calibration, NMS
+   - Связано: ROC AUC, уверенность и калибровка, NMS
 
-3. **[Convolutions and Parameters in CNN](./topics/convolutions-and-parameters-in-cnn/README.md)**
+3. **[Свёртки и параметры в CNN](./topics/convolutions-and-parameters-in-cnn/README.md)**
    - Почему в CNN популярны свёртки `3×3` и нечётные ядра
    - Эффективность больших свёрток `5×5`, `7×7`
    - Формулы размеров feature map для Conv/Pooling и Transposed Conv
    - Подсчёт числа обучаемых параметров (Conv, Linear, BatchNorm, depthwise/pointwise)
-   - Related: Non-Maximum Suppression (NMS), Deep Reinforcement Learning
+   - Связано: NMS, Deep Reinforcement Learning
 
-### Normalization and Training Stabilization
+### Нормализация и стабилизация обучения
 
-1. **[Batch Normalization and Layer Normalization](./topics/normalization-layers-batchnorm-layernorm/README.md)**
+1. **[Batch Normalization и Layer Normalization](./topics/normalization-layers-batchnorm-layernorm/README.md)**
    - Зачем нужна нормализация активаций в глубоких сетях
    - Формулы и интуиция Batch Normalization
    - Формулы и интуиция Layer Normalization
    - Сравнение BatchNorm vs LayerNorm, влияние на обучение
-   - Related: Convolutions and Parameters in CNN, Deep Reinforcement Learning, RAG/Transformers
+   - Связано: свёртки в CNN, Deep RL, RAG/Transformers
 
-### Loss Functions for Classification and Detection
+### Функции потерь для классификации и детекции
 
-1. **[Cross Entropy and Focal Loss](./topics/classification-losses-cross-entropy-focal-loss/README.md)**
-   - Кросс‑энтропия в бинарной и многоклассовой классификации
+1. **[Cross Entropy и Focal Loss](./topics/classification-losses-cross-entropy-focal-loss/README.md)**
+   - Кросс-энтропия в бинарной и многоклассовой классификации
    - Интуиция: почему CE так популярна
    - Focal Loss: мотивация, формула, роль параметров α и γ
    - Применение в object detection и задачах с дисбалансом классов
-   - Related: Non-Maximum Suppression (NMS), Convolutions and Parameters in CNN
+   - Связано: NMS, свёртки в CNN
 
-2. **[Losses for Detection, Segmentation, and 3D Detection](./topics/detection-segmentation-3d-losses/README.md)**
-   - Составные loss’ы в современных детекторах и сегментаторах
-   - Классификационные loss’ы (CE, Focal, Quality Focal, Varifocal)
-   - Loss’ы для регрессии боксов (L1/Smooth L1, IoU, GIoU/DIoU/CIoU)
-   - Loss’ы для сегментации (CE, Dice, IoU, Tversky, Lovász-Softmax)
-   - Loss’ы для 3D‑детекции (3D/BEV IoU, L1 по центрам/размерам, heatmap‑based)
-   - Related: Non-Maximum Suppression (NMS), Convolutions and Parameters in CNN
+2. **[Loss'ы для детекции, сегментации и 3D-детекции](./topics/detection-segmentation-3d-losses/README.md)**
+   - Составные loss'ы в современных детекторах и сегментаторах
+   - Классификационные loss'ы (CE, Focal, Quality Focal, Varifocal)
+   - Loss'ы для регрессии боксов (L1/Smooth L1, IoU, GIoU/DIoU/CIoU)
+   - Loss'ы для сегментации (CE, Dice, IoU, Tversky, Lovász-Softmax)
+   - Loss'ы для 3D-детекции (3D/BEV IoU, L1 по центрам/размерам, heatmap-based)
+   - Связано: NMS, свёртки в CNN
 
-### Filtering and Object Tracking
+### Фильтрация и трекинг объектов
 
-1. **[Unscented Kalman Filter and Modern Tracking Methods](./topics/unscented-kalman-filter-and-tracking/README.md)**
+1. **[Unscented Kalman Filter и современные методы трекинга](./topics/unscented-kalman-filter-and-tracking/README.md)**
    - Unscented Kalman Filter (UKF): теория и алгоритм
    - Сравнение с Kalman Filter, Extended Kalman Filter, Particle Filter
    - Современные методы отслеживания объектов (DeepSORT, ByteTrack, Transformer-based)
    - Применения в компьютерном зрении, робототехнике, навигации
    - Реализация UKF и примеры использования
    - Статистика хи-квадрат для обнаружения выбросов
-   - Текущее состояние (2023-2026)
-   - Related: Gaussian Distribution, Non-Maximum Suppression
+   - Текущее состояние (2023–2026)
+   - Связано: гауссово распределение, NMS
 
-2. **[Action Recognition and Object Tracking Metrics](./topics/action-recognition-and-object-tracking-metrics/README.md)**
+2. **[Метрики action recognition и object tracking](./topics/action-recognition-and-object-tracking-metrics/README.md)**
    - Метрики для video-level action recognition: Top-1/Top-5, macro-F1, mAcc
    - Метрики для temporal localization: mAP@tIoU и average mAP
    - Метрики для SOT и MOT: Success AUC, IDF1, MOTA, HOTA
-   - Практический guide по выбору метрик под benchmark и постановку
-   - Related: Confidence & Calibration, NMS, UKF Tracking
+   - Практический гайд по выбору метрик под benchmark и постановку
+   - Связано: калибровка, NMS, UKF-трекинг
 
-### Reinforcement Learning and Control
+### Обучение с подкреплением и управление
 
 1. **[Deep Reinforcement Learning](./topics/deep-reinforcement-learning/README.md)**
    - Основы Reinforcement Learning и MDP
@@ -314,131 +318,144 @@ Obsidian / RAG index layer:
    - Современные методы: PPO, SAC, TD3
    - Применения в робототехнике: манипуляция, локомоция, управление
    - Применения в автономных автомобилях: end-to-end обучение, hierarchical RL
-   - Sim-to-Real transfer и domain randomization
-   - Текущее состояние и тренды (2024-2026)
-   - Related: Unscented Kalman Filter (для фильтрации состояний)
+   - Sim-to-real transfer и domain randomization
+   - Текущее состояние и тренды (2024–2026)
+   - Связано: Unscented Kalman Filter (для фильтрации состояний)
 
-### Robotics and Embodied AI
+### Робототехника и Embodied AI
 
-1. **[Vision-Language-Action (VLA) Models](./topics/vision-language-action-models-vla/README.md)**
-   - Что такое VLA модели и зачем они нужны
+1. **[Модели Vision-Language-Action (VLA)](./topics/vision-language-action-models-vla/README.md)**
+   - Что такое VLA-модели и зачем они нужны
    - Архитектура: объединение Vision, Language и Action
    - Ключевые компоненты: энкодеры, проекторы, декодеры действий
-   - Обучение VLA моделей: данные, loss функции, fine-tuning
+   - Обучение VLA-моделей: данные, loss-функции, fine-tuning
    - Современные модели: RT-1, RT-2, OpenVLA, F1-VLA, Octo
    - Применения: манипуляция, навигация, автономные системы
    - Сравнение с RL и Imitation Learning
    - Реализация и примеры кода
-   - Текущее состояние и тренды (2022-2026)
-   - Related: Transformers, Deep Reinforcement Learning, Low-Rank Adaptation (LoRA)
+   - Текущее состояние и тренды (2022–2026)
+   - Связано: Transformers, Deep RL, LoRA
 
-2. **[Vision-Based Robot Training Methods](./topics/vision-based-robot-training-methods/README.md)**
+2. **[Vision-based обучение роботов](./topics/vision-based-robot-training-methods/README.md)**
    - Обучение роботов с визуальным восприятием
    - Основные подходы: Imitation Learning, RL, VLA
-   - Лучшие Open-Source методы (2024-2025): OpenVLA, Octo, RT-1/RT-2, AutoRT
+   - Лучшие open-source методы (2024–2025): OpenVLA, Octo, RT-1/RT-2, AutoRT
    - Обучение для разных типов роботов: гуманоиды, четвероногие, колёсные, манипуляторы
    - Датасеты: Open X-Embodiment, RT-1 Dataset
    - Практические примеры: код и использование
-   - Sim-to-Real transfer: от симуляции к реальности
+   - Sim-to-real transfer: от симуляции к реальности
    - Сравнение методов и выбор подхода
-   - Текущее состояние и тренды (2024-2026)
-   - Related: Vision-Language-Action (VLA) Models, Deep Reinforcement Learning
+   - Текущее состояние и тренды (2024–2026)
+   - Связано: VLA-модели, Deep RL
 
-## Reading Order
+## Порядок чтения
 
-### For Understanding Generative Models:
-1. Start with **Gaussian Distribution** for fundamental probability concepts
-2. Read **VAEs** for foundational probabilistic generative modeling
-3. Then read **GANs** for adversarial training approach
-4. Study **Diffusion Models** for state-of-the-art generation techniques
-5. Compare the approaches using the comparison sections
-6. Explore advanced topics and recent research
+### Чтобы разобраться в генеративных моделях
 
-### For Mathematical Foundations:
-1. Start with **Bayes' Theorem and Probability Foundations** for fundamental probability theory
-2. Study **Gaussian Distribution** as a key building block for probabilistic models
-3. Understand how both concepts combine in **VAEs** (latent space, ELBO) and **Diffusion Models** (noise)
-4. Learn about **Bayesian inference** in ML: MAP, MLE, regularization
-5. Apply knowledge to **Naive Bayes classifier** and **Kalman filters**
+1. Начните с **гауссова распределения** — базовые вероятностные понятия
+2. Прочитайте **VAE** — вероятностное генеративное моделирование
+3. Затем **GAN** — adversarial training
+4. Изучите **Diffusion Models** — текущий state-of-the-art генерации
+5. Сравните подходы по разделам сравнения в топиках
+6. Дальше — продвинутые темы и свежие статьи
 
-### For NLP and RAG Systems:
-1. Start with **Retrieval-Augmented Generation (RAG)** for understanding how to enhance LLMs with external knowledge
-2. Learn about different RAG architectures and when to use each
-3. Explore advanced techniques for improving retrieval and generation quality
-4. Understand evaluation metrics and best practices
-5. Read **Code Agents, AutoResearch и Loopy Era** to design autonomous multi-agent loops with measurable outcomes
-6. Convert ad-hoc prompting into process engineering: explicit objectives, evaluators, and safety gates
+### Математические основы
 
-### For Fine-Tuning Large Language Models:
-1. Read **Transformers, Attention and Vision Transformers** to understand Transformer architecture
-2. Study **Low-Rank Adaptation (LoRA)** for efficient fine-tuning techniques
-3. Learn when to use LoRA vs full fine-tuning
-4. Explore variants like QLoRA for memory-constrained scenarios
-5. Apply LoRA in practice with Hugging Face PEFT library
+1. **Теорема Байеса и основы вероятностей**
+2. **Гауссово распределение** как строительный блок вероятностных моделей
+3. Как оба понятия сходятся в **VAE** (латентное пространство, ELBO) и **Diffusion Models** (шум)
+4. **Байесовский вывод** в ML: MAP, MLE, регуляризация
+5. Применение: **наивный Байес** и **фильтры Калмана**
 
-### For Metric Learning and Identification:
-1. Start with **Embeddings and Embedding Matrix** for representation basics
-2. Read **Contrastive & Metric Learning for Fine-Grained Visual Recognition** for pair/triplet/InfoNCE foundations
-3. Study **ArcFace and Angular-Margin Losses for Identification** for production-grade identification pipelines
-4. Use **ROC Curves and ROC AUC** + **Confidence, Calibration and Uncertainty** for thresholding in open-set setups
+### NLP и RAG-системы
 
-### For Computer Vision and Object Detection:
-1. Start with **Non-Maximum Suppression (NMS)** for understanding traditional object detection pipelines
-2. Learn about end-to-end approaches (YOLO26, DETR) that eliminate NMS
-3. Understand the evolution from NMS-based to query-based detection
-4. Explore transformer-based detectors and their advantages
+1. **RAG** — как усиливать LLM внешней памятью
+2. Разные архитектуры RAG и когда какую выбирать
+3. Техники улучшения retrieval и generation
+4. Метрики оценки и практики
+5. **Code Agents, AutoResearch и Loopy Era** — автономные multi-agent циклы с измеримым результатом
+6. От разовых промптов к инженерии процесса: явные цели, evaluators и safety gates
 
-### For Filtering and Tracking:
-1. Start with **Gaussian Distribution** for understanding probability distributions
-2. Read **Unscented Kalman Filter** for non-linear filtering and object tracking
-3. Understand the evolution from KF → EKF → UKF → Particle Filter
-4. Read **Action Recognition and Object Tracking Metrics** to choose proper evaluation protocols
-5. Explore modern deep learning approaches to tracking
-6. Connect with **Non-Maximum Suppression** for object detection pipelines
+### Fine-tuning больших языковых моделей
 
-### For Reinforcement Learning and Control:
-1. Start with **Deep Reinforcement Learning** for understanding RL fundamentals
-2. Learn about value-based (DQN), policy-based (PPO), and actor-critic (SAC) methods
-3. Explore applications in robotics and autonomous vehicles
-4. Understand sim-to-real transfer and safety considerations
-5. Study modern approaches: foundation models, diffusion policies, hierarchical RL
+1. **Transformers, Attention и Vision Transformers** — архитектура Transformer
+2. **LoRA** — эффективный fine-tuning
+3. Когда LoRA, а когда полная настройка
+4. Варианты вроде QLoRA при нехватке памяти
+5. Практика с Hugging Face PEFT
 
-### For Robotics and Vision-Based Robot Learning:
-1. Read **Vision-Language-Action (VLA) Models** to understand how vision, language, and action are combined
-2. Study modern VLA architectures: OpenVLA, RT-1, RT-2, Octo
-3. Learn about **Vision-Based Robot Training Methods** for practical robot learning
-4. Understand different approaches: Imitation Learning, RL, VLA
-5. Explore open-source methods and datasets (Open X-Embodiment)
-6. Study sim-to-real transfer techniques
-7. Apply methods to different robot types: humanoids, quadrupeds, wheeled robots, manipulators
+### Metric learning и идентификация
 
-### For Hyperparameter Tuning:
-1. Start with **Decision Trees** and **Ensemble Methods** to understand models with many hyperparameters
-2. Read **Hyperparameter Tuning** for comprehensive coverage of all methods
-3. Learn Grid Search → Random Search → Bayesian Optimization (Optuna)
-4. Study advanced methods: Hyperband, BOHB, PBT
-5. Apply LR Finder and schedules for neural networks
-6. Explore NAS for architecture search
+1. **Эмбеддинги и матрица эмбеддингов** — база представлений
+2. **Contrastive и metric learning** — пары/триплеты/InfoNCE
+3. **ArcFace и angular-margin losses** — идентификационные пайплайны
+4. **ROC AUC** + **калибровка** — пороги в open-set постановках
 
-### For Ensemble Methods and Model Combination:
-1. Start with **Decision Trees** as the building block for most ensembles
-2. Read **Ensemble Methods & Model Combination** for comprehensive coverage
-3. Understand Bagging (Random Forest) → Boosting (XGBoost/LightGBM/CatBoost)
-4. Learn Stacking and Voting for combining diverse models
-5. Study **Mixture of Experts** and **Model Merging** for LLM-scale approaches
-6. Explore Knowledge Distillation and DL-specific ensembles (TTA, SWA)
+### Компьютерное зрение и детекция
 
-## Contributing
+1. **NMS** — классический пайплайн детекции
+2. End-to-end подходы (YOLO26, DETR), которые убирают NMS
+3. Эволюция от NMS-based к query-based детекции
+4. Transformer-based детекторы и их преимущества
 
-When adding new documents:
-- Create/update a topic directory under `topics/<topic-slug>/`
-- Add Obsidian frontmatter (or extend `scripts/kb_topic_metadata.py` and regenerate via `kb_apply_obsidian_frontmatter.py`)
-- Follow the established structure (Table of Contents, sections, References)
-- Include mathematical formulations with LaTeX
-- If code is included, add numbered scripts under `scripts/` and tests under `tests/`
-- Keep scripts focused on one subtopic and document what each script demonstrates
-- Update this README with new entries and keep cross-references valid
-- Refresh `docs/` indexes and run `uv run python scripts/kb_validate_links.py`
+### Фильтрация и трекинг
 
-## References
+1. **Гауссово распределение**
+2. **Unscented Kalman Filter** — нелинейная фильтрация и трекинг
+3. Эволюция KF → EKF → UKF → Particle Filter
+4. **Метрики action recognition и tracking** — как выбирать протокол оценки
+5. Современный deep tracking
+6. Связка с **NMS** в пайплайнах детекции
+
+### RL и управление
+
+1. **Deep Reinforcement Learning** — основы RL
+2. Value-based (DQN), policy-based (PPO) и actor-critic (SAC)
+3. Применения в робототехнике и автономном вождении
+4. Sim-to-real и вопросы безопасности
+5. Современные подходы: foundation models, diffusion policies, hierarchical RL
+
+### Робототехника и vision-based обучение роботов
+
+1. **VLA-модели** — как объединяют зрение, язык и действие
+2. Современные архитектуры: OpenVLA, RT-1, RT-2, Octo
+3. **Vision-based методы обучения роботов**
+4. Подходы: Imitation Learning, RL, VLA
+5. Open-source методы и датасеты (Open X-Embodiment)
+6. Sim-to-real
+7. Разные типы роботов: гуманоиды, четвероногие, колёсные, манипуляторы
+
+### Настройка гиперпараметров
+
+1. **Деревья решений** и **ансамбли** — модели с большим числом гиперпараметров
+2. **Настройка гиперпараметров** — обзор методов
+3. Grid Search → Random Search → Bayesian Optimization (Optuna)
+4. Продвинутые методы: Hyperband, BOHB, PBT
+5. LR Finder и расписания для нейросетей
+6. NAS для поиска архитектур
+
+### Ансамбли и комбинирование моделей
+
+1. **Деревья решений** как строительный блок большинства ансамблей
+2. **Методы комбинирования моделей**
+3. Bagging (Random Forest) → Boosting (XGBoost/LightGBM/CatBoost)
+4. Stacking и Voting для разнородных моделей
+5. **Mixture of Experts** и **Model Merging** на масштабе LLM
+6. Knowledge Distillation и DL-специфичные ансамбли (TTA, SWA)
+
+## Как дополнять книгу
+
+При добавлении новых материалов:
+
+- Создать или обновить директорию `topics/<topic-slug>/`
+- Добавить Obsidian frontmatter (или расширить `scripts/kb_topic_metadata.py` и пересобрать через `kb_apply_obsidian_frontmatter.py`)
+- Держать структуру: Оглавление, разделы, Источники
+- Формулы писать в LaTeX
+- Если есть код — нумерованные скрипты в `scripts/` и тесты в `tests/`
+- Один скрипт — один подпункт; в комментариях (по-русски) писать, что именно он показывает
+- Обновить этот README и проверить перекрёстные ссылки
+- Обновить индексы `docs/` и запустить `uv run python scripts/kb_validate_links.py`
+
+## Источники
+
 - https://github.com/Mathews-Tom/no-magic

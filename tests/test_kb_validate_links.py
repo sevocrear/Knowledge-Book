@@ -84,7 +84,7 @@ def test_flags_directory_targets(tmp_path: Path) -> None:
 def test_topic_has_table_of_contents(tmp_path: Path) -> None:
     repo = tmp_path
     ok = repo / "topics" / "a" / "README.md"
-    _write(ok, "# T\n\n## Table of Contents\n\n1. [x](#x)\n")
+    _write(ok, "# T\n\n## Оглавление\n\n1. [x](#x)\n")
     bad = repo / "topics" / "b" / "README.md"
     _write(bad, "# T\n\n### Contents\n\n1. x\n")
 
@@ -94,11 +94,11 @@ def test_topic_has_table_of_contents(tmp_path: Path) -> None:
 
 def test_validate_root_readme_topic_index_complete(tmp_path: Path) -> None:
     repo = tmp_path
-    _write(repo / "topics" / "t1" / "README.md", "## Table of Contents\n\n- [x](#x)\n")
-    _write(repo / "topics" / "t2" / "README.md", "## Table of Contents\n\n- [x](#x)\n")
+    _write(repo / "topics" / "t1" / "README.md", "## Оглавление\n\n- [x](#x)\n")
+    _write(repo / "topics" / "t2" / "README.md", "## Оглавление\n\n- [x](#x)\n")
     _write(
         repo / "README.md",
-        "## Contents\n\n- [T1](./topics/t1/README.md)\n- [T2](./topics/t2/README.md#anchor)\n",
+        "## Содержание\n\n- [T1](./topics/t1/README.md)\n- [T2](./topics/t2/README.md#anchor)\n",
     )
     missing, unknown = validate_root_readme_topic_index(repo)
     assert missing == set()
@@ -107,10 +107,10 @@ def test_validate_root_readme_topic_index_complete(tmp_path: Path) -> None:
 
 def test_validate_root_readme_topic_index_missing_and_unknown(tmp_path: Path) -> None:
     repo = tmp_path
-    _write(repo / "topics" / "on-disk" / "README.md", "## Table of Contents\n\n- [x](#x)\n")
+    _write(repo / "topics" / "on-disk" / "README.md", "## Оглавление\n\n- [x](#x)\n")
     _write(
         repo / "README.md",
-        "## Contents\n\n- [Ghost](./topics/not-on-disk/README.md)\n",
+        "## Содержание\n\n- [Ghost](./topics/not-on-disk/README.md)\n",
     )
     missing, unknown = validate_root_readme_topic_index(repo)
     assert missing == {"on-disk"}
@@ -139,7 +139,7 @@ def _sample_frontmatter(**overrides: object) -> str:
                 lines.append(f"  - {item}")
         else:
             lines.append(f"{key}: {value}")
-    lines.extend(["---", "", "# Example Topic", "", "## Table of Contents", ""])
+    lines.extend(["---", "", "# Example Topic", "", "## Оглавление", ""])
     return "\n".join(lines) + "\n"
 
 

@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: dinov3-self-supervised-vision-transformer-and-2d-rope
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # DINOv3: Self-Supervised Vision Transformer и 2D RoPE
 
-## Table of Contents
+## Оглавление
 
 1. Краткий абстракт и объяснение для 5‑летнего ребёнка  
 2. Интуиция DINOv3: зачем ещё один ViT‑фреймворк  
@@ -36,7 +36,7 @@ updated: 2026-08-10
 6. Как формируются фичи: глобальные и dense‑представления  
 7. Применение DINOv3 для классификации  
 8. Применение DINOv3 для детекции и сегментации  
-9. Связанные темы и References внутри knowledge‑book  
+9. Связанные темы и источники внутри knowledge-book  
 
 ---
 
@@ -415,7 +415,7 @@ $$
 
 ---
 
-### 9. Связанные темы и References внутри knowledge‑book
+### 9. Связанные темы и источники внутри knowledge-book
 
 - **Transformers, Attention and Vision Transformers (ViT)**  
   [`transformers-attention-and-vision-transformers-vit`](../transformers-attention-and-vision-transformers-vit/README.md)  

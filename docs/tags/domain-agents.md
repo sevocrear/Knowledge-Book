@@ -1,17 +1,17 @@
 ---
-title: "Tag: domain/agents"
-description: Notes tagged domain/agents in the knowledge book.
+title: "Тег: domain/agents"
+description: Заметки с тегом domain/agents в книге знаний.
 tags:
   - domain/agents
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `domain/agents`
+# Тег `domain/agents`
 
-## Notes
+## Заметки
 
 - [Code Agents, AutoResearch и Loopy Era](../../topics/code-agents-autoresearch-and-loopy-era/README.md) — Оркестрация code agents, AutoResearch loops, verification gates, harness engineering и переход от ручного кода к управлению агентными циклами.
 - [AI Harness Engineering (Tejas, IBM)](../../topics/code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm.md) — Конспект про harness engineering: guardrails, verify step и почему обвязка агента важнее одного удачного промпта.

@@ -1,29 +1,29 @@
 ---
-title: Obsidian Frontmatter Schema
-description: Required YAML frontmatter fields for knowledge-book notes used by Obsidian and RAG.
+title: Схема Obsidian frontmatter
+description: Обязательные поля YAML frontmatter для заметок книги, которые используют Obsidian и RAG.
 tags:
   - kb/schema
   - kb/docs
 status: canonical
-lang: en
+lang: ru
 type: schema
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Obsidian Frontmatter Schema
+# Схема Obsidian frontmatter
 
-## Required fields
+## Обязательные поля
 
 ```yaml
 ---
-title: Human-readable title
-description: One or two sentences for RAG / search snippets
+title: Человекочитаемый заголовок
+description: Одно-два предложения для RAG / сниппетов поиска
 tags:
-  - kb/topic          # or kb/note, kb/moc, kb/index
-  - domain/cv         # coarse domain
-  - concept/attention # fine-grained concepts
+  - kb/topic          # или kb/note, kb/moc, kb/index
+  - domain/cv         # широкая область
+  - concept/attention # конкретная идея
 aliases:
-  - Alternate Name
+  - Альтернативное имя
 related:
   - sibling-topic-slug
 status: canonical     # canonical | notes | draft
@@ -34,22 +34,22 @@ updated: YYYY-MM-DD
 ---
 ```
 
-## Tag namespaces
+## Пространства имён тегов
 
-| Prefix | Meaning | Examples |
+| Префикс | Смысл | Примеры |
 |--------|---------|----------|
-| `kb/` | Book structure | `kb/topic`, `kb/note`, `kb/moc`, `kb/index` |
-| `domain/` | Broad field | `domain/cv`, `domain/llm`, `domain/robotics` |
-| `concept/` | Concrete idea | `concept/rag`, `concept/lora`, `concept/nms` |
-| `source/` | Provenance for notes | `source/youtube` |
+| `kb/` | Структура книги | `kb/topic`, `kb/note`, `kb/moc`, `kb/index` |
+| `domain/` | Широкая область | `domain/cv`, `domain/llm`, `domain/robotics` |
+| `concept/` | Конкретная идея | `concept/rag`, `concept/lora`, `concept/nms` |
+| `source/` | Происхождение заметки | `source/youtube` |
 
-## Why this helps RAG
+## Зачем это RAG
 
-1. **`description`** is a dense retrieval summary independent of note length.
-2. **`tags` + `aliases`** expand recall for synonym queries.
-3. **`related`** supports graph-style expansion after a hit.
-4. **`slug`** is a stable ID for citations and chunk metadata.
+1. **`description`** — плотное описание для поиска, независимое от длины заметки.
+2. **`tags` + `aliases`** — расширяют recall по синонимам.
+3. **`related`** — позволяют идти по графу соседних тем после попадания.
+4. **`slug`** — стабильный ID для цитирования и метаданных чанков.
 
-## Validation
+## Проверка
 
-`scripts/kb_validate_links.py` checks that every `topics/*/README.md` and topic note has valid frontmatter with required keys.
+`scripts/kb_validate_links.py` проверяет, что у каждого `topics/*/README.md` и вложенной заметки есть корректный frontmatter с обязательными ключами.

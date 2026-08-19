@@ -25,7 +25,7 @@ status: canonical
 lang: ru
 type: topic
 slug: ensemble-methods-model-combination
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Методы комбинирования моделей (Ensemble Methods)
 
@@ -35,7 +35,7 @@ updated: 2026-08-10
 
 ---
 
-## Table of Contents
+## Оглавление
 
 1. [Зачем комбинировать модели](#зачем-комбинировать-модели)
 2. [Таксономия методов](#таксономия-методов)
@@ -58,7 +58,7 @@ updated: 2026-08-10
 11. [Сравнение методов](#сравнение-методов)
 12. [Примеры кода на Python](#примеры-кода-на-python)
 13. [Что используется больше всего сейчас (2024-2026)](#что-используется-больше-всего-сейчас-2024-2026)
-14. [References](#references)
+14. [Источники](#источники)
 
 ---
 
@@ -782,7 +782,7 @@ mergekit-yaml config.yaml ./merged_model --cuda
 
 ---
 
-## References
+## Источники
 
 ### Внутренние ссылки (knowledge-book)
 - [Decision Trees](../decision-trees/README.md) — базовые модели для Bagging и Boosting

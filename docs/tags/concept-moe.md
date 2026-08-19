@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/moe"
-description: Notes tagged concept/moe in the knowledge book.
+title: "Тег: concept/moe"
+description: Заметки с тегом concept/moe в книге знаний.
 tags:
   - concept/moe
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/moe`
+# Тег `concept/moe`
 
-## Notes
+## Заметки
 
 - [Методы комбинирования моделей (Ensemble Methods)](../../topics/ensemble-methods-model-combination/README.md) — Bagging/boosting/stacking, XGBoost/LightGBM/CatBoost, MoE, distillation и model merging (TIES/DARE/SLERP) для LLM.
 

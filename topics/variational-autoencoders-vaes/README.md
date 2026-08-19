@@ -1,5 +1,5 @@
 ---
-title: Variational Autoencoders (VAEs)
+title: Variational Autoencoders (VAE)
 description: "ELBO, encoder/decoder, reparameterization trick, латентное пространство и роль VAE в современных generative pipelines."
 tags:
   - kb/topic
@@ -18,160 +18,161 @@ related:
   - diffusion-models
   - bayes-theorem-and-probability-foundations
 status: canonical
-lang: en
+lang: ru
 type: topic
 slug: variational-autoencoders-vaes
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Variational Autoencoders (VAEs): A Comprehensive Guide
+# Variational Autoencoders (VAE)
 
-## Table of Contents
+## Оглавление
 
-1. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
-2. [Introduction to VAEs](#introduction-to-vaes)
-3. [Core Idea and Intuition](#core-idea-and-intuition)
-4. [Mathematical Foundations](#mathematical-foundations)
-5. [Architecture and Components](#architecture-and-components)
-6. [Training Process](#training-process)
-7. [Implementation Example](#implementation-example)
-8. [Variants and Extensions](#variants-and-extensions)
-9. [Applications](#applications)
-10. [Current Status (2025-2026)](#current-status-2025-2026)
-11. [References](#references)
+1. [Как объяснить 5-летнему ребёнку](#как-объяснить-5-летнему-ребёнку)
+2. [Введение в VAE](#введение-в-vae)
+3. [Основная идея и интуиция](#основная-идея-и-интуиция)
+4. [Математические основы](#математические-основы)
+5. [Архитектура и компоненты](#архитектура-и-компоненты)
+6. [Процесс обучения](#процесс-обучения)
+7. [Пример реализации](#пример-реализации)
+8. [Варианты и расширения](#варианты-и-расширения)
+9. [Применения](#применения)
+10. [Текущий статус (2025-2026)](#текущий-статус-2025-2026)
+11. [Источники](#источники)
+12. [Ключевые выводы](#ключевые-выводы)
 
 ---
 
-## How would I describe it to a person who is 5 years old
+## Как объяснить 5-летнему ребёнку
 
 Представь машину, которая учится рисовать похожие картинки. Сначала она смотрит на настоящую картинку и записывает не «каждую точку», а короткое описание «о чём она» — как будто шёпотом. Потом по этому шёпоту рисует картинку заново. Если шёпот чуть изменить, получится *новая*, но всё ещё понятная картинка. Так VAE учится придумывать похожие вещи, а не только копировать.
 
 ---
 
-## Introduction to VAEs
+## Введение в VAE
 
-**Variational Autoencoders (VAEs)** are a class of generative models introduced by Kingma & Welling (2013) that combine ideas from variational inference and autoencoders. Unlike traditional autoencoders that learn deterministic mappings, VAEs learn a probabilistic latent space representation, enabling them to generate new data samples.
+**Variational Autoencoders (VAE)** — класс генеративных моделей (generative models), предложенный Kingma & Welling (2013). Они соединяют идеи вариационного вывода (variational inference) и автокодировщиков (autoencoders). В отличие от обычных autoencoders, которые учат детерминированные отображения, VAE учит вероятностное представление латентного пространства (latent space) и поэтому может порождать новые примеры данных.
 
-### Key Characteristics
+### Ключевые особенности
 
-- **Probabilistic Latent Space**: Encodes inputs into a probability distribution rather than fixed vectors
-- **Generative Capability**: Can sample from the learned distribution to generate new data
-- **Regularized Latent Space**: The latent space is structured and continuous, allowing smooth interpolation
-- **Variational Inference**: Uses approximate Bayesian inference to learn the latent representation
-
----
-
-## Core Idea and Intuition
-
-### The Fundamental Problem
-
-Traditional autoencoders compress data into a fixed latent representation and reconstruct it. However, they don't provide a way to generate new samples because:
-1. The latent space may have "holes" (regions with no encoded data)
-2. There's no probabilistic model of the data distribution
-3. Sampling from the latent space doesn't guarantee meaningful outputs
-
-### The VAE Solution
-
-VAEs solve this by:
-1. **Encoding to Distributions**: Instead of encoding to a single point, encode to a probability distribution (typically Gaussian)
-2. **Regularization**: Force the latent distributions to be close to a standard normal distribution
-3. **Sampling**: Generate new samples by sampling from the prior distribution and decoding
-
-### Intuitive Analogy
-
-Think of a VAE like a translator learning a language:
-- **Encoder**: Learns to translate sentences (data) into a structured "thought space" (latent space)
-- **Latent Space**: A continuous, organized space where similar thoughts are close together
-- **Decoder**: Learns to translate thoughts back into sentences
-- **Regularization**: Ensures the "thought space" follows a standard structure (like grammar rules)
-- **Generation**: New sentences can be created by sampling thoughts from the structured space
+- **Вероятностное латентное пространство (probabilistic latent space)**: вход кодируется в распределение вероятностей, а не в фиксированный вектор
+- **Генеративная способность**: можно сэмплировать из выученного распределения и получать новые данные
+- **Регуляризованное латентное пространство**: пространство структурировано и непрерывно, поэтому возможна плавная интерполяция
+- **Variational inference**: латентное представление учат через приближённый байесовский вывод
 
 ---
 
-## Mathematical Foundations
+## Основная идея и интуиция
 
-### The Probabilistic Model
+### Фундаментальная проблема
 
-VAEs model the data generation process as:
+Обычный autoencoder сжимает данные в фиксированное латентное представление и восстанавливает их. Новые примеры из него получить нельзя, потому что:
+1. В латентном пространстве могут быть «дыры» (области, куда ничего не закодировано)
+2. Нет вероятностной модели распределения данных
+3. Сэмплирование из латентного пространства не гарантирует осмысленный выход
+
+### Решение VAE
+
+VAE решает это так:
+1. **Кодирование в распределения**: вместо одной точки кодируем в распределение вероятностей (обычно Gaussian)
+2. **Регуляризация**: заставляем латентные распределения быть близкими к стандартному нормальному
+3. **Сэмплирование**: новые примеры получают, сэмплируя из prior и прогоняя через decoder
+
+### Интуитивная аналогия
+
+VAE можно представить как переводчика, который учит язык:
+- **Encoder**: учится переводить предложения (данные) в структурированное «пространство мыслей» (latent space)
+- **Latent space**: непрерывное упорядоченное пространство, где похожие мысли лежат рядом
+- **Decoder**: учится переводить мысли обратно в предложения
+- **Регуляризация**: следит, чтобы «пространство мыслей» следовало стандартной структуре (как правилам грамматики)
+- **Генерация**: новые предложения можно получать, сэмплируя мысли из этого структурированного пространства
+
+---
+
+## Математические основы
+
+### Вероятностная модель
+
+VAE моделирует процесс порождения данных так:
 
 $$
 p_\theta(\mathbf{x}) = \int p_\theta(\mathbf{x}|\mathbf{z}) p(\mathbf{z}) d\mathbf{z}
 $$
 
-Where:
-- $p(\mathbf{z})$ is the prior distribution over latent variables (typically $\mathcal{N}(0, I)$)
-- $p_\theta(\mathbf{x}|\mathbf{z})$ is the decoder (generative model)
-- $\mathbf{z}$ is the latent variable
-- $\mathbf{x}$ is the observed data
+Где:
+- $p(\mathbf{z})$ — prior по латентным переменным (обычно $\mathcal{N}(0, I)$)
+- $p_\theta(\mathbf{x}|\mathbf{z})$ — decoder (generative model)
+- $\mathbf{z}$ — латентная переменная
+- $\mathbf{x}$ — наблюдаемые данные
 
-### The Variational Lower Bound (ELBO)
+### Вариационная нижняя граница (ELBO)
 
-The true posterior $p(\mathbf{z}|\mathbf{x})$ is intractable, so VAEs approximate it with $q_\phi(\mathbf{z}|\mathbf{x})$ (the encoder). The training objective is to maximize the Evidence Lower BOund (ELBO):
+Истинный posterior $p(\mathbf{z}|\mathbf{x})$ вычислить нельзя, поэтому VAE приближает его encoder-сетью $q_\phi(\mathbf{z}|\mathbf{x})$. Цель обучения — максимизировать Evidence Lower BOund (ELBO):
 
 $$
 \log p_\theta(\mathbf{x}) \geq \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))
 $$
 
-This can be rewritten as:
+Это можно переписать так:
 
 $$
 \mathcal{L}(\theta, \phi; \mathbf{x}) = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{z}) || p(\mathbf{z}))
 $$
 
-**Components:**
-1. **Reconstruction Term**: $\mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})]$ - Encourages accurate reconstruction
-2. **Regularization Term**: $-D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))$ - Forces latent distribution close to prior
+**Составляющие:**
+1. **Член реконструкции (reconstruction term)**: $\mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})]$ — поощряет точное восстановление
+2. **Член регуляризации (regularization term)**: $-D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))$ — прижимает латентное распределение к prior
 
-### The Reparameterization Trick
+### Трюк репараметризации (reparameterization trick)
 
-To enable backpropagation through the sampling operation, VAEs use the reparameterization trick:
+Чтобы провести backpropagation через операцию сэмплирования, VAE использует reparameterization trick:
 
 $$
 \mathbf{z} = \mu_\phi(\mathbf{x}) + \sigma_\phi(\mathbf{x}) \odot \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)
 $$
 
-This allows gradients to flow through the deterministic functions $\mu_\phi$ and $\sigma_\phi$ while maintaining the stochastic nature of $\mathbf{z}$.
+Так градиенты проходят через детерминированные функции $\mu_\phi$ и $\sigma_\phi$, а $\mathbf{z}$ остаётся случайным.
 
 ---
 
-## Architecture and Components
+## Архитектура и компоненты
 
-### Encoder Network
+### Сеть encoder
 
-The encoder $q_\phi(\mathbf{z}|\mathbf{x})$ maps input $\mathbf{x}$ to parameters of the latent distribution:
+Encoder $q_\phi(\mathbf{z}|\mathbf{x})$ отображает вход $\mathbf{x}$ в параметры латентного распределения:
 
 $$
 \mu_\phi(\mathbf{x}), \log \sigma_\phi(\mathbf{x}) = \text{Encoder}_\phi(\mathbf{x})
 $$
 
-- Outputs mean $\mu$ and log-variance $\log \sigma^2$ (for numerical stability)
-- Typically a neural network (CNN for images, MLP for other data)
+- На выходе — среднее $\mu$ и лог-дисперсия $\log \sigma^2$ (для численной стабильности)
+- Обычно это нейронная сеть (CNN для изображений, MLP для других данных)
 
-### Latent Space
+### Латентное пространство (latent space)
 
-- **Dimension**: Usually much smaller than input dimension
-- **Distribution**: Assumed to be Gaussian: $q_\phi(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\mu_\phi(\mathbf{x}), \sigma_\phi^2(\mathbf{x})I)$
+- **Размерность**: обычно намного меньше размерности входа
+- **Распределение**: предполагается Gaussian: $q_\phi(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\mu_\phi(\mathbf{x}), \sigma_\phi^2(\mathbf{x})I)$
 - **Prior**: $p(\mathbf{z}) = \mathcal{N}(0, I)$
 
-### Decoder Network
+### Сеть decoder
 
-The decoder $p_\theta(\mathbf{x}|\mathbf{z})$ maps latent code $\mathbf{z}$ to data distribution:
+Decoder $p_\theta(\mathbf{x}|\mathbf{z})$ отображает латентный код $\mathbf{z}$ в распределение данных:
 
 $$
 \hat{\mathbf{x}} = \text{Decoder}_\theta(\mathbf{z})
 $$
 
-- For images: outputs pixel values (often with sigmoid/tanh activation)
-- Can model different distributions (Gaussian for continuous, Bernoulli for binary)
+- Для изображений: выдаёт значения пикселей (часто с активацией sigmoid/tanh)
+- Может моделировать разные распределения (Gaussian для непрерывных данных, Bernoulli для бинарных)
 
-### Loss Function
+### Функция потерь
 
-For images with pixel values in [0, 1], the reconstruction loss is typically:
+Для изображений со значениями пикселей в [0, 1] reconstruction loss обычно такой:
 
 $$
 \mathcal{L}_{\text{recon}} = -\log p_\theta(\mathbf{x}|\mathbf{z}) = \text{BCE}(\mathbf{x}, \hat{\mathbf{x}}) \text{ or } \text{MSE}(\mathbf{x}, \hat{\mathbf{x}})
 $$
 
-The KL divergence term:
+Член KL-дивергенции:
 
 $$
 \mathcal{L}_{\text{KL}} = D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z})) = \frac{1}{2}\sum_{i=1}^{d} [\sigma_i^2 + \mu_i^2 - 1 - \log(\sigma_i^2)]
@@ -179,38 +180,38 @@ $$
 
 ---
 
-## Training Process
+## Процесс обучения
 
-### Forward Pass
+### Прямой проход (forward pass)
 
-1. Input $\mathbf{x}$ is passed through encoder
-2. Encoder outputs $\mu_\phi(\mathbf{x})$ and $\log \sigma_\phi(\mathbf{x})$
-3. Sample $\epsilon \sim \mathcal{N}(0, I)$
-4. Compute $\mathbf{z} = \mu_\phi(\mathbf{x}) + \sigma_\phi(\mathbf{x}) \odot \epsilon$
-5. Decode: $\hat{\mathbf{x}} = \text{Decoder}_\theta(\mathbf{z})$
+1. Вход $\mathbf{x}$ проходит через encoder
+2. Encoder выдаёт $\mu_\phi(\mathbf{x})$ и $\log \sigma_\phi(\mathbf{x})$
+3. Сэмплируем $\epsilon \sim \mathcal{N}(0, I)$
+4. Считаем $\mathbf{z} = \mu_\phi(\mathbf{x}) + \sigma_\phi(\mathbf{x}) \odot \epsilon$
+5. Декодируем: $\hat{\mathbf{x}} = \text{Decoder}_\theta(\mathbf{z})$
 
-### Backward Pass
+### Обратный проход (backward pass)
 
-1. Compute reconstruction loss: $\mathcal{L}_{\text{recon}}$
-2. Compute KL divergence: $\mathcal{L}_{\text{KL}}$
-3. Total loss: $\mathcal{L} = \mathcal{L}_{\text{recon}} + \beta \cdot \mathcal{L}_{\text{KL}}$
-4. Backpropagate through both encoder and decoder
+1. Считаем reconstruction loss: $\mathcal{L}_{\text{recon}}$
+2. Считаем KL-дивергенцию: $\mathcal{L}_{\text{KL}}$
+3. Полный loss: $\mathcal{L} = \mathcal{L}_{\text{recon}} + \beta \cdot \mathcal{L}_{\text{KL}}$
+4. Backpropagation через encoder и decoder
 
 ### Beta-VAE
 
-A variant that adds a weight $\beta$ to the KL term:
+Вариант, который добавляет вес $\beta$ к KL-члену:
 
 $$
 \mathcal{L} = \mathcal{L}_{\text{recon}} + \beta \cdot \mathcal{L}_{\text{KL}}
 $$
 
-- $\beta = 1$: Standard VAE
-- $\beta > 1$: Stronger regularization, better disentanglement
-- $\beta < 1$: Better reconstruction, less structured latent space
+- $\beta = 1$: обычный VAE
+- $\beta > 1$: сильнее регуляризация, лучше disentanglement
+- $\beta < 1$: лучше реконструкция, менее структурированное латентное пространство
 
 ---
 
-## Implementation Example
+## Пример реализации
 
 ```python
 import torch
@@ -308,122 +309,122 @@ def train_vae(model, train_loader, optimizer, device, beta=1.0, epochs=10):
 
 ---
 
-## Variants and Extensions
+## Варианты и расширения
 
 ### 1. Beta-VAE
-- Adds weight $\beta$ to KL term for better disentanglement
-- Useful for learning interpretable latent factors
+- Добавляет вес $\beta$ к KL-члену для лучшего disentanglement
+- Полезен, когда нужны интерпретируемые латентные факторы
 
 ### 2. VQ-VAE (Vector Quantized VAE)
-- Uses discrete latent codes instead of continuous
-- Better for capturing discrete structures in data
+- Использует дискретные латентные коды вместо непрерывных
+- Лучше ловит дискретные структуры в данных
 
 ### 3. VAE-GAN
-- Combines VAE with GAN discriminator
-- Uses adversarial loss for better image quality
+- Сочетает VAE с discriminator из GAN
+- Adversarial loss даёт более качественные изображения
 
 ### 4. Conditional VAE (CVAE)
-- Conditions generation on additional information (labels, attributes)
-- Enables controlled generation
+- Обусловливает генерацию дополнительной информацией (метки, атрибуты)
+- Позволяет управляемую генерацию (controlled generation)
 
 ### 5. Hierarchical VAE
-- Multiple levels of latent variables
-- Better for complex, hierarchical data structures
+- Несколько уровней латентных переменных
+- Лучше подходит для сложных иерархических данных
 
 ### 6. NVAE (Nested VAE)
-- Hierarchical architecture with residual connections
-- State-of-the-art for high-resolution image generation
+- Иерархическая архитектура с residual connections
+- State-of-the-art для генерации изображений высокого разрешения
 
 ---
 
-## Applications
+## Применения
 
-### Historical Applications (2013-2020)
+### Исторические применения (2013-2020)
 
-1. **Image Generation**: MNIST, CelebA, CIFAR-10
-2. **Data Compression**: Learned compression
-3. **Anomaly Detection**: Outlier detection in latent space
-4. **Representation Learning**: Unsupervised feature learning
-5. **Data Augmentation**: Generating synthetic training data
+1. **Генерация изображений**: MNIST, CelebA, CIFAR-10
+2. **Сжатие данных**: learned compression
+3. **Детекция аномалий (anomaly detection)**: выбросы в латентном пространстве
+4. **Обучение представлений (representation learning)**: unsupervised feature learning
+5. **Аугментация данных**: синтетические обучающие примеры
 
-### Current Applications (2021-2025)
+### Текущие применения (2021-2025)
 
-1. **Molecular Design**: Drug discovery, material science
-2. **3D Shape Generation**: Point clouds, meshes
-3. **Audio Generation**: Music, speech synthesis
-4. **Text Generation**: Variational text models
-5. **Recommendation Systems**: User preference modeling
+1. **Молекулярный дизайн**: drug discovery, material science
+2. **Генерация 3D-форм**: point clouds, meshes
+3. **Генерация аудио**: музыка, speech synthesis
+4. **Генерация текста**: variational text models
+5. **Рекомендательные системы**: моделирование предпочтений пользователя
 
 ---
 
-## Current Status (2025-2026)
+## Текущий статус (2025-2026)
 
-### Are VAEs Still Used?
+### Используются ли VAE до сих пор?
 
-**Yes, but in specific niches:**
+**Да, но в конкретных нишах:**
 
-1. **Research**: Still active area, especially for:
+1. **Исследования**: область всё ещё живая, особенно:
    - Disentangled representation learning
-   - Hierarchical generative modeling
-   - Applications requiring structured latent spaces
+   - Иерархическое generative modeling
+   - Задачи, где нужно структурированное латентное пространство
 
-2. **Industry Applications**:
-   - **Molecular/Protein Design**: VAE-based models for drug discovery
-   - **Anomaly Detection**: Industrial applications where interpretability matters
-   - **Data Compression**: Learned compression systems
-   - **Controlled Generation**: When you need structured, interpretable latent spaces
+2. **Индустриальные применения**:
+   - **Молекулярный / белковый дизайн**: VAE-модели для drug discovery
+   - **Детекция аномалий**: промышленные задачи, где важна интерпретируемость
+   - **Сжатие данных**: системы learned compression
+   - **Управляемая генерация**: когда нужно структурированное, интерпретируемое латентное пространство
 
-3. **Hybrid Models**: Often combined with:
-   - Diffusion models (as encoders/decoders)
-   - Transformers (for sequential data)
-   - GANs (VAE-GAN architectures)
+3. **Гибридные модели**: часто сочетают с:
+   - Diffusion models (как encoder/decoder)
+   - Transformers (для последовательных данных)
+   - GAN (архитектуры VAE-GAN)
 
-### Comparison with Modern Alternatives
+### Сравнение с современными альтернативами
 
-| Model Type | Strengths | Weaknesses | Best For |
-|------------|-----------|------------|----------|
-| **VAE** | Structured latent space, interpretable, stable training | Blurry reconstructions, mode collapse in some cases | Disentangled representations, anomaly detection |
-| **GAN** | High-quality samples, sharp images | Training instability, mode collapse | High-fidelity image generation |
-| **Diffusion Models** | State-of-the-art quality, stable training | Slow generation, high compute | Current SOTA for images, audio |
-| **Flow Models** | Exact likelihood, invertible | Limited expressiveness | Density estimation, likelihood-based tasks |
+| Тип модели | Сильные стороны | Слабые стороны | Лучше всего для |
+|------------|-----------------|----------------|-----------------|
+| **VAE** | Структурированное латентное пространство, интерпретируемость, стабильное обучение | Размытые реконструкции, иногда mode collapse | Disentangled representations, детекция аномалий |
+| **GAN** | Высококачественные сэмплы, резкие изображения | Нестабильное обучение, mode collapse | Генерация изображений высокой точности |
+| **Diffusion Models** | Качество state-of-the-art, стабильное обучение | Медленная генерация, большие вычислительные затраты | Текущий SOTA для изображений и аудио |
+| **Flow Models** | Точный likelihood, обратимость | Ограниченная выразительность | Оценка плотности, задачи на правдоподобие |
 
-### Why VAEs Matter in 2025-2026
+### Почему VAE важны в 2025-2026
 
-1. **Interpretability**: Structured latent spaces enable understanding and control
-2. **Stability**: More stable training than GANs
-3. **Theoretical Foundation**: Strong probabilistic foundation
-4. **Hybrid Architectures**: Components used in modern systems (e.g., VAE encoders in diffusion models)
-5. **Specific Domains**: Still best choice for certain applications (molecular design, anomaly detection)
+1. **Интерпретируемость**: структурированное латентное пространство даёт понимание и контроль
+2. **Стабильность**: обучение стабильнее, чем у GAN
+3. **Теоретический фундамент**: сильная вероятностная основа
+4. **Гибридные архитектуры**: компоненты входят в современные системы (например, VAE-encoder в diffusion models)
+5. **Отдельные домены**: всё ещё лучший выбор для ряда задач (молекулярный дизайн, детекция аномалий)
 
 ---
 
-## References
+## Источники
 
-### Foundational Papers
+### Основополагающие статьи
 
-1. **Kingma & Welling (2013)**: "Auto-Encoding Variational Bayes" - Original VAE paper
+1. **Kingma & Welling (2013)**: "Auto-Encoding Variational Bayes" — оригинальная статья про VAE
 2. **Rezende et al. (2014)**: "Stochastic Backpropagation and Approximate Inference in Deep Generative Models"
 3. **Higgins et al. (2017)**: "beta-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework"
 4. **van den Oord et al. (2017)**: "Neural Discrete Representation Learning" (VQ-VAE)
 
-### Modern Extensions
+### Современные расширения
 
 5. **Vahdat & Kautz (2020)**: "NVAE: A Deep Hierarchical Variational Autoencoder"
-6. **Rombach et al. (2022)**: "High-Resolution Image Synthesis with Latent Diffusion Models" (uses VAE encoder)
+6. **Rombach et al. (2022)**: "High-Resolution Image Synthesis with Latent Diffusion Models" (использует VAE encoder)
 
-### Related Topics
+### Связанные темы
 
-- See: [Generative Adversarial Networks (GANs)](../generative-adversarial-networks-gans/README.md)
-- See: [Diffusion Models](../diffusion-models/README.md)
-- See: Disentangled representation learning (например, $\beta$-VAE: https://arxiv.org/abs/1606.05579)
+- См.: [Generative Adversarial Networks (GANs)](../generative-adversarial-networks-gans/README.md)
+- См.: [Diffusion Models](../diffusion-models/README.md)
+- См.: disentangled representation learning (например, $\beta$-VAE: https://arxiv.org/abs/1606.05579)
 
 ---
 
-## Key Takeaways
+## Ключевые выводы
 
-1. **VAEs learn probabilistic latent representations** that enable generation and interpolation
-2. **The ELBO objective** balances reconstruction quality and latent space structure
-3. **Reparameterization trick** enables gradient-based optimization
-4. **Structured latent spaces** make VAEs valuable for interpretable generation
-5. **Still relevant in 2025-2026** for specific applications requiring structured, interpretable latent spaces
-6. **Often used in hybrid architectures** with modern generative models
+1. **VAE учит вероятностные латентные представления**, которые позволяют и генерировать, и интерполировать
+2. **Целевая функция ELBO** балансирует качество реконструкции и структуру латентного пространства
+3. **Reparameterization trick** делает возможным градиентную оптимизацию
+4. **Структурированное латентное пространство** делает VAE ценным для интерпретируемой генерации
+5. **В 2025–2026 всё ещё актуальны** для задач, где нужно структурированное, интерпретируемое латентное пространство
+6. **Часто входят в гибридные архитектуры** вместе с современными generative models

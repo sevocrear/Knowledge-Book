@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/confidence"
-description: Notes tagged concept/confidence in the knowledge book.
+title: "Тег: concept/confidence"
+description: Заметки с тегом concept/confidence в книге знаний.
 tags:
   - concept/confidence
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/confidence`
+# Тег `concept/confidence`
 
-## Notes
+## Заметки
 
-- [Confidence, Calibration and Uncertainty](../../topics/how-models-predict-confidence-and-calibration/README.md) — Logits→softmax/sigmoid, reliability diagrams, ECE/Brier, temperature scaling и aleatoric/epistemic uncertainty (ensembles, MC Dropout).
+- [Уверенность, калибровка и неопределённость](../../topics/how-models-predict-confidence-and-calibration/README.md) — Logits→softmax/sigmoid, reliability diagrams, ECE/Brier, temperature scaling и aleatoric/epistemic uncertainty (ensembles, MC Dropout).
 

@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/elbo"
-description: Notes tagged concept/elbo in the knowledge book.
+title: "Тег: concept/elbo"
+description: Заметки с тегом concept/elbo в книге знаний.
 tags:
   - concept/elbo
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/elbo`
+# Тег `concept/elbo`
 
-## Notes
+## Заметки
 
-- [Variational Autoencoders (VAEs)](../../topics/variational-autoencoders-vaes/README.md) — ELBO, encoder/decoder, reparameterization trick, латентное пространство и роль VAE в современных generative pipelines.
+- [Variational Autoencoders (VAE)](../../topics/variational-autoencoders-vaes/README.md) — ELBO, encoder/decoder, reparameterization trick, латентное пространство и роль VAE в современных generative pipelines.
 

@@ -21,7 +21,7 @@ status: canonical
 lang: ru
 type: topic
 slug: support-vector-machines-svm-and-kernel-trick
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Support Vector Machines (SVM) и Kernel Trick
 
@@ -31,7 +31,7 @@ SVM — это как игра «найди самую широкую полос
 
 ---
 
-## Table of Contents
+## Оглавление
 
 1. [Что такое SVM](#что-такое-svm)
 2. [Линейно разделимый случай и запас (margin)](#линейно-разделимый-случай-и-запас-margin)
@@ -42,7 +42,7 @@ SVM — это как игра «найди самую широкую полос
 7. [Типичные ядра](#типичные-ядра)
 8. [Пример кода на Python](#пример-кода-на-python)
 9. [Связь с другими темами и применение](#связь-с-другими-темами-и-применение)
-10. [References](#references)
+10. [Источники](#источники)
 
 ---
 
@@ -251,7 +251,7 @@ fit_and_report(X_circ, y_circ, kernel='rbf', C=1.0, gamma=0.5)
 
 ---
 
-## References
+## Источники
 
 - [Decision Trees (Деревья решений)](../decision-trees/README.md) — другая классическая модель классификации.
 - [ROC Curves and ROC AUC](../roc-curve-and-roc-auc/README.md) — оценка качества бинарного классификатора.

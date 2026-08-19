@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/bayesian-optimization"
-description: Notes tagged concept/bayesian-optimization in the knowledge book.
+title: "Тег: concept/bayesian-optimization"
+description: Заметки с тегом concept/bayesian-optimization в книге знаний.
 tags:
   - concept/bayesian-optimization
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/bayesian-optimization`
+# Тег `concept/bayesian-optimization`
 
-## Notes
+## Заметки
 
 - [Настройка гиперпараметров (Hyperparameter Tuning)](../../topics/hyperparameter-tuning/README.md) — Grid/Random search, Bayesian Optimization (Optuna/TPE), Hyperband/BOHB, PBT, CMA-ES, NAS и LR schedules.
 

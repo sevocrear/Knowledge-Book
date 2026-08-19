@@ -1,17 +1,17 @@
 ---
-title: "Tag: domain/multimodal"
-description: Notes tagged domain/multimodal in the knowledge book.
+title: "Тег: domain/multimodal"
+description: Заметки с тегом domain/multimodal в книге знаний.
 tags:
   - domain/multimodal
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `domain/multimodal`
+# Тег `domain/multimodal`
 
-## Notes
+## Заметки
 
-- [Vision-Language-Action (VLA) Models](../../topics/vision-language-action-models-vla/README.md) — Объединение vision/language/action: RT-1/RT-2, OpenVLA, Octo, SmolVLA — архитектуры, данные, fine-tuning и сравнение с RL/IL.
+- [Модели Vision-Language-Action (VLA)](../../topics/vision-language-action-models-vla/README.md) — Объединение vision/language/action: RT-1/RT-2, OpenVLA, Octo, SmolVLA — архитектуры, данные, fine-tuning и сравнение с RL/IL.
 

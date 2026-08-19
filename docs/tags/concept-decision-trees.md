@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/decision-trees"
-description: Notes tagged concept/decision-trees in the knowledge book.
+title: "Тег: concept/decision-trees"
+description: Заметки с тегом concept/decision-trees в книге знаний.
 tags:
   - concept/decision-trees
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/decision-trees`
+# Тег `concept/decision-trees`
 
-## Notes
+## Заметки
 
 - [Деревья решений (Decision Trees)](../../topics/decision-trees/README.md) — Структура дерева, Gini/энтропия/Information Gain, ID3/C4.5/CART, переобучение и связь с ансамблями Random Forest/XGBoost.
 

@@ -1,18 +1,18 @@
 ---
-title: "Tag: concept/tokenization"
-description: Notes tagged concept/tokenization in the knowledge book.
+title: "Тег: concept/tokenization"
+description: Заметки с тегом concept/tokenization в книге знаний.
 tags:
   - concept/tokenization
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/tokenization`
+# Тег `concept/tokenization`
 
-## Notes
+## Заметки
 
-- [Embeddings and Embedding Matrix](../../topics/embeddings-and-embedding-matrix/README.md) — Векторные представления токенов, матрица эмбеддингов V×d, lookup по ID и роль эмбеддингов в Transformer и RAG.
-- [Tokenization and Text Compression in LLMs](../../topics/tokenization-and-text-compression-in-llms/README.md) — Word/char/BPE/WordPiece/Unigram токенизация как сжатие текста перед LLM и влияние на стоимость attention.
+- [Эмбеддинги и матрица эмбеддингов](../../topics/embeddings-and-embedding-matrix/README.md) — Векторные представления токенов, матрица эмбеддингов V×d, lookup по ID и роль эмбеддингов в Transformer и RAG.
+- [Токенизация и сжатие текста в LLM](../../topics/tokenization-and-text-compression-in-llms/README.md) — Word/char/BPE/WordPiece/Unigram токенизация как сжатие текста перед LLM и влияние на стоимость attention.
 

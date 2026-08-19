@@ -1,5 +1,5 @@
 ---
-title: "Confidence, Calibration and Uncertainty"
+title: "Уверенность, калибровка и неопределённость"
 description: "Logits→softmax/sigmoid, reliability diagrams, ECE/Brier, temperature scaling и aleatoric/epistemic uncertainty (ensembles, MC Dropout)."
 tags:
   - kb/topic
@@ -21,11 +21,11 @@ status: canonical
 lang: ru
 type: topic
 slug: how-models-predict-confidence-and-calibration
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Confidence, Calibration and Uncertainty in Classification: как модели предсказывают уверенность
+# Уверенность, калибровка и неопределённость in Classification: как модели предсказывают уверенность
 
-## Table of Contents
+## Оглавление
 1. [Введение](#введение)
 2. [Откуда берётся “уверенность”: logits -> вероятности](#откуда-берется-уверенность-logits---вероятности)
 3. [Почему это называют вероятностью](#почему-это-называют-вероятностью)
@@ -35,11 +35,11 @@ updated: 2026-08-10
 7. [Уверенность vs неопределённость (uncertainty)](#уверенность-vs-неопределенность-uncertainty)
 8. [Интуитивное объяснение “для 5-летнего”](#интуитивное-объяснение-для-5-летнего)
 9. [Примеры кода (PyTorch)](#примеры-кода-pytorch)
-10. [References](#references)
+10. [Источники](#источники)
 
 ---
 
-### How would I describe it to a person who is 5 years old
+### Как объяснить 5-летнему ребёнку
 Представь, что модель — это учитель, который смотрит на картинку и говорит: “это котик, потому что я думаю на `0.8`”. Эта цифра получается из того, как уверенно “сердце” учителя отвечает на вопрос. Но иногда учитель может быть слишком уверенным или слишком осторожным — тогда мы можем подправить его “шкалу уверенности”, чтобы `0.8` означало “примерно так и получается в реальности”.
 
 ---
@@ -282,7 +282,7 @@ probs_test = F.softmax(scaled_logits_test, dim=-1)
 
 ---
 
-## References
+## Источники
 
 ### Related Documents
 - **[ROC-кривые и ROC AUC](../roc-curve-and-roc-auc/README.md)** — выбор порога и оценка качества при ранжировании.

@@ -97,7 +97,7 @@ def ensure_h1(body: str, title: str) -> str:
 
     # Promote a leading title-like ## heading (common inconsistency in this repo).
     # Do not scan the whole body: fenced code often contains `# comments`.
-    if stripped.startswith("## ") and "Table of Contents" not in stripped:
+    if stripped.startswith("## ") and "Оглавление" not in stripped and "Table of Contents" not in stripped:
         lines[i] = "# " + stripped[3:]
         return "\n".join(lines) + ("\n" if body.endswith("\n") else "")
 
@@ -165,60 +165,61 @@ def write_docs_indexes(repo_root: Path, updated: str) -> None:
         f"- [{cfg['title']}](./mocs/{name}.md) — {cfg['description']}" for name, cfg in MOCS.items()
     )
     readme = f"""---
-title: Knowledge Book Docs (Obsidian / RAG layer)
-description: Obsidian-compatible indexes, tag taxonomy and Maps of Content over topics/.
+title: Документация Knowledge Book (слой Obsidian / RAG)
+description: Индексы, таксономия тегов и Maps of Content над топиками в topics/.
 tags:
   - kb/index
   - kb/docs
 aliases:
   - docs home
   - knowledge book vault
+  - оглавление книги
 status: canonical
-lang: en
+lang: ru
 type: index
 updated: {updated}
 ---
 
-# Knowledge Book Docs
+# Документация Knowledge Book
 
-This `docs/` layer is the **Obsidian / RAG index** over canonical topic notes in `topics/`.
+Слой `docs/` — это **индекс Obsidian / RAG** над каноническими конспектами в `topics/`.
 
-## How would I describe it to a person who is 5 years old
+## Как объяснить 5-летнему ребёнку
 
-The big lessons live in topic folders. This `docs/` folder is the **table of contents with stickers (tags)** so a search robot (or Obsidian) can find the right lesson fast.
+Большие уроки лежат в папках тем. Папка `docs/` — это **оглавление с наклейками (тегами)**, чтобы поисковый робот или Obsidian быстрее находил нужный урок.
 
-## Layout
+## Как устроено
 
-| Path | Role |
+| Путь | Роль |
 |------|------|
-| `topics/<slug>/README.md` | Canonical deep notes (theory, formulas, examples) |
-| `docs/index.md` | Flat catalog of all topics with descriptions |
-| `docs/mocs/` | Maps of Content (thematic entry points) |
-| `docs/tags/` | Tag taxonomy + per-tag topic lists |
-| `docs/SCHEMA.md` | Frontmatter schema for RAG / Obsidian |
+| `topics/<slug>/README.md` | Канонические конспекты (теория, формулы, примеры) |
+| `docs/index.md` | Плоский каталог всех тем с описаниями |
+| `docs/mocs/` | Maps of Content (тематические входы) |
+| `docs/tags/` | Таксономия тегов и списки тем по тегу |
+| `docs/SCHEMA.md` | Схема frontmatter для RAG / Obsidian |
 
 ## Maps of Content
 
 {moc_lines}
 
-## Quick links
+## Быстрые ссылки
 
-- [Full topic catalog](./index.md)
-- [Tag taxonomy](./tags/README.md)
-- [Frontmatter schema](./SCHEMA.md)
-- [Root knowledge-book README](../README.md)
+- [Полный каталог тем](./index.md)
+- [Таксономия тегов](./tags/README.md)
+- [Схема frontmatter](./SCHEMA.md)
+- [Корневой README книги](../README.md)
 
-## Conventions
+## Соглашения
 
-Every topic/note markdown file starts with YAML frontmatter:
+Каждый markdown-файл топика/заметки начинается с YAML frontmatter:
 
-- `title`, `description` — primary RAG retrieval fields
-- `tags` — hierarchical tags (`domain/*`, `concept/*`, `kb/*`)
-- `aliases` — alternate names / search synonyms
-- `related` — sibling topic slugs
+- `title`, `description` — основные поля для RAG
+- `tags` — иерархические теги (`domain/*`, `concept/*`, `kb/*`)
+- `aliases` — альтернативные имена / синонимы для поиска
+- `related` — slug соседних тем
 - `status`, `lang`, `type`, `slug`, `updated`
 
-Regenerate indexes after metadata edits:
+После правок метаданных пересобрать индексы:
 
 ```bash
 uv run python scripts/kb_apply_obsidian_frontmatter.py
@@ -229,31 +230,31 @@ uv run python scripts/kb_validate_links.py
 
     # SCHEMA
     schema = f"""---
-title: Obsidian Frontmatter Schema
-description: Required YAML frontmatter fields for knowledge-book notes used by Obsidian and RAG.
+title: Схема Obsidian frontmatter
+description: Обязательные поля YAML frontmatter для заметок книги, которые используют Obsidian и RAG.
 tags:
   - kb/schema
   - kb/docs
 status: canonical
-lang: en
+lang: ru
 type: schema
 updated: {updated}
 ---
 
-# Obsidian Frontmatter Schema
+# Схема Obsidian frontmatter
 
-## Required fields
+## Обязательные поля
 
 ```yaml
 ---
-title: Human-readable title
-description: One or two sentences for RAG / search snippets
+title: Человекочитаемый заголовок
+description: Одно-два предложения для RAG / сниппетов поиска
 tags:
-  - kb/topic          # or kb/note, kb/moc, kb/index
-  - domain/cv         # coarse domain
-  - concept/attention # fine-grained concepts
+  - kb/topic          # или kb/note, kb/moc, kb/index
+  - domain/cv         # широкая область
+  - concept/attention # конкретная идея
 aliases:
-  - Alternate Name
+  - Альтернативное имя
 related:
   - sibling-topic-slug
 status: canonical     # canonical | notes | draft
@@ -264,44 +265,44 @@ updated: YYYY-MM-DD
 ---
 ```
 
-## Tag namespaces
+## Пространства имён тегов
 
-| Prefix | Meaning | Examples |
+| Префикс | Смысл | Примеры |
 |--------|---------|----------|
-| `kb/` | Book structure | `kb/topic`, `kb/note`, `kb/moc`, `kb/index` |
-| `domain/` | Broad field | `domain/cv`, `domain/llm`, `domain/robotics` |
-| `concept/` | Concrete idea | `concept/rag`, `concept/lora`, `concept/nms` |
-| `source/` | Provenance for notes | `source/youtube` |
+| `kb/` | Структура книги | `kb/topic`, `kb/note`, `kb/moc`, `kb/index` |
+| `domain/` | Широкая область | `domain/cv`, `domain/llm`, `domain/robotics` |
+| `concept/` | Конкретная идея | `concept/rag`, `concept/lora`, `concept/nms` |
+| `source/` | Происхождение заметки | `source/youtube` |
 
-## Why this helps RAG
+## Зачем это RAG
 
-1. **`description`** is a dense retrieval summary independent of note length.
-2. **`tags` + `aliases`** expand recall for synonym queries.
-3. **`related`** supports graph-style expansion after a hit.
-4. **`slug`** is a stable ID for citations and chunk metadata.
+1. **`description`** — плотное описание для поиска, независимое от длины заметки.
+2. **`tags` + `aliases`** — расширяют recall по синонимам.
+3. **`related`** — позволяют идти по графу соседних тем после попадания.
+4. **`slug`** — стабильный ID для цитирования и метаданных чанков.
 
-## Validation
+## Проверка
 
-`scripts/kb_validate_links.py` checks that every `topics/*/README.md` and topic note has valid frontmatter with required keys.
+`scripts/kb_validate_links.py` проверяет, что у каждого `topics/*/README.md` и вложенной заметки есть корректный frontmatter с обязательными ключами.
 """
     (docs / "SCHEMA.md").write_text(schema, encoding="utf-8")
 
     # index.md
     index_lines = [
         "---",
-        "title: Topic Catalog",
-        "description: Annotated catalog of all knowledge-book topics with tags and descriptions for RAG.",
+        "title: Каталог тем",
+        "description: Аннотированный каталог всех тем книги с тегами и описаниями для RAG.",
         "tags:",
         "  - kb/index",
         "status: canonical",
-        "lang: en",
+        "lang: ru",
         "type: index",
         f"updated: {updated}",
         "---",
         "",
-        "# Topic Catalog",
+        "# Каталог тем",
         "",
-        "Canonical notes live under `topics/<slug>/README.md`. Descriptions below are the same strings stored in frontmatter for retrieval.",
+        "Канонические конспекты лежат в `topics/<slug>/README.md`. Описания ниже — те же строки, что хранятся во frontmatter для поиска.",
         "",
     ]
     for slug, meta in sorted(TOPIC_METADATA.items()):
@@ -318,7 +319,7 @@ updated: YYYY-MM-DD
                 "",
             ]
         )
-    index_lines.extend(["## Nested notes", ""])
+        index_lines.extend(["## Вложенные заметки", ""])
     for key, meta in sorted(NOTE_METADATA.items()):
         href = _note_link_from(".", key)
         index_lines.extend(
@@ -353,7 +354,7 @@ updated: YYYY-MM-DD
                 "",
                 str(cfg["description"]),
                 "",
-                "## Topics",
+                "## Темы",
                 "",
             ]
         )
@@ -361,7 +362,7 @@ updated: YYYY-MM-DD
             meta = TOPIC_METADATA[slug]
             href = _topic_link_from("mocs", slug)
             lines.append(f"- [{meta['title']}]({href}) — {meta['description']}")
-        lines.extend(["", "## See also", "", "- [All topics](../index.md)", "- [Tags](../tags/README.md)", ""])
+        lines.extend(["", "## См. также", "", "- [Все темы](../index.md)", "- [Теги](../tags/README.md)", ""])
         (docs / "mocs" / f"{name}.md").write_text("\n".join(lines), encoding="utf-8")
 
     # Tag taxonomy + pages
@@ -375,19 +376,19 @@ updated: YYYY-MM-DD
 
     tag_readme = [
         "---",
-        "title: Tag Taxonomy",
-        "description: Hierarchical tags used across knowledge-book notes for Obsidian and RAG filtering.",
+        "title: Таксономия тегов",
+        "description: Иерархические теги заметок книги для фильтрации в Obsidian и RAG.",
         "tags:",
         "  - kb/index",
         "status: canonical",
-        "lang: en",
+        "lang: ru",
         "type: index",
         f"updated: {updated}",
         "---",
         "",
-        "# Tag Taxonomy",
+        "# Таксономия тегов",
         "",
-        "Tags follow `namespace/value`. Click through for notes that use each tag.",
+        "Теги имеют вид `namespace/value`. Переходите на страницу тега, чтобы увидеть заметки с ним.",
         "",
     ]
     by_ns: dict[str, list[str]] = defaultdict(list)
@@ -400,7 +401,15 @@ updated: YYYY-MM-DD
         tag_readme.append("")
         for tag in by_ns[ns]:
             safe = tag.replace("/", "-")
-            tag_readme.append(f"- [`{tag}`](./{safe}.md) — {len(tag_to_slugs[tag])} note(s)")
+            n = len(tag_to_slugs[tag])
+            n10, n100 = n % 10, n % 100
+            if n10 == 1 and n100 != 11:
+                note_word = "заметка"
+            elif n10 in {2, 3, 4} and n100 not in {12, 13, 14}:
+                note_word = "заметки"
+            else:
+                note_word = "заметок"
+            tag_readme.append(f"- [`{tag}`](./{safe}.md) — {n} {note_word}")
         tag_readme.append("")
     (docs / "tags" / "README.md").write_text("\n".join(tag_readme) + "\n", encoding="utf-8")
 
@@ -408,8 +417,8 @@ updated: YYYY-MM-DD
         safe = tag.replace("/", "-")
         lines = [
             "---",
-            f"title: {_yaml_escape('Tag: ' + tag)}",
-            f"description: {_yaml_escape('Notes tagged ' + tag + ' in the knowledge book.')}",
+            f"title: {_yaml_escape('Тег: ' + tag)}",
+            f"description: {_yaml_escape('Заметки с тегом ' + tag + ' в книге знаний.')}",
             "tags:",
             f"  - {tag}",
             "  - kb/tag-page",
@@ -418,9 +427,9 @@ updated: YYYY-MM-DD
             f"updated: {updated}",
             "---",
             "",
-            f"# Tag `{tag}`",
+            f"# Тег `{tag}`",
             "",
-            "## Notes",
+            "## Заметки",
             "",
         ]
         for slug in sorted(set(slugs)):

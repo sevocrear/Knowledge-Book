@@ -1,5 +1,5 @@
 ---
-title: Embeddings and Embedding Matrix
+title: Эмбеддинги и матрица эмбеддингов
 description: "Векторные представления токенов, матрица эмбеддингов V×d, lookup по ID и роль эмбеддингов в Transformer и RAG."
 tags:
   - kb/topic
@@ -21,11 +21,11 @@ status: canonical
 lang: ru
 type: topic
 slug: embeddings-and-embedding-matrix
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Embeddings and Embedding Matrix
+# Эмбеддинги и матрица эмбеддингов
 
-## Table of Contents
+## Оглавление
 - Объяснение для 5‑летнего
 - Введение
 - Что такое эмбеддинги
@@ -35,7 +35,7 @@ updated: 2026-08-10
 - Размерность и размер словаря
 - Эмбеддинги в других контекстах (RAG, поиск)
 - От токенов к одному вектору на текст: pooling
-- References
+- Источники
 
 ## Объяснение для 5‑летнего
 
@@ -195,7 +195,7 @@ $$(\mathbf{h}_{\text{sent}})_j = \max_{i=1,\ldots,n} (\mathbf{h}_i)_j.$$
 
 Итого: для **целого предложения или документа** мы не храним все $n$ векторов, а делаем **pooling** по ним; чаще всего это **mean** (average) по непаддинг-токенам или **[CLS]**-вектор. Медиану в качестве агрегации для эмбеддингов текста практически не применяют.
 
-## References
+## Источники
 
 - Внутри `./knowledge-book`:
   - [Tokenization and Text Compression in LLMs](../tokenization-and-text-compression-in-llms/README.md) — откуда берутся ID токенов и как устроен словарь.

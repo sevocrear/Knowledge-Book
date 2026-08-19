@@ -24,11 +24,11 @@ status: canonical
 lang: ru
 type: topic
 slug: unscented-kalman-filter-and-tracking
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Unscented Kalman Filter и Современные Методы Отслеживания Объектов
 
-## Table of Contents
+## Оглавление
 
 1. [Введение](#введение)
 2. [Основы Фильтрации и Отслеживания](#основы-фильтрации-и-отслеживания)
@@ -44,7 +44,7 @@ updated: 2026-08-10
 9. [Реализация UKF](#реализация-ukf)
 10. [Применения и Примеры](#применения-и-примеры)
 11. [Текущее Состояние (2023-2026)](#текущее-состояние-2023-2026)
-12. [References](#references)
+12. [Источники](#источники)
 
 ---
 
@@ -2025,7 +2025,7 @@ def track_objects_with_ukf(video, yolo_model):
 
 ---
 
-## References
+## Источники
 
 ### Основные Работы по UKF
 

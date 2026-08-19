@@ -1,4 +1,4 @@
-# YouTube transcripts
+# Транскрипты YouTube
 
 Локальные транскрипты для конспектов в `topics/`. Имена файлов: `<VIDEO_ID>.txt`.
 

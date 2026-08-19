@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/classification"
-description: Notes tagged concept/classification in the knowledge book.
+title: "Тег: concept/classification"
+description: Заметки с тегом concept/classification в книге знаний.
 tags:
   - concept/classification
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/classification`
+# Тег `concept/classification`
 
-## Notes
+## Заметки
 
 - [Cross Entropy и Focal Loss](../../topics/classification-losses-cross-entropy-focal-loss/README.md) — Бинарная и многоклассовая кросс-энтропия, Focal Loss (α, γ) для дисбаланса и детекции (RetinaNet), когда выбирать CE vs Focal.
 - [ROC-кривые и ROC AUC](../../topics/roc-curve-and-roc-auc/README.md) — TPR/FPR, построение ROC, AUC как метрика ранжирования, выбор порога (Youden’s J) и связь с PR-кривыми.

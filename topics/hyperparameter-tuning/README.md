@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: hyperparameter-tuning
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Настройка гиперпараметров (Hyperparameter Tuning)
 
@@ -33,7 +33,7 @@ updated: 2026-08-10
 
 ---
 
-## Table of Contents
+## Оглавление
 
 1. [Параметры vs Гиперпараметры](#параметры-vs-гиперпараметры)
 2. [Пространство поиска и типы гиперпараметров](#пространство-поиска-и-типы-гиперпараметров)
@@ -59,7 +59,7 @@ updated: 2026-08-10
 13. [Сравнение методов](#сравнение-методов)
 14. [Что используется больше всего (2024-2026)](#что-используется-больше-всего-2024-2026)
 15. [Примеры кода](#примеры-кода)
-16. [References](#references)
+16. [Источники](#источники)
 
 ---
 
@@ -834,7 +834,7 @@ print(f"Best config: {analysis.best_config}")
 
 ---
 
-## References
+## Источники
 
 ### Внутренние ссылки (knowledge-book)
 - [Decision Trees](../decision-trees/README.md) — гиперпараметры деревьев (max_depth, min_samples_leaf)

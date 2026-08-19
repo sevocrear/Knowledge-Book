@@ -53,7 +53,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "arcface-and-angular-margin-losses-for-identification": {
-        "title": "ArcFace and Angular-Margin Losses for Identification",
+        "title": "ArcFace и angular-margin losses для идентификации",
         "description": (
             "Additive angular margin loss для идентификации: геометрия на гиперсфере, "
             "сравнение с CosFace/SphereFace, face/SKU/re-ID и open-set пороги."
@@ -156,7 +156,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "contrastive-and-metric-learning-for-fine-grained-visual-recognition": {
-        "title": "Contrastive & Metric Learning for Fine-Grained Visual Recognition",
+        "title": "Contrastive и metric learning для fine-grained распознавания",
         "description": (
             "Contrastive/triplet/InfoNCE и proxy losses для fine-grained retrieval: "
             "mining, Recall@K, ANN-индексы и continual learning новых классов."
@@ -233,7 +233,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "deep-reinforcement-learning": {
-        "title": "Deep Reinforcement Learning",
+        "title": "Deep Reinforcement Learning (глубокое RL)",
         "description": (
             "MDP, DQN, policy gradient, actor-critic (PPO/SAC/TD3), sim-to-real "
             "и применения в робототехнике и автономном вождении."
@@ -281,9 +281,9 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "diffusion-models": {
-        "title": "Diffusion Models",
+        "title": "Diffusion Models (диффузионные модели)",
         "description": (
-            "Forward/reverse diffusion, DDPM/DDIM, latent diffusion (Stable Diffusion), "
+            "Прямой и обратный процесс диффузии, DDPM/DDIM, latent diffusion (Stable Diffusion), "
             "Consistency Models, Flow Matching и DiT."
         ),
         "tags": [
@@ -307,7 +307,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "gaussian-distribution",
         ],
         "status": "canonical",
-        "lang": "en",
+        "lang": "ru",
         "type": "topic",
     },
     "dinov3-self-supervised-vision-transformer-and-2d-rope": {
@@ -336,7 +336,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "embeddings-and-embedding-matrix": {
-        "title": "Embeddings and Embedding Matrix",
+        "title": "Эмбеддинги и матрица эмбеддингов",
         "description": (
             "Векторные представления токенов, матрица эмбеддингов V×d, lookup по ID "
             "и роль эмбеддингов в Transformer и RAG."
@@ -440,9 +440,9 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "generative-adversarial-networks-gans": {
-        "title": "Generative Adversarial Networks (GANs)",
+        "title": "Generative Adversarial Networks (GAN)",
         "description": (
-            "Adversarial training generator/discriminator, mode collapse, современные "
+            "Состязательное обучение generator/discriminator, mode collapse, современные "
             "варианты GAN и сравнение с VAE и diffusion."
         ),
         "tags": [
@@ -458,11 +458,11 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "gaussian-distribution",
         ],
         "status": "canonical",
-        "lang": "en",
+        "lang": "ru",
         "type": "topic",
     },
     "how-models-predict-confidence-and-calibration": {
-        "title": "Confidence, Calibration and Uncertainty",
+        "title": "Уверенность, калибровка и неопределённость",
         "description": (
             "Logits→softmax/sigmoid, reliability diagrams, ECE/Brier, temperature "
             "scaling и aleatoric/epistemic uncertainty (ensembles, MC Dropout)."
@@ -696,7 +696,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "tokenization-and-text-compression-in-llms": {
-        "title": "Tokenization and Text Compression in LLMs",
+        "title": "Токенизация и сжатие текста в LLM",
         "description": (
             "Word/char/BPE/WordPiece/Unigram токенизация как сжатие текста перед LLM "
             "и влияние на стоимость attention."
@@ -787,7 +787,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "variational-autoencoders-vaes": {
-        "title": "Variational Autoencoders (VAEs)",
+        "title": "Variational Autoencoders (VAE)",
         "description": (
             "ELBO, encoder/decoder, reparameterization trick, латентное пространство "
             "и роль VAE в современных generative pipelines."
@@ -807,11 +807,11 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "bayes-theorem-and-probability-foundations",
         ],
         "status": "canonical",
-        "lang": "en",
+        "lang": "ru",
         "type": "topic",
     },
     "vision-based-robot-training-methods": {
-        "title": "Vision-Based Robot Training Methods",
+        "title": "Vision-based обучение роботов",
         "description": (
             "Imitation learning, RL и VLA для визуального обучения роботов: OpenVLA, "
             "Octo, RT-1/RT-2, Open X-Embodiment и sim-to-real."
@@ -841,7 +841,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "type": "topic",
     },
     "vision-language-action-models-vla": {
-        "title": "Vision-Language-Action (VLA) Models",
+        "title": "Модели Vision-Language-Action (VLA)",
         "description": (
             "Объединение vision/language/action: RT-1/RT-2, OpenVLA, Octo, SmolVLA — "
             "архитектуры, данные, fine-tuning и сравнение с RL/IL."
@@ -911,7 +911,7 @@ NOTE_METADATA: dict[str, TopicMeta] = {
 # Maps of Content: docs/mocs/<name>.md
 MOCS: dict[str, dict[str, object]] = {
     "foundations": {
-        "title": "MOC: Mathematical & ML Foundations",
+        "title": "MOC: математика и основы ML",
         "description": "Вероятность, метрики, классический ML и базовые строительные блоки.",
         "tags": ["kb/moc", "domain/ml-foundations"],
         "topics": [
@@ -927,7 +927,7 @@ MOCS: dict[str, dict[str, object]] = {
         ],
     },
     "generative-models": {
-        "title": "MOC: Generative Models",
+        "title": "MOC: генеративные модели",
         "description": "VAE, GAN и diffusion — три основных семейства генеративных моделей.",
         "tags": ["kb/moc", "domain/generative"],
         "topics": [
@@ -938,7 +938,7 @@ MOCS: dict[str, dict[str, object]] = {
         ],
     },
     "nlp-llm": {
-        "title": "MOC: NLP, LLM & RAG",
+        "title": "MOC: NLP, LLM и RAG",
         "description": "Токенизация, эмбеддинги, transformers, LoRA, RAG и code agents.",
         "tags": ["kb/moc", "domain/nlp", "domain/llm"],
         "topics": [
@@ -951,7 +951,7 @@ MOCS: dict[str, dict[str, object]] = {
         ],
     },
     "computer-vision": {
-        "title": "MOC: Computer Vision",
+        "title": "MOC: компьютерное зрение",
         "description": "CNN, detection/segmentation, metric learning, SSL и tracking metrics.",
         "tags": ["kb/moc", "domain/cv"],
         "topics": [
@@ -970,7 +970,7 @@ MOCS: dict[str, dict[str, object]] = {
         ],
     },
     "robotics-embodied": {
-        "title": "MOC: Robotics & Embodied AI",
+        "title": "MOC: робототехника и Embodied AI",
         "description": "Deep RL, VLA и vision-based обучение роботов.",
         "tags": ["kb/moc", "domain/robotics", "domain/embodied-ai"],
         "topics": [

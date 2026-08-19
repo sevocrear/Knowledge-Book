@@ -16,7 +16,7 @@ status: notes
 lang: ru
 type: note
 slug: code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Stop Babysitting Your Agents (Claude Code)
 
@@ -25,11 +25,11 @@ updated: 2026-08-10
 - Видео: [Stop babysitting your agents](https://www.youtube.com/watch?v=wI0ptqCSL0I)
 - Канонический обзор темы агентов и loops: [README](./README.md)
 
-## Table of Contents
+## Оглавление
 
 1. [Коротко для 5-летнего](#коротко-для-5-летнего)
 2. [Зачем менять tooling](#зачем-менять-tooling)
-3. [Prerequisites (table stakes)](#prerequisites-table-stakes)
+3. [Prerequisites (обязательный минимум)](#prerequisites-обязательный-минимум)
 4. [Три столпа доклада](#три-столпа-доклада)
 5. [Verification: playbook человека = playbook агента](#verification-playbook-человека--playbook-агента)
 6. [Loop как главный механизм](#loop-как-главный-механизм)
@@ -40,7 +40,7 @@ updated: 2026-08-10
 11. [Стек целиком](#стек-целиком)
 12. [Практический чеклист](#практический-чеклист)
 13. [Связь с Ralph / AutoResearch](#связь-с-ralph--autoresearch)
-14. [References](#references)
+14. [Источники](#источники)
 
 ---
 
@@ -65,7 +65,7 @@ updated: 2026-08-10
 
 ---
 
-## Prerequisites (table stakes)
+## Prerequisites (обязательный минимум)
 
 Перед продвинутыми техниками Sid рекомендует три базовых шага:
 
@@ -297,7 +297,7 @@ Karpathy в [основном README](./README.md) даёт **философию
 
 ---
 
-## References
+## Источники
 
 ### В этой книге
 

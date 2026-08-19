@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: low-rank-adaptation-lora
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Low-Rank Adaptation (LoRA)
 
-## Table of Contents
+## Оглавление
 
 1. Введение: проблема тонкой настройки больших моделей
 2. Математическая основа LoRA: разложение матриц низкого ранга
@@ -35,7 +35,7 @@ updated: 2026-08-10
 5. Варианты LoRA: QLoRA, AdaLoRA, DoRA
 6. Практическое применение: когда использовать LoRA
 7. Реализация в PyTorch
-8. Связанные темы и References
+8. Связанные темы и источники
 9. Как объяснить это 5‑летнему ребёнку
 
 ---
@@ -480,7 +480,7 @@ model_task2 = get_peft_model(base_model, task2_lora)
 
 ---
 
-### 8. Связанные темы и References
+### 8. Связанные темы и источники
 
 #### 8.1. Связанные техники
 

@@ -1,17 +1,17 @@
 ---
-title: "Tag: domain/mlops"
-description: Notes tagged domain/mlops in the knowledge book.
+title: "Тег: domain/mlops"
+description: Заметки с тегом domain/mlops в книге знаний.
 tags:
   - domain/mlops
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `domain/mlops`
+# Тег `domain/mlops`
 
-## Notes
+## Заметки
 
 - [Настройка гиперпараметров (Hyperparameter Tuning)](../../topics/hyperparameter-tuning/README.md) — Grid/Random search, Bayesian Optimization (Optuna/TPE), Hyperband/BOHB, PBT, CMA-ES, NAS и LR schedules.
 

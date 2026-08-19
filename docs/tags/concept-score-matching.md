@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/score-matching"
-description: Notes tagged concept/score-matching in the knowledge book.
+title: "Тег: concept/score-matching"
+description: Заметки с тегом concept/score-matching в книге знаний.
 tags:
   - concept/score-matching
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/score-matching`
+# Тег `concept/score-matching`
 
-## Notes
+## Заметки
 
-- [Diffusion Models](../../topics/diffusion-models/README.md) — Forward/reverse diffusion, DDPM/DDIM, latent diffusion (Stable Diffusion), Consistency Models, Flow Matching и DiT.
+- [Diffusion Models (диффузионные модели)](../../topics/diffusion-models/README.md) — Прямой и обратный процесс диффузии, DDPM/DDIM, latent diffusion (Stable Diffusion), Consistency Models, Flow Matching и DiT.
 

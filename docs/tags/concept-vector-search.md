@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/vector-search"
-description: Notes tagged concept/vector-search in the knowledge book.
+title: "Тег: concept/vector-search"
+description: Заметки с тегом concept/vector-search в книге знаний.
 tags:
   - concept/vector-search
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/vector-search`
+# Тег `concept/vector-search`
 
-## Notes
+## Заметки
 
 - [Retrieval-Augmented Generation (RAG)](../../topics/retrieval-augmented-generation-rag/README.md) — Архитектуры RAG (Naive/Advanced/Modular/Self-RAG/Corrective/LightRAG), retriever/reranker, chunking, оценка и production-практики.
 

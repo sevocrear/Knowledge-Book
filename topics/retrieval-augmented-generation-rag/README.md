@@ -24,11 +24,11 @@ status: canonical
 lang: ru
 type: topic
 slug: retrieval-augmented-generation-rag
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Retrieval-Augmented Generation (RAG)
 
-## Table of Contents
+## Оглавление
 
 1. [Введение](#введение)
 2. [Как работает RAG](#как-работает-rag)
@@ -1930,7 +1930,7 @@ def answer_relevance(query, answer, llm):
 
 ---
 
-## References
+## Источники
 
 ### Связанные темы
 

@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/rl"
-description: Notes tagged concept/rl in the knowledge book.
+title: "Тег: concept/rl"
+description: Заметки с тегом concept/rl в книге знаний.
 tags:
   - concept/rl
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/rl`
+# Тег `concept/rl`
 
-## Notes
+## Заметки
 
-- [Deep Reinforcement Learning](../../topics/deep-reinforcement-learning/README.md) — MDP, DQN, policy gradient, actor-critic (PPO/SAC/TD3), sim-to-real и применения в робототехнике и автономном вождении.
+- [Deep Reinforcement Learning (глубокое RL)](../../topics/deep-reinforcement-learning/README.md) — MDP, DQN, policy gradient, actor-critic (PPO/SAC/TD3), sim-to-real и применения в робототехнике и автономном вождении.
 

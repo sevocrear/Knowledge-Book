@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/gaussian"
-description: Notes tagged concept/gaussian in the knowledge book.
+title: "Тег: concept/gaussian"
+description: Заметки с тегом concept/gaussian в книге знаний.
 tags:
   - concept/gaussian
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/gaussian`
+# Тег `concept/gaussian`
 
-## Notes
+## Заметки
 
 - [Гауссово распределение (Normal Distribution)](../../topics/gaussian-distribution/README.md) — Одномерное и многомерное нормальное распределение, PDF/CDF и роль гауссианы в VAE, diffusion и Kalman filtering.
 

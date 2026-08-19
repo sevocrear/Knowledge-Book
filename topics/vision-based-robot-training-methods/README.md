@@ -1,5 +1,5 @@
 ---
-title: Vision-Based Robot Training Methods
+title: Vision-based обучение роботов
 description: "Imitation learning, RL и VLA для визуального обучения роботов: OpenVLA, Octo, RT-1/RT-2, Open X-Embodiment и sim-to-real."
 tags:
   - kb/topic
@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: vision-based-robot-training-methods
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Vision-Based Robot Training: Open-Source Methods and Best Practices
 
-## Table of Contents
+## Оглавление
 
 1. Введение: обучение роботов с визуальным восприятием
 2. Основные подходы: Imitation Learning, RL, VLA
@@ -36,7 +36,7 @@ updated: 2026-08-10
 6. Практические примеры: код и использование
 7. Sim-to-Real transfer: от симуляции к реальности
 8. Сравнение методов и выбор подхода
-9. Связанные темы и References
+9. Связанные темы и источники
 10. Как объяснить это 5‑летнему ребёнку
 
 ---
@@ -963,7 +963,7 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 
 ---
 
-### 9. Связанные темы и References
+### 9. Связанные темы и источники
 
 #### 9.1. Связанные техники
 

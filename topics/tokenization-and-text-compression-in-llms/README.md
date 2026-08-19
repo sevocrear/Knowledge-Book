@@ -1,5 +1,5 @@
 ---
-title: Tokenization and Text Compression in LLMs
+title: Токенизация и сжатие текста в LLM
 description: Word/char/BPE/WordPiece/Unigram токенизация как сжатие текста перед LLM и влияние на стоимость attention.
 tags:
   - kb/topic
@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: tokenization-and-text-compression-in-llms
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Tokenization and Text Compression in LLMs
+# Токенизация и сжатие текста в LLM
 
-## Table of Contents
+## Оглавление
 - Введение
 - Объяснение для 5‑летнего
 - Что такое токенизатор
@@ -42,7 +42,7 @@ updated: 2026-08-10
 - Как именно текст превращается в числа в LLM
 - Компрессия и выбор словаря токенов
 - Практические рекомендации и грабли
-- References
+- Источники
 
 ## Объяснение для 5‑летнего
 
@@ -314,7 +314,7 @@ updated: 2026-08-10
 - **Помнить про стоимость внимания**:
   - два токенизатора с одинаковым качеством, но разным средним числом токенов на предложение могут сильно различаться по стоимости инференса (из‑за квадратичной сложности по длине).
 
-## References
+## Источники
 
 - Внутри `./knowledge-book`:
   - [Embeddings and Embedding Matrix](../embeddings-and-embedding-matrix/README.md) — что такое эмбеддинги, матрица эмбеддингов и как они связаны с токенизатором.

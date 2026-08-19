@@ -23,11 +23,11 @@ status: canonical
 lang: ru
 type: topic
 slug: non-maximum-suppression-nms
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Non-Maximum Suppression (NMS) и Современные End-to-End Детекторы
 
-## Table of Contents
+## Оглавление
 
 1. [Введение](#введение)
 2. [Что такое Non-Maximum Suppression (NMS)?](#что-такое-non-maximum-suppression-nms)
@@ -41,7 +41,7 @@ updated: 2026-08-10
 10. [Сравнение Подходов](#сравнение-подходов)
 11. [Практические Рекомендации](#практические-рекомендации)
 12. [Текущее Состояние (2023-2026)](#текущее-состояние-2023-2026)
-13. [References](#references)
+13. [Источники](#источники)
 
 ---
 
@@ -1103,7 +1103,7 @@ confidence_threshold = 0.1
 
 ---
 
-## References
+## Источники
 
 ### Связанные Документы
 

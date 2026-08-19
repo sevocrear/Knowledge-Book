@@ -20,11 +20,11 @@ status: canonical
 lang: ru
 type: topic
 slug: convolutions-and-parameters-in-cnn
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Свёртки в CNN, размеры карт признаков и число параметров
 
-## Table of Contents
+## Оглавление
 
 1. Введение: что делает свёртка
 2. Почему в CNN так часто используют свёртки `3×3` и нечётные ядра
@@ -33,7 +33,7 @@ updated: 2026-08-10
 5. Что такое DeConv / Transposed Convolution
 6. Как считать число обучаемых параметров
 7. Как бы я объяснил это 5‑летнему ребёнку
-8. References
+8. Источники
 
 ---
 
@@ -295,7 +295,7 @@ $$
 
 ---
 
-### 8. References
+### 8. Источники
 
 - **Связанные документы в этом knowledge‑book**:
   - [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md) — использует CNN‑детекторы, в которых все эти свёртки реально применяются.

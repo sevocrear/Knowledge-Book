@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/nas"
-description: Notes tagged concept/nas in the knowledge book.
+title: "Тег: concept/nas"
+description: Заметки с тегом concept/nas в книге знаний.
 tags:
   - concept/nas
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/nas`
+# Тег `concept/nas`
 
-## Notes
+## Заметки
 
 - [Настройка гиперпараметров (Hyperparameter Tuning)](../../topics/hyperparameter-tuning/README.md) — Grid/Random search, Bayesian Optimization (Optuna/TPE), Hyperband/BOHB, PBT, CMA-ES, NAS и LR schedules.
 

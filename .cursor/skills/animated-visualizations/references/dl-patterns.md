@@ -4,7 +4,7 @@ Working scene blueprints for the most common concepts. Copy and adapt as needed.
 
 ---
 
-## Table of Contents
+## Оглавление
 
 0. [B1B-style scene skeleton](#0-b1b-style-scene-skeleton)
 1. [Convolution Operation](#1-convolution-operation)

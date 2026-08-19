@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: detection-segmentation-3d-losses
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Loss функции для детекции, сегментации и 3D‑детекции
 
-## Table of Contents
+## Оглавление
 
 1. Обзор: как обычно устроена функция потерь в CV‑моделях
 2. Loss функции для 2D‑детекции объектов
@@ -37,7 +37,7 @@ updated: 2026-08-10
 4. Loss функции для 3D‑детекции
 5. Focal Loss: формула и интуиция
 6. Как бы я объяснил это 5‑летнему ребёнку
-7. References
+7. Источники
 
 ---
 
@@ -236,7 +236,7 @@ Focal Loss используют:
 
 ---
 
-### 7. References
+### 7. Источники
 
 - **Связанные документы в этом knowledge‑book**:
   - [`classification-losses-cross-entropy-focal-loss`](../classification-losses-cross-entropy-focal-loss/README.md) — подробный разбор кросс‑энтропии и Focal Loss в общем случае классификации.

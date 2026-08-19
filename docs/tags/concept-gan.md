@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/gan"
-description: Notes tagged concept/gan in the knowledge book.
+title: "Тег: concept/gan"
+description: Заметки с тегом concept/gan в книге знаний.
 tags:
   - concept/gan
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/gan`
+# Тег `concept/gan`
 
-## Notes
+## Заметки
 
-- [Generative Adversarial Networks (GANs)](../../topics/generative-adversarial-networks-gans/README.md) — Adversarial training generator/discriminator, mode collapse, современные варианты GAN и сравнение с VAE и diffusion.
+- [Generative Adversarial Networks (GAN)](../../topics/generative-adversarial-networks-gans/README.md) — Состязательное обучение generator/discriminator, mode collapse, современные варианты GAN и сравнение с VAE и diffusion.
 

@@ -1,62 +1,63 @@
 ---
-title: Knowledge Book Docs (Obsidian / RAG layer)
-description: Obsidian-compatible indexes, tag taxonomy and Maps of Content over topics/.
+title: Документация Knowledge Book (слой Obsidian / RAG)
+description: Индексы, таксономия тегов и Maps of Content над топиками в topics/.
 tags:
   - kb/index
   - kb/docs
 aliases:
   - docs home
   - knowledge book vault
+  - оглавление книги
 status: canonical
-lang: en
+lang: ru
 type: index
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Knowledge Book Docs
+# Документация Knowledge Book
 
-This `docs/` layer is the **Obsidian / RAG index** over canonical topic notes in `topics/`.
+Слой `docs/` — это **индекс Obsidian / RAG** над каноническими конспектами в `topics/`.
 
-## How would I describe it to a person who is 5 years old
+## Как объяснить 5-летнему ребёнку
 
-The big lessons live in topic folders. This `docs/` folder is the **table of contents with stickers (tags)** so a search robot (or Obsidian) can find the right lesson fast.
+Большие уроки лежат в папках тем. Папка `docs/` — это **оглавление с наклейками (тегами)**, чтобы поисковый робот или Obsidian быстрее находил нужный урок.
 
-## Layout
+## Как устроено
 
-| Path | Role |
+| Путь | Роль |
 |------|------|
-| `topics/<slug>/README.md` | Canonical deep notes (theory, formulas, examples) |
-| `docs/index.md` | Flat catalog of all topics with descriptions |
-| `docs/mocs/` | Maps of Content (thematic entry points) |
-| `docs/tags/` | Tag taxonomy + per-tag topic lists |
-| `docs/SCHEMA.md` | Frontmatter schema for RAG / Obsidian |
+| `topics/<slug>/README.md` | Канонические конспекты (теория, формулы, примеры) |
+| `docs/index.md` | Плоский каталог всех тем с описаниями |
+| `docs/mocs/` | Maps of Content (тематические входы) |
+| `docs/tags/` | Таксономия тегов и списки тем по тегу |
+| `docs/SCHEMA.md` | Схема frontmatter для RAG / Obsidian |
 
 ## Maps of Content
 
-- [MOC: Mathematical & ML Foundations](./mocs/foundations.md) — Вероятность, метрики, классический ML и базовые строительные блоки.
-- [MOC: Generative Models](./mocs/generative-models.md) — VAE, GAN и diffusion — три основных семейства генеративных моделей.
-- [MOC: NLP, LLM & RAG](./mocs/nlp-llm.md) — Токенизация, эмбеддинги, transformers, LoRA, RAG и code agents.
-- [MOC: Computer Vision](./mocs/computer-vision.md) — CNN, detection/segmentation, metric learning, SSL и tracking metrics.
-- [MOC: Robotics & Embodied AI](./mocs/robotics-embodied.md) — Deep RL, VLA и vision-based обучение роботов.
+- [MOC: математика и основы ML](./mocs/foundations.md) — Вероятность, метрики, классический ML и базовые строительные блоки.
+- [MOC: генеративные модели](./mocs/generative-models.md) — VAE, GAN и diffusion — три основных семейства генеративных моделей.
+- [MOC: NLP, LLM и RAG](./mocs/nlp-llm.md) — Токенизация, эмбеддинги, transformers, LoRA, RAG и code agents.
+- [MOC: компьютерное зрение](./mocs/computer-vision.md) — CNN, detection/segmentation, metric learning, SSL и tracking metrics.
+- [MOC: робототехника и Embodied AI](./mocs/robotics-embodied.md) — Deep RL, VLA и vision-based обучение роботов.
 
-## Quick links
+## Быстрые ссылки
 
-- [Full topic catalog](./index.md)
-- [Tag taxonomy](./tags/README.md)
-- [Frontmatter schema](./SCHEMA.md)
-- [Root knowledge-book README](../README.md)
+- [Полный каталог тем](./index.md)
+- [Таксономия тегов](./tags/README.md)
+- [Схема frontmatter](./SCHEMA.md)
+- [Корневой README книги](../README.md)
 
-## Conventions
+## Соглашения
 
-Every topic/note markdown file starts with YAML frontmatter:
+Каждый markdown-файл топика/заметки начинается с YAML frontmatter:
 
-- `title`, `description` — primary RAG retrieval fields
-- `tags` — hierarchical tags (`domain/*`, `concept/*`, `kb/*`)
-- `aliases` — alternate names / search synonyms
-- `related` — sibling topic slugs
+- `title`, `description` — основные поля для RAG
+- `tags` — иерархические теги (`domain/*`, `concept/*`, `kb/*`)
+- `aliases` — альтернативные имена / синонимы для поиска
+- `related` — slug соседних тем
 - `status`, `lang`, `type`, `slug`, `updated`
 
-Regenerate indexes after metadata edits:
+После правок метаданных пересобрать индексы:
 
 ```bash
 uv run python scripts/kb_apply_obsidian_frontmatter.py

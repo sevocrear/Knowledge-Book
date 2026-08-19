@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/transformer"
-description: Notes tagged concept/transformer in the knowledge book.
+title: "Тег: concept/transformer"
+description: Заметки с тегом concept/transformer в книге знаний.
 tags:
   - concept/transformer
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/transformer`
+# Тег `concept/transformer`
 
-## Notes
+## Заметки
 
 - [Transformers, Attention и Vision Transformers (ViT)](../../topics/transformers-attention-and-vision-transformers-vit/README.md) — Scaled dot-product attention, QKV, KV cache, positional encodings (в т.ч. RoPE), ViT и DETR-подобные детекция/сегментация.
 

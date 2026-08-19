@@ -1,5 +1,5 @@
 ---
-title: "Contrastive & Metric Learning for Fine-Grained Visual Recognition"
+title: Contrastive и metric learning для fine-grained распознавания
 description: "Contrastive/triplet/InfoNCE и proxy losses для fine-grained retrieval: mining, Recall@K, ANN-индексы и continual learning новых классов."
 tags:
   - kb/topic
@@ -23,11 +23,11 @@ status: canonical
 lang: ru
 type: topic
 slug: contrastive-and-metric-learning-for-fine-grained-visual-recognition
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Contrastive & Metric Learning for Fine-Grained Visual Recognition
+# Contrastive и metric learning для fine-grained распознавания
 
-## Table of Contents
+## Оглавление
 
 - Краткий абстракт и объяснение для 5‑летнего ребёнка
 - Введение: чем contrastive learning отличается от metric learning
@@ -59,7 +59,7 @@ updated: 2026-08-10
   - Версионирование: модель/индекс/датасет
 - Continual learning: добавление новых сортов и переобучение
 - Минимальный пример кода (в этом репозитории)
-- References
+- Источники
 
 ---
 
@@ -333,7 +333,7 @@ Mining можно делать:
 
 ---
 
-## References
+## Источники
 
 - Внутри knowledge-book:
   - `./topics/embeddings-and-embedding-matrix/README.md`

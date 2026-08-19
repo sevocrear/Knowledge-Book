@@ -1,5 +1,5 @@
 ---
-title: Vision-Language-Action (VLA) Models
+title: Модели Vision-Language-Action (VLA)
 description: "Объединение vision/language/action: RT-1/RT-2, OpenVLA, Octo, SmolVLA — архитектуры, данные, fine-tuning и сравнение с RL/IL."
 tags:
   - kb/topic
@@ -24,11 +24,11 @@ status: canonical
 lang: ru
 type: topic
 slug: vision-language-action-models-vla
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Vision-Language-Action (VLA) Models
+# Модели Vision-Language-Action (VLA)
 
-## Table of Contents
+## Оглавление
 
 1. Введение: что такое VLA модели и зачем они нужны
 2. Архитектура VLA: как объединяются Vision, Language и Action
@@ -38,7 +38,7 @@ updated: 2026-08-10
 6. Применения: манипуляция, навигация, автономные системы
 7. Сравнение с другими подходами: RL, Imitation Learning
 8. Реализация: примеры кода и использование
-9. Связанные темы и References
+9. Связанные темы и источники
 10. Как объяснить это 5‑летнему ребёнку
 
 ---
@@ -910,7 +910,7 @@ action = model.sample_action(
 
 ---
 
-### 9. Связанные темы и References
+### 9. Связанные темы и источники
 
 #### 9.1. Связанные техники
 

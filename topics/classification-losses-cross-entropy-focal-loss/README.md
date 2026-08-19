@@ -21,11 +21,11 @@ status: canonical
 lang: ru
 type: topic
 slug: classification-losses-cross-entropy-focal-loss
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Cross Entropy и Focal Loss в задачах классификации и детекции
 
-## Table of Contents
+## Оглавление
 
 1. Интуиция: что делает функция потерь в классификации
 2. Cross Entropy (кросс‑энтропия)
@@ -38,7 +38,7 @@ updated: 2026-08-10
    - применение в object detection (например, RetinaNet) и сегментации
 4. Cross Entropy vs Focal Loss: когда что использовать
 5. Как бы я объяснил это 5‑летнему ребёнку
-6. References
+6. Источники
 
 ---
 
@@ -210,7 +210,7 @@ $$
 
 ---
 
-### 6. References
+### 6. Источники
 
 - **Связанные документы в этом knowledge‑book**:
   - [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md) — подробно про пайплайны object detection, где Focal Loss часто используется совместно с NMS или end‑to‑end детекторами.

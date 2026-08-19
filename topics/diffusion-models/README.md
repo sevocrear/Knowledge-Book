@@ -1,6 +1,6 @@
 ---
-title: Diffusion Models
-description: "Forward/reverse diffusion, DDPM/DDIM, latent diffusion (Stable Diffusion), Consistency Models, Flow Matching и DiT."
+title: Diffusion Models (диффузионные модели)
+description: "Прямой и обратный процесс диффузии, DDPM/DDIM, latent diffusion (Stable Diffusion), Consistency Models, Flow Matching и DiT."
 tags:
   - kb/topic
   - domain/generative
@@ -19,113 +19,113 @@ related:
   - generative-adversarial-networks-gans
   - gaussian-distribution
 status: canonical
-lang: en
+lang: ru
 type: topic
 slug: diffusion-models
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Diffusion Models: A Comprehensive Guide
+# Diffusion Models (диффузионные модели)
 
-## Table of Contents
+## Оглавление
 
-1. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
-2. [Introduction to Diffusion Models](#introduction-to-diffusion-models)
-3. [Core Idea and Intuition](#core-idea-and-intuition)
-4. [Mathematical Foundations](#mathematical-foundations)
-5. [Forward and Reverse Diffusion Processes](#forward-and-reverse-diffusion-processes)
-6. [Training Process](#training-process)
-7. [Sampling and Generation](#sampling-and-generation)
-8. [Implementation Example](#implementation-example)
-9. [Key Variants and Extensions](#key-variants-and-extensions)
-10. [Applications](#applications)
-11. [Current Status (2023-2026)](#current-status-2023-2026)
-12. [Comparison with Other Generative Models](#comparison-with-other-generative-models)
-13. [References](#references)
+1. [Как объяснить 5-летнему ребёнку](#как-объяснить-5-летнему-ребёнку)
+2. [Введение в диффузионные модели](#введение-в-диффузионные-модели)
+3. [Основная идея и интуиция](#основная-идея-и-интуиция)
+4. [Математические основы](#математические-основы)
+5. [Прямой и обратный процессы диффузии](#прямой-и-обратный-процессы-диффузии)
+6. [Процесс обучения](#процесс-обучения)
+7. [Сэмплирование и генерация](#сэмплирование-и-генерация)
+8. [Пример реализации](#пример-реализации)
+9. [Ключевые варианты и расширения](#ключевые-варианты-и-расширения)
+10. [Применения](#применения)
+11. [Текущее состояние (2023-2026)](#текущее-состояние-2023-2026)
+12. [Сравнение с другими генеративными моделями](#сравнение-с-другими-генеративными-моделями)
+13. [Источники](#источники)
 
 ---
 
-## How would I describe it to a person who is 5 years old
+## Как объяснить 5-летнему ребёнку
 
 Возьми красивую картинку и по чуть-чуть засыпай её песком, пока не останется только шум. Потом учи робота убирать песок шаг за шагом. Когда он научится — можно начать с кучи песка и медленно «вычищать» её, пока не проявится новая картинка. Так работают diffusion models (как Stable Diffusion).
 
 ---
 
-## Introduction to Diffusion Models
+## Введение в диффузионные модели
 
-**Diffusion Models** (также известные как **Denoising Diffusion Probabilistic Models, DDPM**) представляют собой класс генеративных моделей, которые достигли выдающихся результатов в генерации изображений, текста, аудио и других типов данных. Впервые представленные в работе Sohl-Dickstein et al. (2015) и популяризированные Ho et al. (2020), diffusion models стали основой для многих современных систем генерации, включая DALL-E 2, Stable Diffusion, Midjourney и Imagen.
+**Diffusion Models** (также **Denoising Diffusion Probabilistic Models, DDPM**) — класс генеративных моделей, которые дали выдающиеся результаты в генерации изображений, текста, аудио и других типов данных. Впервые их представили Sohl-Dickstein et al. (2015), а популяризировали Ho et al. (2020). С тех пор diffusion models стали основой многих современных систем генерации, включая DALL-E 2, Stable Diffusion, Midjourney и Imagen.
 
-### Key Characteristics
+### Ключевые свойства
 
-- **Probabilistic Framework**: Основаны на теории стохастических процессов
-- **High-Quality Generation**: Производят высококачественные, детализированные изображения
-- **Stable Training**: Более стабильное обучение по сравнению с GANs
-- **Flexible Conditioning**: Легко адаптируются для условной генерации (текст, классы, изображения)
-- **Theoretical Foundation**: Имеют прочную теоретическую основу в теории вероятностей
+- **Вероятностный каркас (probabilistic framework)**: опираются на теорию стохастических процессов
+- **Высокое качество генерации**: дают детализированные изображения высокого качества
+- **Стабильное обучение**: обучение обычно стабильнее, чем у GAN
+- **Гибкое conditioning**: легко адаптируются к условной генерации (текст, классы, изображения)
+- **Теоретическая база**: имеют прочную основу в теории вероятностей
 
-### Historical Context
+### Исторический контекст
 
 Diffusion models берут начало в физике (процессы диффузии) и были адаптированы для машинного обучения. Ключевые вехи:
 
 - **2015**: Sohl-Dickstein et al. вводят концепцию diffusion models
-- **2020**: Ho et al. представляют DDPM с упрощенной формулировкой
+- **2020**: Ho et al. представляют DDPM с упрощённой формулировкой
 - **2021**: Nichol & Dhariwal улучшают DDPM (DDIM, classifier guidance)
 - **2022**: Rombach et al. представляют Latent Diffusion Models (Stable Diffusion)
-- **2023-2024**: Rapid progress в text-to-image, video generation, 3D generation
+- **2023-2024**: быстрый прогресс в text-to-image, генерации видео и 3D
 
 ---
 
-## Core Idea and Intuition
+## Основная идея и интуиция
 
-### The Fundamental Concept
+### Базовая идея
 
 Diffusion models работают по принципу **постепенного добавления и удаления шума**:
 
-1. **Forward Process (Forward Diffusion)**: Постепенно добавляем шум к данным, пока они не превратятся в чистый шум
-2. **Reverse Process (Reverse Diffusion)**: Обучаем нейросеть предсказывать, как удалить шум, чтобы восстановить исходные данные
+1. **Прямой процесс (forward diffusion)**: постепенно добавляем шум к данным, пока они не превратятся в чистый шум
+2. **Обратный процесс (reverse diffusion)**: обучаем нейросеть предсказывать, как удалить шум, чтобы восстановить исходные данные
 
-### Intuitive Analogy
+### Наглядная аналогия
 
 Представьте процесс создания картины в обратном порядке:
 
-- **Forward Process**: Начинаем с четкой картины и постепенно размазываем краски, добавляя случайные мазки, пока не получим полностью случайный набор цветов
-- **Reverse Process**: Обучаем художника (нейросеть) восстанавливать картину, глядя на размазанные краски и предсказывая, какие мазки нужно убрать, чтобы вернуться к исходному изображению
+- **Прямой процесс**: начинаем с чёткой картины и постепенно размазываем краски, добавляя случайные мазки, пока не получим полностью случайный набор цветов
+- **Обратный процесс**: обучаем художника (нейросеть) восстанавливать картину, глядя на размазанные краски и предсказывая, какие мазки нужно убрать, чтобы вернуться к исходному изображению
 
-### Why This Works
+### Почему это работает
 
 Ключевая интуиция: **удаление шума проще, чем прямое генерирование**. Вместо того чтобы учиться генерировать сложное изображение с нуля, модель учится выполнять последовательность простых операций удаления шума.
 
-### The Diffusion Process Visualization
+### Визуализация процесса диффузии
 
 ```
-Original Image → [Add Noise] → [Add Noise] → ... → [Add Noise] → Pure Noise
-     x₀              x₁              x₂                    xₜ
+Исходное изображение → [Добавить шум] → [Добавить шум] → ... → [Добавить шум] → Чистый шум
+     x₀                     x₁               x₂                       xₜ
 
-Pure Noise → [Remove Noise] → [Remove Noise] → ... → [Remove Noise] → Generated Image
-    xₜ            xₜ₋₁              xₜ₋₂                    x₀
+Чистый шум → [Убрать шум] → [Убрать шум] → ... → [Убрать шум] → Сгенерированное изображение
+    xₜ          xₜ₋₁             xₜ₋₂                    x₀
 ```
 
 ---
 
-## Mathematical Foundations
+## Математические основы
 
-### Forward Diffusion Process
+### Прямой процесс диффузии
 
-Forward process постепенно добавляет гауссовский шум к данным согласно предопределенному расписанию (noise schedule).
+Прямой процесс (forward process) постепенно добавляет гауссовский шум к данным по заранее заданному расписанию (noise schedule).
 
-#### Single Step
+#### Один шаг
 
 На каждом шаге $t$ мы добавляем шум:
 
 $$q(\mathbf{x}_t | \mathbf{x}_{t-1}) = \mathcal{N}(\mathbf{x}_t; \sqrt{1-\beta_t}\mathbf{x}_{t-1}, \beta_t \mathbf{I})$$
 
 где:
-- $\beta_t$ - расписание шума (noise schedule), обычно $0 < \beta_1 < \beta_2 < ... < \beta_T < 1$
-- $\mathbf{x}_0$ - исходные данные
-- $\mathbf{x}_t$ - данные на шаге $t$
+- $\beta_t$ — расписание шума (noise schedule), обычно $0 < \beta_1 < \beta_2 < ... < \beta_T < 1$
+- $\mathbf{x}_0$ — исходные данные
+- $\mathbf{x}_t$ — данные на шаге $t$
 
-#### Closed-Form Solution
+#### Замкнутая форма
 
-Благодаря свойствам гауссовских распределений, мы можем напрямую получить $\mathbf{x}_t$ из $\mathbf{x}_0$:
+Благодаря свойствам гауссовских распределений мы можем напрямую получить $\mathbf{x}_t$ из $\mathbf{x}_0$:
 
 $$q(\mathbf{x}_t | \mathbf{x}_0) = \mathcal{N}(\mathbf{x}_t; \sqrt{\bar{\alpha}_t}\mathbf{x}_0, (1-\bar{\alpha}_t)\mathbf{I})$$
 
@@ -139,35 +139,35 @@ $$\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\bol
 
 где $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$.
 
-#### Noise Schedule
+#### Расписание шума (noise schedule)
 
 Типичные расписания:
 - **Linear**: $\beta_t = \text{linear}(0.0001, 0.02, T)$
-- **Cosine**: $\bar{\alpha}_t = \frac{\cos(\pi t / 2T + s)}{1+s}$, где $s$ - небольшой offset
+- **Cosine**: $\bar{\alpha}_t = \frac{\cos(\pi t / 2T + s)}{1+s}$, где $s$ — небольшой offset
 
-### Reverse Diffusion Process
+### Обратный процесс диффузии
 
-Reverse process пытается инвертировать forward process, удаляя шум:
+Обратный процесс (reverse process) пытается инвертировать прямой процесс, удаляя шум:
 
 $$p_\theta(\mathbf{x}_{t-1} | \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_\theta(\mathbf{x}_t, t), \boldsymbol{\Sigma}_\theta(\mathbf{x}_t, t))$$
 
-где $\boldsymbol{\mu}_\theta$ и $\boldsymbol{\Sigma}_\theta$ - параметры, предсказанные нейросетью.
+где $\boldsymbol{\mu}_\theta$ и $\boldsymbol{\Sigma}_\theta$ — параметры, предсказанные нейросетью.
 
-### Training Objective
+### Целевая функция обучения
 
-#### Simplified Loss (DDPM)
+#### Упрощённый loss (DDPM)
 
-Ho et al. показали, что можно использовать упрощенную функцию потерь:
+Ho et al. показали, что можно использовать упрощённую функцию потерь:
 
 $$\mathcal{L}_{\text{simple}} = \mathbb{E}_{t, \mathbf{x}_0, \boldsymbol{\epsilon}} \left[ ||\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)||^2 \right]$$
 
 где:
-- $t \sim \text{Uniform}(1, T)$ - случайный временной шаг
-- $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ - случайный шум
-- $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}$ - зашумленные данные
-- $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$ - предсказание шума нейросетью
+- $t \sim \text{Uniform}(1, T)$ — случайный временной шаг
+- $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ — случайный шум
+- $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}$ — зашумлённые данные
+- $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$ — предсказание шума нейросетью
 
-#### Intuition Behind the Loss
+#### Интуиция за функцией потерь
 
 Модель учится предсказывать шум $\boldsymbol{\epsilon}$, который был добавлен к $\mathbf{x}_0$ для получения $\mathbf{x}_t$. Зная предсказанный шум, мы можем восстановить $\mathbf{x}_0$:
 
@@ -175,16 +175,16 @@ $$\hat{\mathbf{x}}_0 = \frac{\mathbf{x}_t - \sqrt{1-\bar{\alpha}_t}\boldsymbol{\
 
 ---
 
-## Forward and Reverse Diffusion Processes
+## Прямой и обратный процессы диффузии
 
-### Forward Process: Adding Noise
+### Прямой процесс: добавление шума
 
-Forward process - это марковская цепь, которая постепенно разрушает структуру данных:
+Прямой процесс — это марковская цепь, которая постепенно разрушает структуру данных:
 
 ```python
 def forward_diffusion(x0, t, sqrt_alphas_cumprod, sqrt_one_minus_alphas_cumprod):
     """
-    Forward diffusion: добавляет шум к данным
+    Прямая диффузия: добавляет шум к данным
     
     Args:
         x0: исходные данные [B, C, H, W]
@@ -193,7 +193,7 @@ def forward_diffusion(x0, t, sqrt_alphas_cumprod, sqrt_one_minus_alphas_cumprod)
         sqrt_one_minus_alphas_cumprod: sqrt(1 - alpha_bar_t) [T]
     
     Returns:
-        xt: зашумленные данные
+        xt: зашумлённые данные
         noise: добавленный шум
     """
     # Извлекаем коэффициенты для батча
@@ -209,9 +209,9 @@ def forward_diffusion(x0, t, sqrt_alphas_cumprod, sqrt_one_minus_alphas_cumprod)
     return xt, noise
 ```
 
-### Reverse Process: Removing Noise
+### Обратный процесс: удаление шума
 
-Reverse process использует обученную модель для постепенного удаления шума:
+Обратный процесс использует обученную модель, чтобы постепенно убирать шум:
 
 ```python
 def reverse_diffusion_step(xt, t, model, sqrt_alphas_cumprod, 
@@ -219,7 +219,7 @@ def reverse_diffusion_step(xt, t, model, sqrt_alphas_cumprod,
                           posterior_variance, posterior_mean_coef1, 
                           posterior_mean_coef2):
     """
-    Один шаг reverse diffusion
+    Один шаг обратной диффузии (reverse diffusion)
     
     Args:
         xt: данные на шаге t
@@ -258,60 +258,60 @@ def reverse_diffusion_step(xt, t, model, sqrt_alphas_cumprod,
 
 ---
 
-## Training Process
+## Процесс обучения
 
-### Training Algorithm
+### Алгоритм обучения
 
 Алгоритм обучения diffusion model:
 
-1. **Sample Data**: Выбираем случайный батч данных $\mathbf{x}_0 \sim q(\mathbf{x}_0)$
-2. **Sample Timestep**: Выбираем случайный временной шаг $t \sim \text{Uniform}(1, T)$
-3. **Add Noise**: Генерируем зашумленные данные $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}$
-4. **Predict Noise**: Модель предсказывает шум $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$
-5. **Compute Loss**: Вычисляем MSE между истинным и предсказанным шумом
-6. **Backpropagate**: Обновляем параметры модели
+1. **Взять данные (sample data)**: выбираем случайный батч $\mathbf{x}_0 \sim q(\mathbf{x}_0)$
+2. **Выбрать timestep**: выбираем случайный временной шаг $t \sim \text{Uniform}(1, T)$
+3. **Добавить шум**: генерируем зашумлённые данные $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}$
+4. **Предсказать шум**: модель предсказывает шум $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$
+5. **Посчитать loss**: вычисляем MSE между истинным и предсказанным шумом
+6. **Обратное распространение**: обновляем параметры модели
 
-### На Чем Учится Diffusion Model?
+### На чём учится diffusion model?
 
-#### Типы Данных для Обучения
+#### Типы данных для обучения
 
-Diffusion models могут обучаться на различных типах данных:
+Diffusion models могут обучаться на разных типах данных:
 
-**1. Изображения (Image Diffusion)**
+**1. Изображения (image diffusion)**
 - **Датасеты**: 
   - ImageNet (1.2M изображений, 1000 классов)
   - LAION-5B (5.85 миллиардов изображений с текстовыми описаниями)
   - COCO (330K изображений с аннотациями)
   - CelebA (200K лиц)
   - FFHQ (70K высококачественных лиц)
-- **Формат**: Обычно RGB изображения, нормализованные в диапазон $[-1, 1]$ или $[0, 1]$
-- **Разрешение**: От 64x64 до 1024x1024 и выше
+- **Формат**: обычно RGB-изображения, нормализованные в диапазон $[-1, 1]$ или $[0, 1]$
+- **Разрешение**: от 64x64 до 1024x1024 и выше
 
-**2. Видео (Video Diffusion)**
+**2. Видео (video diffusion)**
 - **Датасеты**:
   - WebVid (10M видео с текстовыми описаниями)
   - Kinetics (400K видео, 400 классов действий)
   - UCF-101, HMDB-51 (видео с действиями)
-  - InternVid (236M видео-текст пар)
-- **Формат**: Последовательность кадров (frames), обычно 16-128 кадров
-- **Разрешение**: От 128x128 до 1024x1024 на кадр
+  - InternVid (236M пар видео–текст)
+- **Формат**: последовательность кадров (frames), обычно 16–128 кадров
+- **Разрешение**: от 128x128 до 1024x1024 на кадр
 
-**3. Текст (Text Diffusion)**
+**3. Текст (text diffusion)**
 - **Датасеты**: 
   - Common Crawl
   - Wikipedia
-  - Книги, статьи
-- **Формат**: Токенизированный текст
+  - книги, статьи
+- **Формат**: токенизированный текст
 
-**4. Аудио (Audio Diffusion)**
+**4. Аудио (audio diffusion)**
 - **Датасеты**:
-  - AudioSet (2M аудио клипов)
+  - AudioSet (2M аудиоклипов)
   - LibriSpeech (1000 часов речи)
-- **Формат**: Спектрограммы или raw аудио
+- **Формат**: спектрограммы или raw-аудио
 
-#### Процесс Обучения: Детальный Разбор
+#### Процесс обучения: детальный разбор
 
-**Шаг 1: Подготовка Данных**
+**Шаг 1: подготовка данных**
 
 ```python
 # Пример для изображений
@@ -334,7 +334,7 @@ def prepare_image_data(image_path):
     return image_tensor  # Shape: [3, 256, 256]
 ```
 
-**Шаг 2: Выбор Случайного Временного Шага**
+**Шаг 2: выбор случайного временного шага**
 
 Модель учится на **всех временных шагах одновременно**:
 
@@ -344,21 +344,21 @@ t = torch.randint(0, timesteps, (batch_size,))  # [0, T-1]
 ```
 
 Это позволяет модели:
-- Быстро обучаться (не нужно проходить все шаги последовательно)
-- Изучать разные уровни шума одновременно
-- Эффективно использовать данные
+- быстро обучаться (не нужно проходить все шаги последовательно)
+- изучать разные уровни шума одновременно
+- эффективно использовать данные
 
-**Шаг 3: Добавление Шума**
+**Шаг 3: добавление шума**
 
 Для каждого изображения в батче:
-- Выбираем случайный временной шаг $t$
-- Генерируем случайный шум $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
-- Вычисляем зашумленное изображение: $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}$
+- выбираем случайный временной шаг $t$
+- генерируем случайный шум $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
+- вычисляем зашумлённое изображение: $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}$
 
 ```python
 def add_noise(x0, t, sqrt_alphas_cumprod, sqrt_one_minus_alphas_cumprod):
     """
-    Добавляет шум к изображению согласно forward process
+    Добавляет шум к изображению согласно прямому процессу (forward process)
     """
     # Извлекаем коэффициенты для каждого элемента батча
     sqrt_alpha_bar_t = sqrt_alphas_cumprod[t].reshape(-1, 1, 1, 1)
@@ -373,21 +373,21 @@ def add_noise(x0, t, sqrt_alphas_cumprod, sqrt_one_minus_alphas_cumprod):
     return x_t, noise
 ```
 
-**Шаг 4: Предсказание Шума**
+**Шаг 4: предсказание шума**
 
 Модель (обычно U-Net) получает:
-- **Вход**: Зашумленное изображение $\mathbf{x}_t$ (shape: [B, C, H, W])
-- **Условие**: Временной шаг $t$ (shape: [B])
-- **Выход**: Предсказанный шум $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$ (shape: [B, C, H, W])
+- **Вход**: зашумлённое изображение $\mathbf{x}_t$ (shape: [B, C, H, W])
+- **Условие**: временной шаг $t$ (shape: [B])
+- **Выход**: предсказанный шум $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$ (shape: [B, C, H, W])
 
 ```python
 # Forward pass через модель
 predicted_noise = model(x_t, t)  # [B, C, H, W]
 ```
 
-**Шаг 5: Вычисление Потерь**
+**Шаг 5: вычисление потерь**
 
-Функция потерь - это **MSE между истинным и предсказанным шумом**:
+Функция потерь — это **MSE между истинным и предсказанным шумом**:
 
 $$\mathcal{L} = ||\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)||^2$$
 
@@ -398,68 +398,68 @@ loss = F.mse_loss(noise, predicted_noise)
 
 **Почему именно предсказание шума?**
 
-1. **Проще для модели**: Предсказать шум проще, чем предсказать исходное изображение напрямую
-2. **Стабильность**: Это приводит к более стабильному обучению
-3. **Математическая обоснованность**: Связано с score matching и оптимальным транспортом
+1. **Проще для модели**: предсказать шум проще, чем предсказать исходное изображение напрямую
+2. **Стабильность**: это приводит к более стабильному обучению
+3. **Математическая обоснованность**: связано со score matching и оптимальным транспортом
 
-#### Что Изучает Модель?
+#### Что изучает модель?
 
 Модель учится **обратному процессу диффузии**:
 
-- **На ранних шагах** (большой $t$, много шума): Модель учится распознавать общую структуру и композицию
-- **На средних шагах**: Модель учится восстанавливать детали и формы
-- **На поздних шагах** (малый $t$, мало шума): Модель учится финальным деталям и текстурам
+- **На ранних шагах** (большой $t$, много шума): модель учится распознавать общую структуру и композицию
+- **На средних шагах**: модель учится восстанавливать детали и формы
+- **На поздних шагах** (малый $t$, мало шума): модель учится финальным деталям и текстурам
 
-**Аналогия**: Как художник, который:
-- Сначала намечает общую композицию (ранние шаги)
-- Затем добавляет основные формы (средние шаги)
-- В конце прорабатывает детали (поздние шаги)
+**Аналогия**: как художник, который:
+- сначала намечает общую композицию (ранние шаги)
+- затем добавляет основные формы (средние шаги)
+- в конце прорабатывает детали (поздние шаги)
 
-#### Условное Обучение
+#### Условное обучение
 
 Модель может обучаться с **условиями** (conditioning):
 
-**1. Class-Conditional**: Генерация определенного класса
+**1. Class-conditional**: генерация определённого класса
 ```python
 predicted_noise = model(x_t, t, class_label)
 ```
 
-**2. Text-Conditional**: Генерация по текстовому описанию
+**2. Text-conditional**: генерация по текстовому описанию
 ```python
 # Текст кодируется через CLIP или T5
 text_embedding = text_encoder(prompt)
 predicted_noise = model(x_t, t, text_embedding)
 ```
 
-**3. Image-Conditional**: Генерация на основе другого изображения
+**3. Image-conditional**: генерация на основе другого изображения
 ```python
 predicted_noise = model(x_t, t, condition_image)
 ```
 
-#### Объем Данных
+#### Объём данных
 
-Типичные объемы данных для обучения:
-- **Базовые модели**: 1-10 миллионов изображений
+Типичные объёмы данных для обучения:
+- **Базовые модели**: 1–10 миллионов изображений
 - **Крупные модели** (Stable Diffusion): 100+ миллионов изображений
 - **Очень крупные** (DALL-E 2, Imagen): 1+ миллиард изображений
 
 **Время обучения**:
-- Небольшие модели (64x64): Несколько дней на 1-4 GPU
-- Средние модели (256x256): Недели на 8-16 GPU
-- Крупные модели (1024x1024): Месяцы на десятках/сотнях GPU
+- небольшие модели (64x64): несколько дней на 1–4 GPU
+- средние модели (256x256): недели на 8–16 GPU
+- крупные модели (1024x1024): месяцы на десятках/сотнях GPU
 
-### Key Design Choices
+### Ключевые решения в дизайне
 
-#### Network Architecture
+#### Архитектура сети
 
-Типичная архитектура - **U-Net** с временными embeddings:
+Типичная архитектура — **U-Net** с временными embeddings:
 
-- **Encoder-Decoder Structure**: Для обработки изображений
-- **Time Embeddings**: Sinusoidal или learned embeddings для временного шага $t$
-- **Attention Layers**: Self-attention для глобального контекста
-- **Residual Connections**: Для стабильного обучения
+- **Структура encoder–decoder**: для обработки изображений
+- **Time embeddings**: sinusoidal или learned embeddings для временного шага $t$
+- **Слои attention**: self-attention для глобального контекста
+- **Residual connections**: для стабильного обучения
 
-#### Time Embedding
+#### Time embedding
 
 Временной шаг $t$ кодируется с помощью sinusoidal embeddings:
 
@@ -479,19 +479,19 @@ def get_timestep_embedding(timesteps, dim):
 
 ---
 
-## Sampling and Generation
+## Сэмплирование и генерация
 
-### Sampling Algorithm
+### Алгоритм сэмплирования
 
-Процесс генерации (sampling) - это обратный diffusion процесс:
+Процесс генерации (sampling) — это обратный diffusion-процесс:
 
-1. **Start from Noise**: Начинаем с чистого шума $\mathbf{x}_T \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
-2. **Iterative Denoising**: Для $t = T, T-1, ..., 1$:
-   - Предсказываем шум: $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$
-   - Вычисляем $\mathbf{x}_{t-1}$ используя предсказанный шум
-3. **Final Sample**: $\mathbf{x}_0$ - сгенерированное изображение
+1. **Начать с шума**: начинаем с чистого шума $\mathbf{x}_T \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
+2. **Итеративный denoising**: для $t = T, T-1, ..., 1$:
+   - предсказываем шум: $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$
+   - вычисляем $\mathbf{x}_{t-1}$ по предсказанному шуму
+3. **Итоговый сэмпл**: $\mathbf{x}_0$ — сгенерированное изображение
 
-### DDPM Sampling
+### Сэмплирование DDPM
 
 ```python
 def sample_ddpm(model, shape, device, timesteps=1000, 
@@ -499,7 +499,7 @@ def sample_ddpm(model, shape, device, timesteps=1000,
                 posterior_variance, posterior_mean_coef1, 
                 posterior_mean_coef2):
     """
-    Генерация сэмплов используя DDPM
+    Генерация сэмплов с помощью DDPM
     """
     # Начинаем с чистого шума
     x = torch.randn(shape, device=device)
@@ -521,14 +521,14 @@ def sample_ddpm(model, shape, device, timesteps=1000,
     return x
 ```
 
-### DDIM Sampling (Deterministic)
+### Сэмплирование DDIM (детерминированное)
 
-DDIM (Denoising Diffusion Implicit Models) позволяет детерминированную генерацию и более быстрый sampling:
+DDIM (Denoising Diffusion Implicit Models) даёт детерминированную генерацию и более быстрый sampling:
 
 ```python
 def sample_ddim(model, shape, device, timesteps=50, eta=0.0):
     """
-    DDIM sampling - быстрее и детерминированно (если eta=0)
+    DDIM sampling — быстрее и детерминированно (если eta=0)
     
     Args:
         eta: параметр стохастичности (0 = детерминированный, 1 = стохастический)
@@ -543,7 +543,7 @@ def sample_ddim(model, shape, device, timesteps=50, eta=0.0):
         
         predicted_noise = model(x, t)
         
-        # DDIM update rule
+        # Правило обновления DDIM
         alpha_bar_t = alphas_cumprod[i]
         alpha_bar_t_prev = alphas_cumprod[max(0, i - step_size)]
         
@@ -563,9 +563,9 @@ def sample_ddim(model, shape, device, timesteps=50, eta=0.0):
 
 ---
 
-## Implementation Example
+## Пример реализации
 
-### Complete DDPM Implementation
+### Полная реализация DDPM
 
 ```python
 import torch
@@ -608,22 +608,22 @@ class Block(nn.Module):
         self.relu = nn.ReLU()
 
     def forward(self, x, t):
-        # First conv
+        # Первая свёртка
         h = self.bnorm1(self.relu(self.conv1(x)))
         # Time embedding
         time_emb = self.relu(self.time_mlp(t))
-        # Extend last 2 dimensions
+        # Расширяем последние 2 размерности
         time_emb = time_emb[(..., ) + (None, ) * 2]
-        # Add time channel
+        # Добавляем канал времени
         h = h + time_emb
-        # Second conv
+        # Вторая свёртка
         h = self.bnorm2(self.relu(self.conv2(h)))
-        # Down or Upsample
+        # Downsample или upsample
         return self.transform(h)
 
 
 class SimpleUNet(nn.Module):
-    """Упрощенная U-Net архитектура для diffusion model"""
+    """Упрощённая архитектура U-Net для diffusion model"""
     def __init__(self):
         super().__init__()
         image_channels = 3
@@ -639,7 +639,7 @@ class SimpleUNet(nn.Module):
             nn.ReLU()
         )
 
-        # Initial projection
+        # Начальная проекция
         self.conv0 = nn.Conv2d(image_channels, down_channels[0], 3, padding=1)
 
         # Downsample
@@ -657,18 +657,18 @@ class SimpleUNet(nn.Module):
         self.output = nn.Conv2d(up_channels[-1], out_dim, 1)
 
     def forward(self, x, timestep):
-        # Embedd time
+        # Эмбеддинг времени
         t = self.time_mlp(timestep)
-        # Initial conv
+        # Начальная свёртка
         x = self.conv0(x)
-        # Unet
+        # U-Net
         residual_inputs = []
         for down in self.downs:
             x = down(x, t)
             residual_inputs.append(x)
         for up in self.ups:
             residual_x = residual_inputs.pop()
-            # Add residual x as additional channels
+            # Добавляем residual x как дополнительные каналы
             x = torch.cat((x, residual_x), dim=1)
             x = up(x, t)
         return self.output(x)
@@ -754,7 +754,7 @@ if __name__ == "__main__":
     transform = transforms.Compose([
         transforms.Resize((64, 64)),
         transforms.ToTensor(),
-        transforms.Normalize((0.5,), (0.5,))  # Normalize to [-1, 1]
+        transforms.Normalize((0.5,), (0.5,))  # нормализация в [-1, 1]
     ])
     dataset = datasets.CIFAR10(root="./data", train=True, download=True, transform=transform)
     dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
@@ -773,14 +773,14 @@ if __name__ == "__main__":
 
 ---
 
-## Key Variants and Extensions
+## Ключевые варианты и расширения
 
 ### 1. DDIM (Denoising Diffusion Implicit Models)
 
 **Ключевые особенности:**
-- Детерминированная генерация (при $\eta = 0$)
-- Более быстрый sampling (меньше шагов)
-- Обратимость процесса
+- детерминированная генерация (при $\eta = 0$)
+- более быстрый sampling (меньше шагов)
+- обратимость процесса
 
 **Формула обновления:**
 
@@ -788,12 +788,12 @@ $$\mathbf{x}_{t-1} = \sqrt{\bar{\alpha}_{t-1}}\hat{\mathbf{x}}_0 + \sqrt{1-\bar{
 
 ### 2. Latent Diffusion Models (Stable Diffusion)
 
-**Идея:** Работают в латентном пространстве VAE вместо пиксельного пространства.
+**Идея:** работают в латентном пространстве VAE вместо пиксельного пространства.
 
 **Преимущества:**
-- Быстрее (меньше размерность)
-- Меньше памяти
-- Высокое качество
+- быстрее (меньше размерность)
+- меньше памяти
+- высокое качество
 
 **Архитектура:**
 1. VAE encoder: изображение → латентное представление
@@ -802,23 +802,23 @@ $$\mathbf{x}_{t-1} = \sqrt{\bar{\alpha}_{t-1}}\hat{\mathbf{x}}_0 + \sqrt{1-\bar{
 
 ### 3. Classifier Guidance
 
-**Идея:** Использование предобученного классификатора для улучшения генерации.
+**Идея:** использовать предобученный классификатор, чтобы улучшить генерацию.
 
 **Score function:**
 
 $$\nabla_{\mathbf{x}_t} \log p(\mathbf{x}_t | y) = \nabla_{\mathbf{x}_t} \log p(\mathbf{x}_t) + s \cdot \nabla_{\mathbf{x}_t} \log p(y | \mathbf{x}_t)$$
 
-где $s$ - guidance scale.
+где $s$ — guidance scale.
 
 ### 4. Classifier-Free Guidance
 
-**Идея:** Обучение условной и безусловной моделей одновременно, без классификатора.
+**Идея:** обучать условную и безусловную модели одновременно, без классификатора.
 
 **Предсказание:**
 
 $$\tilde{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t, y) = \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, \emptyset) + s \cdot (\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, y) - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, \emptyset))$$
 
-где $s$ - guidance scale, $\emptyset$ - пустое условие.
+где $s$ — guidance scale, $\emptyset$ — пустое условие.
 
 ### 5. Score-Based Generative Models (SGM)
 
@@ -826,61 +826,61 @@ $$\tilde{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t, y) = \boldsymbol{\epsilon}_
 
 $$\mathcal{L} = \mathbb{E}_{t, \mathbf{x}_t} \left[ \lambda(t) ||\mathbf{s}_\theta(\mathbf{x}_t, t) - \nabla_{\mathbf{x}_t} \log p_t(\mathbf{x}_t)||^2 \right]$$
 
-где $\mathbf{s}_\theta$ - score network.
+где $\mathbf{s}_\theta$ — score network.
 
 ### 6. Progressive Distillation
 
-**Идея:** Обучение быстрых моделей через дистилляцию медленных.
+**Идея:** обучать быстрые модели через дистилляцию медленных.
 
-**Результат:** Генерация за 4-8 шагов вместо 1000.
+**Результат:** генерация за 4–8 шагов вместо 1000.
 
 ### 7. Rectified Flow / Flow Matching
 
-**Новый подход (2023-2024):** Прямой путь от шума к данным.
+**Новый подход (2023-2024):** прямой путь от шума к данным.
 
 $$\frac{d\mathbf{x}_t}{dt} = \mathbf{v}_\theta(\mathbf{x}_t, t)$$
 
-где $\mathbf{v}_\theta$ - velocity field.
+где $\mathbf{v}_\theta$ — velocity field.
 
 ---
 
-## Applications
+## Применения
 
-### 1. Image Generation
+### 1. Генерация изображений
 
-**Text-to-Image:**
+**Text-to-image:**
 - DALL-E 2 (OpenAI)
 - Stable Diffusion (Stability AI)
 - Midjourney
 - Imagen (Google)
 
-**Image-to-Image:**
-- Inpainting (заполнение пропусков)
-- Super-resolution
-- Style transfer
-- Colorization
+**Image-to-image:**
+- inpainting (заполнение пропусков)
+- super-resolution
+- style transfer
+- colorization (раскрашивание)
 
-### 2. Video Generation
+### 2. Генерация видео
 
-**Text-to-Video:**
+**Text-to-video:**
 - Runway Gen-2
 - Pika Labs
 - Stable Video Diffusion
 - Sora (OpenAI, 2024)
 
-**Video Editing:**
-- Inpainting в видео
-- Video-to-video translation
+**Редактирование видео:**
+- inpainting в видео
+- video-to-video translation
 
-#### Как Diffusion Models Генерируют Видео?
+#### Как diffusion models генерируют видео?
 
-Генерация видео с помощью diffusion models - это расширение image generation на временную размерность. Основная идея: **модель учится генерировать последовательность кадров, сохраняя временную согласованность**.
+Генерация видео с помощью diffusion models — это расширение image generation на временную размерность. Основная идея: **модель учится генерировать последовательность кадров, сохраняя временную согласованность**.
 
-##### Архитектурные Подходы
+##### Архитектурные подходы
 
-**1. Frame-by-Frame Generation (Базовый)**
+**1. Генерация кадр за кадром (frame-by-frame, базовый вариант)**
 
-Самый простой подход - генерировать каждый кадр независимо:
+Самый простой подход — генерировать каждый кадр независимо:
 
 ```python
 def generate_video_frames(model, text_prompt, num_frames=16):
@@ -896,59 +896,59 @@ def generate_video_frames(model, text_prompt, num_frames=16):
     return frames  # Проблема: нет временной согласованности
 ```
 
-**Проблема**: Кадры не связаны между собой, получается "дрожащее" видео.
+**Проблема**: кадры не связаны между собой, получается «дрожащее» видео.
 
-**2. Temporal Conditioning (Временное Условие)**
+**2. Temporal conditioning (временное условие)**
 
 Добавляем информацию о временной позиции кадра:
 
 ```python
 def generate_video_with_temporal(model, text_prompt, num_frames=16):
     """
-    Генерация с учетом временной позиции
+    Генерация с учётом временной позиции
     """
     frames = []
     for frame_idx in range(num_frames):
         # Добавляем временное условие
         temporal_embedding = get_temporal_embedding(frame_idx, num_frames)
         
-        # Генерируем кадр с учетом времени
+        # Генерируем кадр с учётом времени
         frame = sample_ddpm(model, text_prompt, temporal_embedding)
         frames.append(frame)
     
     return frames
 ```
 
-**3. 3D Convolutions / Spatio-Temporal Attention**
+**3. 3D-свёртки / spatio-temporal attention**
 
-Используем 3D свертки или spatio-temporal attention для обработки видео как единого объема:
+Используем 3D-свёртки или spatio-temporal attention, чтобы обрабатывать видео как единый объём:
 
 ```python
 class VideoDiffusionModel(nn.Module):
     """
-    Модель для генерации видео с 3D свертками
+    Модель для генерации видео с 3D-свёртками
     """
     def __init__(self):
         super().__init__()
-        # 3D свертки для обработки пространства-времени
+        # 3D-свёртки для обработки пространства-времени
         self.conv3d_1 = nn.Conv3d(3, 64, kernel_size=(3, 3, 3), padding=1)
         self.conv3d_2 = nn.Conv3d(64, 128, kernel_size=(3, 3, 3), padding=1)
         # ... остальные слои
         
     def forward(self, video_noise, t, text_embedding):
         """
-        video_noise: [B, C, T, H, W] - зашумленное видео
+        video_noise: [B, C, T, H, W] — зашумлённое видео
         t: временной шаг диффузии
         text_embedding: текстовое условие
         """
-        # Обработка видео как 3D объема
+        # Обработка видео как 3D-объёма
         x = self.conv3d_1(video_noise)
         x = self.conv3d_2(x)
         # ...
         return predicted_noise
 ```
 
-**4. Latent Video Diffusion (Stable Video Diffusion)**
+**4. Latent video diffusion (Stable Video Diffusion)**
 
 Работа в латентном пространстве VAE:
 
@@ -963,21 +963,21 @@ denoised_latents = diffusion_model(video_latents, text_prompt)
 generated_frames = vae_decoder(denoised_latents)  # [B, C, T, H, W]
 ```
 
-##### Процесс Обучения для Видео
+##### Процесс обучения для видео
 
-**Forward Process для Видео:**
+**Прямой процесс для видео:**
 
 Аналогично изображениям, но применяем к каждому кадру:
 
 $$q(\mathbf{v}_t | \mathbf{v}_{t-1}) = \prod_{i=1}^{F} \mathcal{N}(\mathbf{v}_{t,i}; \sqrt{1-\beta_t}\mathbf{v}_{t-1,i}, \beta_t \mathbf{I})$$
 
-где $\mathbf{v}_t = [\mathbf{x}_{t,1}, \mathbf{x}_{t,2}, ..., \mathbf{x}_{t,F}]$ - видео с $F$ кадрами.
+где $\mathbf{v}_t = [\mathbf{x}_{t,1}, \mathbf{x}_{t,2}, ..., \mathbf{x}_{t,F}]$ — видео с $F$ кадрами.
 
-**Ключевое отличие**: Нужно сохранять **временную согласованность** между кадрами.
+**Ключевое отличие**: нужно сохранять **временную согласованность** между кадрами.
 
-##### Техники Обеспечения Временной Согласованности
+##### Техники обеспечения временной согласованности
 
-**1. Temporal Attention**
+**1. Temporal attention**
 
 Механизм внимания между кадрами:
 
@@ -1008,7 +1008,7 @@ class TemporalAttention(nn.Module):
         return attended
 ```
 
-**2. Optical Flow Conditioning**
+**2. Conditioning по optical flow**
 
 Использование optical flow для обеспечения плавности:
 
@@ -1024,7 +1024,7 @@ def compute_optical_flow(frame1, frame2):
 # При генерации используем flow для предсказания следующего кадра
 ```
 
-**3. Frame Interpolation**
+**3. Интерполяция кадров (frame interpolation)**
 
 Генерация промежуточных кадров для плавности:
 
@@ -1043,23 +1043,23 @@ def interpolate_frames(frame1, frame2, num_intermediate=2):
     return [frame1] + intermediate_frames + [frame2]
 ```
 
-##### Современные Модели (2024)
+##### Современные модели (2024)
 
 **1. Sora (OpenAI, 2024)**
 
 Ключевые особенности:
-- **Diffusion Transformer (DiT)**: Использует Transformer вместо U-Net
-- **Spacetime Patches**: Разбивает видео на пространственно-временные патчи
-- **Scaling**: Масштабируется до очень больших моделей
-- **Long Videos**: Может генерировать видео до 60 секунд
-- **Физика**: Понимает физические законы (гравитация, отражения)
+- **Diffusion Transformer (DiT)**: использует Transformer вместо U-Net
+- **Spacetime patches**: разбивает видео на пространственно-временные патчи
+- **Scaling**: масштабируется до очень больших моделей
+- **Long videos**: может генерировать видео до 60 секунд
+- **Физика**: понимает физические законы (гравитация, отражения)
 
 **Архитектура Sora:**
 
 ```python
 class SoraModel(nn.Module):
     """
-    Упрощенная версия архитектуры Sora
+    Упрощённая версия архитектуры Sora
     """
     def __init__(self):
         super().__init__()
@@ -1098,20 +1098,20 @@ class SoraModel(nn.Module):
 
 **2. Stable Video Diffusion (Stability AI, 2024)**
 
-- Основан на Stable Diffusion
-- Генерирует короткие видео (обычно 4-25 кадров)
-- Открытая модель
-- Хорошее качество для коротких клипов
+- основан на Stable Diffusion
+- генерирует короткие видео (обычно 4–25 кадров)
+- открытая модель
+- хорошее качество для коротких клипов
 
 **3. Runway Gen-2**
 
-- Коммерческая модель
-- Хорошее качество генерации
-- Поддержка различных условий (текст, изображение)
+- коммерческая модель
+- хорошее качество генерации
+- поддержка разных условий (текст, изображение)
 
-##### Процесс Генерации Видео
+##### Процесс генерации видео
 
-**Полный Pipeline:**
+**Полный pipeline:**
 
 ```python
 def generate_video_from_text(model, text_prompt, num_frames=16, 
@@ -1128,7 +1128,7 @@ def generate_video_from_text(model, text_prompt, num_frames=16,
         (1, 4, num_frames, resolution[0]//8, resolution[1]//8)
     )
     
-    # 3. Diffusion процесс (обратный)
+    # 3. Diffusion-процесс (обратный)
     for t in reversed(range(timesteps)):
         # Предсказываем шум
         predicted_noise = model(
@@ -1153,22 +1153,22 @@ def generate_video_from_text(model, text_prompt, num_frames=16,
     return video_frames
 ```
 
-##### Вызовы Генерации Видео
+##### Вызовы генерации видео
 
-1. **Временная Согласованность**: Кадры должны плавно переходить друг в друга
-2. **Долгие Видео**: Сложно генерировать длинные последовательности
-3. **Вычислительная Сложность**: Видео требует намного больше памяти и вычислений
-4. **Физическая Реалистичность**: Движения должны подчиняться физическим законам
-5. **Текстура и Детали**: Сохранение деталей во времени
+1. **Временная согласованность**: кадры должны плавно переходить друг в друга
+2. **Длинные видео**: сложно генерировать длинные последовательности
+3. **Вычислительная сложность**: видео требует намного больше памяти и вычислений
+4. **Физическая реалистичность**: движения должны подчиняться физическим законам
+5. **Текстура и детали**: сохранение деталей во времени
 
-##### Будущие Направления
+##### Будущие направления
 
-- **Более Длинные Видео**: Генерация минутных и часовых видео
-- **Лучшая Физика**: Более реалистичное моделирование физики
-- **Контроль Движения**: Точный контроль над движениями объектов
-- **Мультимодальность**: Генерация видео с аудио синхронизацией
+- **Более длинные видео**: генерация минутных и часовых роликов
+- **Лучшая физика**: более реалистичное моделирование физики
+- **Контроль движения**: точный контроль над движениями объектов
+- **Мультимодальность**: генерация видео с синхронизацией аудио
 
-### 3. 3D Generation
+### 3. Генерация 3D
 
 **Text-to-3D:**
 - DreamFusion
@@ -1178,234 +1178,234 @@ def generate_video_from_text(model, text_prompt, num_frames=16,
 **Image-to-3D:**
 - Zero-1-to-3
 
-### 4. Audio Generation
+### 4. Генерация аудио
 
-**Text-to-Speech:**
+**Text-to-speech:**
 - AudioLM (Google)
 - MusicLM
 
-**Audio Editing:**
-- Audio inpainting
-- Style transfer для аудио
+**Редактирование аудио:**
+- audio inpainting
+- style transfer для аудио
 
-### 5. Medical Imaging
+### 5. Медицинская визуализация
 
-- Генерация медицинских изображений
-- Data augmentation
-- Anomaly detection
+- генерация медицинских изображений
+- data augmentation
+- anomaly detection
 
-### 6. Scientific Applications
+### 6. Научные применения
 
-- Генерация молекулярных структур
-- Protein folding
-- Material design
+- генерация молекулярных структур
+- protein folding
+- material design
 
 ---
 
-## Current Status (2023-2026)
+## Текущее состояние (2023-2026)
 
-### State-of-the-Art Models (2024-2025)
+### Модели state-of-the-art (2024-2025)
 
-#### Image Generation
+#### Генерация изображений
 
 1. **Stable Diffusion 3 (2024)**
-   - Улучшенная архитектура (MMDiT)
-   - Лучшее понимание текста
-   - Более детализированная генерация
+   - улучшенная архитектура (MMDiT)
+   - лучшее понимание текста
+   - более детализированная генерация
 
 2. **DALL-E 3 (2023)**
-   - Интеграция с GPT-4
-   - Улучшенное следование промптам
-   - Более безопасная генерация
+   - интеграция с GPT-4
+   - улучшенное следование промптам
+   - более безопасная генерация
 
 3. **Midjourney v6 (2024)**
-   - Фотореалистичная генерация
-   - Улучшенная композиция
+   - фотореалистичная генерация
+   - улучшенная композиция
 
-#### Video Generation
+#### Генерация видео
 
 1. **Sora (OpenAI, 2024)**
-   - Генерация видео до 60 секунд
-   - Понимание физики и пространства
-   - Мультимодальные условия
+   - генерация видео до 60 секунд
+   - понимание физики и пространства
+   - мультимодальные условия
 
 2. **Stable Video Diffusion (2024)**
-   - Открытая модель для video generation
-   - Хорошее качество и контроль
+   - открытая модель для video generation
+   - хорошее качество и контроль
 
-#### 3D Generation
+#### Генерация 3D
 
 1. **3D Gaussian Splatting + Diffusion**
-   - Быстрая генерация 3D сцен
-   - Высокое качество рендеринга
+   - быстрая генерация 3D-сцен
+   - высокое качество рендеринга
 
 2. **Triplane Diffusion**
-   - Эффективное представление 3D
+   - эффективное представление 3D
 
-### Recent Advances
+### Недавние достижения
 
 #### 1. Consistency Models (2023)
 
-**Идея:** Прямое отображение шума в данные за один шаг.
+**Идея:** прямое отображение шума в данные за один шаг.
 
 $$\mathbf{x}_0 = f_\theta(\mathbf{x}_t, t)$$
 
 **Преимущества:**
-- Очень быстрая генерация
-- Детерминированная
-- Можно использовать как few-step diffusion
+- очень быстрая генерация
+- детерминированная
+- можно использовать как few-step diffusion
 
 #### 2. Latent Consistency Models (LCM, 2024)
 
-- Работают в латентном пространстве
-- Генерация за 4 шага
-- Используется в Stable Diffusion
+- работают в латентном пространстве
+- генерация за 4 шага
+- используются в Stable Diffusion
 
 #### 3. Flow Matching (2023-2024)
 
 **Rectified Flow / Flow Matching:**
-- Прямой путь от шума к данным
-- Более эффективное обучение
-- Быстрая генерация
+- прямой путь от шума к данным
+- более эффективное обучение
+- быстрая генерация
 
 #### 4. Diffusion Transformers (DiT, 2023)
 
-**Идея:** Замена U-Net на Transformer архитектуру.
+**Идея:** заменить U-Net на архитектуру Transformer.
 
 **Преимущества:**
-- Масштабируемость
-- Лучшее качество при больших моделях
-- Используется в Sora
+- масштабируемость
+- лучшее качество при больших моделях
+- используется в Sora
 
-#### 5. Multimodal Diffusion
+#### 5. Мультимодальная диффузия
 
-- **Text + Image**: Text-to-image, image-to-text
-- **Audio + Text**: Audio generation
-- **Video + Text**: Video generation
-- **3D + Text**: 3D generation
+- **Text + Image**: text-to-image, image-to-text
+- **Audio + Text**: генерация аудио
+- **Video + Text**: генерация видео
+- **3D + Text**: генерация 3D
 
-### Performance Improvements
+### Улучшения качества и скорости
 
-**Speed:**
+**Скорость:**
 - 2020: 1000 шагов (медленно)
 - 2022: 50 шагов (DDIM)
-- 2023: 4-8 шагов (LCM, Progressive Distillation)
+- 2023: 4–8 шагов (LCM, Progressive Distillation)
 - 2024: 1 шаг (Consistency Models)
 
-**Quality:**
-- Постоянное улучшение FID, IS scores
-- Лучшее понимание текста
-- Более детализированная генерация
+**Качество:**
+- постоянное улучшение FID, IS scores
+- лучшее понимание текста
+- более детализированная генерация
 
-### Open Challenges
+### Открытые проблемы
 
-1. **Speed vs Quality Trade-off**: Быстрая генерация часто жертвует качеством
-2. **Control**: Точный контроль над генерацией все еще сложен
-3. **Consistency**: Поддержание консистентности в длинных последовательностях
-4. **Memory**: Большие модели требуют много памяти
-5. **Bias and Safety**: Проблемы с bias и безопасной генерацией
-
----
-
-## Comparison with Other Generative Models
-
-### Diffusion Models vs GANs
-
-| Аспект | Diffusion Models | GANs |
-|--------|------------------|------|
-| **Training Stability** | Стабильное обучение | Может быть нестабильным |
-| **Mode Collapse** | Нет проблемы | Может страдать от mode collapse |
-| **Sample Quality** | Очень высокое | Высокое (но может быть артефакты) |
-| **Diversity** | Высокая | Зависит от архитектуры |
-| **Sampling Speed** | Медленное (но улучшается) | Быстрое |
-| **Likelihood** | Можно оценить (через ELBO) | Нет явного likelihood |
-| **Conditioning** | Легко добавляется | Требует специальных техник |
-
-### Diffusion Models vs VAEs
-
-| Аспект | Diffusion Models | VAEs |
-|--------|------------------|------|
-| **Sample Quality** | Очень высокое | Часто размытое |
-| **Latent Space** | Нет явного latent space | Структурированный latent space |
-| **Interpolation** | Сложнее | Легко в latent space |
-| **Training** | Стабильное | Может быть нестабильным |
-| **Likelihood** | Можно оценить | Явный ELBO |
-| **Speed** | Медленное | Быстрое |
-
-### Diffusion Models vs Autoregressive Models
-
-| Аспект | Diffusion Models | Autoregressive (PixelCNN, etc.) |
-|--------|------------------|--------------------------------|
-| **Parallel Generation** | Можно генерировать параллельно | Последовательное |
-| **Long-range Dependencies** | Хорошо | Ограничено |
-| **Sample Quality** | Очень высокое | Хорошее |
-| **Speed** | Медленное | Медленное (последовательное) |
-
-### When to Use Diffusion Models
-
-**Используйте Diffusion Models когда:**
-- Нужно очень высокое качество генерации
-- Важна стабильность обучения
-- Нужна условная генерация (текст, классы)
-- Можно позволить медленную генерацию (или использовать быстрые варианты)
-
-**Рассмотрите альтернативы когда:**
-- Нужна очень быстрая генерация (GANs, VAEs)
-- Нужен структурированный latent space (VAEs)
-- Ограничены ресурсы (VAEs, малые GANs)
+1. **Компромисс скорость vs качество**: быстрая генерация часто жертвует качеством
+2. **Контроль**: точный контроль над генерацией всё ещё сложен
+3. **Согласованность (consistency)**: трудно удерживать согласованность в длинных последовательностях
+4. **Память**: большие модели требуют много памяти
+5. **Bias и безопасность**: проблемы со смещениями и безопасной генерацией
 
 ---
 
-## References
+## Сравнение с другими генеративными моделями
 
-### Related Documents
+### Diffusion Models vs GAN
 
-- **[Gaussian Distribution (Normal Distribution)](../gaussian-distribution/README.md)**: Фундаментальное распределение, используемое для добавления и удаления шума в diffusion models
-- **[Variational Autoencoders (VAEs)](../variational-autoencoders-vaes/README.md)**: Альтернативный подход к генеративному моделированию с явным latent space
-- **[Generative Adversarial Networks (GANs)](../generative-adversarial-networks-gans/README.md)**: Adversarial подход к генерации, сравнение с diffusion models
+| Аспект | Diffusion Models | GAN |
+|--------|------------------|-----|
+| **Стабильность обучения** | стабильное обучение | может быть нестабильным |
+| **Mode collapse** | нет этой проблемы | может страдать от mode collapse |
+| **Качество сэмплов** | очень высокое | высокое (но возможны артефакты) |
+| **Разнообразие** | высокое | зависит от архитектуры |
+| **Скорость sampling** | медленное (но улучшается) | быстрое |
+| **Likelihood** | можно оценить (через ELBO) | нет явного likelihood |
+| **Conditioning** | легко добавляется | нужны специальные техники |
 
-### Key Papers
+### Diffusion Models vs VAE
 
-1. **Sohl-Dickstein et al. (2015)**: "Deep Unsupervised Learning using Nonequilibrium Thermodynamics" - Первая работа по diffusion models
+| Аспект | Diffusion Models | VAE |
+|--------|------------------|-----|
+| **Качество сэмплов** | очень высокое | часто размытое |
+| **Латентное пространство** | нет явного latent space | структурированный latent space |
+| **Интерполяция** | сложнее | легко в latent space |
+| **Обучение** | стабильное | может быть нестабильным |
+| **Likelihood** | можно оценить | явный ELBO |
+| **Скорость** | медленное | быстрое |
 
-2. **Ho et al. (2020)**: "Denoising Diffusion Probabilistic Models" - Популяризация и упрощение формулировки
+### Diffusion Models vs авторегрессионные модели
 
-3. **Song et al. (2021)**: "Denoising Diffusion Implicit Models" - DDIM, детерминированная генерация
+| Аспект | Diffusion Models | Авторегрессионные (PixelCNN и др.) |
+|--------|------------------|-----------------------------------|
+| **Параллельная генерация** | можно генерировать параллельно | последовательная |
+| **Длинные зависимости** | хорошо | ограничено |
+| **Качество сэмплов** | очень высокое | хорошее |
+| **Скорость** | медленное | медленное (последовательное) |
 
-4. **Rombach et al. (2022)**: "High-Resolution Image Synthesis with Latent Diffusion Models" - Stable Diffusion
+### Когда использовать diffusion models
 
-5. **Ho & Salimans (2022)**: "Classifier-Free Diffusion Guidance" - Classifier-free guidance
+**Используйте diffusion models, когда:**
+- нужно очень высокое качество генерации
+- важна стабильность обучения
+- нужна условная генерация (текст, классы)
+- можно позволить медленную генерацию (или использовать быстрые варианты)
 
-6. **Song et al. (2023)**: "Consistency Models" - Одношаговая генерация
+**Рассмотрите альтернативы, когда:**
+- нужна очень быстрая генерация (GAN, VAE)
+- нужен структурированный latent space (VAE)
+- ограничены ресурсы (VAE, небольшие GAN)
 
-7. **Song et al. (2023)**: "Consistency Trajectory Models" - Улучшенные consistency models
+---
 
-8. **Lipman et al. (2023)**: "Flow Matching for Generative Modeling" - Flow matching подход
+## Источники
 
-9. **Peebles & Xie (2023)**: "Scalable Diffusion Models with Transformers" - DiT архитектура
+### Связанные документы
 
-10. **Luo et al. (2023)**: "Latent Consistency Models" - LCM для быстрой генерации
+- **[Gaussian Distribution (Normal Distribution)](../gaussian-distribution/README.md)**: фундаментальное распределение, используемое для добавления и удаления шума в diffusion models
+- **[Variational Autoencoders (VAEs)](../variational-autoencoders-vaes/README.md)**: альтернативный подход к генеративному моделированию с явным latent space
+- **[Generative Adversarial Networks (GANs)](../generative-adversarial-networks-gans/README.md)**: adversarial-подход к генерации, сравнение с diffusion models
 
-### Recent Papers (2024-2025)
+### Ключевые статьи
 
-1. **OpenAI (2024)**: "Sora: Creating Video from Text" - Video generation model
+1. **Sohl-Dickstein et al. (2015)**: "Deep Unsupervised Learning using Nonequilibrium Thermodynamics" — первая работа по diffusion models
 
-2. **Stability AI (2024)**: "Stable Diffusion 3" - Улучшенная версия Stable Diffusion
+2. **Ho et al. (2020)**: "Denoising Diffusion Probabilistic Models" — популяризация и упрощение формулировки
 
-3. **Google (2024)**: "Imagen 3" - Улучшенная text-to-image модель
+3. **Song et al. (2021)**: "Denoising Diffusion Implicit Models" — DDIM, детерминированная генерация
 
-### Resources
+4. **Rombach et al. (2022)**: "High-Resolution Image Synthesis with Latent Diffusion Models" — Stable Diffusion
 
-- **Hugging Face Diffusers**: Библиотека для работы с diffusion models
-- **Stable Diffusion WebUI**: Пользовательский интерфейс для Stable Diffusion
-- **Papers with Code**: Актуальные результаты и реализации
+5. **Ho & Salimans (2022)**: "Classifier-Free Diffusion Guidance" — classifier-free guidance
 
-### Mathematical Background
+6. **Song et al. (2023)**: "Consistency Models" — одношаговая генерация
 
-- **Stochastic Processes**: Теория марковских процессов
+7. **Song et al. (2023)**: "Consistency Trajectory Models" — улучшенные consistency models
+
+8. **Lipman et al. (2023)**: "Flow Matching for Generative Modeling" — подход flow matching
+
+9. **Peebles & Xie (2023)**: "Scalable Diffusion Models with Transformers" — архитектура DiT
+
+10. **Luo et al. (2023)**: "Latent Consistency Models" — LCM для быстрой генерации
+
+### Недавние статьи (2024-2025)
+
+1. **OpenAI (2024)**: "Sora: Creating Video from Text" — модель генерации видео
+
+2. **Stability AI (2024)**: "Stable Diffusion 3" — улучшенная версия Stable Diffusion
+
+3. **Google (2024)**: "Imagen 3" — улучшенная text-to-image модель
+
+### Ресурсы
+
+- **Hugging Face Diffusers**: библиотека для работы с diffusion models
+- **Stable Diffusion WebUI**: пользовательский интерфейс для Stable Diffusion
+- **Papers with Code**: актуальные результаты и реализации
+
+### Математический фон
+
+- **Stochastic Processes**: теория марковских процессов
 - **Variational Inference**: ELBO и вариационные методы
-- **Score Matching**: Альтернативная формулировка через score functions
-- **Optimal Transport**: Связь с теорией оптимального транспорта
+- **Score Matching**: альтернативная формулировка через score functions
+- **Optimal Transport**: связь с теорией оптимального транспорта
 
 ---
 

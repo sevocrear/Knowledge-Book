@@ -20,11 +20,11 @@ status: canonical
 lang: ru
 type: topic
 slug: gaussian-distribution
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Гауссово Распределение (Normal Distribution): Основы
 
-## Table of Contents
+## Оглавление
 
 1. [Как объяснить 5-летнему ребёнку](#как-объяснить-5-летнему-ребёнку)
 2. [Введение](#введение)
@@ -35,7 +35,7 @@ updated: 2026-08-10
 7. [Применение в Машинном Обучении](#применение-в-машинном-обучении)
 8. [Связь с Diffusion Models](#связь-с-diffusion-models)
 9. [Визуализация и Примеры](#визуализация-и-примеры)
-10. [References](#references)
+10. [Источники](#источники)
 
 ---
 
@@ -395,7 +395,7 @@ plt.show()
 
 ---
 
-## References
+## Источники
 
 ### Related Documents
 

@@ -23,14 +23,14 @@ status: canonical
 lang: ru
 type: topic
 slug: sota-metrics-for-detection-segmentation-multiclass-classification
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # SOTA-метрики и протоколы оценки для детекции, сегментации и мультиклассовой классификации
 
-## Table of Contents
+## Оглавление
 
 1. [Введение](#введение)
-2. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
+2. [Как объяснить 5-летнему ребёнку](#как-объяснить-5-летнему-ребёнку)
 3. [Два слоя “метрики”: что именно меряем](#два-слоя-метрики-что-именно-меряем)
 4. [Детекция (Object Detection)](#детекция-object-detection)
   1. [COCO-style AP (де-факто стандарт)](#coco-style-ap-де-факто-стандарт)
@@ -48,7 +48,7 @@ updated: 2026-08-10
   3. [Логлосс (NLL), калибровка, Brier/ECE](#логлосс-nll-калибровка-brierece)
   4. [Multiclass ROC AUC / PR AUC: когда уместно](#multiclass-roc-auc--pr-auc-когда-уместно)
 7. [Практический cheat sheet: что писать в статье/репорте](#практический-cheat-sheet-что-писать-в-статьерепорте)
-8. [References](#references)
+8. [Источники](#источники)
 
 ---
 
@@ -65,7 +65,7 @@ updated: 2026-08-10
 
 ---
 
-## How would I describe it to a person who is 5 years old
+## Как объяснить 5-летнему ребёнку
 
 Мы проверяем, насколько хорошо “робот”:
 
@@ -332,7 +332,7 @@ $$
 
 ---
 
-## References
+## Источники
 
 - COCO: Microsoft COCO dataset and evaluation (AP/AR, IoU sweep).
 - LVIS: long-tail instance segmentation evaluation (часто показывает AP по частоте классов).

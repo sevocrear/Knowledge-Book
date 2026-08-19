@@ -23,20 +23,20 @@ status: canonical
 lang: ru
 type: topic
 slug: action-recognition-and-object-tracking-metrics
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Метрики оценки Action Recognition и Object Tracking
 
-## Table of Contents
+## Оглавление
 1. [Введение](#введение)
-2. [How would I describe it to a person who is 5 years old](#how-would-i-describe-it-to-a-person-who-is-5-years-old)
+2. [Как объяснить 5-летнему ребёнку](#как-объяснить-5-летнему-ребёнку)
 3. [Какие подзадачи мы оцениваем](#какие-подзадачи-мы-оцениваем)
 4. [Метрики для Action Recognition](#метрики-для-action-recognition)
 5. [Метрики для Object Tracking](#метрики-для-object-tracking)
 6. [Как выбирать метрики под задачу](#как-выбирать-метрики-под-задачу)
 7. [Типичные ошибки при интерпретации](#типичные-ошибки-при-интерпретации)
 8. [Краткий cheat sheet](#краткий-cheat-sheet)
-9. [References](#references)
+9. [Источники](#источники)
 
 ---
 
@@ -51,7 +51,7 @@ updated: 2026-08-10
 
 ---
 
-## How would I describe it to a person who is 5 years old
+## Как объяснить 5-летнему ребёнку
 
 Представь, что робот смотрит мультик.
 
@@ -262,7 +262,7 @@ $$
 
 ---
 
-## References
+## Источники
 
 ### Related Documents
 - **[Confidence, Calibration and Uncertainty](../how-models-predict-confidence-and-calibration/README.md)** - калибровка confidence (ECE/NLL) для классификации.

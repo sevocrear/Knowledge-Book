@@ -20,11 +20,11 @@ status: canonical
 lang: ru
 type: topic
 slug: normalization-layers-batchnorm-layernorm
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # Batch Normalization и Layer Normalization
 
-## Table of Contents
+## Оглавление
 
 1. Мотивация: зачем нужна нормализация активаций
 2. Batch Normalization: идея, формулы, обучение/инференс
@@ -32,7 +32,7 @@ updated: 2026-08-10
 4. BatchNorm vs LayerNorm: сравнение
 5. Связь с обучением (learning rate, стабильность, регуляризация)
 6. Как бы я объяснил это 5‑летнему ребёнку
-7. References
+7. Источники
 
 ---
 
@@ -261,7 +261,7 @@ $$
 
 ---
 
-### 7. References
+### 7. Источники
 
 - **Связанные документы в этом knowledge‑book**:
   - [`convolutions-and-parameters-in-cnn`](../convolutions-and-parameters-in-cnn/README.md) — про свёртки и число параметров; BatchNorm в CNN обычно используется сразу после Conv.

@@ -22,11 +22,11 @@ status: canonical
 lang: ru
 type: topic
 slug: roc-curve-and-roc-auc
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # ROC-кривые и ROC AUC: Оценка Классификаторов
 
-## Table of Contents
+## Оглавление
 
 1. [Введение](#введение)
 2. [Базовые Понятия: TP, FP, FN, TN](#базовые-понятия-tp-fp-fn-tn)
@@ -40,7 +40,7 @@ updated: 2026-08-10
 10. [ROC vs PR-кривые](#roc-vs-pr-кривые)
 11. [Примеры Кода (Python, sklearn)](#примеры-кода-python-sklearn)
 12. [Интуитивное Объяснение “для 5-летнего”](#интуитивное-объяснение-для-5-летнего)
-13. [References](#references)
+13. [Источники](#источники)
 
 ---
 
@@ -448,7 +448,7 @@ else:
 
 ---
 
-## References
+## Источники
 
 ### Related Documents
 

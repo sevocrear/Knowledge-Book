@@ -17,7 +17,7 @@ status: notes
 lang: ru
 type: note
 slug: code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 # AI Harness Engineering (Tejas, IBM)
 
@@ -29,7 +29,7 @@ updated: 2026-08-10
 
 > **Не путать** с [Stop Babysitting Your Agents (Claude Code)](./stop-babysitting-your-agents-claude-code.md) (Sid Bindisaria) — другой спикер и фокус (операционный Claude Code vs. теория harness с нуля).
 
-## Table of Contents
+## Оглавление
 
 1. [Коротко для 5-летнего](#коротко-для-5-летнего)
 2. [Зачем harness](#зачем-harness)
@@ -43,7 +43,7 @@ updated: 2026-08-10
 10. [Прогноз: agents → harnesses → dynamic harnesses](#прогноз-agents--harnesses--dynamic-harnesses)
 11. [Связь с другими материалами книги](#связь-с-другими-материалами-книги)
 12. [Практический чеклист](#практический-чеклист)
-13. [References](#references)
+13. [Источники](#источники)
 
 ---
 
@@ -234,7 +234,7 @@ Tejas упоминает **Open RAG** (IBM): enterprise RAG по Teams, звон
 
 ---
 
-## References
+## Источники
 
 ### В этой книге
 

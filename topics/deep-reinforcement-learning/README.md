@@ -1,5 +1,5 @@
 ---
-title: Deep Reinforcement Learning
+title: Deep Reinforcement Learning (глубокое RL)
 description: "MDP, DQN, policy gradient, actor-critic (PPO/SAC/TD3), sim-to-real и применения в робототехнике и автономном вождении."
 tags:
   - kb/topic
@@ -23,11 +23,11 @@ status: canonical
 lang: ru
 type: topic
 slug: deep-reinforcement-learning
-updated: 2026-08-10
+updated: 2026-08-19
 ---
-# Deep Reinforcement Learning: От Основ к Управлению Роботами и Автономными Автомобилями
+# Deep Reinforcement Learning (глубокое RL): От Основ к Управлению Роботами и Автономными Автомобилями
 
-## Table of Contents
+## Оглавление
 
 1. [Введение](#введение)
 2. [Основы Reinforcement Learning](#основы-reinforcement-learning)
@@ -41,7 +41,7 @@ updated: 2026-08-10
 10. [Практические Реализации](#практические-реализации)
 11. [Сравнение Методов](#сравнение-методов)
 12. [Текущее Состояние и Тренды (2024-2026)](#текущее-состояние-и-тренды-2024-2026)
-13. [References](#references)
+13. [Источники](#источники)
 
 ---
 
@@ -1308,7 +1308,7 @@ for _ in range(1000):
 
 ---
 
-## References
+## Источники
 
 ### Основные Работы
 

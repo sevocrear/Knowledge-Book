@@ -1,17 +1,17 @@
 ---
-title: "Tag: concept/compression"
-description: Notes tagged concept/compression in the knowledge book.
+title: "Тег: concept/compression"
+description: Заметки с тегом concept/compression в книге знаний.
 tags:
   - concept/compression
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-10
+updated: 2026-08-19
 ---
 
-# Tag `concept/compression`
+# Тег `concept/compression`
 
-## Notes
+## Заметки
 
-- [Tokenization and Text Compression in LLMs](../../topics/tokenization-and-text-compression-in-llms/README.md) — Word/char/BPE/WordPiece/Unigram токенизация как сжатие текста перед LLM и влияние на стоимость attention.
+- [Токенизация и сжатие текста в LLM](../../topics/tokenization-and-text-compression-in-llms/README.md) — Word/char/BPE/WordPiece/Unigram токенизация как сжатие текста перед LLM и влияние на стоимость attention.
 
