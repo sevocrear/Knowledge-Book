@@ -36,8 +36,9 @@ updated: 2026-08-19
 
 - [MOC: математика и основы ML](./mocs/foundations.md) — Вероятность, метрики, классический ML и базовые строительные блоки.
 - [MOC: генеративные модели](./mocs/generative-models.md) — VAE, GAN и diffusion — три основных семейства генеративных моделей.
-- [MOC: NLP, LLM и RAG](./mocs/nlp-llm.md) — Токенизация, эмбеддинги, transformers, LoRA, RAG и code agents.
-- [MOC: компьютерное зрение](./mocs/computer-vision.md) — CNN, detection/segmentation, metric learning, SSL и tracking metrics.
+- [MOC: NLP, LLM и RAG](./mocs/nlp-llm.md) — Токенизация, эмбеддинги, transformers, LoRA, RAG, code agents, протоколы агентов и serving.
+- [MOC: компьютерное зрение](./mocs/computer-vision.md) — CNN, detection/segmentation, video codecs, serving камер, metric learning, SSL и tracking metrics.
+- [MOC: системы, serving и MLOps](./mocs/systems-mlops.md) — Ёмкость, балансировка нагрузки, serving моделей и соседний слой обучения (гиперпараметры).
 - [MOC: робототехника и Embodied AI](./mocs/robotics-embodied.md) — Deep RL, VLA и vision-based обучение роботов.
 
 ## Быстрые ссылки

@@ -1,6 +1,6 @@
 ---
 title: "MOC: компьютерное зрение"
-description: "CNN, detection/segmentation, metric learning, SSL и tracking metrics."
+description: "CNN, detection/segmentation, video codecs, serving камер, metric learning, SSL и tracking metrics."
 tags:
   - kb/moc
   - domain/cv
@@ -11,7 +11,7 @@ updated: 2026-08-19
 
 # MOC: компьютерное зрение
 
-CNN, detection/segmentation, metric learning, SSL и tracking metrics.
+CNN, detection/segmentation, video codecs, serving камер, metric learning, SSL и tracking metrics.
 
 ## Темы
 
@@ -27,6 +27,8 @@ CNN, detection/segmentation, metric learning, SSL и tracking metrics.
 - [ArcFace и angular-margin losses для идентификации](../../topics/arcface-and-angular-margin-losses-for-identification/README.md) — Additive angular margin loss для идентификации: геометрия на гиперсфере, сравнение с CosFace/SphereFace, face/SKU/re-ID и open-set пороги.
 - [Метрики оценки Action Recognition и Object Tracking](../../topics/action-recognition-and-object-tracking-metrics/README.md) — Протоколы и метрики для video action recognition, temporal localization, SOT и MOT: Top-1/Top-5, mAP@tIoU, Success AUC, IDF1, MOTA, HOTA.
 - [Unscented Kalman Filter и современные методы отслеживания](../../topics/unscented-kalman-filter-and-tracking/README.md) — UKF vs KF/EKF/PF, sigma-points, DeepSORT/ByteTrack/Transformer tracking и χ²-тест выбросов в трекинге.
+- [Видеокодеки H.264/H.265 и GPU-декодирование](../../topics/video-codecs-h264-h265-and-gpu-decode/README.md) — Intra/inter сжатие, GOP, H.264 vs H.265, типичный битрейт и hardware decode IP-камер (NVDEC, VAAPI, Quick Sync).
+- [System Design для Computer Vision и NLP](../../topics/ml-system-design-for-cv-and-nlp/README.md) — Ёмкость, балансировка, serving на 100 vs 1000 клиентов, dynamic batching, KV cache и обработка 10–50 видеопотоков.
 
 ## См. также
 

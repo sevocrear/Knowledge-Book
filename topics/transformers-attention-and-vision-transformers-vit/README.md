@@ -23,6 +23,7 @@ related:
   - non-maximum-suppression-nms
   - low-rank-adaptation-lora
   - retrieval-augmented-generation-rag
+  - ml-system-design-for-cv-and-nlp
 status: canonical
 lang: ru
 type: topic
@@ -182,6 +183,7 @@ $$
 - сложность по времени на шаг генерации становится **линейной по длине контекста** только для текущего шага,
 - не нужно повторно прогонять всю последовательность через все слои,
 - это ключевая оптимизация при инференсе LLM‑ов в проде.
+- сколько одновременных сессий влезет в GPU, задаёт именно размер KV-кэша: см. [System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md).
 
 ---
 
@@ -360,6 +362,9 @@ $$
 
 - **[Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md)**  
   - Эффективная техника тонкой настройки Transformer моделей (LLM, ViT) через добавление низкоранговых адаптаций к attention и MLP слоям.
+
+- **[System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md)**  
+  - Serving: очереди, dynamic/continuous batching и почему KV-кэш ограничивает число одновременных чатов.
 
 - **[DINOv3: Self-Supervised Vision Transformer и 2D RoPE](../dinov3-self-supervised-vision-transformer-and-2d-rope/README.md)**  
   - Отдельный документ с углублённым разбором self‑supervised обучения ViT‑бэкбонов (student–teacher, multi‑view, multi‑loss) и 2D RoPE для изображений, а также практическим применением DINOv3‑фич для классификации, детекции и сегментации.

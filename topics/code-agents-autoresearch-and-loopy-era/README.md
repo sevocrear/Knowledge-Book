@@ -15,9 +15,11 @@ aliases:
   - agent harness
   - Karpathy agents
 related:
+  - agent-protocols-mcp-acp-ucp-and-harness
   - retrieval-augmented-generation-rag
   - hyperparameter-tuning
   - low-rank-adaptation-lora
+  - ml-system-design-for-cv-and-nlp
 status: canonical
 lang: ru
 type: topic
@@ -43,7 +45,8 @@ updated: 2026-08-19
 13. [Транскрипт-выжимка: два видео про Ralph](#транскрипт-выжимка-два-видео-про-ralph)
 14. [Stop Babysitting Your Agents (Claude Code)](#stop-babysitting-your-agents-claude-code)
 15. [AI Harness Engineering (Tejas, IBM)](#ai-harness-engineering-tejas-ibm)
-16. [Источники](#источники)
+16. [MCP, ACP, UCP и harness](#mcp-acp-ucp-и-harness)
+17. [Источники](#источники)
 
 ---
 
@@ -458,6 +461,14 @@ Talk **Tejas** (IBM): что такое **agent harness** (не ML test harness)
 
 ---
 
+## MCP, ACP, UCP и harness
+
+Слои протоколов (что к чему подключается) и практическая сборка harness в Cursor — отдельный топик: [MCP, ACP, UCP и Agent Harness](../agent-protocols-mcp-acp-ucp-and-harness/README.md).
+
+Кратко: MCP даёт агенту инструменты, ACP (Zed) сажает агента в IDE, UCP стандартизирует торговлю, harness решает, какие провода втыкать и чем проверять «готово».
+
+---
+
 ## Источники
 
 ### Связанные темы в книге
@@ -466,6 +477,8 @@ Talk **Tejas** (IBM): что такое **agent harness** (не ML test harness)
 - [Hyperparameter Tuning](../hyperparameter-tuning/README.md)
 - [Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md)
 - [Embeddings and Embedding Matrix](../embeddings-and-embedding-matrix/README.md)
+- [System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md)
+- [MCP, ACP, UCP и Agent Harness](../agent-protocols-mcp-acp-ucp-and-harness/README.md)
 
 ### Дополнительные материалы в этом топике
 

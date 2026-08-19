@@ -13,5 +13,6 @@ updated: 2026-08-19
 
 ## Заметки
 
+- [MCP, ACP, UCP и Agent Harness](../../topics/agent-protocols-mcp-acp-ucp-and-harness/README.md) — Слои агентных протоколов (MCP, ACP, UCP, A2A) и agent harness: что к чему подключается, чем не путать аббревиатуры и как собрать эффективный harness в Cursor.
 - [Code Agents, AutoResearch и Loopy Era](../../topics/code-agents-autoresearch-and-loopy-era/README.md) — Оркестрация code agents, AutoResearch loops, verification gates, harness engineering и переход от ручного кода к управлению агентными циклами.
 

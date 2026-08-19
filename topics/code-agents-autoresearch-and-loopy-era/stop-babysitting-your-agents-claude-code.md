@@ -12,6 +12,7 @@ aliases:
   - Claude Code loops
 related:
   - code-agents-autoresearch-and-loopy-era
+  - agent-protocols-mcp-acp-ucp-and-harness
 status: notes
 lang: ru
 type: note
@@ -303,6 +304,7 @@ Karpathy в [основном README](./README.md) даёт **философию
 
 - [Code Agents, AutoResearch и Loopy Era — главный README](./README.md)
 - [AI Harness Engineering (Tejas, IBM)](./ai-harness-engineering-tejas-ibm.md)
+- [MCP, ACP, UCP и Agent Harness](../agent-protocols-mcp-acp-ucp-and-harness/README.md)
 - [Транскрипт-выжимка: два видео про Ralph](./README.md#транскрипт-выжимка-два-видео-про-ralph)
 - [Кейс Gumloop: Anti-Slop](./README.md#кейс-gumloop-anti-slop-founder-playbook)
 

@@ -22,6 +22,15 @@ updated: 2026-08-19
 
 ## Вложенные заметки
 
+## [MCP, ACP, UCP и Agent Harness](../topics/agent-protocols-mcp-acp-ucp-and-harness/README.md)
+
+- **slug:** `agent-protocols-mcp-acp-ucp-and-harness`
+- **description:** Слои агентных протоколов (MCP, ACP, UCP, A2A) и agent harness: что к чему подключается, чем не путать аббревиатуры и как собрать эффективный harness в Cursor.
+- **tags:** `domain/agents`, `domain/llm`, `concept/mcp`, `concept/harness`, `concept/orchestration`
+- **aliases:** Model Context Protocol, Agent Client Protocol, Universal Commerce Protocol, Agentic Commerce Protocol, agent harness, MCP ACP UCP
+
+## Вложенные заметки
+
 ## [ArcFace и angular-margin losses для идентификации](../topics/arcface-and-angular-margin-losses-for-identification/README.md)
 
 - **slug:** `arcface-and-angular-margin-losses-for-identification`
@@ -193,6 +202,15 @@ updated: 2026-08-19
 
 ## Вложенные заметки
 
+## [System Design для Computer Vision и NLP](../topics/ml-system-design-for-cv-and-nlp/README.md)
+
+- **slug:** `ml-system-design-for-cv-and-nlp`
+- **description:** Ёмкость, балансировка, serving на 100 vs 1000 клиентов, dynamic batching, KV cache и обработка 10–50 видеопотоков.
+- **tags:** `domain/mlops`, `domain/cv`, `domain/nlp`, `concept/system-design`, `concept/model-serving`, `concept/load-balancing`
+- **aliases:** System Design, model serving, inference serving, load balancing, multi-camera pipeline, dynamic batching
+
+## Вложенные заметки
+
 ## [Non-Maximum Suppression (NMS) и современные end-to-end детекторы](../topics/non-maximum-suppression-nms/README.md)
 
 - **slug:** `non-maximum-suppression-nms`
@@ -280,6 +298,15 @@ updated: 2026-08-19
 - **description:** ELBO, encoder/decoder, reparameterization trick, латентное пространство и роль VAE в современных generative pipelines.
 - **tags:** `domain/generative`, `concept/vae`, `concept/latent-variable`, `concept/elbo`
 - **aliases:** VAE, Variational Autoencoder, ELBO, reparameterization trick
+
+## Вложенные заметки
+
+## [Видеокодеки H.264/H.265 и GPU-декодирование](../topics/video-codecs-h264-h265-and-gpu-decode/README.md)
+
+- **slug:** `video-codecs-h264-h265-and-gpu-decode`
+- **description:** Intra/inter сжатие, GOP, H.264 vs H.265, типичный битрейт и hardware decode IP-камер (NVDEC, VAAPI, Quick Sync).
+- **tags:** `domain/cv`, `domain/video`, `concept/video-codec`, `concept/h264`, `concept/h265`, `concept/hardware-decode`
+- **aliases:** H.264, H.265, HEVC, AVC, NVDEC, видеокодек
 
 ## Вложенные заметки
 

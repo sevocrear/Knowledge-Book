@@ -15,6 +15,8 @@ TOPIC_SCENES: list[tuple[str, str]] = [
     ("arcface-and-angular-margin-losses-for-identification", "ArcFaceAngularMarginScene"),
     ("transformers-attention-and-vision-transformers-vit", "ViTPatchesAndAttentionScene"),
     ("retrieval-augmented-generation-rag", "RAGPipelineScene"),
+    ("video-codecs-h264-h265-and-gpu-decode", "GopPredictionScene"),
+    ("ml-system-design-for-cv-and-nlp", "ServingLoadBalancerScene"),
 ]
 
 

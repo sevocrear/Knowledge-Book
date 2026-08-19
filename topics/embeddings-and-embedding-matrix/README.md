@@ -17,6 +17,7 @@ related:
   - transformers-attention-and-vision-transformers-vit
   - retrieval-augmented-generation-rag
   - contrastive-and-metric-learning-for-fine-grained-visual-recognition
+  - ml-system-design-for-cv-and-nlp
 status: canonical
 lang: ru
 type: topic
@@ -201,3 +202,4 @@ $$(\mathbf{h}_{\text{sent}})_j = \max_{i=1,\ldots,n} (\mathbf{h}_i)_j.$$
   - [Tokenization and Text Compression in LLMs](../tokenization-and-text-compression-in-llms/README.md) — откуда берутся ID токенов и как устроен словарь.
   - [Transformers, Attention and Vision Transformers (ViT)](../transformers-attention-and-vision-transformers-vit/README.md) — как эмбеддинги подаются в attention и слои.
   - [Retrieval-Augmented Generation (RAG)](../retrieval-augmented-generation-rag/README.md) — использование текстовых эмбеддингов для поиска и RAG.
+  - [System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md) — ANN-индекс и кэш эмбеддингов как часть serving.

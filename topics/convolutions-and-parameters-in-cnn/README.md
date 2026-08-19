@@ -16,6 +16,7 @@ related:
   - non-maximum-suppression-nms
   - normalization-layers-batchnorm-layernorm
   - transformers-attention-and-vision-transformers-vit
+  - video-codecs-h264-h265-and-gpu-decode
 status: canonical
 lang: ru
 type: topic
@@ -301,4 +302,5 @@ $$
   - [`non-maximum-suppression-nms`](../non-maximum-suppression-nms/README.md) — использует CNN‑детекторы, в которых все эти свёртки реально применяются.
   - [`unscented-kalman-filter-and-tracking`](../unscented-kalman-filter-and-tracking/README.md) — про трекинг объектов, который часто идёт следом за CNN‑детекцией.
   - [`deep-reinforcement-learning`](../deep-reinforcement-learning/README.md) — в разделах про визуальное RL часто используются CNN‑фронтенды.
+  - [`video-codecs-h264-h265-and-gpu-decode`](../video-codecs-h264-h265-and-gpu-decode/README.md) — блочное DCT-сжатие кадра как «родственник» оконной обработки в CNN.
 

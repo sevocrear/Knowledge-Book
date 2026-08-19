@@ -17,6 +17,7 @@ related:
   - roc-curve-and-roc-auc
   - classification-losses-cross-entropy-focal-loss
   - ensemble-methods-model-combination
+  - ml-system-design-for-cv-and-nlp
 status: canonical
 lang: ru
 type: topic
@@ -289,6 +290,7 @@ probs_test = F.softmax(scaled_logits_test, dim=-1)
 - **[Cross Entropy and Focal Loss](../classification-losses-cross-entropy-focal-loss/README.md)** — связь loss с вероятностями классов.
 - **[Bayes' Theorem and Probability Foundations](../bayes-theorem-and-probability-foundations/README.md)** — вероятностная база, на которой живёт калибровка.
 - **[Ensemble Methods & Model Combination](../ensemble-methods-model-combination/README.md)** — ансамбли как источник улучшения неопределенности.
+- **[System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md)** — калибровка и пороги как часть canary/мониторинга в serving.
 
 ### Key Concepts
 - logits, softmax, sigmoid

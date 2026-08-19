@@ -19,6 +19,7 @@ related:
   - transformers-attention-and-vision-transformers-vit
   - detection-segmentation-3d-losses
   - sota-metrics-for-detection-segmentation-multiclass-classification
+  - ml-system-design-for-cv-and-nlp
 status: canonical
 lang: ru
 type: topic
@@ -1109,6 +1110,7 @@ confidence_threshold = 0.1
 
 - **[Unscented Kalman Filter and Tracking](../unscented-kalman-filter-and-tracking/README.md)**: Методы отслеживания объектов, которые могут использоваться вместе с детекцией
 - **[Deep Reinforcement Learning](../deep-reinforcement-learning/README.md)**: End-to-end обучение в RL, похожие принципы
+- **[System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md)**: serving детекторов, p99-латентность и очереди в проде
 
 ### Ключевые Статьи
 

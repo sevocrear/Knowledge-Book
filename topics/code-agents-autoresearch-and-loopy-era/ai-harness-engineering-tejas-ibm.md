@@ -13,6 +13,7 @@ aliases:
   - Tejas IBM
 related:
   - code-agents-autoresearch-and-loopy-era
+  - agent-protocols-mcp-acp-ucp-and-harness
 status: notes
 lang: ru
 type: note
@@ -240,6 +241,7 @@ Tejas упоминает **Open RAG** (IBM): enterprise RAG по Teams, звон
 
 - [Code Agents, AutoResearch и Loopy Era — README](./README.md)
 - [Stop Babysitting Your Agents (Claude Code)](./stop-babysitting-your-agents-claude-code.md)
+- [MCP, ACP, UCP и Agent Harness](../agent-protocols-mcp-acp-ucp-and-harness/README.md)
 - [Retrieval-Augmented Generation (RAG)](../retrieval-augmented-generation-rag/README.md)
 - [Как скачать транскрипт `C_GG5g38vLU.txt`](../../outputs/transcripts/README.md)
 

@@ -20,6 +20,8 @@ related:
   - non-maximum-suppression-nms
   - action-recognition-and-object-tracking-metrics
   - bayes-theorem-and-probability-foundations
+  - video-codecs-h264-h265-and-gpu-decode
+  - ml-system-design-for-cv-and-nlp
 status: canonical
 lang: ru
 type: topic
@@ -2069,6 +2071,8 @@ def track_objects_with_ukf(video, yolo_model):
 
 - **[Gaussian Distribution](../gaussian-distribution/README.md)**: Математические основы для Kalman фильтров
 - **[Action Recognition and Object Tracking Metrics](../action-recognition-and-object-tracking-metrics/README.md)**: Как корректно оценивать качество трекинга (HOTA, IDF1, MOTA, SOT метрики)
+- **[Видеокодеки H.264/H.265 и GPU-декодирование](../video-codecs-h264-h265-and-gpu-decode/README.md)**: Как поток IP-камеры становится кадрами до трекера
+- **[System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md)**: мультикамерный пайплайн, latest-frame и где живёт трекер
 - **[Variational Autoencoders](../variational-autoencoders-vaes/README.md)**: Вероятностные модели для генерации
 - **[Diffusion Models](../diffusion-models/README.md)**: Стохастические процессы в генеративных моделях
 

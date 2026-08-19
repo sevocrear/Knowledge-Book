@@ -18,6 +18,7 @@ related:
   - embeddings-and-embedding-matrix
   - transformers-attention-and-vision-transformers-vit
   - retrieval-augmented-generation-rag
+  - video-codecs-h264-h265-and-gpu-decode
 status: canonical
 lang: ru
 type: topic
@@ -321,6 +322,7 @@ updated: 2026-08-19
   - [Transformers, Attention and Vision Transformers (ViT)](../transformers-attention-and-vision-transformers-vit/README.md) — архитектура трансформеров, attention, RoPE.
   - [Retrieval-Augmented Generation (RAG)](../retrieval-augmented-generation-rag/README.md) — RAG‑системы и работа LLM с внешними знаниями.
   - [Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md) — дообучение LLM, где токенизация остаётся фиксированной.
+  - [Видеокодеки H.264/H.265](../video-codecs-h264-h265-and-gpu-decode/README.md) — сжатие видео той же идеей: не хранить повторы, а кодировать отличие.
 - Внешние материалы:
   - Sennrich, Haddow, Birch — “Neural Machine Translation of Rare Words with Subword Units” (BPE).
   - Kudo — “Subword Regularization: Improving Neural Network Translation Models with Multiple Subword Candidates”.

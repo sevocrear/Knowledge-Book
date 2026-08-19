@@ -1,6 +1,6 @@
 ---
 title: "MOC: NLP, LLM и RAG"
-description: "Токенизация, эмбеддинги, transformers, LoRA, RAG и code agents."
+description: "Токенизация, эмбеддинги, transformers, LoRA, RAG, code agents, протоколы агентов и serving."
 tags:
   - kb/moc
   - domain/nlp
@@ -12,7 +12,7 @@ updated: 2026-08-19
 
 # MOC: NLP, LLM и RAG
 
-Токенизация, эмбеддинги, transformers, LoRA, RAG и code agents.
+Токенизация, эмбеддинги, transformers, LoRA, RAG, code agents, протоколы агентов и serving.
 
 ## Темы
 
@@ -22,6 +22,8 @@ updated: 2026-08-19
 - [Low-Rank Adaptation (LoRA)](../../topics/low-rank-adaptation-lora/README.md) — PEFT через низкоранговые адаптеры ΔW≈BA: математика, QLoRA/AdaLoRA/DoRA, эффективность памяти и практика в Hugging Face PEFT.
 - [Retrieval-Augmented Generation (RAG)](../../topics/retrieval-augmented-generation-rag/README.md) — Архитектуры RAG (Naive/Advanced/Modular/Self-RAG/Corrective/LightRAG), retriever/reranker, chunking, оценка и production-практики.
 - [Code Agents, AutoResearch и Loopy Era](../../topics/code-agents-autoresearch-and-loopy-era/README.md) — Оркестрация code agents, AutoResearch loops, verification gates, harness engineering и переход от ручного кода к управлению агентными циклами.
+- [MCP, ACP, UCP и Agent Harness](../../topics/agent-protocols-mcp-acp-ucp-and-harness/README.md) — Слои агентных протоколов (MCP, ACP, UCP, A2A) и agent harness: что к чему подключается, чем не путать аббревиатуры и как собрать эффективный harness в Cursor.
+- [System Design для Computer Vision и NLP](../../topics/ml-system-design-for-cv-and-nlp/README.md) — Ёмкость, балансировка, serving на 100 vs 1000 клиентов, dynamic batching, KV cache и обработка 10–50 видеопотоков.
 
 ## См. также
 

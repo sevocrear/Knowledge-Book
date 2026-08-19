@@ -19,6 +19,7 @@ related:
   - non-maximum-suppression-nms
   - unscented-kalman-filter-and-tracking
   - sota-metrics-for-detection-segmentation-multiclass-classification
+  - video-codecs-h264-h265-and-gpu-decode
 status: canonical
 lang: ru
 type: topic
@@ -270,6 +271,7 @@ $$
 - **[Non-Maximum Suppression (NMS)](../non-maximum-suppression-nms/README.md)** - post-processing в детекции перед трекингом.
 - **[Losses for Detection, Segmentation, and 3D Detection](../detection-segmentation-3d-losses/README.md)** - связь loss-функций с downstream метриками.
 - **[Unscented Kalman Filter and Modern Tracking Methods](../unscented-kalman-filter-and-tracking/README.md)** - алгоритмическая база tracking pipeline.
+- **[Видеокодеки H.264/H.265 и GPU-декодирование](../video-codecs-h264-h265-and-gpu-decode/README.md)** - как RTSP-поток камеры становится кадрами до трекинга.
 
 ### External Benchmarks and Protocols
 - **MOTChallenge**: HOTA, IDF1, MOTA и диагностические метрики.

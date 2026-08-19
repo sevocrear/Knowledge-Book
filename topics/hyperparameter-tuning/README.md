@@ -19,6 +19,7 @@ related:
   - decision-trees
   - low-rank-adaptation-lora
   - bayes-theorem-and-probability-foundations
+  - ml-system-design-for-cv-and-nlp
 status: canonical
 lang: ru
 type: topic
@@ -844,6 +845,7 @@ print(f"Best config: {analysis.best_config}")
 - [Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md) — гиперпараметры LoRA (rank, alpha)
 - [Normalization Layers](../normalization-layers-batchnorm-layernorm/README.md) — BatchNorm/LayerNorm как часть архитектуры
 - [Bayes' Theorem](../bayes-theorem-and-probability-foundations/README.md) — математическая основа Bayesian Optimization
+- [System Design для CV и NLP](../ml-system-design-for-cv-and-nlp/README.md) — соседний MLOps-слой: serving, не обучение
 
 ### Внешние ссылки
 - Bergstra, J. & Bengio, Y. (2012). *Random Search for Hyper-Parameter Optimization*. JMLR

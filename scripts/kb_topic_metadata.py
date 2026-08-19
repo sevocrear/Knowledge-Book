@@ -21,6 +21,37 @@ class TopicMeta(TypedDict):
 
 # status: canonical | notes | draft
 TOPIC_METADATA: dict[str, TopicMeta] = {
+    "agent-protocols-mcp-acp-ucp-and-harness": {
+        "title": "MCP, ACP, UCP и Agent Harness",
+        "description": (
+            "Слои агентных протоколов (MCP, ACP, UCP, A2A) и agent harness: что к чему "
+            "подключается, чем не путать аббревиатуры и как собрать эффективный harness в Cursor."
+        ),
+        "tags": [
+            "kb/topic",
+            "domain/agents",
+            "domain/llm",
+            "concept/mcp",
+            "concept/harness",
+            "concept/orchestration",
+        ],
+        "aliases": [
+            "Model Context Protocol",
+            "Agent Client Protocol",
+            "Universal Commerce Protocol",
+            "Agentic Commerce Protocol",
+            "agent harness",
+            "MCP ACP UCP",
+        ],
+        "related": [
+            "code-agents-autoresearch-and-loopy-era",
+            "retrieval-augmented-generation-rag",
+            "ml-system-design-for-cv-and-nlp",
+        ],
+        "status": "canonical",
+        "lang": "ru",
+        "type": "topic",
+    },
     "action-recognition-and-object-tracking-metrics": {
         "title": "Метрики оценки Action Recognition и Object Tracking",
         "description": (
@@ -47,6 +78,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "non-maximum-suppression-nms",
             "unscented-kalman-filter-and-tracking",
             "sota-metrics-for-detection-segmentation-multiclass-classification",
+            "video-codecs-h264-h265-and-gpu-decode",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -147,9 +179,11 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "Karpathy agents",
         ],
         "related": [
+            "agent-protocols-mcp-acp-ucp-and-harness",
             "retrieval-augmented-generation-rag",
             "hyperparameter-tuning",
             "low-rank-adaptation-lora",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -204,6 +238,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "non-maximum-suppression-nms",
             "normalization-layers-batchnorm-layernorm",
             "transformers-attention-and-vision-transformers-vit",
+            "video-codecs-h264-h265-and-gpu-decode",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -354,6 +389,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "transformers-attention-and-vision-transformers-vit",
             "retrieval-augmented-generation-rag",
             "contrastive-and-metric-learning-for-fine-grained-visual-recognition",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -485,6 +521,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "roc-curve-and-roc-auc",
             "classification-losses-cross-entropy-focal-loss",
             "ensemble-methods-model-combination",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -516,6 +553,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "decision-trees",
             "low-rank-adaptation-lora",
             "bayes-theorem-and-probability-foundations",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -545,6 +583,44 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "topic",
     },
+    "ml-system-design-for-cv-and-nlp": {
+        "title": "System Design для Computer Vision и NLP",
+        "description": (
+            "Ёмкость, балансировка, serving на 100 vs 1000 клиентов, dynamic batching, "
+            "KV cache и обработка 10–50 видеопотоков."
+        ),
+        "tags": [
+            "kb/topic",
+            "domain/mlops",
+            "domain/cv",
+            "domain/nlp",
+            "concept/system-design",
+            "concept/model-serving",
+            "concept/load-balancing",
+        ],
+        "aliases": [
+            "System Design",
+            "model serving",
+            "inference serving",
+            "load balancing",
+            "multi-camera pipeline",
+            "dynamic batching",
+        ],
+        "related": [
+            "transformers-attention-and-vision-transformers-vit",
+            "non-maximum-suppression-nms",
+            "unscented-kalman-filter-and-tracking",
+            "retrieval-augmented-generation-rag",
+            "embeddings-and-embedding-matrix",
+            "hyperparameter-tuning",
+            "how-models-predict-confidence-and-calibration",
+            "video-codecs-h264-h265-and-gpu-decode",
+            "agent-protocols-mcp-acp-ucp-and-harness",
+        ],
+        "status": "canonical",
+        "lang": "ru",
+        "type": "topic",
+    },
     "non-maximum-suppression-nms": {
         "title": "Non-Maximum Suppression (NMS) и современные end-to-end детекторы",
         "description": (
@@ -564,6 +640,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "transformers-attention-and-vision-transformers-vit",
             "detection-segmentation-3d-losses",
             "sota-metrics-for-detection-segmentation-multiclass-classification",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -619,6 +696,8 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "tokenization-and-text-compression-in-llms",
             "transformers-attention-and-vision-transformers-vit",
             "code-agents-autoresearch-and-loopy-era",
+            "agent-protocols-mcp-acp-ucp-and-harness",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -714,6 +793,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "embeddings-and-embedding-matrix",
             "transformers-attention-and-vision-transformers-vit",
             "retrieval-augmented-generation-rag",
+            "video-codecs-h264-h265-and-gpu-decode",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -749,6 +829,7 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "non-maximum-suppression-nms",
             "low-rank-adaptation-lora",
             "retrieval-augmented-generation-rag",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -781,6 +862,8 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "non-maximum-suppression-nms",
             "action-recognition-and-object-tracking-metrics",
             "bayes-theorem-and-probability-foundations",
+            "video-codecs-h264-h265-and-gpu-decode",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -805,6 +888,33 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "generative-adversarial-networks-gans",
             "diffusion-models",
             "bayes-theorem-and-probability-foundations",
+        ],
+        "status": "canonical",
+        "lang": "ru",
+        "type": "topic",
+    },
+    "video-codecs-h264-h265-and-gpu-decode": {
+        "title": "Видеокодеки H.264/H.265 и GPU-декодирование",
+        "description": (
+            "Intra/inter сжатие, GOP, H.264 vs H.265, типичный битрейт и hardware "
+            "decode IP-камер (NVDEC, VAAPI, Quick Sync)."
+        ),
+        "tags": [
+            "kb/topic",
+            "domain/cv",
+            "domain/video",
+            "concept/video-codec",
+            "concept/h264",
+            "concept/h265",
+            "concept/hardware-decode",
+        ],
+        "aliases": ["H.264", "H.265", "HEVC", "AVC", "NVDEC", "видеокодек"],
+        "related": [
+            "action-recognition-and-object-tracking-metrics",
+            "convolutions-and-parameters-in-cnn",
+            "tokenization-and-text-compression-in-llms",
+            "unscented-kalman-filter-and-tracking",
+            "ml-system-design-for-cv-and-nlp",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -882,7 +992,10 @@ NOTE_METADATA: dict[str, TopicMeta] = {
             "source/youtube",
         ],
         "aliases": ["Stop Babysitting Your Agents", "Claude Code loops"],
-        "related": ["code-agents-autoresearch-and-loopy-era"],
+        "related": [
+            "code-agents-autoresearch-and-loopy-era",
+            "agent-protocols-mcp-acp-ucp-and-harness",
+        ],
         "status": "notes",
         "lang": "ru",
         "type": "note",
@@ -901,7 +1014,10 @@ NOTE_METADATA: dict[str, TopicMeta] = {
             "source/youtube",
         ],
         "aliases": ["AI Harness Engineering", "agent harness", "Tejas IBM"],
-        "related": ["code-agents-autoresearch-and-loopy-era"],
+        "related": [
+            "code-agents-autoresearch-and-loopy-era",
+            "agent-protocols-mcp-acp-ucp-and-harness",
+        ],
         "status": "notes",
         "lang": "ru",
         "type": "note",
@@ -939,7 +1055,7 @@ MOCS: dict[str, dict[str, object]] = {
     },
     "nlp-llm": {
         "title": "MOC: NLP, LLM и RAG",
-        "description": "Токенизация, эмбеддинги, transformers, LoRA, RAG и code agents.",
+        "description": "Токенизация, эмбеддинги, transformers, LoRA, RAG, code agents, протоколы агентов и serving.",
         "tags": ["kb/moc", "domain/nlp", "domain/llm"],
         "topics": [
             "tokenization-and-text-compression-in-llms",
@@ -948,11 +1064,13 @@ MOCS: dict[str, dict[str, object]] = {
             "low-rank-adaptation-lora",
             "retrieval-augmented-generation-rag",
             "code-agents-autoresearch-and-loopy-era",
+            "agent-protocols-mcp-acp-ucp-and-harness",
+            "ml-system-design-for-cv-and-nlp",
         ],
     },
     "computer-vision": {
         "title": "MOC: компьютерное зрение",
-        "description": "CNN, detection/segmentation, metric learning, SSL и tracking metrics.",
+        "description": "CNN, detection/segmentation, video codecs, serving камер, metric learning, SSL и tracking metrics.",
         "tags": ["kb/moc", "domain/cv"],
         "topics": [
             "convolutions-and-parameters-in-cnn",
@@ -967,6 +1085,18 @@ MOCS: dict[str, dict[str, object]] = {
             "arcface-and-angular-margin-losses-for-identification",
             "action-recognition-and-object-tracking-metrics",
             "unscented-kalman-filter-and-tracking",
+            "video-codecs-h264-h265-and-gpu-decode",
+            "ml-system-design-for-cv-and-nlp",
+        ],
+    },
+    "systems-mlops": {
+        "title": "MOC: системы, serving и MLOps",
+        "description": "Ёмкость, балансировка нагрузки, serving моделей и соседний слой обучения (гиперпараметры).",
+        "tags": ["kb/moc", "domain/mlops"],
+        "topics": [
+            "ml-system-design-for-cv-and-nlp",
+            "hyperparameter-tuning",
+            "video-codecs-h264-h265-and-gpu-decode",
         ],
     },
     "robotics-embodied": {

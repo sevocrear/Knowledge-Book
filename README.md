@@ -216,7 +216,13 @@
    - [Stop Babysitting Your Agents (Claude Code)](./topics/code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code.md): verification skills, `/loop`, Routines
    - [AI Harness Engineering (Tejas, IBM)](./topics/code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm.md): guardrails, шаг verify, harness vs prompt
    - Правила большого пальца и практический checklist для команды
-   - Связано: RAG, настройка гиперпараметров, LoRA
+   - Связано: RAG, настройка гиперпараметров, LoRA, протоколы агентов
+
+8. **[MCP, ACP, UCP и Agent Harness](./topics/agent-protocols-mcp-acp-ucp-and-harness/README.md)**
+   - Слои: MCP (инструменты), ACP (агент в IDE / checkout — не путать), UCP (коммерция), A2A
+   - Harness как обвязка вокруг модели: rules, skills, MCP, hooks, verify
+   - Как собрать эффективный harness в Cursor без раздувания контекста
+   - Связано: code agents, RAG, system design
 
 ### Transformers, внимание и Vision Transformers
 
@@ -263,7 +269,23 @@
    - Эффективность больших свёрток `5×5`, `7×7`
    - Формулы размеров feature map для Conv/Pooling и Transposed Conv
    - Подсчёт числа обучаемых параметров (Conv, Linear, BatchNorm, depthwise/pointwise)
-   - Связано: NMS, Deep Reinforcement Learning
+   - Связано: NMS, Deep Reinforcement Learning, System Design
+
+4. **[Видеокодеки H.264/H.265 и GPU-декодирование](./topics/video-codecs-h264-h265-and-gpu-decode/README.md)**
+   - Intra vs inter, GOP (I/P/B), DCT и компенсация движения
+   - H.264/AVC и H.265/HEVC: в чём разница и насколько сжимают поток
+   - Типичный битрейт 1080p/4K для IP-камер
+   - Hardware decode: NVDEC, Quick Sync, VAAPI; зачем это аналитике
+   - Связано: метрики видео/трекинга, свёртки в CNN, сжатие текста в LLM, System Design
+
+### Системы, serving и MLOps
+
+1. **[System Design для Computer Vision и NLP](./topics/ml-system-design-for-cv-and-nlp/README.md)**
+   - Что такое System Design: SLO, очереди, закон Литтла, утилизация $\rho$
+   - Балансировка нагрузки для ML (не только round-robin)
+   - Serving на 100 vs 1000 клиентов: реплики, dynamic batching, KV-кэш LLM
+   - 10 vs 50 камер: latest-frame, пачка на GPU, когда нужен NVDEC
+   - Связано: KV cache, NMS, трекинг, RAG, видеокодеки, гиперпараметры
 
 ### Нормализация и стабилизация обучения
 
@@ -397,6 +419,7 @@
 2. End-to-end подходы (YOLO26, DETR), которые убирают NMS
 3. Эволюция от NMS-based к query-based детекции
 4. Transformer-based детекторы и их преимущества
+5. **Видеокодеки H.264/H.265** — как камера сжимает поток и как декодировать на GPU
 
 ### Фильтрация и трекинг
 
@@ -424,6 +447,15 @@
 5. Open-source методы и датасеты (Open X-Embodiment)
 6. Sim-to-real
 7. Разные типы роботов: гуманоиды, четвероногие, колёсные, манипуляторы
+
+### Системы и serving
+
+1. **System Design для CV и NLP** — сначала $\rho$ и SLO, потом фреймворк
+2. 100 клиентов vs 1000: горизонтальные реплики, dynamic batching
+3. LLM: KV-кэш и continuous batching, не «просто RPS»
+4. Камеры: latest-frame + NVDEC, не FIFO всех кадров
+5. **Видеокодеки** — почему ingest часто упирается в декод
+6. **Настройка гиперпараметров** — соседний слой: обучение, не serving
 
 ### Настройка гиперпараметров
 
