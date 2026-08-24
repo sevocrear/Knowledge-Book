@@ -42,6 +42,8 @@
 - `uv sync` — установить зависимости проекта и dev
 - `uv sync --group viz` — добавить Manim + imageio (локальный рендер `dl-viz`; включает smoke-тесты Manim)
 - `uv run pytest` — все тесты; тесты с `@pytest.mark.manim` пропускаются, если Manim не установлен
+- `uv run python scripts/kb_validate_links.py` — проверка ссылок, оглавлений и frontmatter
+- GitHub Actions (`.github/workflows/ci.yml`) гоняет `pytest` и проверку ссылок; merge в `main` только при зелёном check **CI**
 - `uv run python topics/<topic-slug>/scripts/01_<name>.py` — запустить пример темы
 - `uv run python scripts/viz/mp4_to_gif.py <file.mp4> -o <out.gif>` — GIF из отрендеренного MP4
 
