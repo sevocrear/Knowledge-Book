@@ -39,3 +39,15 @@ def test_probabilities_sum_to_one() -> None:
     logits = torch.tensor([[2.5, 1.0, -1.0]])
     probs = module.calibrated_probs(logits, temperature=2.0)
     assert torch.allclose(probs.sum(dim=-1), torch.tensor([1.0]), atol=1e-6)
+
+
+def test_higher_temperature_softens_confidence() -> None:
+    """Сигнал темы: больший T сглаживает softmax, не меняя argmax."""
+
+    module = _load_demo_module()
+    logits = torch.tensor([[5.0, 0.5, -1.0]])
+    sharp = module.calibrated_probs(logits, temperature=1.0)
+    soft = module.calibrated_probs(logits, temperature=4.0)
+    assert int(sharp.argmax()) == int(soft.argmax())
+    assert float(soft.max()) < float(sharp.max()) - 0.1
+    assert float(soft.min()) > float(sharp.min())

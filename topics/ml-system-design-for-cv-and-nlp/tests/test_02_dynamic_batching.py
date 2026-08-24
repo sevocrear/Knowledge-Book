@@ -4,6 +4,8 @@ import importlib.util
 import sys
 from pathlib import Path
 
+import pytest
+
 
 def _load_module():
     script_path = Path(__file__).resolve().parents[1] / "scripts" / "02_dynamic_batching.py"
@@ -19,8 +21,8 @@ def test_gpu_time_grows_sublinearly_per_item() -> None:
     module = _load_module()
     t1 = module.gpu_batch_seconds(1, overhead_s=0.008, per_item_s=0.002)
     t8 = module.gpu_batch_seconds(8, overhead_s=0.008, per_item_s=0.002)
-    assert t1 == 0.010
-    assert t8 == 0.024
+    assert t1 == pytest.approx(0.010)
+    assert t8 == pytest.approx(0.024)
     # Пачка из 8 дешевле, чем 8 одиночных прогонов.
     assert t8 < 8 * t1
 
