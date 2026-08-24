@@ -61,4 +61,4 @@ def test_little_law_holds_when_stable() -> None:
     observed = metrics.mean_queue_length
     assert predicted > 0
     rel_err = abs(predicted - observed) / predicted
-    assert rel_err < 0.35
+    assert rel_err < 0.15

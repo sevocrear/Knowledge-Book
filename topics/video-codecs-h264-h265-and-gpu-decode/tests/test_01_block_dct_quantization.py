@@ -2,6 +2,8 @@ import sys
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 
+import torch
+
 
 def _load():
     repo = Path(__file__).resolve().parents[3]
@@ -19,6 +21,26 @@ def _load():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def test_dct_is_orthonormal_and_invertible() -> None:
+    """Ядро intra-кодека: ортонормированное DCT-II обратимо и сохраняет энергию."""
+
+    m = _load()
+    n = 8
+    c = m.orthonormal_dct_matrix(n)
+    eye = torch.eye(n, dtype=c.dtype)
+    assert torch.allclose(c @ c.T, eye, atol=1e-12)
+    assert torch.allclose(c.T @ c, eye, atol=1e-12)
+
+    g = torch.Generator().manual_seed(0)
+    block = torch.randn(n, n, dtype=torch.float64, generator=g)
+    coeff = m.dct2(block, c)
+    recon = m.idct2(coeff, c)
+    assert torch.allclose(recon, block, atol=1e-12)
+    energy_x = float((block**2).sum().item())
+    energy_y = float((coeff**2).sum().item())
+    assert abs(energy_x - energy_y) / max(energy_x, 1e-12) < 1e-12
 
 
 def test_dct_energy_lives_in_low_frequencies() -> None:
