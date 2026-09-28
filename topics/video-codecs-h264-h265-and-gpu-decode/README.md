@@ -26,7 +26,7 @@ status: canonical
 lang: ru
 type: topic
 slug: video-codecs-h264-h265-and-gpu-decode
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # Видеокодеки: H.264, H.265 и декодирование IP-камер на GPU
 

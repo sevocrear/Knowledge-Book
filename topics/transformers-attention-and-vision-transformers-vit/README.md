@@ -28,7 +28,7 @@ status: canonical
 lang: ru
 type: topic
 slug: transformers-attention-and-vision-transformers-vit
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # Transformers, Attention и Vision Transformers (ViT)
 

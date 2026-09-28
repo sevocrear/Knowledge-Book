@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: deep-reinforcement-learning
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # Deep Reinforcement Learning (глубокое RL): От Основ к Управлению Роботами и Автономными Автомобилями
 

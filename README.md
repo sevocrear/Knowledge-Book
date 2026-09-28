@@ -209,9 +209,16 @@
    - Практика face identification (1:1 verification и 1:N identification)
    - Практика SKU/product identification в open-set режиме
    - Современные датасеты для metric learning и re-ID (face/person/product/vehicle)
-   - Связано: contrastive и metric learning, ROC AUC, калибровка
+   - Связано: contrastive и metric learning, ROC AUC, калибровка, лоссы и майнеры
 
-7. **[Code Agents, AutoResearch и Loopy Era](./topics/code-agents-autoresearch-and-loopy-era/README.md)**
+7. **[Лоссы metric learning и подбор майнеров](./topics/metric-learning-losses-and-miners/README.md)**
+   - Таксономия: pair-based, triplet/tuple, batch-contrastive (InfoNCE/SupCon), proxy-based (Proxy-Anchor, SoftTriple, ArcFace)
+   - Формулы и интуиция: Contrastive, Triplet, N-pair, Multi-Similarity, Circle, CosFace/ArcFace/AdaFace
+   - Майнеры: semi-hard / batch-hard / distance-weighted / MS-miner, P×K-сэмплер, XBM
+   - Таблица «лосс ↔ майнер» и decision guide: когда что использовать
+   - Связано: ArcFace, contrastive и metric learning, cross entropy / focal loss
+
+8. **[Code Agents, AutoResearch и Loopy Era](./topics/code-agents-autoresearch-and-loopy-era/README.md)**
    - Что меняется в инженерии при переходе от ручного кода к orchestration
    - Multi-agent workflows: роли, параллелизм, quality gates
    - AutoResearch loops: objective, evaluator, verifier, метрики
@@ -220,7 +227,7 @@
    - Правила большого пальца и практический checklist для команды
    - Связано: RAG, настройка гиперпараметров, LoRA, протоколы агентов
 
-8. **[MCP, ACP, UCP и Agent Harness](./topics/agent-protocols-mcp-acp-ucp-and-harness/README.md)**
+9. **[MCP, ACP, UCP и Agent Harness](./topics/agent-protocols-mcp-acp-ucp-and-harness/README.md)**
    - Слои: MCP (инструменты), ACP (агент в IDE / checkout — не путать), UCP (коммерция), A2A
    - Harness как обвязка вокруг модели: rules, skills, MCP, hooks, verify
    - Как собрать эффективный harness в Cursor без раздувания контекста
@@ -287,7 +294,13 @@
    - Балансировка нагрузки для ML (не только round-robin)
    - Serving на 100 vs 1000 клиентов: реплики, dynamic batching, KV-кэш LLM
    - 10 vs 50 камер: latest-frame, пачка на GPU, когда нужен NVDEC
-   - Связано: KV cache, NMS, трекинг, RAG, видеокодеки, гиперпараметры
+   - Связано: KV cache, NMS, трекинг, RAG, видеокодеки, гиперпараметры, Triton
+
+2. **[Triton Inference Server и развёртывание на 1–N GPU](./topics/triton-inference-server-and-gpu-model-serving/README.md)**
+   - Что такое NVIDIA Triton и какие задачи решает (batching, concurrent models, ensembles)
+   - Полезен ли Triton на одной GPU; когда лучше vLLM / TensorRT-LLM / SGLang
+   - SOTA-стек serving для «100× пользователей» на 1–N GPU
+   - Связано: System Design, KV cache, токенизация, RAG, видеокодеки
 
 ### Нормализация и стабилизация обучения
 
@@ -413,7 +426,8 @@
 1. **Эмбеддинги и матрица эмбеддингов** — база представлений
 2. **Contrastive и metric learning** — пары/триплеты/InfoNCE
 3. **ArcFace и angular-margin losses** — идентификационные пайплайны
-4. **ROC AUC** + **калибровка** — пороги в open-set постановках
+4. **Лоссы metric learning и майнеры** — какой лосс, какой майнер, когда
+5. **ROC AUC** + **калибровка** — пороги в open-set постановках
 
 ### Компьютерное зрение и детекция
 
@@ -453,6 +467,7 @@
 ### Системы и serving
 
 1. **System Design для CV и NLP** — сначала $\rho$ и SLO, потом фреймворк
+2. **Triton и GPU serving** — runtime и SOTA-стек (vLLM / TensorRT-LLM) на 1–N GPU
 2. 100 клиентов vs 1000: горизонтальные реплики, dynamic batching
 3. LLM: KV-кэш и continuous batching, не «просто RPS»
 4. Камеры: latest-frame + NVDEC, не FIFO всех кадров

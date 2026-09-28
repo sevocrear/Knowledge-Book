@@ -1,6 +1,10 @@
 ---
 description: Поиск существующих топиков, анти-дубликаты, перекрёстные ссылки, Obsidian frontmatter и пересборка оглавлений для knowledge-book
 globs: topics/**/*.md,README.md,docs/**/*.md
+paths:
+  - "topics/**/*.md"
+  - "README.md"
+  - "docs/**/*.md"
 alwaysApply: false
 ---
 

@@ -6,7 +6,7 @@ tags:
 status: canonical
 lang: ru
 type: index
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 
 # Каталог тем
@@ -202,6 +202,15 @@ updated: 2026-08-19
 
 ## Вложенные заметки
 
+## [Лоссы metric learning и подбор майнеров](../topics/metric-learning-losses-and-miners/README.md)
+
+- **slug:** `metric-learning-losses-and-miners`
+- **description:** Каталог лоссов metric learning (contrastive, triplet, N-pair, Multi-Similarity, Circle, InfoNCE/SupCon, Proxy-NCA/Anchor, SoftTriple, ArcFace/CosFace/AdaFace): формулы, интуиция, какие майнеры к какому лоссу и когда что выбирать.
+- **tags:** `domain/cv`, `concept/metric-learning`, `concept/loss`, `concept/embeddings`, `concept/contrastive-learning`
+- **aliases:** triplet loss, Multi-Similarity loss, Circle loss, Proxy-Anchor, hard negative mining, semi-hard mining
+
+## Вложенные заметки
+
 ## [System Design для Computer Vision и NLP](../topics/ml-system-design-for-cv-and-nlp/README.md)
 
 - **slug:** `ml-system-design-for-cv-and-nlp`
@@ -280,6 +289,15 @@ updated: 2026-08-19
 - **description:** Scaled dot-product attention, QKV, KV cache, positional encodings (в т.ч. RoPE), ViT и DETR-подобные детекция/сегментация.
 - **tags:** `domain/nlp`, `domain/cv`, `domain/llm`, `concept/attention`, `concept/transformer`, `concept/vit`
 - **aliases:** Transformer, self-attention, ViT, Vision Transformer, KV cache, RoPE
+
+## Вложенные заметки
+
+## [Triton Inference Server и развёртывание моделей на 1–N GPU](../topics/triton-inference-server-and-gpu-model-serving/README.md)
+
+- **slug:** `triton-inference-server-and-gpu-model-serving`
+- **description:** NVIDIA Triton: dynamic batching, concurrent execution, ensembles; полезен ли на 1 GPU; SOTA serving (vLLM, TensorRT-LLM, SGLang) для 100× пользователей.
+- **tags:** `domain/mlops`, `domain/llm`, `domain/cv`, `concept/model-serving`, `concept/triton`, `concept/inference`
+- **aliases:** Triton Inference Server, NVIDIA Triton, GPU model serving, inference serving stack, vLLM vs Triton
 
 ## Вложенные заметки
 

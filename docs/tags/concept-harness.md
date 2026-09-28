@@ -6,7 +6,7 @@ tags:
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 
 # Тег `concept/harness`

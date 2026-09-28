@@ -6,7 +6,7 @@ tags:
   - domain/mlops
 type: moc
 status: canonical
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 
 # MOC: системы, serving и MLOps

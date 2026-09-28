@@ -1,0 +1,1 @@
+../../.cursor/rules/knowledge-book-consistency.mdc

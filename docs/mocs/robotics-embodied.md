@@ -7,7 +7,7 @@ tags:
   - domain/embodied-ai
 type: moc
 status: canonical
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 
 # MOC: робототехника и Embodied AI

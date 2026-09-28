@@ -583,6 +583,41 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "topic",
     },
+    "metric-learning-losses-and-miners": {
+        "title": "Лоссы metric learning и подбор майнеров",
+        "description": (
+            "Каталог лоссов metric learning (contrastive, triplet, N-pair, Multi-Similarity, Circle, "
+            "InfoNCE/SupCon, Proxy-NCA/Anchor, SoftTriple, ArcFace/CosFace/AdaFace): формулы, интуиция, "
+            "какие майнеры к какому лоссу и когда что выбирать."
+        ),
+        "tags": [
+            "kb/topic",
+            "domain/cv",
+            "concept/metric-learning",
+            "concept/loss",
+            "concept/embeddings",
+            "concept/contrastive-learning",
+        ],
+        "aliases": [
+            "triplet loss",
+            "Multi-Similarity loss",
+            "Circle loss",
+            "Proxy-Anchor",
+            "hard negative mining",
+            "semi-hard mining",
+            "miners",
+        ],
+        "related": [
+            "arcface-and-angular-margin-losses-for-identification",
+            "contrastive-and-metric-learning-for-fine-grained-visual-recognition",
+            "classification-losses-cross-entropy-focal-loss",
+            "embeddings-and-embedding-matrix",
+            "roc-curve-and-roc-auc",
+        ],
+        "status": "canonical",
+        "lang": "ru",
+        "type": "topic",
+    },
     "ml-system-design-for-cv-and-nlp": {
         "title": "System Design для Computer Vision и NLP",
         "description": (
@@ -616,6 +651,41 @@ TOPIC_METADATA: dict[str, TopicMeta] = {
             "how-models-predict-confidence-and-calibration",
             "video-codecs-h264-h265-and-gpu-decode",
             "agent-protocols-mcp-acp-ucp-and-harness",
+            "triton-inference-server-and-gpu-model-serving",
+        ],
+        "status": "canonical",
+        "lang": "ru",
+        "type": "topic",
+    },
+    "triton-inference-server-and-gpu-model-serving": {
+        "title": "Triton Inference Server и развёртывание моделей на 1–N GPU",
+        "description": (
+            "NVIDIA Triton: dynamic batching, concurrent execution, ensembles; "
+            "полезен ли на 1 GPU; SOTA serving (vLLM, TensorRT-LLM, SGLang) для 100× пользователей."
+        ),
+        "tags": [
+            "kb/topic",
+            "domain/mlops",
+            "domain/llm",
+            "domain/cv",
+            "concept/model-serving",
+            "concept/triton",
+            "concept/inference",
+        ],
+        "aliases": [
+            "Triton Inference Server",
+            "NVIDIA Triton",
+            "GPU model serving",
+            "inference serving stack",
+            "vLLM vs Triton",
+        ],
+        "related": [
+            "ml-system-design-for-cv-and-nlp",
+            "transformers-attention-and-vision-transformers-vit",
+            "tokenization-and-text-compression-in-llms",
+            "retrieval-augmented-generation-rag",
+            "video-codecs-h264-h265-and-gpu-decode",
+            "how-models-predict-confidence-and-calibration",
         ],
         "status": "canonical",
         "lang": "ru",
@@ -1083,6 +1153,7 @@ MOCS: dict[str, dict[str, object]] = {
             "few-shot-anomaly-detection-anomalydino",
             "contrastive-and-metric-learning-for-fine-grained-visual-recognition",
             "arcface-and-angular-margin-losses-for-identification",
+            "metric-learning-losses-and-miners",
             "action-recognition-and-object-tracking-metrics",
             "unscented-kalman-filter-and-tracking",
             "video-codecs-h264-h265-and-gpu-decode",

@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: how-models-predict-confidence-and-calibration
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # Уверенность, калибровка и неопределённость in Classification: как модели предсказывают уверенность
 

@@ -1,0 +1,1 @@
+../../.cursor/rules/python-topic-scripts.mdc
