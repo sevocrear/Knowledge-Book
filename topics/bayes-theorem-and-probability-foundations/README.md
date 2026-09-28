@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: bayes-theorem-and-probability-foundations
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # Теорема Байеса и основы теории вероятностей
 

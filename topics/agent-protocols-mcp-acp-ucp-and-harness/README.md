@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: agent-protocols-mcp-acp-ucp-and-harness
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # MCP, ACP, UCP и Agent Harness
 

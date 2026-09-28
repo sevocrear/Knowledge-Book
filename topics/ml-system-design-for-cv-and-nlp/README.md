@@ -26,11 +26,12 @@ related:
   - how-models-predict-confidence-and-calibration
   - video-codecs-h264-h265-and-gpu-decode
   - agent-protocols-mcp-acp-ucp-and-harness
+  - triton-inference-server-and-gpu-model-serving
 status: canonical
 lang: ru
 type: topic
 slug: ml-system-design-for-cv-and-nlp
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # System Design для Computer Vision и NLP
 
@@ -252,7 +253,7 @@ $$\text{KV} \approx 2 \cdot n_{\text{layers}} \cdot n_{\text{kv heads}} \cdot d_
 5. Canary 5–10% трафика на новую версию; откат по p99 и калибровке, не только по accuracy ([калибровка](../how-models-predict-confidence-and-calibration/README.md)).
 6. Автоскейл по **queue depth** и GPU SM util, не по среднему CPU.
 
-Стек, который реально встречается: NVIDIA Triton, vLLM / TensorRT-LLM, TorchServe, ONNX Runtime, Ray Serve, BentoML, TensorRT, OpenVINO / TensorRT на edge.
+Стек, который реально встречается: NVIDIA Triton, vLLM / TensorRT-LLM, TorchServe, ONNX Runtime, Ray Serve, BentoML, TensorRT, OpenVINO / TensorRT на edge. Разбор Triton, ответ «нужен ли на 1 GPU» и карта SOTA serving — в [Triton и GPU model serving](../triton-inference-server-and-gpu-model-serving/README.md).
 
 ---
 
@@ -360,11 +361,12 @@ uv run python topics/ml-system-design-for-cv-and-nlp/scripts/03_multicamera_pipe
 - [Настройка гиперпараметров](../hyperparameter-tuning/README.md) — соседний MLOps-слой: обучение, не serving.
 - [Видеокодеки H.264/H.265 и GPU-decode](../video-codecs-h264-h265-and-gpu-decode/README.md) — почему ingest камер упирается в декод, а не в YOLO.
 - [MCP, ACP, UCP и Agent Harness](../agent-protocols-mcp-acp-ucp-and-harness/README.md) — протоколы и обвязка агента: соседний слой надёжности, не serving GPU.
+- [Triton и GPU model serving](../triton-inference-server-and-gpu-model-serving/README.md) — runtime: Triton, vLLM, TensorRT-LLM; 1 GPU и 100× пользователей.
 
 ### Внешние материалы
 
 - Kleinrock, L. *Queueing Systems* — закон Литтла и $\rho < 1$.
-- NVIDIA Triton Inference Server — dynamic batching, model ensembles.
+- NVIDIA Triton Inference Server — dynamic batching, model ensembles (подробнее в топике выше).
 - Kwon et al., *Efficient Memory Management for Large Language Model Serving with PagedAttention* (vLLM), 2023.
 - NVIDIA DeepStream / GStreamer — мультикамерный ingest и NVDEC.
 - High Scalability / «Designing data-intensive applications» (Kleppmann) — очереди, репликация, кэш; модель — ещё один stateful/stateless сервис.

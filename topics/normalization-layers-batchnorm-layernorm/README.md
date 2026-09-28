@@ -20,7 +20,7 @@ status: canonical
 lang: ru
 type: topic
 slug: normalization-layers-batchnorm-layernorm
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # Batch Normalization и Layer Normalization
 

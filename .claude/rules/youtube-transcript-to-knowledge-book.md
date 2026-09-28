@@ -1,0 +1,1 @@
+../../.cursor/rules/youtube-transcript-to-knowledge-book.mdc

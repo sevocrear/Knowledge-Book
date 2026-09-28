@@ -6,7 +6,7 @@ tags:
 status: canonical
 lang: ru
 type: index
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 
 # Таксономия тегов
@@ -32,13 +32,13 @@ updated: 2026-08-19
 - [`concept/cnn`](./concept-cnn.md) — 1 заметка
 - [`concept/compression`](./concept-compression.md) — 1 заметка
 - [`concept/confidence`](./concept-confidence.md) — 1 заметка
-- [`concept/contrastive-learning`](./concept-contrastive-learning.md) — 1 заметка
+- [`concept/contrastive-learning`](./concept-contrastive-learning.md) — 2 заметки
 - [`concept/convolution`](./concept-convolution.md) — 1 заметка
 - [`concept/decision-trees`](./concept-decision-trees.md) — 1 заметка
 - [`concept/diffusion`](./concept-diffusion.md) — 1 заметка
 - [`concept/dino`](./concept-dino.md) — 2 заметки
 - [`concept/elbo`](./concept-elbo.md) — 1 заметка
-- [`concept/embeddings`](./concept-embeddings.md) — 3 заметки
+- [`concept/embeddings`](./concept-embeddings.md) — 4 заметки
 - [`concept/end-to-end-detection`](./concept-end-to-end-detection.md) — 1 заметка
 - [`concept/ensemble`](./concept-ensemble.md) — 2 заметки
 - [`concept/face-recognition`](./concept-face-recognition.md) — 1 заметка
@@ -53,6 +53,7 @@ updated: 2026-08-19
 - [`concept/harness`](./concept-harness.md) — 2 заметки
 - [`concept/hyperparameter-tuning`](./concept-hyperparameter-tuning.md) — 1 заметка
 - [`concept/imitation-learning`](./concept-imitation-learning.md) — 1 заметка
+- [`concept/inference`](./concept-inference.md) — 1 заметка
 - [`concept/kalman-filter`](./concept-kalman-filter.md) — 1 заметка
 - [`concept/kernel-methods`](./concept-kernel-methods.md) — 1 заметка
 - [`concept/latent-diffusion`](./concept-latent-diffusion.md) — 1 заметка
@@ -60,12 +61,12 @@ updated: 2026-08-19
 - [`concept/layernorm`](./concept-layernorm.md) — 1 заметка
 - [`concept/load-balancing`](./concept-load-balancing.md) — 1 заметка
 - [`concept/lora`](./concept-lora.md) — 1 заметка
-- [`concept/loss`](./concept-loss.md) — 3 заметки
+- [`concept/loss`](./concept-loss.md) — 4 заметки
 - [`concept/mcp`](./concept-mcp.md) — 1 заметка
-- [`concept/metric-learning`](./concept-metric-learning.md) — 2 заметки
+- [`concept/metric-learning`](./concept-metric-learning.md) — 3 заметки
 - [`concept/metrics`](./concept-metrics.md) — 3 заметки
 - [`concept/model-merging`](./concept-model-merging.md) — 1 заметка
-- [`concept/model-serving`](./concept-model-serving.md) — 1 заметка
+- [`concept/model-serving`](./concept-model-serving.md) — 2 заметки
 - [`concept/moe`](./concept-moe.md) — 1 заметка
 - [`concept/nas`](./concept-nas.md) — 1 заметка
 - [`concept/nms`](./concept-nms.md) — 1 заметка
@@ -90,6 +91,7 @@ updated: 2026-08-19
 - [`concept/tokenization`](./concept-tokenization.md) — 2 заметки
 - [`concept/tracking`](./concept-tracking.md) — 2 заметки
 - [`concept/transformer`](./concept-transformer.md) — 1 заметка
+- [`concept/triton`](./concept-triton.md) — 1 заметка
 - [`concept/ukf`](./concept-ukf.md) — 1 заметка
 - [`concept/uncertainty`](./concept-uncertainty.md) — 1 заметка
 - [`concept/vae`](./concept-vae.md) — 1 заметка
@@ -103,14 +105,14 @@ updated: 2026-08-19
 
 - [`domain/agents`](./domain-agents.md) — 4 заметки
 - [`domain/classical-ml`](./domain-classical-ml.md) — 3 заметки
-- [`domain/cv`](./domain-cv.md) — 14 заметок
+- [`domain/cv`](./domain-cv.md) — 16 заметок
 - [`domain/dl-foundations`](./domain-dl-foundations.md) — 2 заметки
 - [`domain/embodied-ai`](./domain-embodied-ai.md) — 2 заметки
 - [`domain/generative`](./domain-generative.md) — 3 заметки
-- [`domain/llm`](./domain-llm.md) — 8 заметок
+- [`domain/llm`](./domain-llm.md) — 9 заметок
 - [`domain/math`](./domain-math.md) — 2 заметки
 - [`domain/ml-foundations`](./domain-ml-foundations.md) — 6 заметок
-- [`domain/mlops`](./domain-mlops.md) — 2 заметки
+- [`domain/mlops`](./domain-mlops.md) — 3 заметки
 - [`domain/multimodal`](./domain-multimodal.md) — 1 заметка
 - [`domain/nlp`](./domain-nlp.md) — 5 заметок
 - [`domain/rl`](./domain-rl.md) — 1 заметка
@@ -120,7 +122,7 @@ updated: 2026-08-19
 ## `kb/`
 
 - [`kb/note`](./kb-note.md) — 2 заметки
-- [`kb/topic`](./kb-topic.md) — 35 заметок
+- [`kb/topic`](./kb-topic.md) — 37 заметок
 
 ## `source/`
 

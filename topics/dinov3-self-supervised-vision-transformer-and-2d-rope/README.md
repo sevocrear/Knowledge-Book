@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: dinov3-self-supervised-vision-transformer-and-2d-rope
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # DINOv3: Self-Supervised Vision Transformer и 2D RoPE
 

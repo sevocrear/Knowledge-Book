@@ -19,7 +19,7 @@ status: canonical
 lang: ru
 type: topic
 slug: generative-adversarial-networks-gans
-updated: 2026-08-19
+updated: 2026-09-18
 ---
 # Generative Adversarial Networks (GAN)
 

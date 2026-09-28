@@ -1,0 +1,1 @@
+../../.cursor/rules/russian-language.mdc
