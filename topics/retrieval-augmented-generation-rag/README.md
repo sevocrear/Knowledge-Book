@@ -139,11 +139,11 @@ RAG состоит из трёх основных этапов:
 └─────────────────────────────────────┘
 ```
 
-**Визуализация (Manim):** зачем не «только LLM», затем query → embedding → Top‑K чанков → контекст в промпт → ответ.
+**Визуализация (HyperFrames, ~42 с):** почему не «просто LLM» — заморозка знаний, приватные данные, галлюцинации (сцена 1); offline-индексация: документы → chunking → embedding → vector store (сцена 2); online: query embedding → Top‑K по cosine → промпт с контекстом → LLM → ответ с источниками (сцена 3).
 
-<video src="./assets/visualizations/rag_pipeline.mp4" controls muted loop playsinline width="100%"></video>
+![RAG: индексация offline и retrieval → augmentation → generation online](./assets/visualizations/rag_pipeline.gif)
 
-*Fallback GIF:* `![](./assets/visualizations/rag_pipeline.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/rag_pipeline.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ### Детальный процесс
 
