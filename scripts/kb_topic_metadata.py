@@ -1092,6 +1092,7 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "note",
     },
+    # --- storyboards (auto) ---
     "arcface-and-angular-margin-losses-for-identification/visualizations/hyperframes/storyboard": {
         "title": "Сториборд клипа: ArcFace — угловой margin на гиперсфере",
         "description": (
@@ -1134,22 +1135,22 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "note",
     },
-    "transformers-attention-and-vision-transformers-vit/visualizations/hyperframes/storyboard": {
-        "title": "Сториборд клипа: ViT — патчи, self-attention и CLS",
+    "ml-system-design-for-cv-and-nlp/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: serving — закон очередей, балансировщик, dynamic batching",
         "description": (
-            "Сториборд и команды сборки HyperFrames-клипа vit_patches_attention: картинка → патчи и токены с CLS, scaled dot-product attention для строки CLS, энкодер из L блоков и голова классификации."
+            "Сториборд и команды сборки HyperFrames-клипа serving-load-balancer-batching: ρ = λ/μ на 100 и 1000 клиентов, реплики за балансировщиком с автоскейлом по очереди, dynamic batching на GPU-ноде."
         ),
         "tags": [
             "kb/note",
             "kb/visualization",
-            "domain/cv",
-            "concept/attention",
-            "concept/vit",
+            "domain/mlops",
+            "concept/system-design",
+            "concept/model-serving",
         ],
-        "aliases": ["ViT storyboard", "vit_patches_attention"],
+        "aliases": ["serving storyboard", "serving-load-balancer-batching"],
         "related": [
-            "transformers-attention-and-vision-transformers-vit",
-            "embeddings-and-embedding-matrix",
+            "ml-system-design-for-cv-and-nlp",
+            "triton-inference-server-and-gpu-model-serving",
         ],
         "status": "notes",
         "lang": "ru",
@@ -1176,6 +1177,27 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "note",
     },
+    "transformers-attention-and-vision-transformers-vit/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: ViT — патчи, self-attention и CLS",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа vit_patches_attention: картинка → патчи и токены с CLS, scaled dot-product attention для строки CLS, энкодер из L блоков и голова классификации."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/attention",
+            "concept/vit",
+        ],
+        "aliases": ["ViT storyboard", "vit_patches_attention"],
+        "related": [
+            "transformers-attention-and-vision-transformers-vit",
+            "embeddings-and-embedding-matrix",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
     "video-codecs-h264-h265-and-gpu-decode/visualizations/hyperframes/storyboard": {
         "title": "Сториборд клипа: видеокодеки — intra, inter и GOP из I/P/B",
         "description": (
@@ -1196,27 +1218,7 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "note",
     },
-    "ml-system-design-for-cv-and-nlp/visualizations/hyperframes/storyboard": {
-        "title": "Сториборд клипа: serving — закон очередей, балансировщик, dynamic batching",
-        "description": (
-            "Сториборд и команды сборки HyperFrames-клипа serving-load-balancer-batching: ρ = λ/μ на 100 и 1000 клиентов, реплики за балансировщиком с автоскейлом по очереди, dynamic batching на GPU-ноде."
-        ),
-        "tags": [
-            "kb/note",
-            "kb/visualization",
-            "domain/mlops",
-            "concept/system-design",
-            "concept/model-serving",
-        ],
-        "aliases": ["serving storyboard", "serving-load-balancer-batching"],
-        "related": [
-            "ml-system-design-for-cv-and-nlp",
-            "triton-inference-server-and-gpu-model-serving",
-        ],
-        "status": "notes",
-        "lang": "ru",
-        "type": "note",
-    },
+    # --- end storyboards (auto) ---
 }
 
 # Maps of Content: docs/mocs/<name>.md
