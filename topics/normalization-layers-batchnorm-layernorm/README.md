@@ -259,6 +259,12 @@ $$
 
 В обоих случаях сеть потом может «настроить» масштаб и сдвиг с помощью своих ручек `γ` и `β`, если ей нужно сделать кого‑то повыше или пониже.
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — тензор (N, C, H, W) как сетка и BatchNorm, который считает μ_B, σ²_B по столбцу канала (по батчу и H × W), хранит running mean/var для инференса; сцена 2 — маленький батч делает статистики шумными, а LayerNorm нормализует каждую строку-объект по её d признакам независимо от батча; сцена 3 — сравнение осей, где что используется (CNN vs Transformer, RMSNorm в LLM) и общий шаг γ·x̂ + β.
+
+![BatchNorm vs LayerNorm: по какой оси считаются статистики](./assets/visualizations/batchnorm-vs-layernorm-axes.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/batchnorm-vs-layernorm-axes.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## 7. Источники
