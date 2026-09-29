@@ -45,6 +45,12 @@ updated: 2026-09-18
 **Как объяснить 5‑летнему.**  
 Покажи ребёнку идеальную картинку стакана с соком. Разрежь её на маленькие квадратики и запомни, «как пахнут» эти квадратики. Потом покажи другой стакан: если какой‑то квадратик **совсем не похож** на все запомненные — там, скорее всего, косяк (мало сока, пролили, пятно). AnomalyDINO так и делает, только «запах» — это числа из умной нейросети DINOv2.
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — k эталонов → патч-фичи DINOv2 ViT-S/14 → memory bank M без обучения; сцена 2 — nearest-neighbour косинусное расстояние каждого патча тестового кадра к M, anomaly map (upsampling + blur) и маска дефекта; сцена 3 — image score как среднее top-1 % расстояний, порог OK / defect и результат на MVTec-AD 1-shot.
+
+![AnomalyDINO: memory bank патч-фич DINOv2, nearest-neighbour anomaly map и top-1 % image score](./assets/visualizations/anomalydino-patch-nn-memory-bank.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/anomalydino-patch-nn-memory-bank.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ### 2. Постановка задачи: industrial anomaly detection
