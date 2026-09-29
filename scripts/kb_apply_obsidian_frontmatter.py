@@ -130,7 +130,8 @@ def apply_to_file(path: Path, meta: dict, updated: str) -> bool:
     body = ensure_h1(body, meta["title"])
     slug = meta.get("slug") or path.parent.name
     if path.name != "README.md":
-        slug = f"{path.parent.name}/{path.stem}"
+        # Ключ заметки из NOTE_METADATA (`<topic-slug>/<путь/к/заметке>`), иначе — родитель/имя файла.
+        slug = meta.get("slug") or f"{path.parent.name}/{path.stem}"
 
     fm = render_frontmatter(
         title=meta["title"],

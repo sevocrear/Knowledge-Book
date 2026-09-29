@@ -40,12 +40,18 @@
 ## Разработка (uv)
 
 - `uv sync` — установить зависимости проекта и dev
-- `uv sync --group viz` — добавить Manim + imageio (локальный рендер `dl-viz`; включает smoke-тесты Manim)
-- `uv run pytest` — все тесты; тесты с `@pytest.mark.manim` пропускаются, если Manim не установлен
+- `uv run pytest` — все тесты; статические проверки HyperFrames-проектов идут всегда, а тесты с `@pytest.mark.hyperframes` (настоящий `npx hyperframes check`) включаются переменной `KB_RUN_HYPERFRAMES=1`
 - `uv run python scripts/kb_validate_links.py` — проверка ссылок, оглавлений и frontmatter
 - GitHub Actions (`.github/workflows/ci.yml`) гоняет `pytest` и проверку ссылок; merge в `main` только при зелёном check **CI**
 - `uv run python topics/<topic-slug>/scripts/01_<name>.py` — запустить пример темы
-- `uv run python scripts/viz/mp4_to_gif.py <file.mp4> -o <out.gif>` — GIF из отрендеренного MP4
+- `uv run python scripts/viz/mp4_to_gif.py <file.mp4> -o <out.gif>` — GIF из отрендеренного MP4 (нужен `ffmpeg`)
+
+### Визуализации (HyperFrames, скилл `kb-video`)
+
+- Клипы к темам делаются по пайплайну [nd-video-studio](https://github.com/vakovalskii/nd-video-studio): сториборд → HTML-композиция [HyperFrames](https://github.com/heygen-com/hyperframes) → `check` + снапшоты → рендер MP4 → GIF; скилл: `.cursor/skills/kb-video/SKILL.md`
+- Исходники: `topics/<topic-slug>/visualizations/hyperframes/` (`storyboard.md`, `index.html`, `compositions/`); артефакты: `topics/<topic-slug>/assets/visualizations/<name>.{mp4,gif}`
+- В README темы GIF встраивается обычной картинкой (рендерится на GitHub, в Obsidian и IDE), рядом — ссылка на MP4 и сториборд
+- Локальный рендер: Node 22+, `ffmpeg`, затем из каталога проекта `npx -y hyperframes@0.8.81 check` / `snapshot --at …` / `render --quality looks --output renders/<name>.mp4`
 
 ### Транскрипты YouTube
 

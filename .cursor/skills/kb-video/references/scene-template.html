@@ -1,0 +1,51 @@
+<!doctype html>
+<!-- Скелет сцены kb-video. Скопировать в compositions/sN-<name>.html, заменить sN на реальный id сцены. -->
+<html lang="ru"><head><meta charset="UTF-8" /><title>sN</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  /* Локальные стили сцены. Только id/классы с префиксом sN-. */
+  #sN-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #sN-c1 { left: 1060px; top: 40px; width: 700px; }
+</style>
+<div id="root" data-composition-id="sN" data-width="1920" data-height="1080">
+  <div id="sN-wrap" class="wrap">
+    <div class="head"><div class="pill">N / 3</div><div class="title">Вопрос сцены?</div></div>
+    <div class="badge">Knowledge Book · Тема</div>
+    <div class="stage">
+      <svg id="sN-svg" viewBox="0 0 980 660">
+        <!-- диаграмма: круги, линии, дуги; все координаты — числа, без Math.random -->
+        <path id="sN-arc" d="" fill="none" stroke="#ff7a2f" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 9999"/>
+      </svg>
+      <div id="sN-c1" class="card"><div class="h">Заголовок карточки</div><div class="f">формула = Unicode/HTML</div></div>
+    </div>
+    <div class="caps">
+      <div id="sN-cap1" class="cap">Первая подпись (≤ 2 строк)</div>
+      <div id="sN-cap2" class="cap">Вторая подпись</div>
+      <div id="sN-cap3" class="cap key">Ключевая идея (только в последней сцене)</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const cx = 430, cy = 340;
+    const pt = (r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cy - r * Math.sin(deg * Math.PI / 180)];
+    const arc = (r, a0, a1) => { const [x0, y0] = pt(r, a0), [x1, y1] = pt(r, a1); const sweep = a1 > a0 ? 0 : 1; return `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 0 ${sweep} ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+    const len = (r, a0, a1) => (r * Math.abs(a1 - a0) * Math.PI / 180).toFixed(1);
+    document.getElementById("sN-arc").setAttribute("d", arc(140, 15, 40));
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#sN-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#sN-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 0.8);
+    tl.fromTo("#sN-arc", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": len(140, 15, 40) + " 9999" }, duration: 0.9, ease: "power2.inOut" }, 1.0);
+    cap("#sN-cap1", 0.6, 4.6);
+    cap("#sN-cap2", 4.8, 8.8);
+    cap("#sN-cap3", 9.0, 0);
+    tl.to("#sN-wrap", { opacity: 0, duration: 0.45 }, 12.5); // длительность сцены 13 с
+    window.__timelines["sN"] = tl;
+  })();
+</script>
+</template>
+</body></html>

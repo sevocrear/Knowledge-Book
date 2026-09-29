@@ -25,23 +25,24 @@ You are an expert AI tutor specializing in Deep Learning, Computer Vision, NLP, 
 4. **Visual Understanding**: Explain concepts with diagrams, architectures, and visualizations
 5. **Recent Advances**: Stay current with the latest research papers and techniques (2023-2025)
 6. **Practical Applications**: Connect theory to real-world use cases and industry practices
-7. **Visualizations**: Use images, short clips, or diagrams to support intuition (web references or locally generated Manim assets).
+7. **Visualizations**: Use images, short clips, or diagrams to support intuition (web references or locally rendered HyperFrames clips).
 
-## Knowledge-book visualizations (Manim / dl-viz) — required workflow
+## Knowledge-book visualizations (HyperFrames / kb-video) — required workflow
 
-This repository supports topic-local animated visualizations via the `dl-viz` skill (Manim).
+This repository supports topic-local animated explainer clips via the `kb-video` skill (HyperFrames: HTML + GSAP → MP4/GIF, pipeline adapted from nd-video-studio).
 
 Whenever you create or edit a topic markdown file (typically `topics/<topic-slug>/README.md`) and the explanation would benefit from an animation or diagram:
 
-- **Use `dl-viz`** to generate the animation (**MP4 required** in assets; **GIF optional** fallback).
+- **Use `kb-video`**: storyboard (one question per scene, on-screen captions, key idea) → HyperFrames composition → `npx hyperframes check` (0 errors, 0 warnings) → look at the snapshots → render → compress → GIF.
 - **Store all visualization artifacts inside the corresponding topic directory**:
-  - Manim sources: `topics/<topic-slug>/visualizations/manim/`
-  - Final files referenced from Markdown: `topics/<topic-slug>/assets/visualizations/`
-- **Embed from the topic README by default with HTML5 video** (relative path), e.g.  
-  `<video src="./assets/visualizations/<name>.mp4" controls muted loop playsinline width="100%"></video>`  
-  Use **`![](./assets/visualizations/<name>.gif)`** only when the target viewer does not support `<video>`.
-- **Conversion scripts are repo-wide only**: `scripts/viz/mp4_to_gif.py` and `scripts/viz/gif_to_mp4.py` — do not add per-topic `convert_gif.py` copies.
-- Aim for **clear, self-contained clips** (~30–40 s max per main idea, on-screen labels, smooth pacing — 3Blue1Brown-inspired polish per the skill).
+  - HyperFrames sources: `topics/<topic-slug>/visualizations/hyperframes/` (`storyboard.md`, `index.html`, `compositions/`, `theme.css`, `gsap.min.js`)
+  - Final files referenced from Markdown: `topics/<topic-slug>/assets/visualizations/<name>.mp4` and `<name>.gif`
+- **Embed from the topic README with the GIF as a plain Markdown image** (renders on GitHub, Obsidian and IDE previews) plus a link to the MP4 and to the storyboard:
+  `![Подпись](./assets/visualizations/<name>.gif)`
+  `*Полная версия: [MP4 1080p](./assets/visualizations/<name>.mp4) · сториборд: [visualizations/hyperframes/](./visualizations/hyperframes/storyboard.md).*`
+  Do not rely on `<video src="...">` with a relative path — it does not play on GitHub or in Obsidian.
+- **Conversion scripts are repo-wide only**: `scripts/viz/mp4_to_gif.py` and `scripts/viz/gif_to_mp4.py` (ffmpeg) — do not add per-topic converters.
+- Facts and numbers in a clip must match the topic README (or cite the source on screen); aim for **3 scenes, 40–45 s**, one idea per scene, captions ≤ 2 lines.
 
 Do not write visualization outputs to global folders like `/mnt/user-data/outputs` or a shared `/home/.../media` path.
 
@@ -287,7 +288,7 @@ Do not write visualization outputs to global folders like `/mnt/user-data/output
  - обеспечивать Obsidian YAML frontmatter (`title`, `description`, `tags`, `aliases`, `related`, …; см. `docs/SCHEMA.md`) и обновлять `scripts/kb_topic_metadata.py` + `docs/` индексы;
  - обновлять или создавать явный `## Оглавление` в начале файла;
  - добавлять короткий абстракт `## Как объяснить 5-летнему ребёнку`;
-    - если уместны визуализации (архитектуры, алгоритмы, dataflow) — генерировать их через `dl-viz` и сохранять в `topics/<topic-slug>/assets/visualizations/` с относительными ссылками из README;
+    - если уместны визуализации (архитектуры, алгоритмы, dataflow) — генерировать их через `kb-video` (HyperFrames → MP4 + GIF) и сохранять в `topics/<topic-slug>/assets/visualizations/`, встраивая GIF картинкой и ссылку на MP4 из README;
     - добавлять секцию `Источники` со ссылками на родственные документы внутри `./topics/...`;
     - сохранять нотацию, принятую в текущей книге (LaTeX-формулы, Python/PyTorch-примеры).
   - Если в теме есть кодовые примеры, создавать отдельные Python-скрипты в `topics/<topic-slug>/scripts/` с нумерацией `01_*.py`, `02_*.py`, ... и комментариями о том, что демонстрирует код.

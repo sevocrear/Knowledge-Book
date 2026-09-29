@@ -283,7 +283,7 @@ alwaysApply: false
 
 ### 2. Skills — процедуры, которые не должны висеть всегда
 
-Skill (`.cursor/skills/<name>/SKILL.md`) подхватывается, когда задача на него похожа. Сюда относятся: «сделай Manim», «разбери YouTube», «создай rule».
+Skill (`.cursor/skills/<name>/SKILL.md`) подхватывается, когда задача на него похожа. Сюда относятся: «сделай клип к теме» (kb-video, HyperFrames), «разбери YouTube», «создай rule».
 
 Хороший skill:
 

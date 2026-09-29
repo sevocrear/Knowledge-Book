@@ -17,3 +17,9 @@ __pycache__/
 
 # Manim cache/output (topic MP4/GIF in assets/visualizations/ should remain trackable)
 **/visualizations/manim/.media/
+
+# HyperFrames: локальные рендеры/снапшоты/зависимости проектов визуализаций
+**/visualizations/hyperframes/renders/
+**/visualizations/hyperframes/snapshots/
+**/visualizations/hyperframes/node_modules/
+**/visualizations/hyperframes/.hyperframes/

@@ -55,11 +55,11 @@ ArcFace - это функция потерь для обучения эмбед�
 **Как объяснить 5-летнему ребёнку.**  
 Представь, что у каждого человека или товара есть точка на круглой карте. ArcFace учит ставить точки так, чтобы "свои" стояли очень кучно, а "чужие" - с заметным промежутком. Тогда легче понять, кто есть кто.
 
-**Визуализация (Manim):** эмбеддинг и веса классов на единичной сфере, угол $\theta$, угловой margin $m$, идея $s\cos(\theta_y+m)$.
+**Визуализация (HyperFrames, 42 с):** эмбеддинг $z$ и прототипы классов $W_j$ на единичной сфере и угол $\theta$ (сцена 1); что делает угловой margin $m$ — логит $s\cos(\theta_y+m)$ ниже $s\cos\theta_y$, и эмбеддинг «доворачивается» к своему классу (сцена 2); компактные классы с зазором $\ge m$ и сравнение SphereFace / CosFace / ArcFace (сцена 3).
 
-<video src="./assets/visualizations/arcface_angular_margin.mp4" controls muted loop playsinline width="100%"></video>
+![ArcFace: угловой margin на гиперсфере](./assets/visualizations/arcface_angular_margin.gif)
 
-*Fallback GIF:* `![](./assets/visualizations/arcface_angular_margin.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/arcface_angular_margin.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
