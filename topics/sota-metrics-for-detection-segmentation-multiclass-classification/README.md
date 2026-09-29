@@ -75,6 +75,12 @@ updated: 2026-09-18
 
 А метрики — это “оценки в дневнике”: за **точность**, **полноту** и **насколько сильно робот ошибался**.
 
+**Визуализация (HyperFrames, 44 с):** сцена 1 — детекция: IoU-матчинг предсказания с GT при пороге τ, кривая precision–recall и AP как площадь, COCO AP как среднее по порогам IoU 0.50:0.95; сцена 2 — сегментация: per-class IoU по пикселям и mIoU против обманчиво высокой pixel accuracy при доминирующем фоне; сцена 3 — мультикласс: Top-1/Top-5, матрица ошибок и macro vs micro F1 при дисбалансе классов.
+
+![COCO AP, mIoU, Top-1 и macro/micro F1: как считаются стандартные метрики](./assets/visualizations/coco-ap-miou-top1-f1.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/coco-ap-miou-top1-f1.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Два слоя “метрики”: что именно меряем

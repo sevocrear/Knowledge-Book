@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 196px; width: 700px; }
+  .s2-sub { font-size: 27px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+  #s2-bars { position: absolute; left: 1060px; top: 410px; width: 700px; height: 250px; opacity: 0; }
+  #s2-bars .axis { position: absolute; left: 0; right: 0; bottom: 50px; height: 2px; background: #2a3140; }
+  .s2-bar { position: absolute; bottom: 52px; width: 120px; height: 0px; border-radius: 10px 10px 4px 4px; }
+  .s2-val { position: absolute; bottom: 60px; width: 120px; font-size: 30px; font-weight: 700; text-align: center; color: #f0f4ff; opacity: 0; }
+  .s2-lbl { position: absolute; bottom: 0px; width: 160px; font-size: 22px; line-height: 1.2; color: #aab3c2; text-align: center; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Почему mIoU, а не pixel accuracy?</div></div>
+    <div class="badge">Knowledge Book · Metrics</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <text id="s2-grid-ttl" x="40" y="48" fill="#aab3c2" font-size="22" opacity="0">маска 20 × 10 = 200 пикселей (иллюстративно)</text>
+        <g id="s2-grid" opacity="0"></g>
+        <g id="s2-gtcells" opacity="0"></g>
+        <g id="s2-ov-tp" opacity="0"></g>
+        <g id="s2-ov-fp" opacity="0"></g>
+        <g id="s2-ov-fn" opacity="0"></g>
+        <rect id="s2-pred" x="280" y="160" width="120" height="90" fill="none" stroke="#4a9eff" stroke-width="5" stroke-dasharray="12 8" opacity="0"/>
+        <text id="s2-pred-lbl" x="640" y="398" text-anchor="end" fill="#4a9eff" font-size="22" font-weight="700" opacity="0">предсказание: пунктир</text>
+        <text id="s2-gt-lbl" x="40" y="398" fill="#ff7a2f" font-size="22" font-weight="700" opacity="0">GT: заливка</text>
+        <!-- легенда справа от сетки -->
+        <g id="s2-leg1" opacity="0"><rect x="656" y="86" width="26" height="26" rx="5" fill="#1b2130" stroke="#2a3140" stroke-width="2"/><text x="694" y="107" fill="#e6ebf5" font-size="22">фон · 188 пикселей</text></g>
+        <g id="s2-leg2" opacity="0"><rect x="656" y="130" width="26" height="26" rx="5" fill="#ff7a2f"/><text x="694" y="151" fill="#e6ebf5" font-size="22">объект · 12 пикселей</text></g>
+        <g id="s2-leg3" opacity="0"><rect x="656" y="196" width="26" height="26" rx="5" fill="#3dba7a"/><text x="694" y="217" fill="#e6ebf5" font-size="21">TP<tspan fill="#aab3c2"> · объект → объект: 6</tspan></text></g>
+        <g id="s2-leg4" opacity="0"><rect x="656" y="240" width="26" height="26" rx="5" fill="#4a9eff"/><text x="694" y="261" fill="#e6ebf5" font-size="21">FP<tspan fill="#aab3c2"> · фон → объект: 6</tspan></text></g>
+        <g id="s2-leg5" opacity="0"><rect x="656" y="284" width="26" height="26" rx="5" fill="#ff4d6d"/><text x="694" y="305" fill="#e6ebf5" font-size="21">FN<tspan fill="#aab3c2"> · объект → фон: 6</tspan></text></g>
+        <!-- итоги под сеткой -->
+        <text id="s2-pa" x="40" y="440" fill="#e6ebf5" font-size="27" opacity="0">pixel accuracy = (182 + 6) / 200 = <tspan fill="#aab3c2" font-weight="700">0.94</tspan><tspan fill="#aab3c2"> — высока из-за фона</tspan></text>
+        <text id="s2-iouo" x="40" y="500" fill="#e6ebf5" font-size="27" opacity="0">IoU<tspan font-size="19" dy="7">объект</tspan><tspan dy="-7"> = 6 / (6 + 6 + 6) = </tspan><tspan fill="#ff7a2f" font-weight="700">0.33</tspan><tspan fill="#aab3c2">,&nbsp; IoU</tspan><tspan fill="#aab3c2" font-size="19" dy="7">фон</tspan><tspan fill="#aab3c2" dy="-7"> = 182 / 194 = 0.94</tspan></text>
+        <text id="s2-miou" x="40" y="560" fill="#e6ebf5" font-size="27" opacity="0">mIoU = (0.94 + 0.33) / 2 = <tspan fill="#ff7a2f" font-weight="700">0.64</tspan><tspan fill="#aab3c2"> — промах по объекту виден</tspan></text>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">IoU по классу c (по пикселям)</div>
+        <div class="f">IoU<sub>c</sub> = TP<sub>c</sub> / (TP<sub>c</sub> + FP<sub>c</sub> + FN<sub>c</sub>)</div>
+        <div class="s2-sub">TP<sub>c</sub> — пиксели класса c, предсказанные как c</div></div>
+      <div id="s2-c2" class="card"><div class="h">mIoU — среднее по классам</div>
+        <div class="f">mIoU = <span class="o">1/C</span> · Σ<sub>c</sub> IoU<sub>c</sub></div>
+        <div class="s2-sub">каждый класс весит одинаково — устойчивее к дисбалансу классов</div></div>
+      <div id="s2-bars">
+        <div class="axis"></div>
+        <div id="s2-bar1" class="s2-bar" style="left:20px;background:#aab3c2"></div>
+        <div id="s2-val1" class="s2-val" style="left:20px">0.94</div>
+        <div class="s2-lbl" style="left:0px">pixel<br/>accuracy</div>
+        <div id="s2-bar2" class="s2-bar" style="left:200px;background:#1e3a5f"></div>
+        <div id="s2-val2" class="s2-val" style="left:200px">0.94</div>
+        <div class="s2-lbl" style="left:180px">IoU<br/>фон</div>
+        <div id="s2-bar3" class="s2-bar" style="left:380px;background:#ff7a2f"></div>
+        <div id="s2-val3" class="s2-val" style="left:380px">0.33</div>
+        <div class="s2-lbl" style="left:360px">IoU<br/>объект</div>
+        <div id="s2-bar4" class="s2-bar" style="left:560px;background:#ff7a2f"></div>
+        <div id="s2-val4" class="s2-val" style="left:560px">0.64</div>
+        <div class="s2-lbl" style="left:540px"><b style="color:#f0f4ff">mIoU</b></div>
+      </div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Семантическая сегментация — класс на каждый пиксель. Фон занимает <b>188 из 200</b> пикселей, объект — всего 12 (иллюстративно)</div>
+      <div id="s2-cap2" class="cap">Предсказание сдвинуто: по классу «объект» <b class="g">TP = 6</b>, <b class="b">FP = 6</b>, <b class="r">FN = 6</b> → IoU<sub>объект</sub> = 6 / 18 = <b class="o">0.33</b></div>
+      <div id="s2-cap3" class="cap"><b>Pixel accuracy = 0.94</b> обманчиво высока из-за фона; <b class="o">mIoU = 0.64</b> — среднее IoU по классам — честно показывает промах</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const COLS = 20, ROWS = 10, S = 30, GX = 40, GY = 70;
+    const inGT = (c, r) => c >= 6 && c <= 9 && r >= 3 && r <= 5;     // GT: 4×3 = 12 пикселей
+    const inPred = (c, r) => c >= 8 && c <= 11 && r >= 3 && r <= 5;  // предсказание: 4×3, сдвиг на 2 → TP 6, FP 6, FN 6
+    const rect = (id, c, r, fill, extra) => {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("id", id); el.setAttribute("x", GX + c * S + 1); el.setAttribute("y", GY + r * S + 1);
+      el.setAttribute("width", S - 2); el.setAttribute("height", S - 2); el.setAttribute("rx", 4); el.setAttribute("fill", fill);
+      if (extra) Object.entries(extra).forEach(([k, v]) => el.setAttribute(k, v));
+      return el;
+    };
+    const gGrid = document.getElementById("s2-grid"), gGT = document.getElementById("s2-gtcells");
+    const gTP = document.getElementById("s2-ov-tp"), gFP = document.getElementById("s2-ov-fp"), gFN = document.getElementById("s2-ov-fn");
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+      gGrid.appendChild(rect(`s2-px-${r}-${c}`, c, r, "#1b2130", { stroke: "#2a3140", "stroke-width": 1 }));
+      const gt = inGT(c, r), pd = inPred(c, r);
+      if (gt) gGT.appendChild(rect(`s2-gt-${r}-${c}`, c, r, "#ff7a2f"));
+      if (gt && pd) gTP.appendChild(rect(`s2-tp-${r}-${c}`, c, r, "#3dba7a"));
+      if (!gt && pd) gFP.appendChild(rect(`s2-fp-${r}-${c}`, c, r, "#4a9eff"));
+      if (gt && !pd) gFN.appendChild(rect(`s2-fn-${r}-${c}`, c, r, "#ff4d6d"));
+    }
+    const H = 130; // px на значение 1.0
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // 1. Маска: фон и маленький объект
+    tl.fromTo("#s2-grid-ttl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    tl.fromTo("#s2-grid", { opacity: 0 }, { opacity: 1, duration: 0.7 }, 0.4);
+    tl.fromTo("#s2-leg1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.9);
+    tl.fromTo("#s2-gtcells", { opacity: 0, scale: 0.6, svgOrigin: "280 205" }, { opacity: 1, scale: 1, svgOrigin: "280 205", duration: 0.6, ease: "back.out(1.6)" }, 1.3);
+    tl.fromTo("#s2-gt-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.7);
+    tl.fromTo("#s2-leg2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.8);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.4);
+    cap("#s2-cap1", 0.6, 4.6);
+    // 2. Предсказание со сдвигом → TP / FP / FN
+    tl.fromTo("#s2-pred", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.7, ease: "power2.out" }, 4.8);
+    tl.fromTo("#s2-pred-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.3);
+    tl.fromTo("#s2-ov-tp", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.8);
+    tl.fromTo("#s2-leg3", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.8);
+    tl.fromTo("#s2-ov-fp", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.3);
+    tl.fromTo("#s2-leg4", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.3);
+    tl.fromTo("#s2-ov-fn", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.8);
+    tl.fromTo("#s2-leg5", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.8);
+    tl.fromTo("#s2-iouo", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 }, 7.5);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.0);
+    cap("#s2-cap2", 4.8, 9.2);
+    // 3. pixel accuracy vs mIoU
+    tl.fromTo("#s2-pa", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 }, 9.5);
+    tl.fromTo("#s2-bars", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 9.6);
+    [["#s2-bar1", "#s2-val1", 0.94, 9.8], ["#s2-bar2", "#s2-val2", 0.94, 10.2], ["#s2-bar3", "#s2-val3", 0.33, 10.6], ["#s2-bar4", "#s2-val4", 0.64, 11.0]].forEach(([b, v, val, t]) => {
+      tl.fromTo(b, { height: 0 }, { height: val * H, duration: 0.7, ease: "power2.out" }, t);
+      tl.fromTo(v, { opacity: 0, y: 0 }, { opacity: 1, y: -val * H, duration: 0.7, ease: "power2.out" }, t);
+    });
+    tl.fromTo("#s2-miou", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 }, 11.2);
+    cap("#s2-cap3", 9.4, 13.5);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 13.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>
