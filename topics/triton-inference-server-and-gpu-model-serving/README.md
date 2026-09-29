@@ -34,6 +34,12 @@ updated: 2026-09-18
 
 Представь кухню ресторана с одной плитой. Если каждый официант сам готовит один заказ и ждёт, пока плита остынет, гости голодные. Умный повар делает так: собирает похожие заказы в одну сковороду (батч), параллельно греет суп и жарит котлеты на разных конфорках одной плиты и говорит официантам «не стойте у плиты — отдайте заказ на стойку». Triton — такой повар для нейросетей: принимает запросы по HTTP/gRPC, сам собирает пачки и крутит несколько моделей на одной (или нескольких) видеокартах, чтобы гости не ждали зря.
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — одиночные запросы копятся в очереди и уходят на GPU одной пачкой (dynamic batching); сцена 2 — несколько моделей и instance делят одну GPU (concurrent execution, разные backends); сцена 3 — model repository, путь запроса и когда Triton окупается на 1 GPU.
+
+![Triton: dynamic batching и concurrent models](./assets/visualizations/triton-dynamic-batching-concurrent-models.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/triton-dynamic-batching-concurrent-models.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ## Оглавление
 
 1. [Что такое Triton Inference Server](#что-такое-triton-inference-server)
