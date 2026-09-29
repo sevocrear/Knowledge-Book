@@ -45,7 +45,7 @@ updated: 2026-09-18
 
 ---
 
-![image](https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Normal_Distribution_PDF.svg/500px-Normal_Distribution_PDF.svg.png)
+![Плотности нормального распределения при разных μ и σ; закрашена область μ ± σ](./assets/images/normal_pdf.png)
 
 ## Введение
 

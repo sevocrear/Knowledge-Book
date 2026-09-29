@@ -105,7 +105,7 @@ updated: 2026-09-18
 1. $H_i \cap H_j = \emptyset$ для $i \neq j$ (попарно несовместны)
 2. $H_1 \cup H_2 \cup \ldots \cup H_n = \Omega$ (покрывают всё пространство)
 
-![Диаграмма Венна](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Venn_diagram_ABC_BW_Explanation.png/440px-Venn_diagram_ABC_BW_Explanation.png)
+![Разбиение Ω на гипотезы H₁…H₄ и событие A: формула полной вероятности](./assets/images/venn_partition.png)
 
 ---
 
@@ -174,7 +174,7 @@ $$P(A|B) = \frac{P(A \cap B)}{P(B)}$$
 
 Мы как бы «сужаем» пространство исходов с $\Omega$ до $B$ и смотрим, какую часть от $B$ составляет пересечение $A \cap B$.
 
-![Условная вероятность](https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Venn_diagram_for_conditional_probability.svg/440px-Venn_diagram_for_conditional_probability.svg.png)
+![Условная вероятность: пересечение A ∩ B внутри B](./assets/images/venn_conditional.png)
 
 ### Пример
 

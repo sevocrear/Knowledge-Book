@@ -44,7 +44,7 @@ updated: 2026-09-18
 
 ---
 
-![ROC-кривая](https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Roc_curve.svg/500px-Roc_curve.svg.png)
+![ROC-кривые трёх моделей, случайного и идеального классификатора](./assets/images/roc_curve.png)
 
 ## Введение
 
