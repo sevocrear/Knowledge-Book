@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 660px; display: block; }
+  #s3-svg .nd { fill: #161a24; stroke: #2a3140; stroke-width: 3; }
+  #s3-svg .nd.q { stroke: #2dd4bf; }
+  #s3-svg .nd.lf { stroke: #3dba7a; }
+  #s3-svg .nd.bad { stroke: #ff4d6d; stroke-dasharray: 10 8; }
+  #s3-svg .nt { fill: #f0f4ff; font-size: 26px; font-weight: 700; text-anchor: middle; }
+  #s3-svg .ns { fill: #aab3c2; font-size: 23px; text-anchor: middle; }
+  #s3-svg .ed { fill: none; stroke: #aab3c2; stroke-width: 3; }
+  #s3-svg .el { fill: #aab3c2; font-size: 22px; text-anchor: middle; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Зачем ограничивать глубину дерева?</div></div>
+    <div class="badge">Knowledge Book · Decision trees</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 1760 660">
+        <!-- Левая половина: выборка и границы разбиений -->
+        <rect id="s3-regL" x="90" y="30" width="486" height="560" fill="#4a9eff" opacity="0"/>
+        <rect id="s3-regRB" x="576" y="310" width="324" height="280" fill="#4a9eff" opacity="0"/>
+        <rect id="s3-regRT" x="576" y="30" width="324" height="280" fill="#ff7a2f" opacity="0"/>
+        <path d="M 90 30 L 90 590 L 900 590" fill="none" stroke="#aab3c2" stroke-width="3" stroke-linecap="round"/>
+        <text x="906" y="598" fill="#aab3c2" font-size="24">x₁</text>
+        <text x="56" y="40" fill="#aab3c2" font-size="24">x₂</text>
+        <line x1="576" y1="30" x2="576" y2="590" stroke="#2dd4bf" stroke-width="6" stroke-dasharray="16 12" stroke-linecap="round"/>
+        <text x="576" y="626" text-anchor="middle" fill="#2dd4bf" font-size="24" font-weight="700">x₁ ≤ 6</text>
+        <path id="s3-split2" d="M 576 310 L 900 310" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-dasharray="0 9999" stroke-linecap="round"/>
+        <text id="s3-split2-lbl" x="895" y="300" text-anchor="end" fill="#2dd4bf" font-size="24" font-weight="700" opacity="0">x₂ ≤ 5</text>
+        <g id="s3-pts"></g>
+        <circle id="s3-noise" cx="470" cy="330" r="11" fill="#ff7a2f" opacity="0"/>
+        <path id="s3-box" d="M 433 296 L 507 296 L 507 363 L 433 363 Z" fill="none" stroke="#ff4d6d" stroke-width="4" stroke-dasharray="0 9999"/>
+        <text id="s3-box-lbl" x="470" y="392" text-anchor="middle" fill="#ff4d6d" font-size="24" font-weight="700" opacity="0">лист из 1 объекта</text>
+        <!-- Правая половина: дерево -->
+        <g id="s3-root" opacity="0">
+          <rect class="nd q" x="1260" y="10" width="300" height="96" rx="18"/>
+          <text class="nt" x="1410" y="48">x₁ ≤ 6 ?</text>
+          <text class="ns" x="1410" y="86"><tspan fill="#4a9eff">16</tspan> / <tspan fill="#ff7a2f">4</tspan> · G = 0.32</text>
+        </g>
+        <path id="s3-e1" class="ed" d="M 1340 106 L 1240 190" stroke-dasharray="0 9999"/>
+        <path id="s3-e2" class="ed" d="M 1480 106 L 1580 190" stroke-dasharray="0 9999"/>
+        <text id="s3-e1l" class="el" x="1268" y="140" opacity="0">да</text>
+        <text id="s3-e2l" class="el" x="1554" y="140" opacity="0">нет</text>
+        <g id="s3-left" opacity="0">
+          <rect class="nd lf" x="1110" y="190" width="260" height="96" rx="18"/>
+          <text class="nt" x="1240" y="228" fill="#4a9eff">лист: синий</text>
+          <text class="ns" x="1240" y="266"><tspan fill="#4a9eff">14</tspan> / <tspan fill="#ff7a2f">0</tspan> · G = 0</text>
+        </g>
+        <g id="s3-right" opacity="0">
+          <rect class="nd q" x="1450" y="190" width="260" height="96" rx="18"/>
+          <text class="nt" x="1580" y="228">x₂ ≤ 5 ?</text>
+          <text class="ns" x="1580" y="266"><tspan fill="#4a9eff">2</tspan> / <tspan fill="#ff7a2f">4</tspan> · G ≈ 0.44</text>
+        </g>
+        <path id="s3-e3" class="ed" d="M 1530 286 L 1470 370" stroke-dasharray="0 9999"/>
+        <path id="s3-e4" class="ed" d="M 1630 286 L 1660 370" stroke-dasharray="0 9999"/>
+        <g id="s3-l1" opacity="0">
+          <rect class="nd lf" x="1382" y="370" width="176" height="96" rx="18"/>
+          <text class="nt" x="1470" y="408" fill="#4a9eff">синий</text>
+          <text class="ns" x="1470" y="446"><tspan fill="#4a9eff">2</tspan> / <tspan fill="#ff7a2f">0</tspan> · G = 0</text>
+        </g>
+        <g id="s3-l2" opacity="0">
+          <rect class="nd lf" x="1572" y="370" width="176" height="96" rx="18"/>
+          <text class="nt" x="1660" y="408" fill="#ff7a2f">оранжевый</text>
+          <text class="ns" x="1660" y="446"><tspan fill="#4a9eff">0</tspan> / <tspan fill="#ff7a2f">4</tspan> · G = 0</text>
+        </g>
+        <!-- Переобучение: цепочка узлов под левым листом -->
+        <g id="s3-chain" opacity="0">
+          <line class="ed" x1="1240" y1="286" x2="1240" y2="370" stroke-dasharray="8 8"/>
+          <rect class="nd bad" x="1120" y="370" width="240" height="60" rx="14"/>
+          <text class="nt" x="1240" y="409" style="font-size:24px">x₁ ≤ 4.2 ?</text>
+          <line class="ed" x1="1240" y1="430" x2="1240" y2="470" stroke-dasharray="8 8"/>
+          <rect class="nd bad" x="1120" y="470" width="240" height="60" rx="14"/>
+          <text class="nt" x="1240" y="509" style="font-size:24px">x₂ ≤ 5.3 ?</text>
+          <line class="ed" x1="1240" y1="530" x2="1240" y2="570" stroke-dasharray="8 8"/>
+          <rect class="nd bad" x="1120" y="570" width="240" height="60" rx="14"/>
+          <text class="nt" x="1240" y="609" fill="#ff4d6d" style="font-size:24px">лист: 1 объект</text>
+        </g>
+        <g id="s3-stop" opacity="0">
+          <rect x="1090" y="480" width="300" height="120" rx="18" fill="#161a24" stroke="#3dba7a" stroke-width="3"/>
+          <text class="nt" x="1240" y="520" fill="#3dba7a">стоп: max_depth</text>
+          <text class="ns" x="1240" y="556" fill="#e6ebf5">min_samples_leaf</text>
+          <text class="ns" x="1240" y="588" fill="#e6ebf5">pruning</text>
+        </g>
+      </svg>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Рекурсия: в правом узле (2 + 4) снова ищем лучший порог — <b class="t">x₂ ≤ 5</b> — и получаем чистые листья, G = 0</div>
+      <div id="s3-cap2" class="cap">Без ограничений дерево дорисует разбиения вокруг каждого выброса: <b class="r">лист из одного объекта</b> — переобучение</div>
+      <div id="s3-cap3" class="cap key">Жадно максимизируем IG (Gini / энтропия), а глубину держим в узде: max_depth, min_samples_leaf, pruning — или усредняем деревья в ансамбле (Random Forest)</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const blue = [[154.8,500.4],[195.3,231.6],[243.9,388.4],[284.4,119.6],[349.2,522.8],[381.6,287.6],[438.3,422.0],[486.9,164.4],[535.5,478.0],[414.0,80.4],[219.6,69.2],[559.8,310.0],[324.9,203.6],[162.9,343.6],[681.3,455.6],[794.7,382.8]];
+    const orange = [[673.2,147.6],[762.3,237.2],[819.0,102.8],[721.8,74.8]];
+    const g = document.getElementById("s3-pts");
+    const mk = (pts, color, tag) => pts.forEach(([x, y], i) => {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      el.setAttribute("id", `s3-${tag}${i}`); el.setAttribute("cx", x); el.setAttribute("cy", y);
+      el.setAttribute("r", "11"); el.setAttribute("fill", color); g.appendChild(el);
+    });
+    mk(blue, "#4a9eff", "b"); mk(orange, "#ff7a2f", "o");
+    const draw = (id, len, t, d) => tl.fromTo(id, { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": len + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+    const show = (id, t, d = 0.4) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: d }, t);
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // Дерево после первого разбиения (из сцены 2)
+    show("#s3-root", 0.4);
+    draw("#s3-e1", 131, 0.8, 0.4); draw("#s3-e2", 131, 0.8, 0.4);
+    show("#s3-e1l", 1.0); show("#s3-e2l", 1.0);
+    show("#s3-left", 1.2); show("#s3-right", 1.2);
+    cap("#s3-cap1", 0.6, 4.6);
+    // Рекурсия в правом узле: x₂ ≤ 5
+    draw("#s3-split2", 324, 2.0, 0.8);
+    show("#s3-split2-lbl", 2.6);
+    draw("#s3-e3", 104, 2.9, 0.4); draw("#s3-e4", 90, 2.9, 0.4);
+    show("#s3-l1", 3.3); show("#s3-l2", 3.3);
+    tl.fromTo("#s3-regL", { opacity: 0 }, { opacity: 0.12, duration: 0.6 }, 3.8);
+    tl.fromTo("#s3-regRB", { opacity: 0 }, { opacity: 0.12, duration: 0.6 }, 3.8);
+    tl.fromTo("#s3-regRT", { opacity: 0 }, { opacity: 0.12, duration: 0.6 }, 3.8);
+    // Выброс и переобучение
+    show("#s3-noise", 4.9, 0.5);
+    draw("#s3-box", 282, 5.5, 0.9);
+    show("#s3-box-lbl", 6.3);
+    show("#s3-chain", 6.4, 0.8);
+    cap("#s3-cap2", 4.8, 9.0);
+    // Ограничения: цепочка и «лист из 1 объекта» исчезают
+    tl.to("#s3-chain", { opacity: 0, duration: 0.6 }, 9.4);
+    tl.to("#s3-box", { opacity: 0, duration: 0.6 }, 9.4);
+    tl.to("#s3-box-lbl", { opacity: 0, duration: 0.6 }, 9.4);
+    show("#s3-stop", 9.8, 0.5);
+    cap("#s3-cap3", 9.2, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>
