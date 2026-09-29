@@ -43,12 +43,13 @@ updated: 2026-09-18
 11. [Практические Рекомендации](#практические-рекомендации)
 12. [Текущее Состояние (2023-2026)](#текущее-состояние-2023-2026)
 13. [Источники](#источники)
+14. [Заключение](#заключение)
 
 ---
 
 ## Введение
 
-**Non-Maximum Suppression (NMS)** — это классический алгоритм постобработки в задачах детекции объектов, который использовался десятилетиями для удаления дублирующихся детекций. Однако в последние годы произошла революция в архитектуре детекторов: современные модели, такие как **YOLO26** (2026) и **DETR** (2020), полностью отказались от NMS, используя end-to-end подходы, где модель сама учится выдавать финальные детекции без постобработки.
+**Non-Maximum Suppression (NMS)** — это классический алгоритм постобработки в задачах детекции объектов, который использовался десятилетиями для удаления дублирующихся детекций. Однако в последние годы произошла революция в архитектуре детекторов: современные модели, такие как **YOLO26** (2025–2026) и **DETR** (2020), полностью отказались от NMS, используя end-to-end подходы, где модель сама учится выдавать финальные детекции без постобработки.
 
 ### Ключевые Характеристики
 
@@ -58,10 +59,10 @@ updated: 2026-09-18
 
 ### Исторический Контекст
 
-- **2000-е**: NMS становится стандартом для всех детекторов (R-CNN, YOLO, SSD)
+- **2000-е – 2010-е**: NMS становится стандартом для всех детекторов (HOG/DPM, R-CNN, YOLO, SSD)
 - **2020**: DETR (DEtection TRansformer) — первый end-to-end детектор без NMS
 - **2021-2025**: Развитие DETR-подобных архитектур (Deformable DETR, DINO, RT-DETR)
-- **2026**: YOLO26 полностью удаляет NMS, переходя на end-to-end архитектуру
+- **2025–2026**: YOLO26 (анонс — сентябрь 2025, статья — 2026) полностью удаляет NMS, переходя на end-to-end архитектуру
 
 ---
 
@@ -234,28 +235,28 @@ print(f"Оставлены боксы: {keep_indices}")  # [0, 2] - боксы 1
 
 ### Визуализация Работы NMS
 
-```
+```text
 До NMS:
-┌─────────────────────────────────────┐
-│  [Box 1: conf=0.9]                  │
-│    [Box 2: conf=0.7] ──┐           │
-│      [Box 4: conf=0.6]  │           │
-│                         │           │
-│                         └─→ Все     │
+┌──────────────────────────────────────┐
+│  [Box 1: conf=0.9]                   │
+│    [Box 2: conf=0.7] ──┐             │
+│      [Box 4: conf=0.6] │             │
+│                        │             │
+│                        └─→ Все три   │
 │                            перекры-  │
 │                            ваются    │
 │                                      │
-│  [Box 3: conf=0.8]                  │
-│  (отдельный объект)                 │
-└─────────────────────────────────────┘
+│  [Box 3: conf=0.8]                   │
+│  (отдельный объект)                  │
+└──────────────────────────────────────┘
 
 После NMS (iou_threshold=0.5):
-┌─────────────────────────────────────┐
-│  [Box 1: conf=0.9] ✓                │
-│  (Box 2 и Box 4 подавлены)          │
+┌──────────────────────────────────────┐
+│  [Box 1: conf=0.9] ✓                 │
+│  (Box 2 и Box 4 подавлены)           │
 │                                      │
-│  [Box 3: conf=0.8] ✓                │
-└─────────────────────────────────────┘
+│  [Box 3: conf=0.8] ✓                 │
+└──────────────────────────────────────┘
 ```
 
 ---
@@ -322,7 +323,7 @@ def agnostic_nms(boxes, scores, iou_threshold=0.5):
 # Ситуация: человек держит сумку (перекрываются)
 boxes = np.array([
     [100, 100, 200, 300],  # Человек (класс 0), conf=0.9
-    [150, 150, 250, 250],  # Сумка (класс 1), conf=0.8
+    [120, 150, 210, 290],  # Сумка (класс 1), conf=0.8; IoU с человеком ≈ 0.52
 ])
 
 scores = np.array([0.9, 0.8])
@@ -405,7 +406,7 @@ NMS не является частью нейронной сети, поэтом
 
 ### Что такое DFL?
 
-**Distribution Focal Loss (DFL)** — это функция потерь, используемая в YOLOv8 и YOLOv9 для улучшения регрессии bounding boxes через предсказание распределения вероятностей вместо прямого предсказания координат.
+**Distribution Focal Loss (DFL)** — это функция потерь из Generalized Focal Loss (Li et al., NeurIPS 2020), используемая в YOLOv6 и YOLOv8–YOLO11 для улучшения регрессии bounding boxes через предсказание распределения вероятностей вместо прямого предсказания координат.
 
 ### Зачем Нужен DFL?
 
@@ -433,22 +434,16 @@ $$x_1 \in \{x_{min}, x_{min}+\Delta, x_{min}+2\Delta, ..., x_{max}\}$$
 
 **Типичное количество bins:**
 
-В **YOLOv8** и **YOLOv9** обычно используется **16 bins** для DFL. Это значение является компромиссом между:
+В **YOLOv8–YOLO11** используется **16 bins** (`reg_max=16`) для DFL. Это значение является компромиссом между:
 - **Точностью**: Больше bins → более точная локализация, но больше параметров
 - **Вычислительной эффективностью**: Меньше bins → быстрее обучение и инференс
 
 **Типичные значения:**
-- **16 bins** — стандартное значение в YOLOv8/YOLOv9 (наиболее распространенное)
+- **16 bins** — стандартное значение в GFL и YOLOv8–YOLO11 (наиболее распространенное)
 - **8 bins** — для более легких моделей или edge-устройств
 - **32 bins** — для более точных моделей (редко используется из-за вычислительной стоимости)
 
-**Пример**: Для координаты в диапазоне [0, 640] с 16 bins:
-- Bin 0: [0, 40)
-- Bin 1: [40, 80)
-- ...
-- Bin 15: [600, 640]
-
-Каждый bin представляет диапазон значений, а модель предсказывает вероятность того, что истинная координата попадает в каждый bin.
+**Пример (как в GFL / YOLOv8)**: распределение строится не над абсолютной координатой, а над расстоянием от anchor-точки до каждой из четырёх сторон бокса $(l, t, r, b)$ в единицах stride. 16 bins — это целые значения $0, 1, \ldots, 15$, поэтому на уровне со stride 8 максимальное расстояние до стороны $15 \times 8 = 120$ px, на stride 32 — $480$ px. Модель предсказывает вероятность каждого целого значения, а координата восстанавливается как матожидание (см. шаг 3).
 
 #### Шаг 2: Предсказание Распределения
 
@@ -466,28 +461,27 @@ $$P(x_1) = [p_1, p_2, ..., p_n]$$
 
 $$x_1 = \sum_{i=1}^{n} p_i \cdot x_i = \mathbb{E}[P(x_1)]$$
 
-#### Шаг 4: Focal Loss
+#### Шаг 4: Лосс
 
-Используется Focal Loss для фокусировки на сложных примерах:
+Истинное значение $y$ обычно лежит между двумя соседними bins $x_i \le y \le x_{i+1}$. DFL — это cross-entropy, которая распределяет вероятность между этими двумя bins пропорционально близости к ним:
 
-$$\text{DFL}(p, y) = -\sum_{i=1}^{n} \left((1-p_i)^\gamma \log(p_i)\right) \cdot \mathbf{1}[y_i = 1]$$
+$$\text{DFL}(p, y) = -\big((x_{i+1} - y)\log p_i + (y - x_i)\log p_{i+1}\big)$$
 
 где:
-- $p_i$ — предсказанная вероятность для значения $x_i$
-- $y_i$ — ground truth (1 если $x_i$ близко к истинному значению, 0 иначе)
-- $\gamma$ — фокусный параметр (обычно 2.0)
-- $(1-p_i)^\gamma$ — фокусный вес, который увеличивает важность сложных примеров
+- $p_i, p_{i+1}$ — предсказанные вероятности двух ближайших к $y$ bins
+- $(x_{i+1} - y)$ и $(y - x_i)$ — веса линейной интерполяции (при шаге $\Delta = 1$ в сумме дают 1)
+- фокусной модуляции $(1-p)^\gamma$ в DFL нет: «Focal» в названии унаследовано от семейства Generalized Focal Loss (QFL + DFL)
 
 ### Преимущества DFL
 
 1. **Выражение неопределенности**: Модель может выразить неопределенность через распределение
 2. **Более точная локализация**: Распределение позволяет модели предсказывать более точные координаты
-3. **Лучшая регрессия**: Focal Loss фокусируется на сложных примерах
+3. **Быстрая сходимость**: лосс концентрирует вероятность на двух bins вокруг истинного значения, распределение получается компактным
 
 ### Недостатки DFL
 
 1. **Сложность**: Добавляет дополнительную сложность в pipeline
-2. **Зависимость от постобработки**: Увеличивает зависимость от NMS и других постобработок
+2. **Лишний шаг декодирования**: softmax + матожидание по bins (integral) плохо ложится на часть edge-ускорителей и усложняет экспорт
 3. **Усложнение обучения**: Усложняет обучение четких one-to-one соответствий
 4. **Вычислительная стоимость**: Требует больше вычислений
 
@@ -495,7 +489,7 @@ $$\text{DFL}(p, y) = -\sum_{i=1}^{n} \left((1-p_i)^\gamma \log(p_i)\right) \cdot
 
 YOLO26 удалил DFL для поддержки **end-to-end подхода**:
 
-- **Упрощение**: Прямая регрессия проще и быстрее
+- **Упрощение**: прямая регрессия проще и быстрее; голова легче, а диапазон регрессии не ограничен потолком `reg_max` × stride
 - **End-to-end обучение**: Прямая регрессия лучше подходит для обучения one-to-one соответствий
 - **Edge-оптимизация**: Для edge-устройств проще предсказывать координаты напрямую
 - **Меньше зависимостей**: Не требует сложной постобработки
@@ -513,12 +507,10 @@ class DistributionFocalLoss(nn.Module):
     
     Args:
         num_bins: Количество bins для дискретизации (обычно 16)
-        gamma: Фокусный параметр для Focal Loss (обычно 2.0)
     """
-    def __init__(self, num_bins=16, gamma=2.0):
+    def __init__(self, num_bins=16):
         super().__init__()
         self.num_bins = num_bins
-        self.gamma = gamma
     
     def forward(self, pred_distribution, target_value, value_range):
         """
@@ -531,27 +523,29 @@ class DistributionFocalLoss(nn.Module):
         min_val, max_val = value_range
         bin_centers = torch.linspace(min_val, max_val, self.num_bins)
         
-        # Создаем ground truth распределение (one-hot или soft)
+        # Создаем ground truth распределение: вероятность делится между
+        # двумя соседними bins пропорционально близости к ним (как в GFL)
         target_dist = self._create_target_distribution(
             target_value, bin_centers
         )
         
-        # Focal Loss
-        focal_weight = (1 - pred_distribution) ** self.gamma
-        loss = -focal_weight * target_dist * torch.log(pred_distribution + 1e-8)
+        # DFL = cross-entropy с таким "двухточечным" target, без focal-веса
+        loss = -target_dist * torch.log(pred_distribution + 1e-8)
         
         return loss.sum(dim=1).mean()
     
     def _create_target_distribution(self, target_value, bin_centers):
         """
-        Создает target распределение (можно использовать soft assignment)
+        Линейная интерполяция между двумя ближайшими bins
         """
-        # Простой вариант: one-hot encoding для ближайшего bin
-        distances = torch.abs(bin_centers.unsqueeze(0) - target_value.unsqueeze(1))
-        nearest_bin = distances.argmin(dim=1)
+        step = bin_centers[1] - bin_centers[0]
+        pos = ((target_value - bin_centers[0]) / step).clamp(0, self.num_bins - 1 - 1e-6)
+        left = pos.floor().long()                # индекс левого bin
+        w_right = pos - left.float()             # вес правого bin
         
-        target_dist = torch.zeros_like(distances)
-        target_dist.scatter_(1, nearest_bin.unsqueeze(1), 1.0)
+        target_dist = torch.zeros(len(target_value), self.num_bins)
+        target_dist.scatter_(1, left.unsqueeze(1), (1 - w_right).unsqueeze(1))
+        target_dist.scatter_add_(1, (left + 1).unsqueeze(1), w_right.unsqueeze(1))
         
         return target_dist
     
@@ -568,7 +562,7 @@ class DistributionFocalLoss(nn.Module):
         return coordinate
 
 # Пример использования
-dfl = DistributionFocalLoss(num_bins=16, gamma=2.0)
+dfl = DistributionFocalLoss(num_bins=16)
 
 # Предсказание: распределение для координаты x1
 pred_dist = torch.softmax(torch.randn(32, 16), dim=1)  # [batch, num_bins]
@@ -608,23 +602,23 @@ YOLO26 — это как умный ученик, который учится п
 
 4. **STAL**: Модель специально учится видеть даже очень маленькие объекты, которые раньше часто пропускала.
 
-#### 1. Learnable Query-Based Detection
+#### 1. Dual-head: one-to-one голова вместо NMS
 
-YOLO26 использует обучаемые запросы (learnable queries), которые помогают модели фокусироваться на генерации одного уверенного предсказания для каждого объекта:
+YOLO26 — не transformer и не query-based детектор: это свёрточный YOLO с **двумя detection-головами** (схема dual label assignment, впервые применённая в YOLOv10, 2024). One-to-many голова обучается с классическим плотным назначением (много anchor-точек на объект, TAL/STAL) и даёт богатый supervision; one-to-one голова обучается с назначением «один anchor на объект», поэтому на инференсе сразу выдаёт до 300 финальных детекций без NMS:
 
 ```python
-# Концептуальная архитектура
+# Концептуальная архитектура (dual-head, как в YOLOv10)
 class YOLO26DetectionHead(nn.Module):
-    def __init__(self, num_queries=300):
+    def __init__(self, ...):
         super().__init__()
-        # Обучаемые запросы для детекции
-        self.queries = nn.Parameter(torch.randn(num_queries, hidden_dim))
-        self.decoder = TransformerDecoder(...)
+        self.one2many = DenseHead(...)  # обучение: много anchor'ов на объект
+        self.one2one = DenseHead(...)   # обучение: один anchor на объект; инференс
     
     def forward(self, features):
-        # Каждый query генерирует одну детекцию
-        detections = self.decoder(self.queries, features)
-        return detections  # Уже финальные детекции, без NMS
+        if self.training:
+            return self.one2many(features), self.one2one(features)
+        # top-k по confidence из one-to-one головы — уже финальные детекции, без NMS
+        return topk(self.one2one(features), k=300)
 ```
 
 #### 2. STAL (Small-Target-Aware Label Assignment)
@@ -673,7 +667,7 @@ def stal_label_assignment(predictions, ground_truth, min_size=8):
 
 #### 3. Удаление DFL (Distribution Focal Loss)
 
-**DFL (Distribution Focal Loss)** использовался в предыдущих версиях YOLO (YOLOv8, YOLOv9) для улучшения регрессии bounding boxes.
+**DFL (Distribution Focal Loss)** использовался в предыдущих версиях YOLO (YOLOv6, YOLOv8–YOLO11) для улучшения регрессии bounding boxes.
 
 **Что такое DFL?**
 
@@ -690,9 +684,9 @@ def stal_label_assignment(predictions, ground_truth, min_size=8):
 3. **Восстановление координаты**: Финальная координата вычисляется как взвешенная сумма:
    $$x_1 = \sum_{i=1}^{n} p_i \cdot x_i$$
 
-4. **Focal Loss**: Используется Focal Loss для фокусировки на сложных примерах:
-   $$\text{DFL}(p, y) = -\sum_{i} \left((1-p_i)^\gamma \log(p_i)\right) \cdot \mathbf{1}[y_i = 1]$$
-   где $\gamma$ — фокусный параметр (обычно 2.0)
+4. **Лосс**: cross-entropy по двум ближайшим к истинному значению $y$ bins ($x_i \le y \le x_{i+1}$):
+   $$\text{DFL}(p, y) = -\big((x_{i+1} - y)\log p_i + (y - x_i)\log p_{i+1}\big)$$
+   без focal-модуляции $(1-p)^\gamma$ (подробнее — в разделе про DFL выше)
 
 **Зачем нужен DFL?**
 
@@ -702,7 +696,7 @@ def stal_label_assignment(predictions, ground_truth, min_size=8):
 **Почему YOLO26 удалил DFL?**
 
 1. **Сложность**: DFL добавляет дополнительную сложность в pipeline
-2. **Зависимость от постобработки**: DFL увеличивает зависимость от постобработки (например, NMS)
+2. **Лишний шаг декодирования**: softmax + integral по bins ухудшает совместимость с edge-ускорителями и усложняет экспорт
 3. **Усложнение one-to-one соответствий**: DFL усложняет обучение четких one-to-one соответствий между объектами и предсказаниями, необходимых для end-to-end подхода
 4. **Упрощение для edge**: Для edge-устройств проще предсказывать координаты напрямую
 
@@ -719,7 +713,7 @@ YOLO26 использует прямую регрессию координат, 
 YOLO26 использует **два detection head** во время обучения:
 
 1. **One-to-One Head**: Используется на inference, учит модель ассоциировать каждый объект с одним предсказанием
-2. **One-to-Many Head**: Используется только во время обучения, позволяет нескольким предсказаниям ассоциироваться с одним объектом (более плотный supervision)
+2. **One-to-Many Head**: Используется в основном во время обучения — позволяет нескольким предсказаниям ассоциироваться с одним объектом (более плотный supervision); на инференсе остаётся запасным режимом с NMS для export-форматов без end-to-end
 
 **Проблема**: Важность каждого head меняется в процессе обучения:
 - **Ранние стадии**: One-to-many head более полезен (стабилизирует обучение, улучшает recall)
@@ -774,7 +768,7 @@ $$\mathcal{L}_{total}(t) = w_{1:1}(t) \cdot \mathcal{L}_{1:1} + w_{1:M}(t) \cdot
 - **Консистентность**: Более предсказуемое финальное поведение
 - **Выравнивание**: Обучение лучше выравнивается с inference поведением
 
-#### 5. MuSGD (Momentum Update SGD)
+#### 5. MuSGD (Muon + SGD)
 
 **MuSGD** — это новый оптимизатор, разработанный специально для YOLO26, который комбинирует идеи из **Muon** (метод для обучения больших языковых моделей) с классическим **SGD**.
 
@@ -858,9 +852,9 @@ from ultralytics import YOLO
 # Загрузка модели
 model = YOLO('yolo26n.pt')  # nano версия
 
-# Экспорт - NMS уже включен в модель!
+# Экспорт — NMS не нужен: модель end-to-end
 model.export(format='onnx')  # Экспортируется без отдельного NMS
-model.export(format='tensorrt')  # Работает из коробки
+model.export(format='engine')  # TensorRT, работает из коробки
 model.export(format='coreml')  # Полностью самодостаточная модель
 ```
 
@@ -965,7 +959,7 @@ RT-DETR оптимизирован для real-time детекции:
 
 - **Hybrid Encoder**: Комбинация CNN и Transformer
 - **IoU-aware Query Selection**: Улучшенный выбор queries
-- **Real-time производительность**: ~30 FPS на GPU
+- **Real-time производительность**: RT-DETR-R50 — 53.1 AP / 108 FPS, R101 — 54.3 AP / 74 FPS на T4 (TensorRT FP16)
 
 #### DINO (DETR with Improved Denoising Anchor Boxes)
 
@@ -997,9 +991,9 @@ DINO улучшает DETR через:
 ### End-to-End Pipeline (без NMS)
 
 ```
-Изображение → Backbone → Transformer/Query-based Head → Финальные детекции
-                                                          ↑
-                                              Уже финальные, без постобработки
+Изображение → Backbone → Query-based (DETR) / one-to-one (YOLO26) Head → Финальные детекции
+                                                                          ↑
+                                                       Уже финальные, без постобработки
 ```
 
 **Характеристики:**
@@ -1087,7 +1081,7 @@ confidence_threshold = 0.1
 
 #### 2024
 - **YOLO11**: Улучшения в архитектуре, но все еще использует NMS
-- **DINOv2**: Улучшенная версия DINO
+- **YOLOv10**: первый YOLO с NMS-free инференсом (dual-head, one-to-one assignment) — прямой предшественник схемы YOLO26
 
 #### 2025-2026
 - **YOLO26**: Полностью end-to-end, без NMS
@@ -1117,8 +1111,10 @@ confidence_threshold = 0.1
 1. **DETR (2020)**: Carion, N., et al. "End-to-End Object Detection with Transformers." ECCV 2020.
 2. **Deformable DETR (2020)**: Zhu, X., et al. "Deformable DETR: Deformable Transformers for End-to-End Object Detection." ICLR 2021.
 3. **DINO (2022)**: Zhang, H., et al. "DINO: DETR with Improved Denoising Anchor Boxes for End-to-End Object Detection." ICLR 2023.
-4. **RT-DETR (2023)**: Yao, Z., et al. "RT-DETR: Real-Time Detection Transformer." CVPR 2023.
-5. **YOLO26 (2026)**: Ultralytics. "YOLO26: End-to-End Object Detection." 2026.
+4. **RT-DETR (2023)**: Zhao, Y., et al. "DETRs Beat YOLOs on Real-time Object Detection." CVPR 2024 (arXiv 2023).
+5. **YOLOv10 (2024)**: Wang, A., et al. "YOLOv10: Real-Time End-to-End Object Detection." NeurIPS 2024.
+6. **GFL / DFL (2020)**: Li, X., et al. "Generalized Focal Loss: Learning Qualified and Distributed Bounding Boxes for Dense Object Detection." NeurIPS 2020.
+7. **YOLO26 (2026)**: Jocher, G., et al. "Ultralytics YOLO26: Unified Real-Time End-to-End Vision Models." arXiv:2606.03748, 2026.
 
 ### Полезные Ресурсы
 

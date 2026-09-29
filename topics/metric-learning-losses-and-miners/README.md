@@ -455,7 +455,7 @@ $$
 | Triplet margin (L2-нормированные эмбеддинги) | $0.2$ (FaceNet), $0.3$ (re-ID); soft-margin — без $m$ |
 | ArcFace | $s=64,\ m=0.5$; CosFace $m=0.35$; для мелких датасетов $s=30$ |
 | SupCon / NT-Xent $\tau$ | SupCon $0.07$–$0.1$; SimCLR $0.1$–$0.5$; CLIP — обучаемая, старт $0.07$ |
-| Multi-Similarity | $\alpha=2,\ \beta=50,\ \lambda=1$ (PML) или $0.5$ (статья); miner $\epsilon=0.1$ |
+| Multi-Similarity | $\alpha=2,\ \beta=50$; $\lambda=0.5$ (PML `base`, официальный код) или $1$ (текст статьи); miner $\epsilon=0.1$ |
 | Proxy-Anchor | $\alpha=32,\ \delta=0.1$; lr прокси $=100\times$ lr backbone |
 | Circle | $\gamma=80$ (pair) / $256$ (class), $m=0.25$–$0.4$ |
 | P×K сэмплер | $P=32,\ K=4$ (батч 128); re-ID $16\times4$ |
