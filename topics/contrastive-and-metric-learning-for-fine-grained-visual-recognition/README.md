@@ -71,11 +71,11 @@ updated: 2026-09-18
 **Как объяснить 5‑летнему ребёнку.**  
 Представь, что у каждого яблока есть “адрес” на карте. Похожие яблоки живут рядом, а разные — далеко. Мы учим модель рисовать такую карту. Потом, когда видим новое яблоко, мы ищем на карте ближайших “соседей” и понимаем, какой это сорт.
 
-**Визуализация (Manim):** до/после обучения в пространстве эмбеддингов, triplet (якорь / позитив / негатив) и смысл лосса.
+**Визуализация (HyperFrames, ~43 с):** зачем эмбеддинги вместо жёсткого классификатора и как выглядит перемешанное пространство до обучения (сцена 1); triplet loss $\max(0, d(a,p) - d(a,n) + m)$ — позитив притягиваем, негатив отталкиваем за margin, semi-hard mining (сцена 2); компактные кластеры, запрос → $k$ ближайших соседей → порог $\tau$ и production-пайплайн эмбеддинг → ANN-индекс → мониторинг (сцена 3).
 
-<video src="./assets/visualizations/contrastive_embedding_space.mp4" controls muted loop playsinline width="100%"></video>
+![Contrastive / metric learning: пространство эмбеддингов и triplet loss](./assets/visualizations/contrastive_embedding_space.gif)
 
-*Если `<video>` не отображается в вашем просмотрщике Markdown, используйте GIF:* `![](./assets/visualizations/contrastive_embedding_space.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/contrastive_embedding_space.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
