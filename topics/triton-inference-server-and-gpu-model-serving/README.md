@@ -176,7 +176,7 @@ Model repository с версиями `1/`, `2/`. Canary: 5% трафика на 
 
 - **TensorRT / ONNX Runtime / OpenVINO** — граф, fusion, INT8/FP8.
 - **Квантизация весов** LLM: GPTQ, AWQ, bitsandbytes NF4, FP8 на Hopper/Blackwell.
-- **Спекулятивный декодирование** (draft + verify) — выше tokens/s при том же GPU.
+- **Спекулятивное декодирование** (draft + verify) — выше tokens/s при том же GPU.
 - **Меньше токенов** на ответ: хороший системный промпт, constrained decoding; см. [токенизацию](../tokenization-and-text-compression-in-llms/README.md).
 
 ### B. LLM: continuous batching и память KV
@@ -206,12 +206,12 @@ Model repository с версиями `1/`, `2/`. Canary: 5% трафика на 
 
 SOTA-практика для детекции/сегментации/эмбеддингов:
 
-1. Экспорт в ONNX → TensorRT engine (или `torch.compile` / TensorRT Torch-TensorRT).
+1. Экспорт в ONNX → TensorRT engine (или `torch.compile` / Torch-TensorRT).
 2. Triton: dynamic batching + 1–2 instance на GPU.
 3. Пре/пост на CPU или Python backend; тяжёлый decode видео — NVDEC ([кодеки](../video-codecs-h264-h265-and-gpu-decode/README.md)).
 4. Latest-frame очередь для камер, не бесконечный FIFO ([System Design](../ml-system-design-for-cv-and-nlp/README.md)).
 
-Альтернативы легче Triton: **NVIDIA Dynamo / NIM**, **DeepStream** (видеопайплайны), **BentoML**, **Ray Serve** + ORT.
+Альтернативы и надстройки: **NVIDIA Dynamo / NIM** (NIM — контейнеры поверх Triton/TensorRT-LLM), **DeepStream** (видеопайплайны), **BentoML**, **Ray Serve** + ORT.
 
 ### D. Оркестрация 1–N GPU и «100×» трафика
 
