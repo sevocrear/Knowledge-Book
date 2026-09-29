@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-chart { position: absolute; left: 0; top: 0; width: 980px; height: 660px; }
+  #s3-ttl { position: absolute; left: 0; top: 10px; width: 700px; font-size: 26px; color: #aab3c2; opacity: 0; }
+  .s3-T { position: absolute; left: 740px; top: 60px; width: 220px; height: 74px; line-height: 70px; box-sizing: border-box; border: 3px solid #ff7a2f; border-radius: 18px; background: rgba(255, 122, 47, 0.12); font-size: 40px; font-weight: 700; color: #ff7a2f; text-align: center; opacity: 0; }
+  #s3-axis { position: absolute; left: 60px; right: 40px; bottom: 98px; height: 2px; background: #2a3140; }
+  .s3-bar { position: absolute; bottom: 100px; width: 130px; height: 0px; border-radius: 12px 12px 4px 4px; background: #4a9eff; }
+  .s3-val { position: absolute; bottom: 108px; width: 130px; font-size: 34px; font-weight: 700; color: #f0f4ff; text-align: center; opacity: 0; }
+  .s3-val::before { counter-reset: n var(--n); content: counter(n) "%"; }
+  @property --n { syntax: "<integer>"; inherits: true; initial-value: 0; }
+  .s3-lbl { position: absolute; top: 574px; width: 130px; font-size: 28px; line-height: 1.25; color: #e6ebf5; text-align: center; opacity: 0; }
+  .s3-lbl .am { display: block; font-size: 24px; font-weight: 700; color: #ff7a2f; }
+  #s3-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s3-c2 { left: 1060px; top: 330px; width: 700px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Что делает temperature scaling?</div></div>
+    <div class="badge">Knowledge Book · Calibration</div>
+    <div class="stage">
+      <div id="s3-chart">
+        <div id="s3-ttl">z = [4.2, 1.0, 0, −1.0] (логиты иллюстративные)</div>
+        <div id="s3-T1" class="s3-T" data-layout-allow-overlap>T = 1</div>
+        <div id="s3-T2" class="s3-T" data-layout-allow-overlap>T = 2</div>
+        <div id="s3-T05" class="s3-T" data-layout-allow-overlap>T = 0.5</div>
+        <div id="s3-axis"></div>
+        <div id="s3-bar0" class="s3-bar" style="left:100px"></div>
+        <div id="s3-bar1" class="s3-bar" style="left:300px"></div>
+        <div id="s3-bar2" class="s3-bar" style="left:500px"></div>
+        <div id="s3-bar3" class="s3-bar" style="left:700px"></div>
+        <div id="s3-val0" class="s3-val" style="left:100px;--n:0"></div>
+        <div id="s3-val1" class="s3-val" style="left:300px;--n:0"></div>
+        <div id="s3-val2" class="s3-val" style="left:500px;--n:0"></div>
+        <div id="s3-val3" class="s3-val" style="left:700px;--n:0"></div>
+        <div id="s3-lbl0" class="s3-lbl" style="left:100px">кот<span class="am">▲ argmax</span></div>
+        <div id="s3-lbl1" class="s3-lbl" style="left:300px">собака</div>
+        <div id="s3-lbl2" class="s3-lbl" style="left:500px">лиса</div>
+        <div id="s3-lbl3" class="s3-lbl" style="left:700px">волк</div>
+      </div>
+      <div id="s3-c1" class="card"><div class="h">Temperature scaling</div>
+        <div class="f">p<sub>k</sub>(T) = softmax(z / <span class="o">T</span>)<sub>k</sub></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px"><span class="o">T &gt; 1</span> → вероятности мягче (менее уверенно)<br/><span class="o">T &lt; 1</span> → жёстче (более уверенно)</div></div>
+      <div id="s3-c2" class="card"><div class="h">Как подобрать T</div>
+        <div>На <b>валидационном</b> наборе: min NLL = −log p<sub>y</sub>(T)</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">деление на T &gt; 0 монотонно: argmax и порядок p<sub>k</sub> сохраняются (Guo et al., 2017)</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Логиты делим на температуру <b class="o">T</b> и только потом берём softmax: p<sub>k</sub>(T)&nbsp;=&nbsp;softmax(z&nbsp;/&nbsp;T)<sub>k</sub>. При T&nbsp;=&nbsp;1 — обычный softmax</div>
+      <div id="s3-cap2" class="cap"><b class="o">T &gt; 1</b>: распределение мягче, уверенность 94% → 72%, но <b>argmax тот же</b> — порядок классов сохраняется</div>
+      <div id="s3-cap3" class="cap key">Temperature scaling — один параметр T, подобранный на валидации по NLL: ранжирование не меняется, калибровка заметно улучшается (Guo et al., 2017)</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    // softmax(z/T) для z = [4.2, 1.0, 0, -1.0]: T=1 → [94, 4, 1, 1] %, T=2 → [72, 14, 9, 5] %, T=0.5 → [100, 0, 0, 0] %.
+    const H = 400;
+    const P1 = [0.942, 0.038, 0.014, 0.005], P2 = [0.715, 0.144, 0.088, 0.053], P05 = [0.998, 0.002, 0.0002, 0.00003];
+    const N1 = [94, 4, 1, 1], N2 = [72, 14, 9, 5], N05 = [100, 0, 0, 0];
+    const h = p => Math.max(4, p * H);
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-ttl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    tl.fromTo("#s3-T1", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, 0.4);
+    [0, 1, 2, 3].forEach(i => {
+      tl.fromTo(`#s3-lbl${i}`, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.4 + 0.15 * i);
+      tl.fromTo(`#s3-bar${i}`, { height: 0 }, { height: h(P1[i]), duration: 0.8, ease: "power2.out" }, 0.5 + 0.15 * i);
+      tl.fromTo(`#s3-val${i}`, { opacity: 0, y: 0, "--n": 0 }, { opacity: 1, y: -h(P1[i]), "--n": N1[i], snap: "--n", duration: 0.8, ease: "power2.out" }, 0.5 + 0.15 * i);
+    });
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 0.8);
+    cap("#s3-cap1", 0.6, 4.4);
+    // T = 2: распределение мягче
+    tl.to("#s3-T1", { opacity: 0, duration: 0.35 }, 4.6);
+    tl.fromTo("#s3-T2", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, 4.7);
+    [0, 1, 2, 3].forEach(i => {
+      tl.to(`#s3-bar${i}`, { height: h(P2[i]), duration: 1.6, ease: "power2.inOut" }, 4.8);
+      tl.to(`#s3-val${i}`, { y: -h(P2[i]), "--n": N2[i], snap: "--n", duration: 1.6, ease: "power2.inOut" }, 4.8);
+    });
+    cap("#s3-cap2", 4.6, 8.5);
+    // T = 0.5: распределение жёстче, argmax тот же
+    tl.to("#s3-T2", { opacity: 0, duration: 0.35 }, 8.7);
+    tl.fromTo("#s3-T05", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, 8.8);
+    [0, 1, 2, 3].forEach(i => {
+      tl.to(`#s3-bar${i}`, { height: h(P05[i]), duration: 1.2, ease: "power2.inOut" }, 8.9);
+      tl.to(`#s3-val${i}`, { y: -h(P05[i]), "--n": N05[i], snap: "--n", duration: 1.2, ease: "power2.inOut" }, 8.9);
+    });
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.0);
+    cap("#s3-cap3", 8.8, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 12.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

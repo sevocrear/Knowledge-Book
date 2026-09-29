@@ -43,6 +43,13 @@ updated: 2026-09-18
 ## Как объяснить 5-летнему ребёнку
 Представь, что модель — это учитель, который смотрит на картинку и говорит: “это котик, потому что я думаю на `0.8`”. Эта цифра получается из того, как уверенно “сердце” учителя отвечает на вопрос. Но иногда учитель может быть слишком уверенным или слишком осторожным — тогда мы можем подправить его “шкалу уверенности”, чтобы `0.8` означало “примерно так и получается в реальности”.
 
+
+**Визуализация (HyperFrames, 42 с):** сцена 1 — логиты → softmax и overconfident-уверенность 0.95 при 70% верных ответов; сцена 2 — reliability diagram (conf vs acc по бинам) и ECE; сцена 3 — temperature scaling softmax(z/T): T меняет остроту распределения, но не argmax.
+
+![Калибровка: softmax, reliability diagram, temperature scaling](./assets/visualizations/softmax-calibration-temperature-scaling.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/softmax-calibration-temperature-scaling.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Введение
