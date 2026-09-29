@@ -35,18 +35,18 @@ updated: 2026-09-29
 - Эмбеддинги и метрика сходства
 - Основные семейства лоссов
   - Contrastive loss (pairwise)
-  - Triplet loss и mining (hard / semi-hard)
+  - Triplet loss и mining
   - InfoNCE / NT-Xent (contrastive с in-batch negatives)
-  - Proxy-based лоссы (Proxy-NCA, ArcFace/CosFace и др.)
+  - Proxy-based лоссы (практично для большого числа классов)
 - “15 сортов яблок” как fine-grained recognition
-  - Как формулировать задачу (retrieval/verification)
+  - Как формулировать задачу
   - Как собирать данные и разметку
   - Аугментации и “инвариантности”, которые НЕ стоит делать
   - Самые частые причины провала
 - Метрики качества (оффлайн)
-  - Retrieval: Recall@K, mAP, nDCG
-  - Verification: ROC-AUC, EER, TAR@FAR
-  - Clustering: NMI, ARI (опционально)
+  - Retrieval
+  - Verification
+  - Clustering (опционально)
 - Как обучать в production
   - Сплит данных и leakage
   - Сэмплинг батчей (P×K) и mining
@@ -145,14 +145,14 @@ $$
 Для каждого anchor есть один positive (например, две аугментации) и много negatives в батче:
 
 $$
-L_i = -\log\frac{\exp(s(z_i, z_i^+)/\tau)}{\sum_{j \in \mathcal{B}}\exp(s(z_i, z_j)/\tau)}
+L_i = -\log\frac{\exp(s(z_i, z_i^+)/\tau)}{\sum_{j \in \mathcal{B},\, j \neq i}\exp(s(z_i, z_j)/\tau)}
 $$
 
-где $\tau$ — temperature. В supervised варианте positives — все примеры того же класса в батче (SupCon).
+где $\tau$ — temperature, а сумма в знаменателе идёт по всем остальным элементам батча (positive и negatives). В supervised варианте positives — все примеры того же класса в батче (SupCon).
 
 ### Proxy-based лоссы (практично для большого числа классов)
 
-Вместо явного mining учим “прокси” w_c для классов (как центры). Пример “Angular margin” (ArcFace-подобная идея):
+Вместо явного mining учим “прокси” $w_c$ для классов (как центры). Пример “Angular margin” (ArcFace-подобная идея):
 
 - нормируем эмбеддинг и веса, работаем в косинусах
 - добавляем угловой margin для правильного класса
@@ -336,10 +336,10 @@ Mining можно делать:
 ## Источники
 
 - Внутри knowledge-book:
-  - `./topics/embeddings-and-embedding-matrix/README.md`
-  - `./topics/arcface-and-angular-margin-losses-for-identification/README.md`
-  - `./topics/dinov3-self-supervised-vision-transformer-and-2d-rope/README.md` (self-supervised contrastive идеи в CV)
-  - `./topics/roc-curve-and-roc-auc/README.md` (verification-порог и ROC)
+  - [`embeddings-and-embedding-matrix`](../embeddings-and-embedding-matrix/README.md)
+  - [`arcface-and-angular-margin-losses-for-identification`](../arcface-and-angular-margin-losses-for-identification/README.md)
+  - [`dinov3-self-supervised-vision-transformer-and-2d-rope`](../dinov3-self-supervised-vision-transformer-and-2d-rope/README.md) (self-supervised contrastive идеи в CV)
+  - [`roc-curve-and-roc-auc`](../roc-curve-and-roc-auc/README.md) (verification-порог и ROC)
 - Ключевые термины/направления для поиска:
   - “InfoNCE”, “NT-Xent”, “SupCon”
   - “Triplet loss semi-hard mining”
