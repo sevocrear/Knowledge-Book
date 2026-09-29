@@ -1007,4 +1007,10 @@ action = model.sample_actions(observation, task, rng=jax.random.PRNGKey(0))
 
 Это как научить робота понимать тебя так же хорошо, как понимает тебя твой друг или родитель!
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — кадр камеры и инструкция превращаются в визуальные и текстовые токены и идут в VLM-бэкбон; сцена 2 — два способа получить действие: дискретные action-токены и chunk непрерывных действий (diffusion / flow matching); сцена 3 — замкнутый цикл «наблюдение → действие → новый кадр» и данные для обучения.
+
+![VLA: от кадра и инструкции к действию робота](./assets/visualizations/vla-vision-language-action-pipeline.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/vla-vision-language-action-pipeline.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
