@@ -86,6 +86,12 @@ updated: 2026-09-18
 
 Представь, что ты ищешь игрушку в комнате. Ты можешь указать на нее несколько раз разными способами: "Вот она!", "Там!", "Смотри, игрушка!". Все эти указания говорят об одной и той же игрушке. NMS — это как умный помощник, который говорит: "Хорошо, я понял, это одна игрушка. Давай оставим только одно самое лучшее указание и забудем про остальные."
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — greedy NMS на примере из этого README: сортировка по confidence, box 1 остаётся, box 2 и box 4 удаляются по IoU > τ; сцена 2 — Soft-NMS не удаляет соседний бокс, а понижает его score линейно или гауссом, и второй объект не теряется; сцена 3 — NMS-free детекторы: one-to-one matching в DETR и dual-head (one-to-many + one-to-one) в YOLOv10 → YOLO26.
+
+![NMS → Soft-NMS → NMS-free детекторы](./assets/visualizations/nms-soft-nms-nms-free.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/nms-soft-nms-nms-free.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Алгоритм NMS
