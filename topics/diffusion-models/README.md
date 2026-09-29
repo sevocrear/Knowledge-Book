@@ -48,6 +48,12 @@ updated: 2026-09-18
 
 Возьми красивую картинку и по чуть-чуть засыпай её песком, пока не останется только шум. Потом учи робота убирать песок шаг за шагом. Когда он научится — можно начать с кучи песка и медленно «вычищать» её, пока не проявится новая картинка. Так работают diffusion models (как Stable Diffusion).
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — прямой процесс: «картинка» 8×8 и распределение данных зашумляются по x_t = √ᾱ_t·x₀ + √(1−ᾱ_t)·ε до N(0, I); сцена 2 — обратный процесс: сеть ε_θ(x_t, t) предсказывает шум, loss ‖ε − ε_θ‖² и сэмплирование DDPM от x_T к x₀; сцена 3 — ускорение: DDIM (50 шагов вместо 1000) и latent diffusion (VAE encoder → диффузия в латенте → VAE decoder).
+
+![Diffusion: прямой процесс зашумления, обратный процесс с ε_θ, DDIM и latent diffusion](./assets/visualizations/diffusion-forward-reverse-process.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/diffusion-forward-reverse-process.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Введение в диффузионные модели

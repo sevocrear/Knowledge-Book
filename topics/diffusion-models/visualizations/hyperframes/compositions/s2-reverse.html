@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 320px; width: 700px; }
+  #s2-c1 .f, #s2-c2 .f { font-size: 32px; }
+  #s2-loss { position: absolute; left: 300px; top: 390px; width: 250px; text-align: center; opacity: 0; }
+  #s2-loss .l1 { font-size: 24px; color: #aab3c2; }
+  #s2-lossv { font-size: 44px; font-weight: 700; color: #ff4d6d; margin-top: 4px; }
+  #s2-lossv::before { counter-reset: n var(--n); content: "0." counter(n, decimal-leading-zero); }
+  @property --n { syntax: "<integer>"; inherits: true; initial-value: 97; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как научиться убирать шум?</div></div>
+    <div class="badge">Knowledge Book · Diffusion</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <defs>
+          <marker id="s2-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+        </defs>
+        <text id="s2-lx" x="108" y="48" text-anchor="middle" fill="#4a9eff" font-size="24" font-weight="700" opacity="0">x<tspan font-size="17" dy="6">t</tspan><tspan dy="-6">, t = 500</tspan></text>
+        <g id="s2-Gx" opacity="0"></g>
+        <path id="s2-a1" d="M 206 158 L 278 158" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <g id="s2-box" opacity="0">
+          <rect x="290" y="90" width="270" height="136" rx="16" fill="#161a24" stroke="#4a9eff" stroke-width="3"/>
+          <text x="425" y="150" text-anchor="middle" fill="#f0f4ff" font-size="36" font-weight="700">ε<tspan font-size="24" dy="8">θ</tspan><tspan dy="-8">(x</tspan><tspan font-size="24" dy="8">t</tspan><tspan dy="-8">, t)</tspan></text>
+          <text x="425" y="200" text-anchor="middle" fill="#aab3c2" font-size="20">U-Net + time embedding</text>
+        </g>
+        <path id="s2-at" d="M 425 300 L 425 238" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <text id="s2-lt" x="425" y="336" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">шаг t = 500</text>
+        <path id="s2-a2" d="M 572 158 L 638 158" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <text id="s2-lp" x="738" y="48" text-anchor="middle" fill="#ff7a2f" font-size="24" font-weight="700" opacity="0">ε<tspan font-size="17" dy="6">θ</tspan><tspan dy="-6"> — предсказанный шум</tspan></text>
+        <g id="s2-Gp" opacity="0"></g><g id="s2-Gg" opacity="0"></g>
+        <text id="s2-le" x="738" y="308" text-anchor="middle" fill="#3dba7a" font-size="24" font-weight="700" opacity="0">ε — истинный шум (мы его знаем)</text>
+        <g id="s2-Ge" opacity="0"></g>
+        <path id="s2-am" d="M 738 258 L 738 296" stroke="#ff4d6d" stroke-width="3" fill="none" stroke-dasharray="0 9999"/>
+        <path id="s2-am2" d="M 738 296 L 738 258" stroke="#ff4d6d" stroke-width="3" fill="none" stroke-dasharray="0 9999"/>
+        <g id="s2-row" opacity="0">
+          <text x="68" y="528" text-anchor="middle" fill="#aab3c2" font-size="22">x<tspan font-size="16" dy="5">T</tspan><tspan dy="-5"> ~ N(0, I)</tspan></text>
+          <text x="258" y="528" text-anchor="middle" fill="#aab3c2" font-size="22">x<tspan font-size="16" dy="5">500</tspan></text>
+          <text x="448" y="528" text-anchor="middle" fill="#aab3c2" font-size="22">x<tspan font-size="16" dy="5">250</tspan></text>
+          <text x="638" y="528" text-anchor="middle" fill="#aab3c2" font-size="22">x<tspan font-size="16" dy="5">100</tspan></text>
+          <text x="828" y="528" text-anchor="middle" fill="#aab3c2" font-size="22">x₀ — сэмпл</text>
+        </g>
+        <g id="s2-S0" opacity="0"></g><g id="s2-S1" opacity="0"></g><g id="s2-S2" opacity="0"></g><g id="s2-S3" opacity="0"></g><g id="s2-S4" opacity="0"></g>
+        <path id="s2-r1" d="M 124 593 L 200 593" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <path id="s2-r2" d="M 314 593 L 390 593" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <path id="s2-r3" d="M 504 593 L 580 593" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <path id="s2-r4" d="M 694 593 L 770 593" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <text id="s2-rl" x="448" y="655" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">DDPM-сэмплирование: t = T, T−1, …, 1 — 1000 шагов ε<tspan font-size="16" dy="5">θ</tspan></text>
+      </svg>
+      <div id="s2-loss"><div class="l1">MSE ‖ε − ε<sub>θ</sub>‖² (иллюстративно)</div><div id="s2-lossv"></div></div>
+      <div id="s2-c1" class="card"><div class="h">Упрощённый loss DDPM (Ho et al., 2020)</div>
+        <div class="f">L<sub>simple</sub> = E<sub>t, x₀, ε</sub> [ ‖<span class="g">ε</span> − <span class="o">ε<sub>θ</sub>(x<sub>t</sub>, t)</span>‖² ]</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">t ~ Uniform(1, T), ε ~ N(0, I), x<sub>t</sub> = √ᾱ<sub>t</sub>·x₀ + √(1−ᾱ<sub>t</sub>)·ε</div></div>
+      <div id="s2-c2" class="card"><div class="h">Обратный процесс</div>
+        <div class="f">p<sub>θ</sub>(x<sub>t−1</sub> | x<sub>t</sub>) = N(x<sub>t−1</sub>; μ<sub>θ</sub>(x<sub>t</sub>, t), Σ<sub>θ</sub>(x<sub>t</sub>, t))</div>
+        <div class="f" style="margin-top:10px">x̂₀ = (x<sub>t</sub> − √(1−ᾱ<sub>t</sub>)·<span class="o">ε<sub>θ</sub>(x<sub>t</sub>, t)</span>) / √ᾱ<sub>t</sub></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">μ<sub>θ</sub>, Σ<sub>θ</sub> — параметры шага назад, предсказанные сетью</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Сеть <b class="o">ε<sub>θ</sub>(x<sub>t</sub>, t)</b> (обычно U-Net) получает зашумлённый x<sub>t</sub> и номер шага t и предсказывает добавленный шум</div>
+      <div id="s2-cap2" class="cap">Учим MSE: <b>L<sub>simple</sub> = E‖ε − ε<sub>θ</sub>(x<sub>t</sub>, t)‖²</b> — истинный <b class="g">ε</b> известен, мы сами его добавили</div>
+      <div id="s2-cap3" class="cap">Зная ε<sub>θ</sub>, восстанавливаем <b>x̂₀</b> и делаем шаг назад: <b>p<sub>θ</sub>(x<sub>t−1</sub> | x<sub>t</sub>) = N(μ<sub>θ</sub>, Σ<sub>θ</sub>)</b></div>
+      <div id="s2-cap4" class="cap">Генерация: стартуем из <b class="b">x<sub>T</sub> ~ N(0, I)</b> и делаем T = 1000 шагов denoising (DDPM) до x₀</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const X0 = [-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-1,-1,-1,0.2,0.2,-1,-1,-1,-1,-1,0.2,1,1,0.2,-1,-1,-1,0.2,1,1,1,1,0.2,-1,-1,0.2,1,1,1,1,0.2,-1,-1,-1,0.2,1,1,0.2,-1,-1,-1,-1,-1,0.2,0.2,-1,-1,-1,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6];
+    const EPS = [-0.26,0.51,-0.23,-0.32,-0.93,-0.21,1.11,0.42,1.04,0.25,0.39,0.19,-1.67,0.86,0.51,0.5,-1.69,-1.74,-0.89,-0.47,0.31,-0.05,0.52,-0.64,0.31,0.39,-0.66,1.72,0.56,1.2,-0.62,-0.74,-0.34,-0.11,0.63,0.25,-0.45,-0.96,-0.52,1.22,-0.81,0.24,0.43,-1.49,0.05,1.31,-2.01,-0.32,-0.11,-0.82,0.5,-0.06,-1.46,0.83,0.67,0.95,1.44,0.36,0.12,-1.3,0.62,-0.61,-0.45,-1.26];
+    const AB = [1.0, 0.897, 0.524, 0.0786, 0.00004]; // ᾱ_t при t = 0, 100, 250, 500, 1000 (linear β_t, T = 1000)
+    const col = v => { const u = (Math.max(-1, Math.min(1, v)) + 1) / 2; const c0 = [26, 32, 48], c1 = [207, 227, 255];
+      return "#" + c0.map((a, k) => Math.round(a + (c1[k] - a) * u).toString(16).padStart(2, "0")).join(""); };
+    const grid = (gid, x, y, cell, vals) => { const g = document.getElementById(gid);
+      vals.forEach((v, i) => { const r = document.createElementNS(NS, "rect"); r.setAttribute("id", `${gid}c${i}`);
+        r.setAttribute("x", x + cell * (i % 8) + 1); r.setAttribute("y", y + cell * Math.floor(i / 8) + 1);
+        r.setAttribute("width", cell - 2); r.setAttribute("height", cell - 2); r.setAttribute("rx", 3); r.setAttribute("fill", col(v)); g.appendChild(r); }); };
+    const noisy = ab => X0.map((v, i) => Math.sqrt(ab) * v + Math.sqrt(1 - ab) * EPS[i]);
+    grid("s2-Gx", 20, 70, 22, noisy(AB[3]));                                    // x_t при t = 500
+    grid("s2-Gp", 650, 70, 22, EPS.map((e, i) => (e + 1.2 * Math.sin(1.7 * i + 0.3)) / 1.5)); // плохое предсказание (до обучения)
+    grid("s2-Gg", 650, 70, 22, EPS.map((e, i) => (e + 0.12 * Math.sin(2.3 * i)) / 1.5));      // хорошее предсказание (после)
+    grid("s2-Ge", 650, 330, 22, EPS.map(e => e / 1.5));                          // истинный ε
+    [4, 3, 2, 1, 0].forEach((L, k) => grid(`s2-S${k}`, 20 + 190 * k, 545, 12, noisy(AB[L]))); // x_T → x_0
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const draw = (id, len, t, d = 0.4) => tl.fromTo(id, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-Gx", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.3);
+    tl.fromTo("#s2-lx", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.4);
+    draw("#s2-a1", 72, 0.9);
+    tl.fromTo("#s2-box", { opacity: 0, scale: 0.9, svgOrigin: "425 158" }, { opacity: 1, scale: 1, svgOrigin: "425 158", duration: 0.5, ease: "power2.out" }, 1.2);
+    draw("#s2-at", 62, 1.5);
+    tl.fromTo("#s2-lt", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+    draw("#s2-a2", 66, 1.9);
+    tl.fromTo("#s2-Gp", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 2.2);
+    tl.fromTo("#s2-lp", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.3);
+    cap("#s2-cap1", 0.6, 4.4);
+    // Loss: истинный ε, сравнение, обучение — предсказание сходится к ε, MSE падает (иллюстративно 0.97 → 0.08).
+    cap("#s2-cap2", 4.6, 8.4);
+    tl.fromTo("#s2-Ge", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 4.7);
+    tl.fromTo("#s2-le", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.8);
+    draw("#s2-am", 38, 5.0); draw("#s2-am2", 38, 5.0);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.0);
+    tl.fromTo("#s2-loss", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 5.3);
+    tl.fromTo("#s2-Gg", { opacity: 0 }, { opacity: 1, duration: 2.0, ease: "power1.inOut" }, 6.0);
+    tl.fromTo("#s2-lossv", { "--n": 97 }, { "--n": 8, snap: "--n", duration: 2.0, ease: "power1.inOut" }, 6.0);
+    // Шаг назад: x̂₀ и p_θ(x_{t−1} | x_t).
+    cap("#s2-cap3", 8.6, 11.4);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.8);
+    // Генерация: цепочка x_T → x_500 → x_250 → x_100 → x_0.
+    cap("#s2-cap4", 11.6, 14.5);
+    tl.to("#s2-loss", { opacity: 0, duration: 0.3 }, 11.5);
+    tl.fromTo("#s2-row", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 11.7);
+    [0, 1, 2, 3, 4].forEach(k => {
+      tl.fromTo(`#s2-S${k}`, { opacity: 0, scale: 0.8, svgOrigin: `${68 + 190 * k} 593` }, { opacity: 1, scale: 1, svgOrigin: `${68 + 190 * k} 593`, duration: 0.4, ease: "power2.out" }, 11.8 + 0.5 * k);
+      if (k < 4) draw(`#s2-r${k + 1}`, 76, 12.05 + 0.5 * k, 0.3);
+    });
+    tl.fromTo("#s2-rl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 13.6);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 14.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>
