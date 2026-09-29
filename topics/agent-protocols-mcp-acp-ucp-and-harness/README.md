@@ -138,7 +138,7 @@ Harness — это уже продукт: Cursor, Claude Code, Codex. Прото
 }
 ```
 
-Секреты — в env / Interpolation (`${env:API_KEY}`), не в правилах и не в промпте. Allowlist инструментов: `mcpAllowlist` в настройках (например `"github:*"`, `"linear:list_issues"`).
+Секреты — в env через Interpolation (подстановка `env:API_KEY` в фигурных скобках, как в конфиге выше), не в правилах и не в промпте. Allowlist инструментов: `mcpAllowlist` в настройках (например `"github:*"`, `"linear:list_issues"`).
 
 ---
 
