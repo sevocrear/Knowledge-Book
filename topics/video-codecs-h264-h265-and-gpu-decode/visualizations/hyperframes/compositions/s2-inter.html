@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 250px; width: 700px; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как сжимается движение (inter)?</div></div>
+    <div class="badge">Knowledge Book · Видеокодеки</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <text id="s2-lf1" x="0" y="30" text-anchor="start" fill="#aab3c2" font-size="24" opacity="0">кадр t−1 (уже декодирован)</text>
+        <text id="s2-lf2" x="490" y="30" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">кадр t</text>
+        <g id="s2-f1" opacity="0"></g>
+        <g id="s2-f2" opacity="0"></g>
+        <!-- блок X в кадре t (столбец 8, строка 2, 4×4 ячейки) -->
+        <rect id="s2-blk" x="460" y="74" width="60" height="60" fill="none" stroke="#f0f4ff" stroke-width="3" opacity="0"/>
+        <!-- перебор кандидатов в кадре t−1 -->
+        <rect id="s2-search" x="120" y="74" width="60" height="60" fill="none" stroke="#f0f4ff" stroke-width="3" stroke-dasharray="8 6" opacity="0"/>
+        <rect id="s2-match" x="75" y="104" width="60" height="60" fill="none" stroke="#3dba7a" stroke-width="4" opacity="0"/>
+        <line id="s2-sarrow" x1="458" y1="104" x2="146" y2="132" stroke="#3dba7a" stroke-width="3" stroke-dasharray="0 9999"/>
+        <polygon id="s2-sarrowh" points="0,0 0,0 0,0" fill="#3dba7a" opacity="0"/>
+        <text id="s2-slbl" x="0" y="290" text-anchor="start" fill="#3dba7a" font-size="24" opacity="0">поиск похожего блока</text>
+        <!-- вектор движения внутри кадра t: откуда «приехал» блок -->
+        <rect id="s2-ghost" x="415" y="104" width="60" height="60" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-dasharray="6 5" opacity="0"/>
+        <line id="s2-mv" x1="445" y1="134" x2="484" y2="108" stroke="#2dd4bf" stroke-width="4" stroke-dasharray="0 9999"/>
+        <polygon id="s2-mvh" points="0,0 0,0 0,0" fill="#2dd4bf" opacity="0"/>
+        <text id="s2-mvlbl" x="350" y="290" text-anchor="start" fill="#2dd4bf" font-size="24" font-weight="700" opacity="0">вектор движения (dy, dx) = (−2, +3)</text>
+        <!-- нижний ряд: X, X̃, R -->
+        <text id="s2-px-l" x="0" y="330" text-anchor="start" fill="#f0f4ff" font-size="24" opacity="0">блок X (кадр t)</text>
+        <text id="s2-pt-l" x="272" y="330" text-anchor="middle" fill="#3dba7a" font-size="24" opacity="0">X̃ (из t−1)</text>
+        <text id="s2-pr-l" x="472" y="330" text-anchor="middle" fill="#2dd4bf" font-size="24" opacity="0">R = X − X̃</text>
+        <g id="s2-px"></g>
+        <text id="s2-minus" x="172" y="432" text-anchor="middle" fill="#aab3c2" font-size="44" opacity="0">−</text>
+        <g id="s2-pt"></g>
+        <text id="s2-eq" x="372" y="432" text-anchor="middle" fill="#aab3c2" font-size="44" opacity="0">=</text>
+        <g id="s2-pr"></g>
+        <text id="s2-zeros" x="472" y="526" text-anchor="middle" fill="#2dd4bf" font-size="22" opacity="0">почти все нули</text>
+        <!-- столбики энергии -->
+        <g id="s2-bars" opacity="0">
+          <text x="790" y="330" text-anchor="middle" fill="#aab3c2" font-size="24">энергия блока, Σ значений²</text>
+          <line x1="610" y1="560" x2="970" y2="560" stroke="#2a3140" stroke-width="3"/>
+          <text x="685" y="592" text-anchor="middle" fill="#aab3c2" font-size="22">сырая разница</text>
+          <text x="685" y="618" text-anchor="middle" fill="#aab3c2" font-size="22">кадров t и t−1</text>
+          <text x="885" y="592" text-anchor="middle" fill="#aab3c2" font-size="22">остаток R</text>
+          <text x="885" y="618" text-anchor="middle" fill="#aab3c2" font-size="22">после сдвига</text>
+        </g>
+        <rect id="s2-bar1" x="630" y="560" width="110" height="0" rx="6" fill="#ff4d6d"/>
+        <rect id="s2-bar2" x="830" y="560" width="110" height="0" rx="6" fill="#2dd4bf"/>
+        <text id="s2-less" x="866" y="536" text-anchor="middle" fill="#2dd4bf" font-size="19" font-weight="700" opacity="0">на порядок меньше</text>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Motion compensation</div><div class="f"><span class="g">X̃</span> = блок из t−1, сдвинутый на <span class="t">(dy, dx)</span></div><div style="font-size:28px;color:#aab3c2;margin-top:8px">вектор движения ищут для каждого блока</div></div>
+      <div id="s2-c2" class="card"><div class="h">Residual</div><div class="f"><span class="t">R</span> = X − <span class="g">X̃</span></div><div style="font-size:28px;color:#aab3c2;margin-top:8px">дальше тот же DCT + квантование, но блок почти пустой</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Соседние кадры почти одинаковы: кодек ищет <b class="t">вектор движения (dy, dx)</b> для каждого блока</div>
+      <div id="s2-cap2" class="cap">Из уже декодированного прошлого строим предсказание <b class="g">X̃</b> и кодируем только остаток <b class="t">R = X − X̃</b></div>
+      <div id="s2-cap3" class="cap">У остатка энергия <b>на порядок меньше</b> — после DCT и квантования блок почти пустой</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Кадры 20×14 «блоков»: мягкий фон + оранжевый объект 6×6 с градиентом; в кадре t объект сдвинут на (dy, dx) = (−2, +3).
+    const F1 = [[96,98,100,101,102,102,101,100,98,97,97,97,98,99,102,104,106,107,108,108],[97,99,100,101,102,102,101,100,99,98,98,98,99,100,102,104,106,107,108,108],[97,99,100,101,101,101,101,101,100,100,100,100,101,102,103,104,106,107,108,108],[98,98,99,100,100,101,101,101,101,101,102,102,103,103,104,105,105,106,106,107],[98,98,98,98,99,100,100,101,102,103,104,105,105,105,105,105,105,105,105,106],[99,98,98,98,98,99,200,196,192,188,184,180,107,107,106,105,104,104,104,105],[100,98,98,97,98,99,206,202,198,194,190,186,108,108,107,105,104,104,104,105],[100,99,98,98,98,99,212,208,204,200,196,192,109,108,107,106,105,104,104,105],[101,100,99,99,100,100,218,214,210,206,202,198,109,109,108,107,106,106,106,106],[101,101,101,101,102,102,224,220,216,212,208,204,108,108,108,108,108,108,108,108],[102,103,103,104,104,104,230,226,222,218,214,210,107,108,108,109,109,110,110,111],[103,104,105,106,106,107,106,106,106,105,105,106,106,107,109,110,111,112,113,113],[103,105,107,108,108,108,108,107,106,105,105,105,106,107,109,111,113,114,115,115],[104,106,108,109,110,109,109,107,106,105,105,105,106,107,109,111,113,115,116,116]];
+    const F2 = [[96,98,100,101,102,102,101,100,98,97,97,97,98,99,102,104,106,107,108,108],[97,99,100,101,102,102,101,100,99,98,98,98,99,100,102,104,106,107,108,108],[97,99,100,101,101,101,101,101,100,100,100,100,101,102,103,104,106,107,108,108],[98,98,99,100,100,101,101,101,101,200,196,192,188,184,180,105,105,106,106,107],[98,98,98,98,99,100,100,101,102,206,202,198,194,190,186,105,105,105,105,106],[99,98,98,98,98,99,100,102,104,212,208,204,200,196,192,105,104,104,104,105],[100,98,98,97,98,99,100,102,104,218,214,210,206,202,198,105,104,104,104,105],[100,99,98,98,98,99,101,103,105,224,220,216,212,208,204,106,105,104,104,105],[101,100,99,99,100,100,102,104,105,230,226,222,218,214,210,107,106,106,106,106],[101,101,101,101,102,102,103,104,106,107,107,108,108,108,108,108,108,108,108,108],[102,103,103,104,104,104,105,105,106,106,106,107,107,108,108,109,109,110,110,111],[103,104,105,106,106,107,106,106,106,105,105,106,106,107,109,110,111,112,113,113],[103,105,107,108,108,108,108,107,106,105,105,105,106,107,109,111,113,114,115,115],[104,106,108,109,110,109,109,107,106,105,105,105,106,107,109,111,113,115,116,116]];
+    // Блок X = кадр t, строки 2..5, столбцы 8..11; X̃ = кадр t−1, строки 4..7, столбцы 5..8; R = X − X̃.
+    const XB = [[100,100,100,100],[101,200,196,192],[102,206,202,198],[104,212,208,204]];
+    const XT = [[100,100,101,102],[99,200,196,192],[99,206,202,198],[99,212,208,204]];
+    const R  = [[0,0,-1,-2],[2,0,0,0],[3,0,0,0],[5,0,0,0]];
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); parent.appendChild(el); return el; };
+    const pix = v => v >= 150 ? `rgb(255,${Math.round(60 + (v - 180) * 1.6)},30)` : `rgb(${Math.round(v * 0.9)},${Math.round(v * 0.9)},${Math.round(v * 0.94)})`;
+    const CS = 15;
+    const frame = (F, g, x0, y0, pfx) => F.forEach((row, r) => row.forEach((v, c) => mk("rect", { x: x0 + c * CS, y: y0 + r * CS, width: CS - 1, height: CS - 1, fill: pix(v) }, g)));
+    frame(F1, document.getElementById("s2-f1"), 0, 44, "a");
+    frame(F2, document.getElementById("s2-f2"), 340, 44, "b");
+    const PS = 36;
+    const panel = (M, g, x0, pfx, mode) => { const out = []; M.forEach((row, i) => row.forEach((v, j) => {
+      const cg = mk("g", { id: `s2-${pfx}-${i}-${j}`, opacity: 0 }, g);
+      let fill = pix(v), col = v >= 150 ? "#0f1117" : "#f0f4ff";
+      if (mode === "res") { fill = v === 0 ? "#161a24" : "#134e4a"; col = v === 0 ? "#aab3c2" : "#f0f4ff"; }
+      mk("rect", { x: x0 + j * PS, y: 346 + i * PS, width: PS - 2, height: PS - 2, rx: 3, fill, stroke: "#2a3140", "stroke-width": 1 }, cg);
+      const t = mk("text", { x: x0 + j * PS + (PS - 2) / 2, y: 346 + i * PS + (PS - 2) / 2 + 6, "text-anchor": "middle", fill: col, "font-size": 17, "font-weight": mode === "res" && v !== 0 ? 700 : 400 }, cg);
+      t.textContent = String(v); out.push(cg); })); return out; };
+    const cX = panel(XB, document.getElementById("s2-px"), 0, "x", "pix");
+    const cT = panel(XT, document.getElementById("s2-pt"), 200, "t", "pix");
+    const cR = panel(R, document.getElementById("s2-pr"), 400, "r", "res");
+    const head = (id, x1, y1, x2, y2, size) => { const a = Math.atan2(y2 - y1, x2 - x1); const p = (ang, r) => `${(x2 + r * Math.cos(ang)).toFixed(1)},${(y2 + r * Math.sin(ang)).toFixed(1)}`;
+      document.getElementById(id).setAttribute("points", `${p(a, 4)} ${p(a + 2.6, size)} ${p(a - 2.6, size)}`); };
+    head("s2-sarrowh", 458, 104, 146, 132, 14);
+    head("s2-mvh", 445, 134, 484, 108, 13);
+    const sLen = Math.hypot(458 - 146, 104 - 132).toFixed(1), mvLen = Math.hypot(484 - 445, 108 - 134).toFixed(1);
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo(["#s2-f1", "#s2-lf1"], { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.3);
+    tl.fromTo(["#s2-f2", "#s2-lf2"], { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.7);
+    cap("#s2-cap1", 0.6, 5.0);
+    tl.fromTo("#s2-blk", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.4);
+    // Перебор кандидатов в кадре t−1: рамка «ищет», потом находит совпадение.
+    tl.fromTo("#s2-search", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.8);
+    tl.to("#s2-search", { attr: { x: 105, y: 89 }, duration: 0.4, ease: "power1.inOut" }, 2.2);
+    tl.to("#s2-search", { attr: { x: 75, y: 104 }, duration: 0.4, ease: "power1.inOut" }, 2.8);
+    tl.to("#s2-search", { opacity: 0, duration: 0.3 }, 3.3);
+    tl.fromTo("#s2-match", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.3);
+    tl.fromTo("#s2-sarrow", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": sLen + " 9999" }, duration: 0.6, ease: "power2.inOut" }, 3.4);
+    tl.fromTo("#s2-sarrowh", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 3.95);
+    tl.fromTo("#s2-slbl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.6);
+    // Вектор движения в кадре t
+    tl.fromTo("#s2-ghost", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.1);
+    tl.fromTo("#s2-mv", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": mvLen + " 9999" }, duration: 0.4, ease: "power2.out" }, 4.3);
+    tl.fromTo("#s2-mvh", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.65);
+    tl.fromTo("#s2-mvlbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.6);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 4.4);
+    cap("#s2-cap2", 5.2, 9.4);
+    tl.fromTo("#s2-px-l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.4);
+    tl.fromTo(cX, { opacity: 0 }, { opacity: 1, duration: 0.25, stagger: 0.03 }, 5.4);
+    tl.fromTo("#s2-minus", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.0);
+    tl.fromTo("#s2-pt-l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.1);
+    tl.fromTo(cT, { opacity: 0 }, { opacity: 1, duration: 0.25, stagger: 0.03 }, 6.1);
+    tl.fromTo("#s2-eq", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.9);
+    tl.fromTo("#s2-pr-l", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 7.0);
+    tl.fromTo(cR, { opacity: 0 }, { opacity: 1, duration: 0.25, stagger: 0.03 }, 7.0);
+    tl.fromTo("#s2-zeros", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.8);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 7.6);
+    cap("#s2-cap3", 9.6, 13.4);
+    tl.fromTo("#s2-bars", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.8);
+    tl.to("#s2-bar1", { attr: { y: 360, height: 200 }, duration: 0.8, ease: "power2.out" }, 10.0);
+    tl.to("#s2-bar2", { attr: { y: 548, height: 12 }, duration: 0.5, ease: "power2.out" }, 10.6);
+    tl.fromTo("#s2-less", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 11.1);
+    tl.fromTo("#s2-pr", { scale: 1, svgOrigin: "472 418" }, { scale: 1.07, svgOrigin: "472 418", duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 11.4);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.45 }, 13.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

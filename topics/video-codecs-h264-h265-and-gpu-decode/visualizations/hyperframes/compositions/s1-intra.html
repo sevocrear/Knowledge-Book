@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 226px; width: 700px; }
+  #s1-c3 { left: 1060px; top: 442px; width: 700px; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Как сжимается один кадр (intra)?</div></div>
+    <div class="badge">Knowledge Book · Видеокодеки</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <!-- подписи над сетками -->
+        <text id="s1-lx" x="0" y="38" text-anchor="start" fill="#aab3c2" font-size="26" opacity="0">блок X (пиксели, 8×8)</text>
+        <text id="s1-ly" x="474" y="38" text-anchor="middle" fill="#4a9eff" font-size="26" opacity="0">Y = C·X·Cᵀ (DCT)</text>
+        <text id="s1-lq" x="820" y="38" text-anchor="middle" fill="#3dba7a" font-size="26" opacity="0">ŷ = round(y / Q)</text>
+        <!-- сетки строятся скриптом -->
+        <g id="s1-gx"></g>
+        <g id="s1-gy"></g>
+        <g id="s1-gq"></g>
+        <!-- стрелки между сетками -->
+        <line id="s1-a1" x1="266" y1="186" x2="326" y2="186" stroke="#aab3c2" stroke-width="5" stroke-dasharray="0 9999"/>
+        <polygon id="s1-a1h" points="326,176 342,186 326,196" fill="#aab3c2" opacity="0"/>
+        <line id="s1-a2" x1="612" y1="186" x2="672" y2="186" stroke="#aab3c2" stroke-width="5" stroke-dasharray="0 9999"/>
+        <polygon id="s1-a2h" points="672,176 688,186 672,196" fill="#aab3c2" opacity="0"/>
+        <!-- слайдер Q -->
+        <g id="s1-slider" opacity="0">
+          <text x="0" y="380" fill="#e6ebf5" font-size="26" font-weight="700">Q (QP)</text>
+          <line x1="110" y1="371" x2="340" y2="371" stroke="#2a3140" stroke-width="8" stroke-linecap="round"/>
+          <circle id="s1-knob" cx="130" cy="371" r="13" fill="#3dba7a"/>
+          <text x="510" y="380" fill="#e6ebf5" font-size="26">Q ↑ → нулей больше, PSNR ниже</text>
+        </g>
+        <text id="s1-q8" x="365" y="380" fill="#3dba7a" font-size="26" font-weight="700" opacity="0" data-layout-allow-overlap>Q = 8</text>
+        <text id="s1-q32" x="365" y="380" fill="#3dba7a" font-size="26" font-weight="700" opacity="0" data-layout-allow-overlap>Q = 32</text>
+        <text id="s1-nz" x="0" y="418" fill="#aab3c2" font-size="24" opacity="0">ненулевых коэффициентов: 13 → 6, остальные 58 — нули</text>
+        <!-- энтропийное кодирование -->
+        <g id="s1-ent" opacity="0">
+          <text x="0" y="472" fill="#e6ebf5" font-size="26" font-weight="700">CAVLC / CABAC: нули дёшевы</text>
+          <text x="0" y="514" fill="#aab3c2" font-size="24">биты</text>
+          <rect x="90" y="486" width="850" height="40" rx="8" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+          <rect id="s1-bar" x="90" y="486" width="850" height="40" rx="8" fill="#3dba7a"/>
+        </g>
+        <text id="s1-note1" x="0" y="570" fill="#aab3c2" font-size="22" opacity="0">сырой блок: 64 пикселя × 8 бит = 512 бит</text>
+        <text id="s1-note2" x="0" y="602" fill="#aab3c2" font-size="22" opacity="0">после DCT, квантования и энтропийного кодера — в разы меньше (иллюстративно)</text>
+      </svg>
+      <div id="s1-c1" class="card"><div class="h">DCT</div><div class="f"><span class="b">Y</span> = C X Cᵀ</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">энергия → низкие частоты (слева сверху)</div></div>
+      <div id="s1-c2" class="card"><div class="h">Квантование</div><div class="f"><span class="g">ŷ<sub>ij</sub></span> = round(y<sub>ij</sub> / Q)</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">больше Q (QP) → больше нулей</div></div>
+      <div id="s1-c3" class="card"><div class="h">Качество</div><div class="f">PSNR = 10·log<sub>10</sub>(255² / MSE)</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">больше Q → ниже PSNR</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Кадр режут на блоки (4×4 / 8×8) и делают <b class="b">DCT</b>: энергия картинки уходит в низкие частоты — левый верхний угол</div>
+      <div id="s1-cap2" class="cap">Квантование <b class="g">round(y/Q)</b> обнуляет мелкие высокие частоты: больше Q (QP) → больше нулей и ниже PSNR</div>
+      <div id="s1-cap3" class="cap">Нули дёшево кодируются энтропийно (<b>CAVLC/CABAC</b>) — так устроен <b class="b">I-кадр</b> и так же работает JPEG</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Блок X — гладкий градиент (константы), Y — его ортонормированное DCT-II (посчитано заранее), ŷ = round(Y/Q) при Q = 8 и Q = 32.
+    const X = [[70,86,101,115,128,139,148,156],[84,99,113,126,137,146,154,161],[97,111,124,135,144,152,159,165],[109,122,133,142,150,157,163,169],[120,131,140,148,155,161,167,174],[129,138,146,153,159,165,172,180],[136,144,151,157,163,170,178,187],[142,149,155,161,168,176,185,196]];
+    const Y = [[1156.4,-160.0,-12.3,-19.9,-2.4,-6.1,-0.7,-1.5],[-123.5,-31.6,-13.6,-0.7,-2.4,-0.3,-0.8,0.0],[-12.3,-13.6,4.2,-0.2,0.7,-0.2,0.3,0.0],[-16.1,-0.7,-0.2,0.0,0.3,-0.1,-0.1,0.0],[-2.4,-2.4,0.7,0.3,-0.1,-0.6,0.1,-0.1],[-4.9,-0.3,-0.2,-0.1,-0.6,0.1,0.1,0.0],[-0.7,-0.8,0.3,-0.1,0.1,0.1,0.1,0.0],[-1.2,0.0,0.0,0.0,-0.1,0.0,0.0,0.0]];
+    const Q8  = [[145,-20,-2,-2,0,-1,0,0],[-15,-4,-2,0,0,0,0,0],[-2,-2,1,0,0,0,0,0],[-2,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[-1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
+    const Q32 = [[36,-5,0,-1,0,0,0,0],[-4,-1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[-1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
+    const CELL = 32, TOP = 58;
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); parent.appendChild(el); return el; };
+    const cellsX = [], cellsY = [], cellsQ = [], fillQ = [], txtQ8 = [], txtQ32 = [];
+    const gx = document.getElementById("s1-gx"), gy = document.getElementById("s1-gy"), gq = document.getElementById("s1-gq");
+    for (let i = 0; i < 8; i++) for (let j = 0; j < 8; j++) {
+      const v = X[i][j];
+      cellsX.push(mk("rect", { id: `s1-x-${i}-${j}`, x: j * CELL, y: TOP + i * CELL, width: CELL - 2, height: CELL - 2, rx: 3, fill: `rgb(${v},${v},${v})`, opacity: 0 }, gx));
+      // Яркость ячейки Y ∝ |коэффициент| (со сжатием sqrt, чтобы были видны средние значения)
+      const b = Math.min(1, Math.sqrt(Math.abs(Y[i][j]) / 160));
+      const r = Math.round(22 + b * 52), g = Math.round(26 + b * 132), bl = Math.round(36 + b * 219);
+      cellsY.push(mk("rect", { id: `s1-y-${i}-${j}`, x: 346 + j * CELL, y: TOP + i * CELL, width: CELL - 2, height: CELL - 2, rx: 3, fill: `rgb(${r},${g},${bl})`, stroke: "#2a3140", "stroke-width": 1, opacity: 0 }, gy));
+      const nz8 = Q8[i][j] !== 0, nz32 = Q32[i][j] !== 0;
+      const cx = 692 + j * CELL + (CELL - 2) / 2, cy = TOP + i * CELL + (CELL - 2) / 2 + 6;
+      const cg = mk("g", { id: `s1-qc-${i}-${j}`, opacity: 0 }, gq);
+      const rect = mk("rect", { x: 692 + j * CELL, y: TOP + i * CELL, width: CELL - 2, height: CELL - 2, rx: 3, fill: nz8 ? "#1e4a36" : "#161a24", stroke: "#2a3140", "stroke-width": 1 }, cg);
+      cellsQ.push(cg);
+      if (nz8) {
+        const t8 = mk("text", { id: `s1-q8-${i}-${j}`, x: cx, y: cy, "text-anchor": "middle", fill: "#f0f4ff", "font-size": 15, "font-weight": 700, "data-layout-allow-overlap": "" }, cg);
+        t8.textContent = String(Q8[i][j]);
+        const t32 = mk("text", { id: `s1-q32-${i}-${j}`, x: cx, y: cy, "text-anchor": "middle", fill: nz32 ? "#f0f4ff" : "#aab3c2", "font-size": 15, "font-weight": nz32 ? 700 : 400, opacity: 0, "data-layout-allow-overlap": "" }, cg);
+        t32.textContent = String(Q32[i][j]);
+        txtQ8.push(t8); txtQ32.push(t32);
+        if (!nz32) fillQ.push(rect);
+      } else {
+        const t0 = mk("text", { x: cx, y: cy, "text-anchor": "middle", fill: "#aab3c2", "font-size": 15 }, cg);
+        t0.textContent = "0";
+      }
+    }
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-lx", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    tl.fromTo(cellsX, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.01 }, 0.3);
+    cap("#s1-cap1", 0.6, 4.9);
+    tl.fromTo("#s1-a1", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "60 9999" }, duration: 0.5, ease: "power2.inOut" }, 1.4);
+    tl.fromTo("#s1-a1h", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 1.8);
+    tl.fromTo("#s1-ly", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.9);
+    tl.fromTo(cellsY, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.012 }, 1.9);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.4);
+    cap("#s1-cap2", 5.1, 9.3);
+    tl.fromTo("#s1-a2", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "60 9999" }, duration: 0.5, ease: "power2.inOut" }, 5.2);
+    tl.fromTo("#s1-a2h", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 5.6);
+    tl.fromTo("#s1-lq", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.7);
+    tl.fromTo(cellsQ, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.012 }, 5.7);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 6.2);
+    tl.fromTo("#s1-slider", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.0);
+    tl.fromTo("#s1-q8", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.0);
+    // Q растёт 8 → 32: ползунок едет вправо, часть коэффициентов обнуляется
+    tl.to("#s1-knob", { attr: { cx: 320 }, duration: 1.0, ease: "power2.inOut" }, 7.6);
+    tl.to("#s1-q8", { opacity: 0, duration: 0.3 }, 8.0);
+    tl.fromTo("#s1-q32", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 8.0);
+    tl.to(txtQ8, { opacity: 0, duration: 0.35 }, 8.0);
+    tl.fromTo(txtQ32, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 8.1);
+    tl.to(fillQ, { attr: { fill: "#161a24" }, duration: 0.5 }, 8.0);
+    tl.fromTo("#s1-nz", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.5);
+    tl.fromTo("#s1-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.6);
+    cap("#s1-cap3", 9.5, 13.4);
+    tl.fromTo("#s1-ent", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.7);
+    tl.to("#s1-bar", { attr: { width: 110 }, duration: 1.2, ease: "power2.inOut" }, 10.2);
+    tl.fromTo("#s1-note1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.4);
+    tl.fromTo("#s1-note2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 11.2);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.45 }, 13.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>
