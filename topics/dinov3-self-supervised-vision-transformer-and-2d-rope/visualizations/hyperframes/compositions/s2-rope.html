@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s2-c1 .f { font-size: 32px; }
+  #s2-c2 { left: 1060px; top: 188px; width: 700px; }
+  #s2-c2 .f { font-size: 32px; }
+  #s2-c2 .f2 { font-style: italic; font-size: 29px; margin-top: 4px; }
+  #s2-c3 { left: 1060px; top: 430px; width: 700px; font-size: 26px; }
+  #s2-c3 .li { padding: 3px 0; }
+  #s2-c3 .li .k { color: #f0f4ff; font-weight: 600; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как 2D RoPE кодирует координаты патча?</div></div>
+    <div class="badge">Knowledge Book · DINOv3</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <!-- сетка патчей 6×6 -->
+        <g id="s2-grid"></g>
+        <text id="s2-ax-x" x="234" y="46" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">x = 0 … w−1 →</text>
+        <text id="s2-ax-y" x="0" y="0" transform="translate(30 244) rotate(-90)" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">← y = 0 … h−1</text>
+        <rect id="s2-pa" x="234" y="186" width="52" height="52" rx="6" fill="#ff7a2f" opacity="0"/>
+        <rect id="s2-pb" x="118" y="302" width="52" height="52" rx="6" fill="#2dd4bf" opacity="0"/>
+        <text id="s2-pa-lbl" x="260" y="220" text-anchor="middle" fill="#0f1117" font-size="20" font-weight="700" opacity="0">A</text>
+        <text id="s2-pb-lbl" x="144" y="336" text-anchor="middle" fill="#0f1117" font-size="20" font-weight="700" opacity="0">B</text>
+        <path id="s2-rel" d="M 250 222 L 163 309" fill="none" stroke="#ff4d6d" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <polygon id="s2-rel-h" points="156,316 161.3,300.0 172.0,310.7" fill="#ff4d6d" opacity="0"/>
+        <text id="s2-grid-lbl" x="234" y="452" text-anchor="middle" fill="#e6ebf5" font-size="26" opacity="0" data-layout-allow-overlap>патч <tspan fill="#ff7a2f" font-weight="700">A</tspan>: (x, y) = (3, 2)</text>
+        <text id="s2-grid-lbl2" x="234" y="452" text-anchor="middle" fill="#e6ebf5" font-size="26" opacity="0" data-layout-allow-overlap>патч <tspan fill="#2dd4bf" font-weight="700">B</tspan>: (1, 4) · <tspan fill="#ff4d6d" font-weight="700">Δx = −2, Δy = +2</tspan></text>
+        <text id="s2-grid-sub" x="234" y="488" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">сетка патчей h × w (здесь 6 × 6)</text>
+        <!-- вектор q: каналы -->
+        <g id="s2-chan" opacity="0">
+          <rect x="470" y="70" width="64" height="174" rx="8" fill="#1e3a5f" stroke="#4a9eff" stroke-width="3"/>
+          <rect x="470" y="244" width="64" height="174" rx="8" fill="#2b2140" stroke="#b48ce6" stroke-width="3"/>
+          <text x="0" y="0" transform="translate(510 157) rotate(-90)" text-anchor="middle" fill="#4a9eff" font-size="22" font-weight="700">каналы x</text>
+          <text x="0" y="0" transform="translate(510 331) rotate(-90)" text-anchor="middle" fill="#b48ce6" font-size="22" font-weight="700">каналы y</text>
+          <text x="502" y="46" text-anchor="middle" fill="#e6ebf5" font-size="26" font-weight="700">q ∈ ℝ<tspan font-size="18" dy="-10">D</tspan></text>
+                  </g>
+        <line id="s2-ln-x" x1="540" y1="157" x2="700" y2="157" stroke="#4a9eff" stroke-width="3" stroke-dasharray="0 9999" opacity="0"/>
+        <line id="s2-ln-y" x1="540" y1="331" x2="700" y2="440" stroke="#b48ce6" stroke-width="3" stroke-dasharray="0 9999" opacity="0"/>
+        <!-- круг x -->
+        <g id="s2-cx" opacity="0">
+          <circle cx="790" cy="157" r="84" fill="#161a24" stroke="#4a9eff" stroke-width="3"/>
+          <line x1="700" y1="157" x2="880" y2="157" stroke="#2a3140" stroke-width="2"/><line x1="790" y1="67" x2="790" y2="247" stroke="#2a3140" stroke-width="2"/>
+        </g>
+        <path id="s2-arc-x" d="" fill="none" stroke="#ff4d6d" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s2-vax" opacity="0"><line x1="790" y1="157" x2="866" y2="157" stroke="#ff7a2f" stroke-width="7" stroke-linecap="round"/><circle cx="866" cy="157" r="9" fill="#ff7a2f"/></g>
+        <g id="s2-vbx" opacity="0"><line x1="790" y1="157" x2="866" y2="157" stroke="#2dd4bf" stroke-width="7" stroke-linecap="round"/><circle cx="866" cy="157" r="9" fill="#2dd4bf"/></g>
+        <text id="s2-lx" x="790" y="278" text-anchor="middle" fill="#4a9eff" font-size="26" font-weight="700" opacity="0">θ<tspan font-size="18" dy="-10">x</tspan><tspan font-size="18" dy="16">i</tspan><tspan dy="-6"> = α</tspan><tspan font-size="18" dy="6">i</tspan><tspan dy="-6">·x</tspan></text>
+        <!-- круг y -->
+        <g id="s2-cy" opacity="0">
+          <circle cx="790" cy="440" r="84" fill="#161a24" stroke="#b48ce6" stroke-width="3"/>
+          <line x1="700" y1="440" x2="880" y2="440" stroke="#2a3140" stroke-width="2"/><line x1="790" y1="350" x2="790" y2="530" stroke="#2a3140" stroke-width="2"/>
+        </g>
+        <path id="s2-arc-y" d="" fill="none" stroke="#ff4d6d" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s2-vay" opacity="0"><line x1="790" y1="440" x2="866" y2="440" stroke="#ff7a2f" stroke-width="7" stroke-linecap="round"/><circle cx="866" cy="440" r="9" fill="#ff7a2f"/></g>
+        <g id="s2-vby" opacity="0"><line x1="790" y1="440" x2="866" y2="440" stroke="#2dd4bf" stroke-width="7" stroke-linecap="round"/><circle cx="866" cy="440" r="9" fill="#2dd4bf"/></g>
+        <text id="s2-ly" x="790" y="561" text-anchor="middle" fill="#b48ce6" font-size="26" font-weight="700" opacity="0">θ<tspan font-size="18" dy="-10">y</tspan><tspan font-size="18" dy="16">j</tspan><tspan dy="-6"> = β</tspan><tspan font-size="18" dy="6">j</tspan><tspan dy="-6">·y</tspan></text>
+        <text id="s2-dphi" x="790" y="612" text-anchor="middle" fill="#ff4d6d" font-size="24" font-weight="700" opacity="0">разность фаз ∝ (Δx, Δy)</text>
+        <text id="s2-note" x="350" y="612" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">иллюстративно: α<tspan font-size="16" dy="6">i</tspan><tspan dy="-6"> = 24°, β</tspan><tspan font-size="16" dy="6">j</tspan><tspan dy="-6"> = 30° на патч</tspan></text>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">1D RoPE: поворот пары компонент</div>
+        <div class="f">(q′<sub>2i</sub>, q′<sub>2i+1</sub>) = R(θ<sub>i</sub>(p)) · (q<sub>2i</sub>, q<sub>2i+1</sub>)</div>
+        <div style="font-size:24px;color:#aab3c2;margin-top:8px">R(θ) — поворот на угол θ<sub>i</sub>(p); так же для K</div></div>
+      <div id="s2-c2" class="card"><div class="h">2D RoPE: две оси — два поворота</div>
+        <div class="f"><span class="b">θ<sup>x</sup><sub>i</sub>(x) = α<sub>i</sub>·x</span>, &nbsp; <span class="p">θ<sup>y</sup><sub>j</sub>(y) = β<sub>j</sub>·y</span></div>
+        <div class="f2">Q′<sub>x,y</sub> = RoPE<sub>x</sub>(<span class="b">Q<sup>(x)</sup></span>, x) ⊕ RoPE<sub>y</sub>(<span class="p">Q<sup>(y)</sup></span>, y)</div>
+        <div style="font-size:24px;color:#aab3c2;margin-top:6px">Q<sup>(x)</sup>, Q<sup>(y)</sup> — половины каналов, ⊕ — конкатенация</div></div>
+      <div id="s2-c3" class="card"><div class="h">Зачем это DINOv3</div>
+        <div class="li"><span class="k">относительные (Δx, Δy)</span> в attention</div>
+        <div class="li"><span class="k">другое разрешение</span> → масштабируем (x, y)</div>
+        <div class="li"><span class="k">геометрия сцены</span>: сегментация, детекция, depth</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Патч <b class="o">A</b> с координатами (x, y) в сетке h × w. Позицию не прибавляем к X, а зашиваем во <b>вращение пар компонент</b> Q и K</div>
+      <div id="s2-cap2" class="cap">Каналы делим пополам: <b class="b">первая половина</b> вращается на θ<sup>x</sup><sub>i</sub> = α<sub>i</sub>·x, <b class="p">вторая</b> — на θ<sup>y</sup><sub>j</sub> = β<sub>j</sub>·y</div>
+      <div id="s2-cap3" class="cap">Патч <b class="t">B</b> получает другие фазы. В скалярном произведении Q·K остаётся <b class="r">разность фаз</b> — attention видит смещение (Δx, Δy)</div>
+      <div id="s2-cap4" class="cap">Нет таблицы positional embeddings под фиксированное h × w: при смене разрешения координаты (x, y) просто <b class="g">масштабируют</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const g = document.getElementById("s2-grid");
+    const cells = [];
+    for (let r = 0; r < 6; r++) for (let c = 0; c < 6; c++) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("id", `s2-cell-${r}-${c}`);
+      el.setAttribute("x", 60 + c * 58); el.setAttribute("y", 70 + r * 58);
+      el.setAttribute("width", "52"); el.setAttribute("height", "52"); el.setAttribute("rx", "6");
+      el.setAttribute("fill", "#161a24"); el.setAttribute("stroke", "#2a3140"); el.setAttribute("stroke-width", "2"); el.setAttribute("opacity", "0");
+      g.appendChild(el); cells.push([el, r, c]);
+    }
+    // Дуги разности фаз: круг x — от 24° (B) до 72° (A); круг y — от 60° (A) до 120° (B)
+    const arc = (cx, cy, r, a0, a1) => { const p = d => [cx + r * Math.cos(d * Math.PI / 180), cy - r * Math.sin(d * Math.PI / 180)]; const [x0, y0] = p(a0), [x1, y1] = p(a1); return `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 0 0 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+    const len = (r, a0, a1) => (r * Math.abs(a1 - a0) * Math.PI / 180).toFixed(1);
+    document.getElementById("s2-arc-x").setAttribute("d", arc(790, 157, 60, 24, 72));
+    document.getElementById("s2-arc-y").setAttribute("d", arc(790, 440, 60, 60, 120));
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    cells.forEach(([el, r, c]) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.3 + 0.03 * (r * 6 + c)));
+    tl.fromTo("#s2-ax-x", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.8);
+    tl.fromTo("#s2-ax-y", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.9);
+    tl.fromTo("#s2-grid-sub", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.0);
+    cap("#s2-cap1", 0.6, 4.2);
+    tl.fromTo("#s2-pa", { opacity: 0, scale: 0.6, svgOrigin: "260 212" }, { opacity: 1, scale: 1, svgOrigin: "260 212", duration: 0.5, ease: "back.out(1.6)" }, 1.4);
+    tl.fromTo("#s2-pa-lbl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.7);
+    tl.fromTo("#s2-grid-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.8);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.2);
+    // вектор q и две половины каналов
+    tl.fromTo("#s2-chan", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 3.4);
+    cap("#s2-cap2", 4.4, 8.6);
+    tl.fromTo("#s2-ln-x", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "160 9999" }, duration: 0.4 }, 4.6);
+    tl.fromTo("#s2-cx", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.8);
+    tl.fromTo("#s2-vax", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.0);
+    tl.fromTo("#s2-lx", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.1);
+    // A: x = 3 → поворот на 3·24° = 72° (против часовой на экране → rotation < 0)
+    tl.fromTo("#s2-vax", { rotation: 0, svgOrigin: "790 157" }, { rotation: -72, svgOrigin: "790 157", duration: 1.0, ease: "power2.inOut", immediateRender: false }, 5.4);
+    tl.fromTo("#s2-ln-y", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "194 9999" }, duration: 0.4 }, 5.8);
+    tl.fromTo("#s2-cy", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.0);
+    tl.fromTo("#s2-vay", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.2);
+    tl.fromTo("#s2-ly", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.3);
+    // A: y = 2 → 2·30° = 60°
+    tl.fromTo("#s2-vay", { rotation: 0, svgOrigin: "790 440" }, { rotation: -60, svgOrigin: "790 440", duration: 1.0, ease: "power2.inOut", immediateRender: false }, 6.6);
+    tl.fromTo("#s2-note", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.8);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 7.2);
+    // патч B (1, 4): фазы 24° и 120°; разность фаз ∝ (Δx, Δy)
+    cap("#s2-cap3", 8.8, 12.0);
+    tl.fromTo("#s2-pb", { opacity: 0, scale: 0.6, svgOrigin: "144 328" }, { opacity: 1, scale: 1, svgOrigin: "144 328", duration: 0.5, ease: "back.out(1.6)" }, 9.0);
+    tl.fromTo("#s2-pb-lbl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.3);
+    tl.to("#s2-grid-lbl", { opacity: 0, duration: 0.3 }, 9.3);
+    tl.fromTo("#s2-grid-lbl2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.5);
+    tl.fromTo("#s2-rel", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "123 9999" }, duration: 0.5, ease: "power2.inOut" }, 9.6);
+    tl.fromTo("#s2-rel-h", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 10.0);
+    tl.fromTo("#s2-vbx", { opacity: 0, rotation: 0, svgOrigin: "790 157" }, { opacity: 1, rotation: -24, svgOrigin: "790 157", duration: 1.0, ease: "power2.inOut" }, 9.8);
+    tl.fromTo("#s2-vby", { opacity: 0, rotation: 0, svgOrigin: "790 440" }, { opacity: 1, rotation: -120, svgOrigin: "790 440", duration: 1.0, ease: "power2.inOut" }, 9.8);
+    tl.fromTo("#s2-arc-x", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len(60, 24, 72) + " 9999" }, duration: 0.6, ease: "power2.inOut" }, 10.8);
+    tl.fromTo("#s2-arc-y", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len(60, 60, 120) + " 9999" }, duration: 0.6, ease: "power2.inOut" }, 10.8);
+    tl.fromTo("#s2-dphi", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 11.3);
+    cap("#s2-cap4", 12.2, 14.5);
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 12.4);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 14.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s3-c1 .f { font-size: 32px; }
+  #s3-c2 { left: 1060px; top: 290px; width: 700px; }
+  #s3-c2 .f { font-size: 32px; }
+  #s3-c2 .li { font-size: 26px; color: #aab3c2; padding: 2px 0; }
+  #s3-c2 .li .k { color: #f0f4ff; font-weight: 600; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Что дают фичи DINOv3 на выходе?</div></div>
+    <div class="badge">Knowledge Book · DINOv3</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <defs>
+          <linearGradient id="s3-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#15243a"/><stop offset="1" stop-color="#3b7fd0"/></linearGradient>
+          <clipPath id="s3-clip"><rect x="20" y="270" width="130" height="130" rx="12"/></clipPath>
+        </defs>
+        <!-- вход -->
+        <g id="s3-img" opacity="0">
+          <g clip-path="url(#s3-clip)">
+            <rect x="20" y="270" width="130" height="130" fill="url(#s3-sky)"/>
+            <circle cx="118" cy="300" r="14" fill="#ff7a2f"/>
+            <path d="M 20 366 Q 60 330 100 358 T 150 352 L 150 400 L 20 400 Z" fill="#3dba7a"/>
+            <rect x="50" y="340" width="28" height="28" fill="#161a24"/>
+            <path d="M 46 341 L 64 326 L 82 341 Z" fill="#ff4d6d"/>
+          </g>
+          <rect x="20" y="270" width="130" height="130" rx="12" fill="none" stroke="#2a3140" stroke-width="3"/>
+          <text x="85" y="428" text-anchor="middle" fill="#aab3c2" font-size="22">H × W × 3</text>
+        </g>
+        <path id="s3-ar0" d="" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <!-- ViT -->
+        <g id="s3-vit" opacity="0">
+          <rect x="196" y="246" width="250" height="176" rx="16" fill="#161a24" stroke="#4a9eff" stroke-width="4"/>
+          <text x="321" y="292" text-anchor="middle" fill="#f0f4ff" font-size="30" font-weight="700">DINOv3-ViT</text>
+          <text x="321" y="328" text-anchor="middle" fill="#aab3c2" font-size="20">патчи P × P → токены</text>
+          <text x="321" y="356" text-anchor="middle" fill="#aab3c2" font-size="20">L блоков MHA + MLP</text>
+          <text x="321" y="384" text-anchor="middle" fill="#aab3c2" font-size="20">2D RoPE в attention</text>
+        </g>
+        <path id="s3-ar1" d="" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <!-- токены -->
+        <g id="s3-heads"></g>
+        <g id="s3-tok"></g>
+        <g id="s3-tok-lbl" opacity="0"><text x="778" y="328" fill="#e6ebf5" font-size="24">Z<tspan font-size="16" dy="-10">(L)</tspan><tspan dy="10"> ∈ ℝ</tspan><tspan font-size="16" dy="-10">N×D</tspan></text><text x="778" y="358" fill="#aab3c2" font-size="22">N = h·w токенов</text></g>
+        <!-- ветка 1: глобальный вектор -->
+        <path id="s3-ar2" d="" fill="none" stroke="#3dba7a" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <text id="s3-ar2-lbl" x="637" y="256" fill="#3dba7a" font-size="22" opacity="0">CLS или mean</text>
+        <g id="s3-glob" opacity="0">
+          <rect x="489" y="70" width="268" height="118" rx="16" fill="#161a24" stroke="#3dba7a" stroke-width="4"/>
+          <text x="623" y="116" text-anchor="middle" fill="#3dba7a" font-size="28" font-weight="700">z<tspan font-size="18" dy="8">global</tspan><tspan dy="-8"> ∈ ℝ</tspan><tspan font-size="18" dy="-10">D</tspan></text>
+          <text x="623" y="156" text-anchor="middle" fill="#aab3c2" font-size="22">вектор изображения</text>
+        </g>
+        <path id="s3-ar3" d="" fill="none" stroke="#3dba7a" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s3-cls" opacity="0">
+          <rect x="786" y="70" width="176" height="118" rx="16" fill="#161a24" stroke="#3dba7a" stroke-width="4"/>
+          <text x="874" y="112" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">linear probe</text>
+          <text x="874" y="140" text-anchor="middle" fill="#aab3c2" font-size="20">W<tspan font-size="14" dy="6">cls</tspan><tspan dy="-6">·z + b → ŷ</tspan></text>
+          <text x="874" y="170" text-anchor="middle" fill="#3dba7a" font-size="22" font-weight="700">класс</text>
+        </g>
+        <!-- ветка 2: dense-карта -->
+        <path id="s3-ar4" d="" fill="none" stroke="#ff7a2f" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <text id="s3-ar4-lbl" x="637" y="404" fill="#ff7a2f" font-size="22" opacity="0">reshape</text>
+        <g id="s3-fm"></g>
+        <text id="s3-fm-lbl" x="623" y="638" text-anchor="middle" fill="#ff7a2f" font-size="24" font-weight="700" opacity="0">карта h × w × D</text>
+        <path id="s3-ar5" d="" fill="none" stroke="#ff7a2f" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s3-det" opacity="0">
+          <rect x="772" y="440" width="196" height="180" rx="16" fill="#161a24" stroke="#ff7a2f" stroke-width="4"/>
+          <text x="870" y="478" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">детектор /</text>
+          <text x="870" y="506" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">декодер</text>
+          <text x="870" y="540" text-anchor="middle" fill="#aab3c2" font-size="18">DETR / Mask2Former</text>
+          <text x="870" y="564" text-anchor="middle" fill="#aab3c2" font-size="18">U-Net-декодер</text>
+          <text x="870" y="602" text-anchor="middle" fill="#ff7a2f" font-size="22" font-weight="700">боксы · маски</text>
+        </g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Классификация — глобальные фичи</div>
+        <div class="f">z<sub>global</sub> = (1/N)·Σ<sub>i</sub> z<sub>i</sub><sup>(L)</sup> &nbsp;или CLS-токен</div>
+        <div class="f" style="margin-top:6px">ŷ = softmax(W<sub>cls</sub>·z<sub>global</sub> + b)</div>
+        <div style="font-size:24px;color:#aab3c2;margin-top:8px">linear probe: бэкбон заморожен, учатся только W<sub>cls</sub>, b; либо полный fine-tuning</div></div>
+      <div id="s3-c2" class="card"><div class="h">Детекция и сегментация — dense-фичи</div>
+        <div class="f">Z<sup>(L)</sup> ∈ ℝ<sup>N×D</sup> → reshape → h × w × D</div>
+        <div class="li" style="margin-top:8px"><span class="k">DETR-style</span>: query-токены → боксы и классы</div>
+        <div class="li"><span class="k">сегментация</span>: mask = σ(f(query) · feature_map)</div>
+        <div class="li"><span class="k">semantic</span>: upsampling до H × W, softmax по классам</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap"><b class="g">Глобальный вектор</b>: CLS-токен или среднее по патчам z<sub>global</sub> = (1/N)·Σ z<sub>i</sub> → линейная голова для классификации</div>
+      <div id="s3-cap2" class="cap"><b class="o">Патч-токены</b> Z<sup>(L)</sup> reshape’ятся в карту h × w × D — бэкбон для детекции и сегментации (DETR, Mask2Former, U-Net-декодер)</div>
+      <div id="s3-cap3" class="cap key">DINOv3 = ViT, обученный без меток (student–teacher + patch-loss) с 2D RoPE. Один бэкбон даёт и глобальные, и dense-фичи</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // 8 патч-токенов в ряд
+    const gT = document.getElementById("s3-tok");
+    const toks = [];
+    for (let i = 0; i < 8; i++) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("id", `s3-t${i}`);
+      el.setAttribute("x", 482 + i * 36); el.setAttribute("y", 318);
+      el.setAttribute("width", "30"); el.setAttribute("height", "34"); el.setAttribute("rx", "5");
+      el.setAttribute("fill", "#1e3a5f"); el.setAttribute("stroke", "#4a9eff"); el.setAttribute("stroke-width", "2"); el.setAttribute("opacity", "0");
+      gT.appendChild(el); toks.push(el);
+    }
+    // dense-карта 4×4: цвет клетки = «класс» региона (иллюстративно: небо, солнце, дом, трава)
+    const gF = document.getElementById("s3-fm");
+    const fmColors = [["#1e3a5f", "#1e3a5f", "#ff7a2f", "#1e3a5f"], ["#1e3a5f", "#ff4d6d", "#1e3a5f", "#1e3a5f"], ["#3dba7a", "#ff4d6d", "#3dba7a", "#3dba7a"], ["#3dba7a", "#3dba7a", "#3dba7a", "#3dba7a"]];
+    const cells = [];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("id", `s3-f${r}${c}`);
+      el.setAttribute("x", 545 + c * 40); el.setAttribute("y", 452 + r * 40);
+      el.setAttribute("width", "36"); el.setAttribute("height", "36"); el.setAttribute("rx", "5");
+      el.setAttribute("fill", fmColors[r][c]); el.setAttribute("stroke", "#2a3140"); el.setAttribute("stroke-width", "2"); el.setAttribute("opacity", "0");
+      gF.appendChild(el); cells.push([el, r, c]);
+    }
+
+    // Стрелки: линия до точки за 10px до кончика + треугольный наконечник (без marker).
+    const heads = document.getElementById("s3-heads");
+    const arrows = { "s3-ar0": [158, 335, 192, 335, "#aab3c2"], "s3-ar1": [452, 335, 478, 335, "#aab3c2"], "s3-ar2": [623, 312, 623, 196, "#3dba7a"], "s3-ar3": [763, 129, 782, 129, "#3dba7a"], "s3-ar4": [623, 360, 623, 436, "#ff7a2f"], "s3-ar5": [712, 530, 768, 530, "#ff7a2f"] };
+    const alen = {};
+    Object.entries(arrows).forEach(([id, [x1, y1, x2, y2, col]]) => {
+      const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+      const ex = x2 - 10 * ux, ey = y2 - 10 * uy;
+      document.getElementById(id).setAttribute("d", `M ${x1} ${y1} L ${ex.toFixed(1)} ${ey.toFixed(1)}`);
+      alen[id] = (L - 10).toFixed(1);
+      const p = document.createElementNS(NS, "polygon");
+      const bx = x2 - 16 * ux, by = y2 - 16 * uy, nx = -uy * 8, ny = ux * 8;
+      p.setAttribute("id", id + "-h"); p.setAttribute("fill", col); p.setAttribute("opacity", "0");
+      p.setAttribute("points", `${x2},${y2} ${(bx + nx).toFixed(1)},${(by + ny).toFixed(1)} ${(bx - nx).toFixed(1)},${(by - ny).toFixed(1)}`);
+      heads.appendChild(p);
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const draw = (id, len, t, dur) => tl.fromTo(id, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len + " 9999" }, duration: dur, ease: "power2.inOut" }, t);
+    const arrow = (id, t, dur) => { draw("#" + id, alen[id], t, dur); tl.fromTo("#" + id + "-h", { opacity: 0 }, { opacity: 1, duration: 0.2 }, t + dur - 0.15); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-img", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+    arrow("s3-ar0", 0.7, 0.3);
+    tl.fromTo("#s3-vit", { opacity: 0, scale: 0.92, svgOrigin: "321 334" }, { opacity: 1, scale: 1, svgOrigin: "321 334", duration: 0.5, ease: "power2.out" }, 0.9);
+    arrow("s3-ar1", 1.3, 0.3);
+    toks.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 1.5 + 0.06 * i));
+    tl.fromTo("#s3-tok-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.9);
+    // ветка 1
+    cap("#s3-cap1", 0.6, 4.6);
+    arrow("s3-ar2", 2.3, 0.5);
+    tl.fromTo("#s3-ar2-lbl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.6);
+    tl.fromTo("#s3-glob", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 2.8);
+    arrow("s3-ar3", 3.3, 0.3);
+    tl.fromTo("#s3-cls", { opacity: 0, x: 16 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 3.5);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 3.0);
+    // ветка 2
+    cap("#s3-cap2", 4.8, 8.8);
+    arrow("s3-ar4", 5.0, 0.5);
+    tl.fromTo("#s3-ar4-lbl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.3);
+    cells.forEach(([el, r, c]) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 5.5 + 0.05 * (r * 4 + c)));
+    tl.fromTo("#s3-fm-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.2);
+    arrow("s3-ar5", 6.5, 0.4);
+    tl.fromTo("#s3-det", { opacity: 0, x: 16 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 6.8);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.8);
+    // ключевая идея
+    cap("#s3-cap3", 9.0, 0);
+    tl.fromTo("#s3-vit", { scale: 1, svgOrigin: "321 334" }, { scale: 1.06, svgOrigin: "321 334", duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 9.2);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.45 }, 12.5);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

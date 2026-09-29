@@ -64,6 +64,12 @@ DINOv3 — это очень умный «художник‑детектив»,
 - обводить их рамками,
 - и даже раскрашивать каждый пиксель по классам.
 
+**Визуализация (HyperFrames, 44 с):** сцена 1 — student и EMA-teacher учатся без меток на глобальных и локальных кропах одного изображения (DINO-loss с центрированием и температурой); сцена 2 — 2D RoPE вращает половины каналов Q и K на углы, пропорциональные координатам патча (x, y), так что attention видит относительное смещение; сцена 3 — глобальный вектор для классификации и dense-карта h × w × D для детекции и сегментации.
+
+![DINOv3: student–teacher без разметки и 2D RoPE](./assets/visualizations/dino-student-teacher-2d-rope.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/dino-student-teacher-2d-rope.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## 2. Интуиция DINOv3: зачем ещё один ViT-фреймворк
