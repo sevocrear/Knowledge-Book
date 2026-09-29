@@ -432,7 +432,7 @@ while ! done; do ai_agent "$PROMPT"; done
 
 ## Stop Babysitting Your Agents (Claude Code)
 
-Практический доклад **Sid Bindisaria** (founding engineer Claude Code): verification loops, упаковка в self-improving **skills**, multi-clauding без перегруза внимания, **`/loop`** и **Routines** для PR/CI/docs.
+Практический доклад **Sid Bidasaria** (founding engineer Claude Code): verification loops, упаковка в self-improving **skills**, multi-clauding без перегруза внимания, **`/loop`** и **Routines** для PR/CI/docs.
 
 **Подробнее (отдельный конспект):** [stop-babysitting-your-agents-claude-code.md](./stop-babysitting-your-agents-claude-code.md)
 
@@ -482,13 +482,13 @@ Talk **Tejas** (IBM): что такое **agent harness** (не ML test harness)
 
 ### Дополнительные материалы в этом топике
 
-- [Stop Babysitting Your Agents (Claude Code) — конспект доклада Sid Bindisaria](./stop-babysitting-your-agents-claude-code.md)
+- [Stop Babysitting Your Agents (Claude Code) — конспект доклада Sid Bidasaria](./stop-babysitting-your-agents-claude-code.md)
 - [AI Harness Engineering (Tejas, IBM)](./ai-harness-engineering-tejas-ibm.md)
 
 ### Внешние материалы
 
 - [AI harnesses — Tejas, IBM (YouTube)](https://www.youtube.com/watch?v=C_GG5g38vLU)
-- [Stop babysitting your agents — Sid Bindisaria (YouTube)](https://www.youtube.com/watch?v=wI0ptqCSL0I)
+- [Stop babysitting your agents — Sid Bidasaria (YouTube)](https://www.youtube.com/watch?v=wI0ptqCSL0I)
 - [No Priors podcast episode: *Skill Issue: Andrej Karpathy on Code Agents, AutoResearch, and the Loopy Era of AI*](https://www.youtube.com/watch?v=kwSVtQ7dziU)
 - [YouTube interview with Max (Gumloop) on AI automation, founders, and anti-slop execution](https://www.youtube.com/watch?v=CxFQykWiJqY)
 - [Stop Using The Ralph Loop Plugin (Chase AI)](https://www.youtube.com/watch?v=yAE3ONleUas&pp=ygUSV2hhdCBpcyBSYWxwaCBsb29w)

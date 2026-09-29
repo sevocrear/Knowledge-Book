@@ -28,7 +28,7 @@ updated: 2026-09-18
 - Транскрипт (локально): `outputs/transcripts/C_GG5g38vLU.txt` — скачать через workflow ([инструкция](../../outputs/transcripts/README.md)); файл коммитится после `verify_youtube_transcript.py`
 - Канонический топик: [README](./README.md)
 
-> **Не путать** с [Stop Babysitting Your Agents (Claude Code)](./stop-babysitting-your-agents-claude-code.md) (Sid Bindisaria) — другой спикер и фокус (операционный Claude Code vs. теория harness с нуля).
+> **Не путать** с [Stop Babysitting Your Agents (Claude Code)](./stop-babysitting-your-agents-claude-code.md) (Sid Bidasaria) — другой спикер и фокус (операционный Claude Code vs. теория harness с нуля).
 
 ## Оглавление
 
@@ -179,7 +179,7 @@ Tejas упоминает **Open RAG** (IBM): enterprise RAG по Teams, звон
 
 ## Дешёвые модели + сильный harness
 
-Тезис: с **хорошим harness** далеко уедут **дешёвые** модели (Quinn, GPT-OSS и т.д.) — меньше гонки за frontier, больше за **reliability per dollar**.
+Тезис: с **хорошим harness** далеко уедут **дешёвые** модели (Qwen, GPT-OSS и т.д.) — меньше гонки за frontier, больше за **reliability per dollar**.
 
 Это перекликается с [token throughput](./README.md#2-новая-единица-эффективности-token-throughput-под-контролем-человека) и [eval before scale](./README.md#must-have-техники-на-2026-год-для-ai-agent-engineering) в основном README топика.
 
@@ -224,7 +224,7 @@ Tejas упоминает **Open RAG** (IBM): enterprise RAG по Teams, звон
 ### Перед продакшеном
 
 - [ ] Failure modes: ложный success, login walls, unbounded loops.
-- [ ] Метрики: success rate, retries, token/$ , verify pass rate.
+- [ ] Метрики: success rate, retries, token/\$, verify pass rate.
 - [ ] Документировать harness как «код организации» (см. [Program.md тезис](./README.md#главные-идеи) в Karpathy-материале).
 
 ### Anti-patterns
