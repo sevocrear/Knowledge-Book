@@ -61,6 +61,12 @@ updated: 2026-09-18
 
 Метрики - это "оценки в дневнике" за разные навыки: кто он, где он, и не перепутал ли его с другим.
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — покадровое сопоставление предсказаний с GT-треками по IoU ≥ α и что такое TP / FN / FP / IDSW; сцена 2 — как MOTA складывает все ошибки в одну сумму, а IDF1 сопоставляет identity на всей длине трека; сцена 3 — HOTA_α = √(DetA_α · AssA_α) и усреднение по порогам α.
+
+![Метрики MOT: сопоставление по IoU, MOTA vs IDF1, HOTA](./assets/visualizations/tracking-metrics-mota-idf1-hota.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/tracking-metrics-mota-idf1-hota.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Какие подзадачи мы оцениваем
