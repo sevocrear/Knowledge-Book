@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s3-c2 { left: 1060px; top: 340px; width: 700px; }
+  .s3-ln { fill: none; stroke: #55607a; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+  .s3-node { fill: #161a24; stroke-width: 4; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Как LoRA работает в слое и на инференсе?</div></div>
+    <div class="badge">Knowledge Book · LoRA</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <!-- Обучение: две ветки — замороженная W и обучаемая B·A -->
+        <g id="s3-train">
+          <polyline id="s3-l1" class="s3-ln" stroke-dasharray="0 9999" points="110,330 160,330 160,230 200,230"/>
+          <polyline id="s3-l2" class="s3-ln" stroke-dasharray="0 9999" points="480,230 700,230 700,302"/>
+          <polyline id="s3-l3" class="s3-ln" stroke-dasharray="0 9999" points="110,330 160,330 160,460 220,460"/>
+          <polyline id="s3-l4" class="s3-ln" stroke-dasharray="0 9999" points="330,460 370,460"/>
+          <polyline id="s3-l5" class="s3-ln" stroke-dasharray="0 9999" points="480,460 515,460"/>
+          <polyline id="s3-l6" class="s3-ln" stroke-dasharray="0 9999" points="605,460 700,460 700,358"/>
+          <polyline id="s3-l7" class="s3-ln" stroke-dasharray="0 9999" points="728,330 850,330"/>
+          <g id="s3-blocks" opacity="0">
+            <circle cx="80" cy="330" r="30" class="s3-node" stroke="#f0f4ff"/>
+            <text x="80" y="342" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">x</text>
+            <rect x="200" y="180" width="280" height="100" rx="16" class="s3-node" stroke="#4a9eff"/>
+            <text x="340" y="224" text-anchor="middle" fill="#4a9eff" font-size="36" font-weight="700">W</text>
+            <text x="340" y="258" text-anchor="middle" fill="#aab3c2" font-size="22">заморожена, grad = 0</text>
+            <rect x="220" y="410" width="110" height="100" rx="16" class="s3-node" stroke="#b48ce6"/>
+            <text x="275" y="454" text-anchor="middle" fill="#b48ce6" font-size="36" font-weight="700">A</text>
+            <text x="275" y="488" text-anchor="middle" fill="#aab3c2" font-size="22">r × k</text>
+            <rect id="s3-brect" x="370" y="410" width="110" height="100" rx="16" class="s3-node" stroke="#3dba7a"/>
+            <text id="s3-b0" x="425" y="454" text-anchor="middle" fill="#aab3c2" font-size="30" font-weight="700" data-layout-allow-overlap>B = 0</text>
+            <text id="s3-b1" x="425" y="454" text-anchor="middle" fill="#3dba7a" font-size="36" font-weight="700" opacity="0" data-layout-allow-overlap>B</text>
+            <text x="425" y="488" text-anchor="middle" fill="#aab3c2" font-size="22">d × r</text>
+            <rect x="515" y="430" width="90" height="60" rx="14" class="s3-node" stroke="#ff7a2f"/>
+            <text x="560" y="470" text-anchor="middle" fill="#ff7a2f" font-size="28" font-weight="700">α / r</text>
+            <circle cx="700" cy="330" r="28" class="s3-node" stroke="#f0f4ff"/>
+            <text x="700" y="343" text-anchor="middle" fill="#f0f4ff" font-size="36" font-weight="700">+</text>
+            <circle cx="880" cy="330" r="30" class="s3-node" stroke="#2dd4bf"/>
+            <text x="880" y="342" text-anchor="middle" fill="#2dd4bf" font-size="34" font-weight="700">h</text>
+            <text x="340" y="150" text-anchor="middle" fill="#4a9eff" font-size="24">W x</text>
+            <text x="560" y="560" text-anchor="middle" fill="#ff7a2f" font-size="24">(α / r) · B A x</text>
+          </g>
+          <text id="s3-note" x="490" y="640" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">на старте B = 0 ⇒ ΔW = B·A = 0: модель равна базовой; учатся только A и B</text>
+          <circle id="s3-pk1" cx="110" cy="330" r="10" fill="#4a9eff" opacity="0"/>
+          <circle id="s3-pk2" cx="110" cy="330" r="10" fill="#b48ce6" opacity="0"/>
+          <circle id="s3-pk3" cx="728" cy="330" r="10" fill="#2dd4bf" opacity="0"/>
+        </g>
+        <!-- Инференс: слитый слой W + B·A и сменные адаптеры -->
+        <g id="s3-infer" opacity="0">
+          <line x1="110" y1="330" x2="300" y2="330" stroke="#55607a" stroke-width="5" stroke-linecap="round"/>
+          <line x1="620" y1="330" x2="850" y2="330" stroke="#55607a" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="80" cy="330" r="30" class="s3-node" stroke="#f0f4ff"/>
+          <text x="80" y="342" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">x</text>
+          <rect x="300" y="280" width="320" height="100" rx="16" class="s3-node" stroke="#4a9eff"/>
+          <text x="460" y="324" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">W′ = W + B · A</text>
+          <text x="460" y="358" text-anchor="middle" fill="#aab3c2" font-size="22">слито заранее</text>
+          <circle cx="880" cy="330" r="30" class="s3-node" stroke="#2dd4bf"/>
+          <text x="880" y="342" text-anchor="middle" fill="#2dd4bf" font-size="34" font-weight="700">h</text>
+          <text x="490" y="440" text-anchor="middle" fill="#aab3c2" font-size="26">инференс: один обычный линейный слой</text>
+          <text id="s3-base" x="490" y="490" text-anchor="middle" fill="#4a9eff" font-size="26" opacity="0">база W общая, адаптеры меняются под задачу</text>
+          <line id="s3-plug" x1="460" y1="234" x2="460" y2="280" stroke="#55607a" stroke-width="4" stroke-dasharray="8 8" opacity="0"/>
+          <g id="s3-ad1" opacity="0" data-layout-allow-overflow>
+            <rect x="300" y="170" width="320" height="64" rx="14" fill="rgba(255,122,47,0.15)" stroke="#ff7a2f" stroke-width="3" data-layout-allow-overlap/>
+            <text x="460" y="211" text-anchor="middle" fill="#ff7a2f" font-size="26" font-weight="700" data-layout-allow-overlap>адаптер · задача 1: B₁A₁</text>
+          </g>
+          <g id="s3-ad2" opacity="0" data-layout-allow-overflow>
+            <rect x="300" y="170" width="320" height="64" rx="14" fill="rgba(45,212,191,0.15)" stroke="#2dd4bf" stroke-width="3" data-layout-allow-overlap/>
+            <text x="460" y="211" text-anchor="middle" fill="#2dd4bf" font-size="26" font-weight="700" data-layout-allow-overlap>адаптер · задача 2: B₂A₂</text>
+          </g>
+        </g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Прямой проход с LoRA</div>
+        <div class="f">h = <span class="b">W</span> x + (<span class="o">α</span> / r) · <span class="g">B</span> <span class="p">A</span> x</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">α — масштаб, обычно α = r или 2r; старт: A случайная, B = 0 ⇒ ΔW = 0</div></div>
+      <div id="s3-c2" class="card"><div class="h">Инференс и адаптеры</div>
+        <div class="f">W′ = <span class="b">W</span> + <span class="g">B</span> · <span class="p">A</span> — считаем заранее</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">обычный слой без лишних матриц; на задачу — свой адаптер, база общая (set_adapter)</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Forward: <b>h = Wx + (α/r)·BAx</b>. <b class="g">B</b> стартует нулями ⇒ ΔW = 0, модель начинает с базовых весов</div>
+      <div id="s3-cap2" class="cap">На инференсе <b class="b">W + B·A</b> вычисляем заранее — обычный линейный слой, лишних вычислений нет</div>
+      <div id="s3-cap3" class="cap key">LoRA = замороженная база + маленькие адаптеры B·A: ≪ 1% параметров, свой адаптер на задачу, база общая</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const draw = (id, len, t, d) => tl.fromTo(id, { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": len + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+    // Пакет едет по ломаной: первый hop — fromTo, следующие — to; телепорт — fromTo с immediateRender:false.
+    const hop = (id, cx, cy, t, d) => tl.to(id, { attr: { cx, cy }, duration: d, ease: "none" }, t);
+    const show = (id, cx, cy, t) => tl.fromTo(id, { attr: { cx, cy }, opacity: 0 }, { opacity: 1, duration: 0.12, immediateRender: false }, t);
+    const hide = (id, t) => tl.to(id, { opacity: 0, duration: 0.12 }, t);
+
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-blocks", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.3);
+    draw("#s3-l1", 190, 0.5, 0.4); draw("#s3-l3", 240, 0.5, 0.4);
+    draw("#s3-l2", 292, 0.9, 0.5); draw("#s3-l4", 40, 0.9, 0.2); draw("#s3-l5", 35, 1.1, 0.2); draw("#s3-l6", 197, 1.3, 0.4);
+    draw("#s3-l7", 122, 1.7, 0.3);
+    cap("#s3-cap1", 0.6, 5.0);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 0.9);
+    tl.fromTo("#s3-note", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.4);
+    // Верхняя ветка: x → W → +
+    tl.fromTo("#s3-pk1", { attr: { cx: 110, cy: 330 }, opacity: 0 }, { opacity: 1, duration: 0.12 }, 1.8);
+    hop("#s3-pk1", 160, 330, 1.9, 0.2); hop("#s3-pk1", 160, 230, 2.1, 0.3); hop("#s3-pk1", 200, 230, 2.4, 0.2); hide("#s3-pk1", 2.6);
+    show("#s3-pk1", 480, 230, 3.0); hop("#s3-pk1", 700, 230, 3.1, 0.6); hop("#s3-pk1", 700, 302, 3.7, 0.25); hide("#s3-pk1", 3.95);
+    // Нижняя ветка: x → A → B → α/r → +
+    tl.fromTo("#s3-pk2", { attr: { cx: 110, cy: 330 }, opacity: 0 }, { opacity: 1, duration: 0.12 }, 1.8);
+    hop("#s3-pk2", 160, 330, 1.9, 0.2); hop("#s3-pk2", 160, 460, 2.1, 0.35); hop("#s3-pk2", 220, 460, 2.45, 0.2); hide("#s3-pk2", 2.65);
+    show("#s3-pk2", 330, 460, 2.95); hop("#s3-pk2", 370, 460, 3.05, 0.15); hide("#s3-pk2", 3.2);
+    show("#s3-pk2", 480, 460, 3.4); hop("#s3-pk2", 515, 460, 3.5, 0.15); hide("#s3-pk2", 3.65);
+    show("#s3-pk2", 605, 460, 3.85); hop("#s3-pk2", 700, 460, 3.95, 0.3); hop("#s3-pk2", 700, 358, 4.25, 0.25); hide("#s3-pk2", 4.5);
+    // Сумма → h
+    tl.fromTo("#s3-pk3", { attr: { cx: 728, cy: 330 }, opacity: 0 }, { opacity: 1, duration: 0.12 }, 4.55);
+    hop("#s3-pk3", 850, 330, 4.65, 0.4); hide("#s3-pk3", 5.05);
+    // B = 0 → B обучилась
+    tl.to("#s3-b0", { opacity: 0, duration: 0.4 }, 3.3);
+    tl.to("#s3-b1", { opacity: 1, duration: 0.4 }, 3.3);
+    // Инференс: слияние веток в один слой
+    cap("#s3-cap2", 5.2, 9.0);
+    tl.to("#s3-train", { opacity: 0, duration: 0.6, ease: "power2.inOut" }, 5.6);
+    tl.fromTo("#s3-infer", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.inOut" }, 5.8);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 6.0);
+    // Ключевая идея: адаптеры вставляются и меняются
+    cap("#s3-cap3", 9.2, 0);
+    tl.fromTo("#s3-base", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.4);
+    tl.fromTo("#s3-plug", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.4);
+    tl.fromTo("#s3-ad1", { x: 320, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, 9.6);
+    tl.to("#s3-ad1", { x: -300, opacity: 0, duration: 0.6, ease: "power2.in" }, 11.3);
+    tl.fromTo("#s3-ad2", { x: 320, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, 11.6);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.4 }, 13.55);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>
