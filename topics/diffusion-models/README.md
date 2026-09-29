@@ -68,9 +68,9 @@ Diffusion models берут начало в физике (процессы ди�
 
 - **2015**: Sohl-Dickstein et al. вводят концепцию diffusion models
 - **2020**: Ho et al. представляют DDPM с упрощённой формулировкой
-- **2021**: Nichol & Dhariwal улучшают DDPM (DDIM, classifier guidance)
+- **2020-2021**: Song et al. предлагают DDIM (быстрый детерминированный sampling); Nichol & Dhariwal улучшают DDPM (cosine schedule, learned variance) и вводят classifier guidance
 - **2022**: Rombach et al. представляют Latent Diffusion Models (Stable Diffusion)
-- **2023-2024**: быстрый прогресс в text-to-image, генерации видео и 3D
+- **2023-2026**: быстрый прогресс в text-to-image (DiT/flow matching: SD3, FLUX), генерации видео (Sora, Veo, Wan) и 3D
 
 ---
 
@@ -96,7 +96,7 @@ Diffusion models работают по принципу **постепенног
 
 ### Визуализация процесса диффузии
 
-```
+```text
 Исходное изображение → [Добавить шум] → [Добавить шум] → ... → [Добавить шум] → Чистый шум
      x₀                     x₁               x₂                       xₜ
 
@@ -143,7 +143,7 @@ $$\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\bol
 
 Типичные расписания:
 - **Linear**: $\beta_t = \text{linear}(0.0001, 0.02, T)$
-- **Cosine**: $\bar{\alpha}_t = \frac{\cos(\pi t / 2T + s)}{1+s}$, где $s$ — небольшой offset
+- **Cosine** (Nichol & Dhariwal, 2021): $\bar{\alpha}_t = \frac{f(t)}{f(0)}$, где $f(t) = \cos^2\left(\frac{t/T + s}{1+s} \cdot \frac{\pi}{2}\right)$, а $s$ — небольшой offset (например, $0.008$)
 
 ### Обратный процесс диффузии
 
@@ -159,7 +159,7 @@ $$p_\theta(\mathbf{x}_{t-1} | \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \bol
 
 Ho et al. показали, что можно использовать упрощённую функцию потерь:
 
-$$\mathcal{L}_{\text{simple}} = \mathbb{E}_{t, \mathbf{x}_0, \boldsymbol{\epsilon}} \left[ ||\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)||^2 \right]$$
+$$\mathcal{L}_{\text{simple}} = \mathbb{E}_{t, \mathbf{x}_0, \boldsymbol{\epsilon}} \left[ \|\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\|^2 \right]$$
 
 где:
 - $t \sim \text{Uniform}(1, T)$ — случайный временной шаг
@@ -290,9 +290,9 @@ Diffusion models могут обучаться на разных типах да
 **2. Видео (video diffusion)**
 - **Датасеты**:
   - WebVid (10M видео с текстовыми описаниями)
-  - Kinetics (400K видео, 400 классов действий)
+  - Kinetics-400 (~300K видео, 400 классов действий)
   - UCF-101, HMDB-51 (видео с действиями)
-  - InternVid (236M пар видео–текст)
+  - InternVid (234M пар клип–текст)
 - **Формат**: последовательность кадров (frames), обычно 16–128 кадров
 - **Разрешение**: от 128x128 до 1024x1024 на кадр
 
@@ -389,7 +389,7 @@ predicted_noise = model(x_t, t)  # [B, C, H, W]
 
 Функция потерь — это **MSE между истинным и предсказанным шумом**:
 
-$$\mathcal{L} = ||\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)||^2$$
+$$\mathcal{L} = \|\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\|^2$$
 
 ```python
 # Вычисление потерь
@@ -400,7 +400,7 @@ loss = F.mse_loss(noise, predicted_noise)
 
 1. **Проще для модели**: предсказать шум проще, чем предсказать исходное изображение напрямую
 2. **Стабильность**: это приводит к более стабильному обучению
-3. **Математическая обоснованность**: связано со score matching и оптимальным транспортом
+3. **Математическая обоснованность**: предсказание шума эквивалентно оценке score-функции $\nabla_{\mathbf{x}_t}\log q(\mathbf{x}_t)$ (denoising score matching)
 
 #### Что изучает модель?
 
@@ -440,8 +440,8 @@ predicted_noise = model(x_t, t, condition_image)
 
 Типичные объёмы данных для обучения:
 - **Базовые модели**: 1–10 миллионов изображений
-- **Крупные модели** (Stable Diffusion): 100+ миллионов изображений
-- **Очень крупные** (DALL-E 2, Imagen): 1+ миллиард изображений
+- **Крупные модели** (DALL-E 2 ≈ 650M, Imagen ≈ 860M пар изображение–текст): сотни миллионов изображений
+- **Очень крупные** (Stable Diffusion: LAION-2B-en / LAION-5B): миллиарды пар изображение–текст
 
 **Время обучения**:
 - небольшие модели (64x64): несколько дней на 1–4 GPU
@@ -526,17 +526,19 @@ def sample_ddpm(model, shape, device, timesteps=1000,
 DDIM (Denoising Diffusion Implicit Models) даёт детерминированную генерацию и более быстрый sampling:
 
 ```python
-def sample_ddim(model, shape, device, timesteps=50, eta=0.0):
+def sample_ddim(model, shape, device, timesteps=1000, ddim_steps=50, eta=0.0):
     """
     DDIM sampling — быстрее и детерминированно (если eta=0)
     
     Args:
+        timesteps: число шагов обучающего расписания (T)
+        ddim_steps: число шагов сэмплирования (подпоследовательность)
         eta: параметр стохастичности (0 = детерминированный, 1 = стохастический)
     """
     x = torch.randn(shape, device=device)
     
     # Используем подпоследовательность временных шагов
-    step_size = timesteps // 50  # 50 шагов вместо 1000
+    step_size = timesteps // ddim_steps  # например, 50 шагов вместо 1000
     
     for i in reversed(range(0, timesteps, step_size)):
         t = torch.full((shape[0],), i, device=device, dtype=torch.long)
@@ -552,6 +554,7 @@ def sample_ddim(model, shape, device, timesteps=50, eta=0.0):
         direction_point = sqrt_one_minus_alphas_cumprod[max(0, i - step_size)] * predicted_noise
         
         if eta > 0:
+            # Упрощённо; точная формула sigma_t для eta > 0 — в статье DDIM (Song et al., 2021)
             noise = eta * torch.randn_like(x) * sqrt_one_minus_alphas_cumprod[max(0, i - step_size)]
         else:
             noise = 0
@@ -824,7 +827,7 @@ $$\tilde{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t, y) = \boldsymbol{\epsilon}_
 
 **Альтернативная формулировка** через score matching:
 
-$$\mathcal{L} = \mathbb{E}_{t, \mathbf{x}_t} \left[ \lambda(t) ||\mathbf{s}_\theta(\mathbf{x}_t, t) - \nabla_{\mathbf{x}_t} \log p_t(\mathbf{x}_t)||^2 \right]$$
+$$\mathcal{L} = \mathbb{E}_{t, \mathbf{x}_t} \left[ \lambda(t) \|\mathbf{s}_\theta(\mathbf{x}_t, t) - \nabla_{\mathbf{x}_t} \log p_t(\mathbf{x}_t)\|^2 \right]$$
 
 где $\mathbf{s}_\theta$ — score network.
 
@@ -836,7 +839,7 @@ $$\mathcal{L} = \mathbb{E}_{t, \mathbf{x}_t} \left[ \lambda(t) ||\mathbf{s}_\the
 
 ### 7. Rectified Flow / Flow Matching
 
-**Новый подход (2023-2024):** прямой путь от шума к данным.
+**Подход 2022-2023 гг. (Rectified Flow — Liu et al., Flow Matching — Lipman et al.), к 2026 г. ставший стандартом (SD3, FLUX и др.):** прямой путь от шума к данным.
 
 $$\frac{d\mathbf{x}_t}{dt} = \mathbf{v}_\theta(\mathbf{x}_t, t)$$
 
@@ -865,8 +868,10 @@ $$\frac{d\mathbf{x}_t}{dt} = \mathbf{v}_\theta(\mathbf{x}_t, t)$$
 **Text-to-video:**
 - Runway Gen-2
 - Pika Labs
-- Stable Video Diffusion
-- Sora (OpenAI, 2024)
+- Stable Video Diffusion (2023)
+- Sora (OpenAI, 2024), Sora 2 (2025)
+- Veo 3 (Google, 2025), Kling, Runway Gen-4
+- открытые модели: HunyuanVideo (2024), Wan 2.x (2025)
 
 **Редактирование видео:**
 - inpainting в видео
@@ -969,7 +974,7 @@ generated_frames = vae_decoder(denoised_latents)  # [B, C, T, H, W]
 
 Аналогично изображениям, но применяем к каждому кадру:
 
-$$q(\mathbf{v}_t | \mathbf{v}_{t-1}) = \prod_{i=1}^{F} \mathcal{N}(\mathbf{v}_{t,i}; \sqrt{1-\beta_t}\mathbf{v}_{t-1,i}, \beta_t \mathbf{I})$$
+$$q(\mathbf{v}_t | \mathbf{v}_{t-1}) = \prod_{i=1}^{F} \mathcal{N}(\mathbf{x}_{t,i}; \sqrt{1-\beta_t}\mathbf{x}_{t-1,i}, \beta_t \mathbf{I})$$
 
 где $\mathbf{v}_t = [\mathbf{x}_{t,1}, \mathbf{x}_{t,2}, ..., \mathbf{x}_{t,F}]$ — видео с $F$ кадрами.
 
@@ -1043,7 +1048,7 @@ def interpolate_frames(frame1, frame2, num_intermediate=2):
     return [frame1] + intermediate_frames + [frame2]
 ```
 
-##### Современные модели (2024)
+##### Современные модели (2024-2026)
 
 **1. Sora (OpenAI, 2024)**
 
@@ -1052,7 +1057,7 @@ def interpolate_frames(frame1, frame2, num_intermediate=2):
 - **Spacetime patches**: разбивает видео на пространственно-временные патчи
 - **Scaling**: масштабируется до очень больших моделей
 - **Long videos**: может генерировать видео до 60 секунд
-- **Физика**: понимает физические законы (гравитация, отражения)
+- **Физика**: частично моделирует физику (гравитация, отражения), хотя нередко её нарушает
 
 **Архитектура Sora:**
 
@@ -1096,18 +1101,24 @@ class SoraModel(nn.Module):
         return video_latents
 ```
 
-**2. Stable Video Diffusion (Stability AI, 2024)**
+**2. Stable Video Diffusion (Stability AI, 2023)**
 
 - основан на Stable Diffusion
 - генерирует короткие видео (обычно 4–25 кадров)
 - открытая модель
 - хорошее качество для коротких клипов
 
-**3. Runway Gen-2**
+**3. Runway Gen-2 / Gen-4**
 
 - коммерческая модель
 - хорошее качество генерации
 - поддержка разных условий (текст, изображение)
+
+**4. Veo 3 (Google, 2025), Sora 2 (OpenAI, 2025), Wan 2.x (Alibaba, 2025)**
+
+- DiT/flow-matching в латентном пространстве video-VAE
+- генерация видео вместе с синхронизированным звуком (Veo 3, Sora 2)
+- Wan 2.x — открытые веса
 
 ##### Процесс генерации видео
 
@@ -1180,9 +1191,10 @@ def generate_video_from_text(model, text_prompt, num_frames=16,
 
 ### 4. Генерация аудио
 
-**Text-to-speech:**
-- AudioLM (Google)
-- MusicLM
+**Text-to-speech / text-to-audio:**
+- DiffWave, WaveGrad (диффузионные вокодеры)
+- Grad-TTS
+- AudioLDM, Stable Audio (text-to-audio/music)
 
 **Редактирование аудио:**
 - audio inpainting
@@ -1204,7 +1216,7 @@ def generate_video_from_text(model, text_prompt, num_frames=16,
 
 ## Текущее состояние (2023-2026)
 
-### Модели state-of-the-art (2024-2025)
+### Модели state-of-the-art (2024-2026)
 
 #### Генерация изображений
 
@@ -1218,9 +1230,12 @@ def generate_video_from_text(model, text_prompt, num_frames=16,
    - улучшенное следование промптам
    - более безопасная генерация
 
-3. **Midjourney v6 (2024)**
+3. **Midjourney v6 (2024) / v7 (2025)**
    - фотореалистичная генерация
    - улучшенная композиция
+
+4. **FLUX.1 (Black Forest Labs, 2024) и Stable Diffusion 3.5 (2024)**
+   - rectified flow + DiT (MMDiT), открытые веса
 
 #### Генерация видео
 
@@ -1229,9 +1244,12 @@ def generate_video_from_text(model, text_prompt, num_frames=16,
    - понимание физики и пространства
    - мультимодальные условия
 
-2. **Stable Video Diffusion (2024)**
+2. **Stable Video Diffusion (2023)**
    - открытая модель для video generation
    - хорошее качество и контроль
+
+3. **Veo 3 (Google, 2025), Sora 2 (OpenAI, 2025), Wan 2.x (2025)**
+   - видео со звуком, длительные клипы; Wan 2.x — открытые веса
 
 #### Генерация 3D
 
@@ -1255,13 +1273,13 @@ $$\mathbf{x}_0 = f_\theta(\mathbf{x}_t, t)$$
 - детерминированная
 - можно использовать как few-step diffusion
 
-#### 2. Latent Consistency Models (LCM, 2024)
+#### 2. Latent Consistency Models (LCM, 2023)
 
 - работают в латентном пространстве
 - генерация за 4 шага
 - используются в Stable Diffusion
 
-#### 3. Flow Matching (2023-2024)
+#### 3. Flow Matching (2022-2023)
 
 **Rectified Flow / Flow Matching:**
 - прямой путь от шума к данным
@@ -1287,10 +1305,10 @@ $$\mathbf{x}_0 = f_\theta(\mathbf{x}_t, t)$$
 ### Улучшения качества и скорости
 
 **Скорость:**
-- 2020: 1000 шагов (медленно)
-- 2022: 50 шагов (DDIM)
-- 2023: 4–8 шагов (LCM, Progressive Distillation)
-- 2024: 1 шаг (Consistency Models)
+- 2020: 1000 шагов (DDPM, медленно)
+- 2021: 20–50 шагов (DDIM)
+- 2022–2023: 4–8 шагов (Progressive Distillation, LCM)
+- 2023–2024: 1–4 шага (Consistency Models, SDXL-Turbo/ADD, LCM-LoRA)
 
 **Качество:**
 - постоянное улучшение FID, IS scores
@@ -1378,7 +1396,7 @@ $$\mathbf{x}_0 = f_\theta(\mathbf{x}_t, t)$$
 
 6. **Song et al. (2023)**: "Consistency Models" — одношаговая генерация
 
-7. **Song et al. (2023)**: "Consistency Trajectory Models" — улучшенные consistency models
+7. **Kim et al. (2023)**: "Consistency Trajectory Models" — улучшенные consistency models
 
 8. **Lipman et al. (2023)**: "Flow Matching for Generative Modeling" — подход flow matching
 
@@ -1386,13 +1404,17 @@ $$\mathbf{x}_0 = f_\theta(\mathbf{x}_t, t)$$
 
 10. **Luo et al. (2023)**: "Latent Consistency Models" — LCM для быстрой генерации
 
-### Недавние статьи (2024-2025)
+### Недавние статьи (2024-2026)
 
 1. **OpenAI (2024)**: "Sora: Creating Video from Text" — модель генерации видео
 
 2. **Stability AI (2024)**: "Stable Diffusion 3" — улучшенная версия Stable Diffusion
 
 3. **Google (2024)**: "Imagen 3" — улучшенная text-to-image модель
+
+4. **Black Forest Labs (2024)**: "FLUX.1" — rectified-flow DiT с открытыми весами
+
+5. **Google DeepMind (2025)**: "Veo 3"; **OpenAI (2025)**: "Sora 2" — видео со звуком
 
 ### Ресурсы
 
@@ -1409,5 +1431,5 @@ $$\mathbf{x}_0 = f_\theta(\mathbf{x}_t, t)$$
 
 ---
 
-*Документ создан: 2025*
-*Последнее обновление: 2025*
+*Документ создан: 2025*  
+*Последнее обновление: 2026*
