@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  @property --n { syntax: "<integer>"; inherits: true; initial-value: 0; }
+  @property --a { syntax: "<integer>"; inherits: true; initial-value: 0; }
+  @property --b { syntax: "<integer>"; inherits: true; initial-value: 0; }
+  #s1-cnt { position: absolute; left: 20px; top: 28px; width: 210px; text-align: center; font-size: 54px; font-weight: 800; color: #4a9eff; line-height: 1; opacity: 0; }
+  #s1-cnt::before { counter-reset: n var(--n); content: counter(n); }
+  #s1-rho { position: absolute; left: 700px; top: 318px; width: 260px; text-align: right; font-size: 46px; font-weight: 800; color: #3dba7a; line-height: 1; opacity: 0; }
+  #s1-rho::before { counter-reset: a var(--a) b var(--b); content: "ρ = " counter(a) "." counter(b); }
+  #s1-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s1-tbl { left: 1060px; top: 240px; width: 700px; font-size: 24px; }
+  #s1-tbl .row { display: grid; grid-template-columns: 2.6fr 0.8fr 1fr 1.3fr; gap: 8px; padding: 9px 12px; border-radius: 10px; align-items: baseline; }
+  #s1-tbl .hd { color: #aab3c2; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 1px solid #2a3140; border-radius: 0; }
+  #s1-tbl .row span:not(:first-child) { text-align: center; }
+  #s1-tbl .row b { font-weight: 700; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Сколько GPU нужно на 1000 клиентов?</div></div>
+    <div class="badge">Knowledge Book · System Design</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <!-- клиенты -->
+        <text id="s1-cl-lbl" x="125" y="112" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">клиентов × 0.4/с</text>
+        <g id="s1-clients"></g>
+        <text id="s1-lam1" x="125" y="322" text-anchor="middle" fill="#4a9eff" font-size="32" font-weight="700" opacity="0" data-layout-allow-overlap>λ = 40/с</text>
+        <text id="s1-lam2" x="125" y="322" text-anchor="middle" fill="#ff4d6d" font-size="32" font-weight="700" opacity="0" data-layout-allow-overlap>λ = 400/с</text>
+        <!-- стрелка → очередь -->
+        <line id="s1-ar1" x1="236" y1="210" x2="278" y2="210" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <polygon id="s1-ah1" points="276,200 290,210 276,220" fill="#aab3c2" opacity="0"/>
+        <!-- очередь -->
+        <g id="s1-queue" opacity="0">
+          <text x="450" y="146" text-anchor="middle" fill="#aab3c2" font-size="24">очередь (лимит + таймаут 500 мс)</text>
+          <rect x="290" y="160" width="320" height="100" rx="14" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+        </g>
+        <g id="s1-slots"></g>
+        <!-- стрелка → GPU -->
+        <line id="s1-ar2" x1="616" y1="210" x2="668" y2="210" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <polygon id="s1-ah2" points="666,200 680,210 666,220" fill="#aab3c2" opacity="0"/>
+        <!-- GPU -->
+        <g id="s1-gpu" opacity="0">
+          <rect id="s1-gpu-box" x="680" y="160" width="280" height="100" rx="14" fill="#161a24" stroke="#4a9eff" stroke-width="4"/>
+          <text x="820" y="203" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">1 × GPU</text>
+          <text x="820" y="240" text-anchor="middle" fill="#aab3c2" font-size="24">μ = 50 запросов/с</text>
+        </g>
+        <!-- утилизация -->
+        <g id="s1-gauge" opacity="0">
+          <text x="290" y="352" fill="#f0f4ff" font-size="30" font-weight="700">утилизация ρ = λ / μ</text>
+          <rect x="290" y="385" width="670" height="40" rx="10" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+          <text x="290" y="456" fill="#aab3c2" font-size="22">0</text>
+          <text x="960" y="456" text-anchor="end" fill="#aab3c2" font-size="22">ρ = 1 — предел одной GPU</text>
+        </g>
+        <rect id="s1-fill" x="292" y="387" width="0" height="36" rx="8" fill="#3dba7a"/>
+        <g id="s1-over" opacity="0">
+          <rect x="716" y="390" width="238" height="30" rx="8" fill="#0f1117"/>
+          <text x="835" y="412" text-anchor="middle" fill="#ff4d6d" font-size="22" font-weight="700">×10 сверх шкалы</text>
+        </g>
+        <!-- теги результата -->
+        <g id="s1-ok" opacity="0" data-layout-allow-overlap>
+          <rect x="290" y="480" width="670" height="52" rx="12" fill="rgba(61,186,122,0.14)" stroke="#3dba7a" stroke-width="3"/>
+          <text x="625" y="515" text-anchor="middle" fill="#3dba7a" font-size="28" font-weight="700">drop 0 · p99 ≈ 165 мс — успеваем</text>
+        </g>
+        <g id="s1-drop" opacity="0" data-layout-allow-overlap>
+          <rect x="290" y="480" width="300" height="52" rx="12" fill="rgba(255,77,109,0.14)" stroke="#ff4d6d" stroke-width="3"/>
+          <text x="440" y="515" text-anchor="middle" fill="#ff4d6d" font-size="28" font-weight="700">drop ≈ 87 %</text>
+        </g>
+        <g id="s1-p99" opacity="0" data-layout-allow-overlap>
+          <rect x="612" y="480" width="348" height="52" rx="12" fill="rgba(255,77,109,0.14)" stroke="#ff4d6d" stroke-width="3"/>
+          <text x="786" y="514" text-anchor="middle" fill="#ff4d6d" font-size="24" font-weight="700">p99 → таймаут 500 мс</text>
+        </g>
+        <!-- решение: 8 GPU -->
+        <text id="s1-need" x="240" y="580" fill="#f0f4ff" font-size="26" font-weight="700" opacity="0">нужно ≈ 400 / 50 = 8 GPU <tspan fill="#aab3c2" font-weight="400">+ запас на пик ×1.3–2</tspan></text>
+        <g id="s1-gpus"></g>
+      </svg>
+      <div id="s1-cnt" style="--n:100"></div>
+      <div id="s1-rho" style="--a:0;--b:0"></div>
+      <div id="s1-c1" class="card"><div class="h">Закон очередей</div>
+        <div class="f">ρ = <span class="b">λ</span> / <span class="g">μ</span></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">λ — вход, запросов/с; μ — скорость одной GPU. <span class="r">ρ ≥ 1</span> → очередь растёт без предела</div></div>
+      <div id="s1-tbl" class="card"><div class="h">Симуляция, таймаут 500 мс</div>
+        <div class="row hd"><span>сценарий</span><span style="text-transform:none">ρ</span><span>drop</span><span>p99</span></div>
+        <div id="s1-r1" class="row"><span>100 клиентов, 1 GPU</span><span><b>0.80</b></span><span>0</span><span>≈ 165 мс</span></div>
+        <div id="s1-r2" class="row"><span>1000 клиентов, 1 GPU</span><span><b class="r">8.00</b></span><span class="r">≈ 0.87</span><span class="r">таймаут</span></div>
+        <div id="s1-r3" class="row"><span>1000 клиентов, 10 GPU</span><span><b>0.80</b></span><span>0</span><span>≈ 39 мс</span></div>
+      </div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Одна GPU: <b class="g">μ = 50</b> запросов/с. 100 клиентов × 0.4/с → <b class="b">λ = 40/с</b>, ρ = λ/μ = <b class="g">0.8</b> — успеваем, p99 ≈ 165 мс</div>
+      <div id="s1-cap2" class="cap">1000 клиентов → <b class="r">λ = 400/с, ρ = 8</b>: очередь растёт без предела, ≈ 87 % запросов не укладываются в таймаут 500 мс</div>
+      <div id="s1-cap3" class="cap">Нужно ≈ 400/50 = <b class="o">8 GPU</b> плюс запас на пик (×1.3–2): <b>сначала закон очередей, потом фреймворк</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Клиенты: сетка 5×4 точек (детерминированно).
+    const gC = document.getElementById("s1-clients");
+    const dots = [];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 5; c++) {
+      const el = document.createElementNS(NS, "circle");
+      el.setAttribute("id", `s1-cl-${r}-${c}`);
+      el.setAttribute("cx", 45 + c * 40); el.setAttribute("cy", 150 + r * 40);
+      el.setAttribute("r", "10"); el.setAttribute("fill", "#4a9eff"); el.setAttribute("opacity", "0");
+      gC.appendChild(el); dots.push(el);
+    }
+    // Слоты очереди: 10 штук.
+    const gS = document.getElementById("s1-slots");
+    const slots = [];
+    for (let i = 0; i < 10; i++) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("id", `s1-slot-${i}`);
+      el.setAttribute("x", 302 + i * 30.6); el.setAttribute("y", "180"); el.setAttribute("width", "24"); el.setAttribute("height", "60");
+      el.setAttribute("rx", "5"); el.setAttribute("fill", "#1e2230"); el.setAttribute("stroke", "#2a3140"); el.setAttribute("stroke-width", "2"); el.setAttribute("opacity", "0");
+      gS.appendChild(el); slots.push(el);
+    }
+    // 8 GPU-реплик (решение).
+    const gG = document.getElementById("s1-gpus");
+    const gpus = [];
+    for (let i = 0; i < 8; i++) {
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("id", `s1-g-${i}`); g.setAttribute("opacity", "0");
+      const x = 290 + i * 86;
+      g.innerHTML = `<rect x="${x}" y="598" width="68" height="50" rx="10" fill="#161a24" stroke="#3dba7a" stroke-width="3"/><text x="${x + 34}" y="631" text-anchor="middle" fill="#3dba7a" font-size="22" font-weight="700">GPU</text>`;
+      gG.appendChild(g); gpus.push(g);
+    }
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // Клиенты
+    tl.fromTo("#s1-cnt", { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.4 }, 0.3);
+    tl.fromTo("#s1-cl-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.4);
+    dots.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.4 + i * 0.03));
+    tl.fromTo("#s1-lam1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.0);
+    // Стрелки, очередь, GPU
+    tl.fromTo("#s1-ar1", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "42 9999" }, duration: 0.35, ease: "power2.inOut" }, 1.0);
+    tl.fromTo("#s1-ah1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.3);
+    tl.fromTo("#s1-queue", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.3);
+    slots.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.4 + i * 0.03));
+    tl.fromTo("#s1-ar2", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "52 9999" }, duration: 0.35, ease: "power2.inOut" }, 1.6);
+    tl.fromTo("#s1-ah2", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.9);
+    tl.fromTo("#s1-gpu", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.9);
+    cap("#s1-cap1", 0.6, 5.0);
+    // Утилизация 0.8 (зелёная): 2 слота из 10 заняты
+    tl.fromTo("#s1-gauge", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.2);
+    tl.fromTo("#s1-rho", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.4);
+    tl.fromTo("#s1-fill", { attr: { width: 0 } }, { attr: { width: 0.8 * 666 }, duration: 0.9, ease: "power2.out" }, 2.4);
+    tl.fromTo("#s1-rho", { "--a": 0, "--b": 0 }, { "--a": 0, "--b": 8, snap: "--b", duration: 0.9, ease: "power2.out", immediateRender: false }, 2.4);
+    slots.slice(0, 2).forEach((el, i) => tl.fromTo(el, { attr: { fill: "#1e2230" } }, { attr: { fill: "#4a9eff" }, duration: 0.3, immediateRender: false }, 2.6 + i * 0.2));
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.6);
+    tl.fromTo("#s1-ok", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.3);
+    tl.fromTo("#s1-tbl", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 3.4);
+    tl.fromTo("#s1-r1", { backgroundColor: "rgba(74,158,255,0)" }, { backgroundColor: "rgba(74,158,255,0.2)", duration: 0.4 }, 3.9);
+    // 1000 клиентов: λ = 400/с, ρ = 8
+    cap("#s1-cap2", 5.2, 9.4);
+    tl.fromTo("#s1-cnt", { "--n": 100 }, { "--n": 1000, snap: "--n", duration: 0.8, ease: "power2.inOut", immediateRender: false }, 5.4);
+    tl.to("#s1-cnt", { color: "#ff4d6d", duration: 0.5 }, 5.6);
+    tl.to("#s1-lam1", { opacity: 0, duration: 0.3 }, 5.5);
+    tl.fromTo("#s1-lam2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.6);
+    dots.forEach((el) => tl.to(el, { attr: { fill: "#ff4d6d" }, duration: 0.5 }, 5.6));
+    tl.to("#s1-ok", { opacity: 0, duration: 0.3 }, 5.5);
+    tl.to("#s1-r1", { backgroundColor: "rgba(74,158,255,0)", duration: 0.3 }, 5.7);
+    tl.fromTo("#s1-r2", { backgroundColor: "rgba(255,77,109,0)" }, { backgroundColor: "rgba(255,77,109,0.22)", duration: 0.4 }, 6.0);
+    tl.to("#s1-fill", { attr: { width: 666, fill: "#ff4d6d" }, duration: 1.0, ease: "power2.inOut" }, 5.8);
+    tl.to("#s1-rho", { "--a": 8, "--b": 0, snap: "--a,--b", color: "#ff4d6d", duration: 1.0, ease: "power2.inOut" }, 5.8);
+    tl.fromTo("#s1-over", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.8);
+    slots.forEach((el, i) => tl.to(el, { attr: { fill: "#ff4d6d" }, duration: 0.25 }, 6.0 + i * 0.15));
+    tl.to("#s1-gpu-box", { attr: { stroke: "#ff4d6d" }, duration: 0.5 }, 6.6);
+    tl.fromTo("#s1-drop", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.4);
+    tl.fromTo("#s1-p99", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.0);
+    // Решение: ≈ 8 GPU + запас
+    cap("#s1-cap3", 9.6, 13.3);
+    tl.fromTo("#s1-need", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.9);
+    gpus.forEach((g, i) => tl.fromTo(g, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 }, 10.2 + i * 0.12));
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.45 }, 13.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

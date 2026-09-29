@@ -223,9 +223,11 @@ $$T(B) = T_0 + t_{\text{item}} \cdot B.$$
 
 Это ровно то, что делают Triton Inference Server, TensorRT и batched ONNX Runtime: **подождать чуть-чуть**, чтобы заполнить SM'ы.
 
-<video src="./assets/visualizations/serving-load-balancer-batching.mp4" controls muted loop playsinline width="100%"></video>
+**Визуализация (HyperFrames, ~44 с):** закон очередей на пальцах — $\mu = 50$/с, 100 vs 1000 клиентов, $\rho = 0.8$ против $\rho = 8$ и таблица симуляции (сцена 1); балансировщик и 10 реплик, автоскейл по глубине очереди и GPU util (сцена 2); dynamic batching — $T(B) = T_0 + t_{\text{item}} B$, $\approx 100$ vs $\approx 250$ items/s при $\lambda = 250$/с (сцена 3).
 
-Клиенты бьют в балансировщик; на каждой GPU-ноде сборщик пачек наполняет кернел. Один GPU под 1000 клиентов краснеет очередью; несколько реплик с батчингом возвращают систему в зелёную зону $\rho < 1$.
+![Serving: закон очередей, балансировщик и dynamic batching](./assets/visualizations/serving-load-balancer-batching.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/serving-load-balancer-batching.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ### 100 vs 1000 для LLM — другая арифметика
 
