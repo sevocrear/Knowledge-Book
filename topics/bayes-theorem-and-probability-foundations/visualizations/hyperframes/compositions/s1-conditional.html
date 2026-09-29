@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 330px; width: 700px; }
+  #s1-c2 .ln { font-size: 32px; line-height: 1.4; }
+  #s1-res { margin-top: 10px; padding-top: 10px; border-top: 2px solid #2a3140; font-size: 34px; opacity: 0; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Что такое условная вероятность P(A|B)?</div></div>
+    <div class="badge">Knowledge Book · Байес</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <!-- Скобка «всё пространство» над клетками -->
+        <line x1="50" y1="172" x2="930" y2="172" stroke="#2a3140" stroke-width="3"/>
+        <line x1="50" y1="160" x2="50" y2="184" stroke="#2a3140" stroke-width="3"/>
+        <line x1="930" y1="160" x2="930" y2="184" stroke="#2a3140" stroke-width="3"/>
+        <text id="s1-omega" x="50" y="140" fill="#aab3c2" font-size="30" data-layout-allow-overlap>Ω = {1, 2, 3, 4, 5, 6}: все исходы, каждая клетка = 1/6</text>
+        <text id="s1-omegaB" x="50" y="140" fill="#4a9eff" font-size="30" opacity="0" data-layout-allow-overlap>B = {2, 4, 6}: новое пространство, каждая клетка = 1/3</text>
+        <g id="s1-cells"></g>
+        <text id="s1-lblA" x="815" y="378" text-anchor="middle" fill="#ff7a2f" font-size="32" font-weight="700" opacity="0">A: P(A) = 1/6</text>
+        <text id="s1-lblB" x="490" y="378" text-anchor="middle" fill="#4a9eff" font-size="32" font-weight="700" opacity="0">B: P(B) = 1/2</text>
+        <text id="s1-lblAB" x="790" y="378" text-anchor="middle" fill="#ff7a2f" font-size="40" font-weight="700" opacity="0">P(A|B) = 1/3</text>
+        <text id="s1-note" x="490" y="470" text-anchor="middle" fill="#aab3c2" font-size="28" opacity="0">из трёх равновероятных исходов B только один — шестёрка</text>
+      </svg>
+      <div id="s1-c2" class="card"><div class="h">Кубик</div>
+        <div class="ln">A = «выпало 6», &nbsp;B = «выпало чётное»</div>
+        <div class="ln">P(A) = 1/6, &nbsp;P(B) = 3/6 = 1/2, &nbsp;P(A∩B) = 1/6</div>
+        <div id="s1-res" class="ln">P(A|B) = <span class="o">(1/6)</span> / <span class="b">(1/2)</span> = <b>1/3</b></div></div>
+      <div id="s1-c1" class="card"><div class="h">Условная вероятность</div>
+        <div class="f">P(A|B) = P(A ∩ B) / P(B),&nbsp; P(B) &gt; 0</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">сужаем Ω до B и смотрим, какую долю B занимает A ∩ B</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Бросаем кубик: Ω = {1, …, 6}, все исходы равновероятны. Событие <b class="o">A</b> = «выпало 6»: P(A) = 1/6</div>
+      <div id="s1-cap2" class="cap">Узнали, что произошло <b class="b">B</b> = «чётное»: <b>сужаем Ω до B</b> = {2, 4, 6}, нечётные исходы больше невозможны</div>
+      <div id="s1-cap3" class="cap">P(A|B) = P(A∩B) / P(B) = (1/6) / (1/2) = <b class="o">1/3</b> — доля A внутри B, а не внутри всего Ω</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const g = document.getElementById("s1-cells");
+    const Y = 190, S = 130, PITCH = 150, X0 = 50;
+    const newX = { 2: 50, 4: 350, 6: 650 }, newW = 280;
+    const cells = [];
+    for (let i = 0; i < 6; i++) {
+      const x = X0 + PITCH * i;
+      const grp = document.createElementNS(NS, "g"); grp.setAttribute("id", `s1-cell${i + 1}`); grp.setAttribute("opacity", "0");
+      const base = document.createElementNS(NS, "rect");
+      base.setAttribute("id", `s1-base${i + 1}`); base.setAttribute("x", x); base.setAttribute("y", Y); base.setAttribute("width", S); base.setAttribute("height", S);
+      base.setAttribute("rx", "14"); base.setAttribute("fill", "#161a24"); base.setAttribute("stroke", "#2a3140"); base.setAttribute("stroke-width", "3");
+      grp.appendChild(base);
+      const isB = (i + 1) % 2 === 0;
+      let ovB = null, ovA = null;
+      if (isB) {
+        ovB = document.createElementNS(NS, "rect");
+        ovB.setAttribute("id", `s1-b${i + 1}`); ovB.setAttribute("x", x); ovB.setAttribute("y", Y); ovB.setAttribute("width", S); ovB.setAttribute("height", S);
+        ovB.setAttribute("rx", "14"); ovB.setAttribute("fill", "#1e3a5f"); ovB.setAttribute("stroke", "#4a9eff"); ovB.setAttribute("stroke-width", "5"); ovB.setAttribute("opacity", "0");
+        grp.appendChild(ovB);
+      }
+      if (i === 5) {
+        ovA = document.createElementNS(NS, "rect");
+        ovA.setAttribute("id", "s1-a6"); ovA.setAttribute("x", x + 10); ovA.setAttribute("y", Y + 10); ovA.setAttribute("width", S - 20); ovA.setAttribute("height", S - 20);
+        ovA.setAttribute("rx", "10"); ovA.setAttribute("fill", "none"); ovA.setAttribute("stroke", "#ff7a2f"); ovA.setAttribute("stroke-width", "8"); ovA.setAttribute("opacity", "0");
+        grp.appendChild(ovA);
+      }
+      const txt = document.createElementNS(NS, "text");
+      txt.setAttribute("id", `s1-n${i + 1}`); txt.setAttribute("x", x + S / 2); txt.setAttribute("y", Y + S / 2 + 24);
+      txt.setAttribute("text-anchor", "middle"); txt.setAttribute("fill", "#f0f4ff"); txt.setAttribute("font-size", "64"); txt.setAttribute("font-weight", "700");
+      txt.textContent = String(i + 1);
+      grp.appendChild(txt);
+      g.appendChild(grp);
+      cells.push({ i, grp, base, ovB, ovA, txt, x });
+    }
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    cells.forEach(c => tl.fromTo(c.grp, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.3 + 0.12 * c.i));
+    cap("#s1-cap1", 0.6, 4.6);
+    // A = «выпало 6»: оранжевая рамка на клетке 6
+    tl.fromTo("#s1-a6", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+    tl.fromTo("#s1-lblA", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, 1.9);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.2);
+    // B = «чётное»: подсветка чётных клеток, нечётные гаснут
+    cap("#s1-cap2", 4.8, 8.6);
+    [2, 4, 6].forEach((n, k) => tl.fromTo(`#s1-b${n}`, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.0 + 0.15 * k));
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.2);
+    [1, 3, 5].forEach(n => tl.to(`#s1-cell${n}`, { opacity: 0, duration: 0.5 }, 5.6));
+    tl.to("#s1-lblA", { opacity: 0, duration: 0.3 }, 6.0);
+    tl.to("#s1-omega", { opacity: 0, duration: 0.4 }, 6.2);
+    tl.fromTo("#s1-omegaB", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.5);
+    // Сужение Ω до B: три чётные клетки растягиваются на всё пространство
+    cells.filter(c => c.ovB).forEach(c => {
+      const nx = newX[c.i + 1];
+      tl.to(c.base, { attr: { x: nx, width: newW }, duration: 1.2, ease: "power2.inOut" }, 6.3);
+      tl.to(c.ovB, { attr: { x: nx, width: newW }, duration: 1.2, ease: "power2.inOut" }, 6.3);
+      tl.to(c.txt, { attr: { x: nx + newW / 2 }, duration: 1.2, ease: "power2.inOut" }, 6.3);
+      if (c.ovA) tl.to(c.ovA, { attr: { x: nx + 10, width: newW - 20 }, duration: 1.2, ease: "power2.inOut" }, 6.3);
+    });
+    tl.fromTo("#s1-lblB", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, 7.6);
+    // Результат: A занимает треть B
+    cap("#s1-cap3", 8.8, 12.4);
+    tl.fromTo("#s1-lblAB", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 9.2);
+    tl.fromTo("#s1-res", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 9.4);
+    tl.fromTo("#s1-note", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 9.8);
+    tl.fromTo("#s1-a6", { scale: 1, svgOrigin: "790 255" }, { scale: 1.06, svgOrigin: "790 255", duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 9.6);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 12.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

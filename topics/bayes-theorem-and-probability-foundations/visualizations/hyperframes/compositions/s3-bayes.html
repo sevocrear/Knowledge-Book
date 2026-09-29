@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s3-c1 .ln { font-size: 32px; line-height: 1.4; }
+  #s3-bars { position: absolute; left: 1060px; top: 330px; width: 700px; height: 330px; opacity: 0; }
+  #s3-bars .ttl { position: absolute; left: 0; top: 0; font-size: 26px; color: #aab3c2; letter-spacing: 0.06em; text-transform: uppercase; }
+  #s3-bars .axis { position: absolute; left: 0; right: 0; bottom: 82px; height: 2px; background: #2a3140; }
+  .s3-bar { position: absolute; bottom: 84px; width: 170px; border-radius: 12px 12px 4px 4px; }
+  .s3-val { position: absolute; bottom: 94px; width: 170px; font-size: 34px; font-weight: 700; text-align: center; color: #f0f4ff; opacity: 0; }
+  .s3-lbl { position: absolute; bottom: 4px; width: 300px; font-size: 24px; color: #aab3c2; text-align: center; line-height: 1.2; }
+  #s3-arrow { position: absolute; left: 330px; bottom: 200px; font-size: 40px; color: #ff7a2f; font-weight: 700; opacity: 0; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Как тест «+» обновляет prior → posterior?</div></div>
+    <div class="badge">Knowledge Book · Байес</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <g id="s3-rest"></g>
+        <text id="s3-t1" x="490" y="200" text-anchor="middle" fill="#aab3c2" font-size="28" opacity="0">сужаем Ω до тех, у кого «+»: осталось ≈ 6 человек</text>
+        <g id="s3-pos"></g>
+        <text id="s3-t2" x="490" y="430" text-anchor="middle" fill="#ff7a2f" font-size="38" font-weight="700" opacity="0">1 из 6 болен → P(болен | +) = 1/6 ≈ 0.167</text>
+        <text id="s3-t3" x="490" y="482" text-anchor="middle" fill="#aab3c2" font-size="28" opacity="0">5 из 6 плюсов — у здоровых: ложноположительные</text>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Теорема Байеса</div>
+        <div class="f">P(H₁|+) = P(+|H₁) · P(H₁) / P(+)</div>
+        <div class="ln" style="margin-top:6px">= <span class="o">0.99 · 0.01</span> / <b>0.0594</b></div>
+        <div class="ln">= <span class="o">0.0099</span> / <b>0.0594</b> ≈ <span class="o">0.167</span></div></div>
+      <div id="s3-bars">
+        <div class="ttl">вероятность болезни</div>
+        <div class="axis"></div>
+        <div id="s3-bar1" class="s3-bar" style="left:60px;height:0px;background:#aab3c2"></div>
+        <div id="s3-val1" class="s3-val" style="left:60px">0.01</div>
+        <div class="s3-lbl" style="left:-5px">prior P(болен)<br/>до теста</div>
+        <div id="s3-arrow">→</div>
+        <div id="s3-bar2" class="s3-bar" style="left:430px;height:0px;background:#ff7a2f"></div>
+        <div id="s3-val2" class="s3-val" style="left:430px">0.167</div>
+        <div class="s3-lbl" style="left:365px">posterior P(болен|+)<br/>после «+»</div>
+      </div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Тест дал «+». Как в сцене 1, <b>сужаем Ω до события «+»</b>: остальные люди из выборки больше не в счёт</div>
+      <div id="s3-cap2" class="cap">Байес — это та же условная вероятность: P(болен|+) = P(+|болен)·P(болен) / P(+) = 0.0099 / 0.0594 ≈ <b class="o">0.167</b></div>
+      <div id="s3-cap3" class="cap key">Posterior ∝ Likelihood × Prior: «+» поднял веру с 1% до 16.7%, но prior так мал, что большинство «+» — ложноположительные</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const rest = document.getElementById("s3-rest"), pos = document.getElementById("s3-pos");
+    const X0 = 40, Y0 = 30, S = 54, PITCH = 60;
+    const SICK = 45, POS = [17, 32, 45, 58, 73, 91];   // те же клетки, что в сцене 2 (по порядку индексов)
+    const BIG = 110, RX0 = 110, RY = 240, RP = 130;       // ряд из 6 увеличенных клеток
+    const movers = [];
+    for (let i = 0; i < 100; i++) {
+      const r = Math.floor(i / 10), c = i % 10, x = X0 + c * PITCH, y = Y0 + r * PITCH;
+      const isPos = POS.includes(i);
+      const grp = document.createElementNS(NS, "g"); grp.setAttribute("id", `s3-g${i}`);
+      const base = document.createElementNS(NS, "rect");
+      base.setAttribute("x", x); base.setAttribute("y", y); base.setAttribute("width", S); base.setAttribute("height", S); base.setAttribute("rx", "8");
+      if (i === SICK) { base.setAttribute("fill", "#ff7a2f"); } else { base.setAttribute("fill", "#1e3a5f"); base.setAttribute("stroke", "#4a9eff"); base.setAttribute("stroke-width", "2"); }
+      grp.appendChild(base);
+      if (isPos) {
+        const fr = document.createElementNS(NS, "rect");
+        fr.setAttribute("x", x); fr.setAttribute("y", y); fr.setAttribute("width", S); fr.setAttribute("height", S); fr.setAttribute("rx", "8"); fr.setAttribute("fill", "none"); fr.setAttribute("stroke", "#ff4d6d"); fr.setAttribute("stroke-width", "5");
+        grp.appendChild(fr);
+        const tx = document.createElementNS(NS, "text");
+        tx.setAttribute("x", x + S / 2); tx.setAttribute("y", y + S / 2 + 13); tx.setAttribute("text-anchor", "middle"); tx.setAttribute("font-size", "38"); tx.setAttribute("font-weight", "700");
+        tx.setAttribute("fill", i === SICK ? "#0f1117" : "#f0f4ff"); tx.setAttribute("data-layout-allow-overlap", ""); tx.textContent = "+";
+        grp.appendChild(tx);
+        pos.appendChild(grp);
+        const k = POS.indexOf(i);
+        movers.push({ grp, x, y, tx: RX0 + k * RP - x, ty: RY - y });
+      } else {
+        rest.appendChild(grp);
+      }
+    }
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    cap("#s3-cap1", 0.6, 4.4);
+    // Сужение Ω до «+»: остальные гаснут, шесть «плюсов» выстраиваются в ряд и увеличиваются
+    tl.fromTo("#s3-rest", { opacity: 1 }, { opacity: 0.1, duration: 1.0, ease: "power2.out" }, 1.0);
+    movers.forEach((m, k) => tl.fromTo(m.grp, { x: 0, y: 0, scale: 1, svgOrigin: `${m.x} ${m.y}` }, { x: m.tx, y: m.ty, scale: BIG / S, svgOrigin: `${m.x} ${m.y}`, duration: 1.4, ease: "power2.inOut" }, 2.0 + 0.08 * k));
+    tl.fromTo("#s3-t1", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 3.2);
+    // Байес: отношение внутри суженного Ω
+    cap("#s3-cap2", 4.6, 9.0);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 4.8);
+    tl.fromTo("#s3-t2", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 5.6);
+    tl.fromTo(`#s3-g${SICK}`, { scale: BIG / S, svgOrigin: "370 300" }, { scale: BIG / S * 1.1, svgOrigin: "370 300", duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 5.8);
+    tl.fromTo("#s3-t3", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 7.4);
+    // Prior → posterior
+    cap("#s3-cap3", 9.2, 0);
+    tl.fromTo("#s3-bars", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 9.4);
+    const H = 230 / 0.2;   // 0.2 = полная высота столбика
+    tl.fromTo("#s3-bar1", { height: 0 }, { height: 0.01 * H, duration: 0.6, ease: "power2.out" }, 9.7);
+    tl.fromTo("#s3-val1", { y: 0, opacity: 0 }, { y: -0.01 * H, opacity: 1, duration: 0.6, ease: "power2.out" }, 9.7);
+    tl.fromTo("#s3-arrow", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4 }, 10.2);
+    tl.fromTo("#s3-bar2", { height: 0 }, { height: 0.167 * H, duration: 1.0, ease: "power2.out" }, 10.4);
+    tl.fromTo("#s3-val2", { y: 0, opacity: 0 }, { y: -0.167 * H, opacity: 1, duration: 1.0, ease: "power2.out" }, 10.4);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>
