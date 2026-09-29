@@ -54,6 +54,7 @@ updated: 2026-09-18
     - [Snapshot Ensembles](#snapshot-ensembles)
     - [Test-Time Augmentation (TTA)](#test-time-augmentation-tta)
     - [Stochastic Weight Averaging (SWA)](#stochastic-weight-averaging-swa)
+    - [MC Dropout](#mc-dropout)
     - [Multi-head / Multi-task подходы](#multi-head--multi-task-подходы)
 11. [Сравнение методов](#сравнение-методов)
 12. [Примеры кода на Python](#примеры-кода-на-python)
@@ -225,7 +226,7 @@ $$r_i^{(m)} = -\frac{\partial L(y_i, F_{m-1}(x_i))}{\partial F_{m-1}(x_i)}$$
   где $g_i = \partial L / \partial F_{m-1}$, $h_i = \partial^2 L / \partial F_{m-1}^2$
 - **Column subsampling** — как в Random Forest, случайный выбор признаков
 - **Histogram-based splits** — быстрый поиск сплитов
-- **Параллелизм** на уровне построения отдельных деревьев
+- **Параллелизм** внутри одного дерева — поиск лучшего сплита распараллелен по признакам/блокам (сами деревья, как в любом бустинге, строятся последовательно)
 
 #### LightGBM (Ke et al., 2017)
 
@@ -374,6 +375,9 @@ Output Token
 | DeepSeek-V3 | 256 | 8 | 671B / 37B |
 | Grok-1 | 8 | 2 | 314B / ~86B |
 | DBRX | 16 | 4 | 132B / 36B |
+| Qwen3-235B-A22B | 128 | 8 | 235B / 22B |
+| Kimi K2 | 384 | 8 | ~1T / 32B |
+| gpt-oss-120b | 128 | 4 | 117B / 5.1B |
 
 ---
 
@@ -415,7 +419,7 @@ $$p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}$$
 
 В мире LLM дистилляция приобрела новые формы:
 
-- **On-policy distillation** — ученик генерирует текст, учитель оценивает (DeepSeek-R1)
+- **On-policy distillation** — ученик сам генерирует текст, а учитель даёт per-token сигнал на этих же сэмплах (GKD, Agarwal et al., 2024); заметим, что «R1-Distill»-модели DeepSeek получены off-policy — SFT на цепочках рассуждений, сгенерированных DeepSeek-R1
 - **Chain-of-Thought distillation** — передача цепочек рассуждений от большой модели
 - **Self-distillation** — модель дистиллирует саму себя (Born-Again Networks)
 
@@ -586,7 +590,7 @@ from sklearn.model_selection import cross_val_score
 xgb_model = xgb.XGBClassifier(
     n_estimators=300, learning_rate=0.1,
     max_depth=6, subsample=0.8, colsample_bytree=0.8,
-    use_label_encoder=False, eval_metric='logloss'
+    eval_metric='logloss'
 )
 
 # LightGBM
