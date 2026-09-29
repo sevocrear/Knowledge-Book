@@ -49,6 +49,12 @@ updated: 2026-09-18
 12. [Источники](#источники)
 13. [Заключение](#заключение)
 
+**Визуализация (HyperFrames, 44 с):** сцена 1 показывает, как нелинейная f гнёт гауссиану в «банан» и почему EKF с якобианом её плохо аппроксимирует; сцена 2 — как 2n+1 sigma points с весами проходят через f и дают ȳ и P_y; сцена 3 — шаги predict и update в треке с Kalman gain и χ²-гейтом против выбросов.
+
+![UKF: sigma points, predict и update](./assets/visualizations/ukf-sigma-points-predict-update.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/ukf-sigma-points-predict-update.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Введение
