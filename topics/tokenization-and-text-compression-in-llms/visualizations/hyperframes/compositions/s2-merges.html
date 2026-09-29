@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s2-c1 .st { font-size: 28px; line-height: 1.35; }
+  #s2-c2 { left: 1060px; top: 262px; width: 700px; }
+  #s2-c2 .ln { font-size: 28px; line-height: 1.35; opacity: 0; }
+  #s2-c2 .ln i { font-style: normal; color: #aab3c2; }
+  #s2-c3 { left: 1060px; top: 514px; width: 700px; }
+  #s2-vn { display: inline-block; min-width: 60px; color: #ff7a2f; }
+  #s2-vn::before { counter-reset: n var(--n); content: counter(n); }
+  @property --n { syntax: "<integer>"; inherits: true; initial-value: 0; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как BPE учит словарь токенов?</div></div>
+    <div class="badge">Knowledge Book · Tokenization</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <text id="s2-lc" x="0" y="26" fill="#aab3c2" font-size="22" opacity="0">корпус: Sennrich et al. (2016), упрощён</text>
+        <g id="s2-words"></g>
+        <g id="s2-hl"></g>
+        <!-- частоты пар, шаг 1 -->
+        <g id="s2-tbl" opacity="0">
+          <text x="560" y="26" fill="#aab3c2" font-size="24">частоты соседних пар (шаг 1)</text>
+        </g>
+        <rect id="s2-tblhl" x="552" y="42" width="424" height="40" rx="10" fill="none" stroke="#ff7a2f" stroke-width="3" opacity="0"/>
+        <text id="s2-tblnote" x="0" y="372" fill="#aab3c2" font-size="22" opacity="0">после каждого слияния частоты пар пересчитываются заново</text>
+        <!-- словарь -->
+        <text id="s2-lv" x="0" y="536" fill="#aab3c2" font-size="24" opacity="0">словарь: <tspan fill="#f0f4ff" font-weight="700">10 базовых символов</tspan> + новые токены — по одному за слияние</text>
+        <g id="s2-vocab"></g>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Алгоритм BPE</div>
+        <div class="st">1. алфавит: <b>символы</b> или <b>байты</b></div>
+        <div class="st">2. считаем частоты <b class="b">соседних пар</b></div>
+        <div class="st">3. самую частую пару <b class="o">сливаем</b> в новый токен</div>
+        <div class="st">4. повторяем 2–3 до нужного размера |V|</div></div>
+      <div id="s2-c2" class="card"><div class="h">Merges по порядку</div>
+        <div id="s2-m1" class="ln"><i>1 ·</i> e + s → <b class="o">es</b> <i>(9)</i></div>
+        <div id="s2-m2" class="ln"><i>2 ·</i> es + t → <b class="o">est</b> <i>(9)</i></div>
+        <div id="s2-m3" class="ln"><i>3 ·</i> l + o → <b class="o">lo</b> <i>(7)</i></div>
+        <div id="s2-m4" class="ln"><i>4 ·</i> lo + w → <b class="o">low</b> <i>(7)</i></div></div>
+      <div id="s2-c3" class="card"><div class="h">Размер словаря</div><div class="f">|V| = <span id="s2-vn" style="--n:10"></span> токенов</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Старт: словарь = алфавит базовых токенов (<b>символы</b> или <b>байты</b>). Корпус — 4 слова с частотами, всего <b>10</b> разных символов</div>
+      <div id="s2-cap2" class="cap">Считаем частоты соседних пар: самая частая — <b class="b">e s</b> (9 раз). Сливаем её в новый токен <b class="o">es</b> и добавляем в словарь</div>
+      <div id="s2-cap3" class="cap">Повторяем: <b class="o">es t → est</b>, <b class="o">l o → lo</b>, <b class="o">lo w → low</b> — каждое слияние добавляет в словарь ровно один токен</div>
+      <div id="s2-cap4" class="cap">Останавливаемся, когда словарь достиг нужного размера (тысячи–десятки тысяч): частые слова и морфемы стали <b>одним токеном</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); parent.appendChild(el); return el; };
+    const SW = 50, X0 = 90, CH = 48;
+    const gw = document.getElementById("s2-words"), gh = document.getElementById("s2-hl"), gv = document.getElementById("s2-vocab");
+    // Чип, занимающий слоты a..b строки row. Базовые символы — синие, слитые токены — оранжевые.
+    const chip = (parent, id, row, a, b, label, merged, y0) => {
+      const x = X0 + a * SW, w = (b - a + 1) * SW - 6, y = y0 + row * 70;
+      const g = mk("g", { id, opacity: 0 }, parent);
+      mk("rect", { x, y, width: w, height: CH, rx: 10, fill: merged ? "#3a2414" : "#1e3a5f", stroke: merged ? "#ff7a2f" : "#4a9eff", "stroke-width": 2 }, g);
+      const t = mk("text", { x: x + w / 2, y: y + 33, "text-anchor": "middle", fill: "#f0f4ff", "font-size": 28, "font-weight": 700, "data-layout-allow-overlap": "" }, g);
+      t.textContent = label;
+      return g;
+    };
+    // Корпус (Sennrich et al., 2016, упрощён: без маркера конца слова): low×5, lower×2, newest×6, widest×3.
+    const corpus = [["low", 5], ["lower", 2], ["newest", 6], ["widest", 3]];
+    const base = [];   // чипы символов
+    corpus.forEach(([w, n], r) => {
+      const t = mk("text", { x: 0, y: 60 + r * 70 + 33, fill: "#f0f4ff", "font-size": 28, "font-weight": 700 }, gw);
+      t.textContent = "×" + n; t.setAttribute("id", `s2-cnt${r}`); t.setAttribute("opacity", "0");
+      [...w].forEach((c, i) => base.push(chip(gw, `s2-w${r}c${i}`, r, i, i, c, false, 60)));
+    });
+    // Слияния: [merge#, row, a, b, label, чипы-источники (id)]
+    const merges = [
+      [1, 2, 3, 4, "es",  ["s2-w2c3", "s2-w2c4"]], [1, 3, 3, 4, "es",  ["s2-w3c3", "s2-w3c4"]],
+      [2, 2, 3, 5, "est", ["s2-w2m1", "s2-w2c5"]], [2, 3, 3, 5, "est", ["s2-w3m1", "s2-w3c5"]],
+      [3, 0, 0, 1, "lo",  ["s2-w0c0", "s2-w0c1"]], [3, 1, 0, 1, "lo",  ["s2-w1c0", "s2-w1c1"]],
+      [4, 0, 0, 2, "low", ["s2-w0m3", "s2-w0c2"]], [4, 1, 0, 2, "low", ["s2-w1m3", "s2-w1c2"]],
+    ];
+    const mergeEls = merges.map(([k, r, a, b, lbl, src]) => {
+      const g = chip(gw, `s2-w${r}m${k}`, r, a, b, lbl, true, 60);
+      const hl = mk("rect", { x: X0 + a * SW - 6, y: 60 + r * 70 - 6, width: (b - a + 1) * SW + 6, height: CH + 12, rx: 14, fill: "none", stroke: "#ff7a2f", "stroke-width": 4, opacity: 0 }, gh);
+      return { k, g, hl, src: src.map(id => "#" + id) };
+    });
+    // Таблица частот пар на шаге 1 (посчитано по корпусу): e s 9, s t 9, w e 8, l o 7, o w 7, n e 6, e w 6.
+    const pairs = [["e s", 9], ["s t", 9], ["w e", 8], ["l o", 7], ["o w", 7], ["n e", 6], ["e w", 6]];
+    const tbl = document.getElementById("s2-tbl");
+    const rows = pairs.map(([p, n], i) => {
+      const y = 70 + i * 36;
+      const g = mk("g", { id: `s2-pr${i}`, opacity: 0 }, tbl);
+      const t = mk("text", { x: 560, y, fill: "#e6ebf5", "font-size": 26, "font-weight": 700 }, g); t.textContent = p;
+      mk("rect", { x: 636, y: y - 20, width: n * 34, height: 24, rx: 6, fill: i === 0 ? "#ff7a2f" : "#1e3a5f" }, g);
+      const v = mk("text", { x: 646 + n * 34, y, fill: "#aab3c2", "font-size": 24 }, g); v.textContent = n;
+      return g;
+    });
+    // Словарь: 10 базовых символов + слитые токены.
+    const alphabet = ["l", "o", "w", "e", "r", "n", "s", "t", "i", "d"];
+    const vb = alphabet.map((c, i) => chip(gv, `s2-v${i}`, 0, i, i, c, false, 548));
+    const vocabX = X0 + 10 * SW + 14;
+    const newTok = ["es", "est", "lo", "low"].map((t, i) => {
+      const w = 26 * t.length + 24, x = vocabX + i * 12 + [0, 76, 168, 236][i];
+      const g = mk("g", { id: `s2-nv${i}`, opacity: 0 }, gv);
+      mk("rect", { x, y: 548, width: w, height: CH, rx: 10, fill: "#3a2414", stroke: "#ff7a2f", "stroke-width": 2 }, g);
+      const tx = mk("text", { x: x + w / 2, y: 548 + 33, "text-anchor": "middle", fill: "#f0f4ff", "font-size": 28, "font-weight": 700 }, g); tx.textContent = t;
+      return g;
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-lc", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    tl.fromTo(["#s2-cnt0", "#s2-cnt1", "#s2-cnt2", "#s2-cnt3"], { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.15 }, 0.4);
+    tl.fromTo(base, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.25, stagger: 0.03 }, 0.4);
+    cap("#s2-cap1", 0.6, 4.4);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.0);
+    tl.fromTo("#s2-lv", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.8);
+    tl.fromTo(vb, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.25, stagger: 0.05 }, 1.9);
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.4);
+    tl.fromTo("#s2-tbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.0);
+    tl.fromTo(rows, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, stagger: 0.1 }, 3.1);
+    tl.fromTo("#s2-tblnote", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.0);
+    cap("#s2-cap2", 4.6, 8.4);
+    tl.fromTo("#s2-tblhl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.8);
+    tl.to("#s2-tblhl", { opacity: 0, duration: 0.4 }, 7.8);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.4);
+    // Четыре слияния: подсветка пары → кроссфейд чипов → новый токен в словаре, счётчик +1, строка в логе.
+    const T = { 1: 5.2, 2: 8.8, 3: 10.2, 4: 11.6 };
+    mergeEls.forEach(({ k, g, hl, src }) => {
+      const t0 = T[k];
+      tl.fromTo(hl, { opacity: 0 }, { opacity: 1, duration: 0.3 }, t0);
+      tl.to(hl, { opacity: 0, duration: 0.3 }, t0 + 0.9);
+      tl.to(src, { opacity: 0, duration: 0.35 }, t0 + 0.7);
+      tl.fromTo(g, { opacity: 0 }, { opacity: 1, duration: 0.35 }, t0 + 0.75);
+    });
+    [1, 2, 3, 4].forEach(k => {
+      const t0 = T[k];
+      tl.fromTo(newTok[k - 1], { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35 }, t0 + 1.1);
+      tl.to("#s2-vn", { "--n": 10 + k, snap: "--n", duration: 0.3 }, t0 + 1.1);
+      tl.fromTo(`#s2-m${k}`, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.35 }, t0 + 1.1);
+    });
+    cap("#s2-cap3", 8.6, 12.4);
+    cap("#s2-cap4", 12.6, 15.5);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 15.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>
