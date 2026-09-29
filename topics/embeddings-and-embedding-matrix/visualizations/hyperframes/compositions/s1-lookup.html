@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 660px; display: block; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Как текст попадает в Transformer?</div></div>
+    <div class="badge">Knowledge Book · Embeddings</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 1760 660">
+        <!-- 1. текст -->
+        <g id="s1-txt" opacity="0">
+          <rect x="10" y="50" width="380" height="64" rx="14" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+          <text x="200" y="92" text-anchor="middle" fill="#f0f4ff" font-size="27" font-weight="600">«кот сидит на коврике»</text>
+          <path d="M 200 116 L 200 146" stroke="#aab3c2" stroke-width="3" fill="none"/><path d="M 192 142 L 200 154 L 208 142 z" fill="#aab3c2"/>
+        </g>
+        <text id="s1-lbl-tok" x="130" y="172" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">токены</text>
+        <text id="s1-lbl-id" x="320" y="172" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">ID ∈ {0…V−1}</text>
+        <!-- 2. токены и ID -->
+        <g id="s1-tok1" opacity="0"><rect x="20" y="185" width="220" height="50" rx="12" fill="#161a24" stroke="#3dba7a" stroke-width="2"/><text x="130" y="219" text-anchor="middle" fill="#3dba7a" font-size="28" font-weight="600">кот</text></g>
+        <g id="s1-tok2" opacity="0"><rect x="20" y="275" width="220" height="50" rx="12" fill="#161a24" stroke="#4a9eff" stroke-width="2"/><text x="130" y="309" text-anchor="middle" fill="#4a9eff" font-size="28" font-weight="600">сидит</text></g>
+        <g id="s1-tok3" opacity="0"><rect x="20" y="365" width="220" height="50" rx="12" fill="#161a24" stroke="#b48ce6" stroke-width="2"/><text x="130" y="399" text-anchor="middle" fill="#b48ce6" font-size="28" font-weight="600">на</text></g>
+        <g id="s1-tok4" opacity="0"><rect x="20" y="455" width="220" height="50" rx="12" fill="#161a24" stroke="#ff7a2f" stroke-width="2"/><text x="130" y="489" text-anchor="middle" fill="#ff7a2f" font-size="28" font-weight="600">коврике</text></g>
+        <g id="s1-id1" opacity="0"><rect x="260" y="185" width="120" height="50" rx="12" fill="#1e3a5f"/><text x="320" y="219" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">1042</text></g>
+        <g id="s1-id2" opacity="0"><rect x="260" y="275" width="120" height="50" rx="12" fill="#1e3a5f"/><text x="320" y="309" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">3517</text></g>
+        <g id="s1-id3" opacity="0"><rect x="260" y="365" width="120" height="50" rx="12" fill="#1e3a5f"/><text x="320" y="399" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">23</text></g>
+        <g id="s1-id4" opacity="0"><rect x="260" y="455" width="120" height="50" rx="12" fill="#1e3a5f"/><text x="320" y="489" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">7761</text></g>
+        <!-- стрелки ID → строка E -->
+        <g stroke="#aab3c2" stroke-width="3" fill="none" stroke-linecap="round">
+          <path id="s1-a1" d="M 384 210 L 452 277" stroke-dasharray="0 9999" opacity="0"/>
+          <path id="s1-a2" d="M 384 300 L 452 367" stroke-dasharray="0 9999" opacity="0"/>
+          <path id="s1-a3" d="M 384 390 L 452 187" stroke-dasharray="0 9999" opacity="0"/>
+          <path id="s1-a4" d="M 384 480 L 452 487" stroke-dasharray="0 9999" opacity="0"/>
+        </g>
+        <!-- 3. матрица E -->
+        <g id="s1-mat" opacity="0">
+          <text x="645" y="108" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">E ∈ ℝ<tspan font-size="24" dy="-14">V×d</tspan></text>
+          <rect x="460" y="130" width="370" height="470" rx="16" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+          <text x="482" y="360" fill="#aab3c2" font-size="24" text-anchor="middle" transform="rotate(-90 482 360)">V строк (словарь)</text>
+          <g id="s1-cells"></g>
+          <text x="644" y="556" text-anchor="middle" fill="#aab3c2" font-size="30">⋮</text>
+          <text x="644" y="590" text-anchor="middle" fill="#aab3c2" font-size="24">d столбцов</text>
+        </g>
+        <g id="s1-heads" fill="#aab3c2"></g>
+        <g id="s1-hls"></g>
+        <g id="s1-rows"></g>
+        <!-- 4. тензор n×d -->
+        <g id="s1-stack" opacity="0">
+          <text x="1044" y="160" text-anchor="middle" fill="#f0f4ff" font-size="30" font-weight="700">тензор n × d (n = 4)</text>
+          <rect x="890" y="181" width="308" height="314" rx="14" fill="none" stroke="#2a3140" stroke-width="2"/>
+          <text x="1210" y="218" fill="#3dba7a" font-size="24">E[1042]</text>
+          <text x="1210" y="308" fill="#4a9eff" font-size="24">E[3517]</text>
+          <text x="1210" y="398" fill="#b48ce6" font-size="24">E[23]</text>
+          <text x="1210" y="488" fill="#ff7a2f" font-size="24">E[7761]</text>
+        </g>
+        <!-- 5. + pos → Transformer -->
+        <text id="s1-pos" x="1385" y="318" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="700" opacity="0">+ pos</text>
+        <path id="s1-a5" d="M 1340 340 L 1430 340" stroke="#aab3c2" stroke-width="3" fill="none" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s1-tr" opacity="0">
+          <rect x="1440" y="150" width="300" height="370" rx="18" fill="#161a24" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="1590" y="200" text-anchor="middle" fill="#f0f4ff" font-size="32" font-weight="700">Transformer</text>
+          <rect x="1470" y="232" width="240" height="56" rx="10" fill="#1e3a5f"/><text x="1590" y="269" text-anchor="middle" fill="#e6ebf5" font-size="26">Attention</text>
+          <rect x="1470" y="308" width="240" height="56" rx="10" fill="#1e3a5f"/><text x="1590" y="345" text-anchor="middle" fill="#e6ebf5" font-size="26">MLP</text>
+          <text x="1590" y="420" text-anchor="middle" fill="#aab3c2" font-size="30">⋮</text>
+          <text x="1590" y="490" text-anchor="middle" fill="#aab3c2" font-size="24">вход: n × d</text>
+        </g>
+        <text id="s1-note" x="20" y="545" fill="#aab3c2" font-size="22" opacity="0">текст, токены и ID — иллюстративно</text>
+        <text id="s1-sizes" x="1740" y="642" text-anchor="end" fill="#aab3c2" font-size="24" opacity="0">V задаёт токенизатор: Llama 3 — 128k, GPT‑4o — ~200k, Gemma — 256k · d (hidden size): 768, 4096, 8192</text>
+      </svg>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap"><b>Токенизатор</b> режет текст на токены и даёт каждому <b class="b">ID</b> из {0, …, V−1}: V — размер словаря</div>
+      <div id="s1-cap2" class="cap">Матрица <b>E ∈ ℝ<sup>V×d</sup></b> — lookup table: по ID берём строку <b class="o">E<sub>id</sub></b>. Умножение one-hot(id) · E даёт ту же строку</div>
+      <div id="s1-cap3" class="cap">n токенов → тензор <b>n × d</b>; добавляем позиционное кодирование <b class="t">+ pos</b> → первый слой Transformer</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const MX = 500, MY = 142, CW = 36, RH = 30, D = 8, ROWS = 13;
+    const cells = document.getElementById("s1-cells");
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < D; c++) {
+      const e = document.createElementNS(NS, "rect");
+      e.setAttribute("x", MX + c * CW + 2); e.setAttribute("y", MY + r * RH + 2); e.setAttribute("width", CW - 4); e.setAttribute("height", RH - 4);
+      e.setAttribute("rx", 4); e.setAttribute("fill", "#4a9eff"); e.setAttribute("opacity", (0.16 + 0.08 * ((r * 5 + c * 3) % 6)).toFixed(2));
+      cells.appendChild(e);
+    }
+    // Токены → ID → строка E (индексы строк иллюстративные), цвета совпадают с пилюлями токенов.
+    const toks = [[4, "#3dba7a", 195], [7, "#4a9eff", 285], [1, "#b48ce6", 375], [11, "#ff7a2f", 465]];
+    const hls = document.getElementById("s1-hls"), rows = document.getElementById("s1-rows");
+    toks.forEach(([r, color, sy], k) => {
+      const h = document.createElementNS(NS, "rect");
+      h.setAttribute("id", `s1-hl${k + 1}`); h.setAttribute("x", MX - 3); h.setAttribute("y", MY + r * RH - 1); h.setAttribute("width", D * CW + 6); h.setAttribute("height", RH + 2);
+      h.setAttribute("rx", 6); h.setAttribute("fill", "none"); h.setAttribute("stroke", color); h.setAttribute("stroke-width", 3); h.setAttribute("opacity", "0");
+      hls.appendChild(h);
+      const g = document.createElementNS(NS, "g"); g.setAttribute("id", `s1-row${k + 1}`); g.setAttribute("opacity", "0");
+      for (let c = 0; c < D; c++) {
+        const e = document.createElementNS(NS, "rect");
+        e.setAttribute("x", MX + c * CW + 2); e.setAttribute("y", MY + r * RH + 2); e.setAttribute("width", CW - 4); e.setAttribute("height", RH - 4);
+        e.setAttribute("rx", 4); e.setAttribute("fill", color); e.setAttribute("opacity", (0.45 + 0.09 * ((r * 5 + c * 3) % 6)).toFixed(2));
+        g.appendChild(e);
+      }
+      rows.appendChild(g);
+    });
+    // Стрелки ID → строка E и тензор → Transformer: шток рисуется dasharray, наконечник — отдельный треугольник.
+    const arrows = [[384, 210, 452, 277], [384, 300, 452, 367], [384, 390, 452, 187], [384, 480, 452, 487], [1340, 340, 1430, 340]];
+    const heads = document.getElementById("s1-heads");
+    const aLen = arrows.map(([x0, y0, x1, y1], k) => {
+      const ang = Math.atan2(y1 - y0, x1 - x0) * 180 / Math.PI;
+      const h = document.createElementNS(NS, "path"); h.setAttribute("id", `s1-h${k + 1}`); h.setAttribute("d", "M -2 -7 L 12 0 L -2 7 z");
+      h.setAttribute("transform", `translate(${x1} ${y1}) rotate(${ang.toFixed(1)})`); h.setAttribute("opacity", "0"); heads.appendChild(h);
+      return Math.hypot(x1 - x0, y1 - y0).toFixed(1);
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-txt", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+    cap("#s1-cap1", 0.6, 4.6);
+    tl.fromTo("#s1-lbl-tok", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.9);
+    [1, 2, 3, 4].forEach((n, i) => tl.fromTo(`#s1-tok${n}`, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 1.0 + 0.25 * i));
+    tl.fromTo("#s1-lbl-id", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.1);
+    [1, 2, 3, 4].forEach((n, i) => tl.fromTo(`#s1-id${n}`, { opacity: 0, scale: 0.7, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 2.2 + 0.25 * i));
+    tl.fromTo("#s1-mat", { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 3.4);
+    tl.fromTo("#s1-note", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.8);
+    // Lookup: стрелка ID → строка, строка подсвечивается, копия строки уезжает в тензор n×d.
+    cap("#s1-cap2", 4.8, 9.0);
+    toks.forEach(([r, color, sy], k) => {
+      const t = 5.0 + 0.7 * k;
+      tl.fromTo(`#s1-a${k + 1}`, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": aLen[k] + " 9999" }, duration: 0.45, ease: "power2.inOut" }, t);
+      tl.fromTo(`#s1-h${k + 1}`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, t + 0.35);
+      tl.fromTo(`#s1-hl${k + 1}`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, t + 0.4);
+      tl.fromTo(`#s1-row${k + 1}`, { opacity: 0, x: 0, y: 0 }, { opacity: 1, duration: 0.25 }, t + 0.5);
+      tl.to(`#s1-row${k + 1}`, { x: 900 - MX, y: sy - (MY + r * RH), duration: 0.8, ease: "power2.inOut" }, t + 0.7);
+    });
+    tl.fromTo("#s1-stack", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 7.9);
+    // + pos → Transformer
+    cap("#s1-cap3", 9.2, 13.5);
+    tl.fromTo("#s1-pos", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 9.4);
+    tl.fromTo("#s1-a5", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": aLen[4] + " 9999" }, duration: 0.45, ease: "power2.inOut" }, 9.7);
+    tl.fromTo("#s1-h5", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 10.05);
+    tl.fromTo("#s1-tr", { opacity: 0, scale: 0.94, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }, 10.1);
+    tl.fromTo("#s1-sizes", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 10.8);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.45 }, 13.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>
