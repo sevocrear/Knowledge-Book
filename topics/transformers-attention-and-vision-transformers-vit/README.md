@@ -280,11 +280,11 @@ $$
      \hat{y} = \text{softmax}(W_{\text{cls}} \mathbf{z}_{\text{CLS}}).
      $$
 
-**Визуализация (Manim):** патчи → ряд токенов с CLS → одна строка softmax attention → напоминание про формулу и классификацию по CLS.
+**Визуализация (HyperFrames, ~44 с):** картинка → патчи $P\times P$ → линейная проекция → токены с CLS и позиционными эмбеддингами (сцена 1); $Q, K, V$, строка $\text{softmax}(QK^\top/\sqrt{d_k})$ для CLS и взвешенная сумма значений (сцена 2); энкодер из $L$ блоков и классификация по $\mathbf{z}_{\text{CLS}}$ (сцена 3).
 
-<video src="./assets/visualizations/vit_patches_attention.mp4" controls muted loop playsinline width="100%"></video>
+![ViT: патчи, self-attention и классификация по CLS](./assets/visualizations/vit_patches_attention.gif)
 
-*Fallback GIF:* `![](./assets/visualizations/vit_patches_attention.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/vit_patches_attention.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
