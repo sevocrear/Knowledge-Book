@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c0 { left: 1060px; top: 0px; width: 700px; }
+  #s1-c1 { left: 1060px; top: 226px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 462px; width: 700px; }
+  #s1-c2 .f { font-size: 31px; }
+  #s1-c0 .f { font-size: 31px; }
+  .s1-note { font-size: 27px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Из чего состоит loss детектора?</div></div>
+    <div class="badge">Knowledge Book · Detection losses</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <rect id="s1-img" x="40" y="30" width="900" height="560" rx="18" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+        <text x="60" y="618" fill="#aab3c2" font-size="24">изображение · gt-бокс и предсказание (иллюстративно)</text>
+        <!-- Объект: абстрактная «машинка» из фигур -->
+        <g id="s1-obj" opacity="0">
+          <rect x="300" y="290" width="360" height="130" rx="34" fill="#ff7a2f" opacity="0.55"/>
+          <rect x="380" y="228" width="190" height="90" rx="26" fill="#ff7a2f" opacity="0.55"/>
+          <circle cx="380" cy="425" r="34" fill="#0f1117" stroke="#aab3c2" stroke-width="6"/>
+          <circle cx="580" cy="425" r="34" fill="#0f1117" stroke="#aab3c2" stroke-width="6"/>
+        </g>
+        <!-- gt-бокс -->
+        <g id="s1-gt" opacity="0">
+          <rect x="270" y="200" width="420" height="270" rx="6" fill="none" stroke="#3dba7a" stroke-width="6" stroke-dasharray="18 12"/>
+          <text x="270" y="186" fill="#3dba7a" font-size="28" font-weight="700">gt: car</text>
+        </g>
+        <!-- предсказанный бокс: сдвинут, потом «регрессирует» к gt -->
+        <g id="s1-pred" opacity="0">
+          <rect id="s1-pred-box" x="360" y="270" width="420" height="270" rx="6" fill="none" stroke="#4a9eff" stroke-width="6"/>
+          <g id="s1-tag">
+            <rect x="360" y="540" width="300" height="46" rx="10" fill="#4a9eff"/>
+            <text x="376" y="573" fill="#0f1117" font-size="28" font-weight="700">pred: car · p = 0.9</text>
+          </g>
+        </g>
+        <text id="s1-reg-lbl" x="810" y="400" fill="#4a9eff" font-size="26" opacity="0">L<tspan font-size="18" dy="8">reg</tspan><tspan dy="-8"> →</tspan></text>
+      </svg>
+      <div id="s1-c0" class="card"><div class="h">Общий вид (составной loss)</div>
+        <div class="f">L<sub>total</sub> = <span class="p">λ<sub>cls</sub>·L<sub>cls</sub></span> + <span class="b">λ<sub>reg</sub>·L<sub>reg</sub></span> + λ<sub>aux</sub>·L<sub>aux</sub></div>
+        <div class="s1-note">cls — класс, reg — геометрия бокса, aux — objectness / centerness</div></div>
+      <div id="s1-c1" class="card"><div class="h">Классификация: CE / <span class="p">Focal Loss</span></div>
+        <div class="f">L<sub>FL</sub>(p) = −α (1 − p)<sup>γ</sup> log(p)</div>
+        <div class="s1-note">(1 − p)<sup>γ</sup> ≈ 0 для лёгких примеров (p ≈ 1); γ = 0 — обычная CE</div></div>
+      <div id="s1-c2" class="card"><div class="h">Регрессия бокса: <span class="b">L<sub>reg</sub></span></div>
+        <div class="f">L1 / Smooth L1 по (x, y, w, h) &nbsp;·&nbsp; IoU-loss</div>
+        <div class="s1-note">IoU, GIoU, DIoU, CIoU — loss прямо по метрике</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Loss детектора <b>составной</b>: <b class="p">класс объекта</b> + <b class="b">геометрия бокса</b> + вспомогательные термы (objectness, centerness)</div>
+      <div id="s1-cap2" class="cap"><b class="p">Классификация</b>: CE или Focal Loss — множитель (1 − p)<sup>γ</sup> гасит лёгкие примеры, редкие объекты не тонут в фоне</div>
+      <div id="s1-cap3" class="cap"><b class="b">Регрессия</b>: L1 / Smooth L1 по координатам — или loss прямо по <b>IoU</b>, который хорошо коррелирует с метрикой детекции</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-obj", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.3);
+    tl.fromTo("#s1-gt", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.8);
+    tl.fromTo("#s1-pred", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.3);
+    tl.fromTo("#s1-c0", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.0);
+    cap("#s1-cap1", 0.6, 4.6);
+    // Классификация: подсвечиваем тег класса и карточку Focal Loss.
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 4.8);
+    tl.fromTo("#s1-tag", { scale: 1, svgOrigin: "510 563" }, { scale: 1.12, svgOrigin: "510 563", duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 5.0);
+    cap("#s1-cap2", 4.8, 8.8);
+    // Регрессия: предсказанный бокс подтягивается к gt (x 360→270, y 270→200).
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.0);
+    tl.fromTo("#s1-reg-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.2);
+    tl.to("#s1-pred-box", { attr: { x: 270, y: 200 }, duration: 1.8, ease: "power2.inOut" }, 9.6);
+    tl.to("#s1-tag", { x: -90, y: -70, duration: 1.8, ease: "power2.inOut" }, 9.6);
+    tl.to("#s1-reg-lbl", { opacity: 0, duration: 0.4 }, 11.4);
+    cap("#s1-cap3", 9.0, 12.5);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 12.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

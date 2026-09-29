@@ -234,6 +234,12 @@ Focal Loss используют:
   «На лёгкие примеры я буду смотреть мельком, а вот сложные, где вы часто ошибаетесь, будут для меня самыми важными».  
   Поэтому сеть учится лучше замечать редкие и сложные объекты.
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — составной loss детектора (CE / Focal для класса + L1 / IoU для бокса), сцена 2 — почему IoU-loss даёт нулевой градиент, когда боксы не пересекаются, и как GIoU (охватывающий бокс C), DIoU (расстояние центров) и CIoU (соотношение сторон) это чинят, сцена 3 — Dice и Tversky для масок сегментации.
+
+![Loss детекции и сегментации: IoU, GIoU, Dice](./assets/visualizations/detection-losses-iou-giou-dice.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/detection-losses-iou-giou-dice.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## 7. Источники
