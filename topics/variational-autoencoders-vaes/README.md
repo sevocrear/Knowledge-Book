@@ -115,7 +115,7 @@ $$
 Это можно переписать так:
 
 $$
-\mathcal{L}(\theta, \phi; \mathbf{x}) = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{z}) || p(\mathbf{z}))
+\mathcal{L}(\theta, \phi; \mathbf{x}) = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))
 $$
 
 **Составляющие:**
@@ -141,7 +141,7 @@ $$
 Encoder $q_\phi(\mathbf{z}|\mathbf{x})$ отображает вход $\mathbf{x}$ в параметры латентного распределения:
 
 $$
-\mu_\phi(\mathbf{x}), \log \sigma_\phi(\mathbf{x}) = \text{Encoder}_\phi(\mathbf{x})
+\mu_\phi(\mathbf{x}),\ \log \sigma^2_\phi(\mathbf{x}) = \text{Encoder}_\phi(\mathbf{x})
 $$
 
 - На выходе — среднее $\mu$ и лог-дисперсия $\log \sigma^2$ (для численной стабильности)
@@ -169,7 +169,7 @@ $$
 Для изображений со значениями пикселей в [0, 1] reconstruction loss обычно такой:
 
 $$
-\mathcal{L}_{\text{recon}} = -\log p_\theta(\mathbf{x}|\mathbf{z}) = \text{BCE}(\mathbf{x}, \hat{\mathbf{x}}) \text{ or } \text{MSE}(\mathbf{x}, \hat{\mathbf{x}})
+\mathcal{L}_{\text{recon}} = -\log p_\theta(\mathbf{x}|\mathbf{z}) = \text{BCE}(\mathbf{x}, \hat{\mathbf{x}}) \text{ или } \text{MSE}(\mathbf{x}, \hat{\mathbf{x}})
 $$
 
 Член KL-дивергенции:
@@ -185,9 +185,9 @@ $$
 ### Прямой проход (forward pass)
 
 1. Вход $\mathbf{x}$ проходит через encoder
-2. Encoder выдаёт $\mu_\phi(\mathbf{x})$ и $\log \sigma_\phi(\mathbf{x})$
+2. Encoder выдаёт $\mu_\phi(\mathbf{x})$ и $\log \sigma^2_\phi(\mathbf{x})$
 3. Сэмплируем $\epsilon \sim \mathcal{N}(0, I)$
-4. Считаем $\mathbf{z} = \mu_\phi(\mathbf{x}) + \sigma_\phi(\mathbf{x}) \odot \epsilon$
+4. Считаем $\mathbf{z} = \mu_\phi(\mathbf{x}) + \sigma_\phi(\mathbf{x}) \odot \epsilon$, где $\sigma_\phi = \exp(\tfrac{1}{2}\log\sigma^2_\phi)$
 5. Декодируем: $\hat{\mathbf{x}} = \text{Decoder}_\theta(\mathbf{z})$
 
 ### Обратный проход (backward pass)
@@ -331,9 +331,9 @@ def train_vae(model, train_loader, optimizer, device, beta=1.0, epochs=10):
 - Несколько уровней латентных переменных
 - Лучше подходит для сложных иерархических данных
 
-### 6. NVAE (Nested VAE)
-- Иерархическая архитектура с residual connections
-- State-of-the-art для генерации изображений высокого разрешения
+### 6. NVAE (Nouveau VAE)
+- Глубокая иерархическая архитектура с residual-ячейками (Vahdat & Kautz, 2020)
+- На момент выхода — одна из сильнейших «чистых» VAE для изображений высокого разрешения (256×256 CelebA-HQ, FFHQ)
 
 ---
 
@@ -347,7 +347,7 @@ def train_vae(model, train_loader, optimizer, device, beta=1.0, epochs=10):
 4. **Обучение представлений (representation learning)**: unsupervised feature learning
 5. **Аугментация данных**: синтетические обучающие примеры
 
-### Текущие применения (2021-2025)
+### Текущие применения (2021–2026)
 
 1. **Молекулярный дизайн**: drug discovery, material science
 2. **Генерация 3D-форм**: point clouds, meshes
@@ -383,7 +383,7 @@ def train_vae(model, train_loader, optimizer, device, beta=1.0, epochs=10):
 
 | Тип модели | Сильные стороны | Слабые стороны | Лучше всего для |
 |------------|-----------------|----------------|-----------------|
-| **VAE** | Структурированное латентное пространство, интерпретируемость, стабильное обучение | Размытые реконструкции, иногда mode collapse | Disentangled representations, детекция аномалий |
+| **VAE** | Структурированное латентное пространство, интерпретируемость, стабильное обучение | Размытые реконструкции, posterior collapse (KL-член «выключает» латенты) | Disentangled representations, детекция аномалий |
 | **GAN** | Высококачественные сэмплы, резкие изображения | Нестабильное обучение, mode collapse | Генерация изображений высокой точности |
 | **Diffusion Models** | Качество state-of-the-art, стабильное обучение | Медленная генерация, большие вычислительные затраты | Текущий SOTA для изображений и аудио |
 | **Flow Models** | Точный likelihood, обратимость | Ограниченная выразительность | Оценка плотности, задачи на правдоподобие |
@@ -416,7 +416,7 @@ def train_vae(model, train_loader, optimizer, device, beta=1.0, epochs=10):
 
 - См.: [Generative Adversarial Networks (GANs)](../generative-adversarial-networks-gans/README.md)
 - См.: [Diffusion Models](../diffusion-models/README.md)
-- См.: disentangled representation learning (например, $\beta$-VAE: https://arxiv.org/abs/1606.05579)
+- См.: disentangled representation learning (например, $\beta$-VAE, ICLR 2017: https://openreview.net/forum?id=Sy2fzU9gl)
 
 ---
 

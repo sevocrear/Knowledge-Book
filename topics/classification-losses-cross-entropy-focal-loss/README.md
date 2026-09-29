@@ -208,6 +208,12 @@ $$
   «Лёгкие задачки мы уже умеем, давайте я буду меньше обращать внимание на них и больше смотреть на те, где вы часто ошибаетесь».  
   То есть он меньше замечает простые правильные ответы и сильнее фокусируется на сложных примерах.
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — логиты → softmax → cross-entropy −log p<sub>y*</sub> и кривая потери по p; сцена 2 — Focal Loss (1 − p)<sup>γ</sup>·CE: кривые для γ = 0, 1, 2, 5, множитель для лёгких и сложных примеров, роль α; сцена 3 — когда выбирать CE, а когда Focal (RetinaNet, dense prediction).
+
+![Cross Entropy vs Focal Loss: −log p, кривые для γ = 0, 1, 2, 5 и выбор потери при дисбалансе](./assets/visualizations/cross-entropy-vs-focal-loss.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/cross-entropy-vs-focal-loss.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## 6. Источники
