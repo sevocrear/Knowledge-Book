@@ -135,9 +135,9 @@ $$p(\mu) = \frac{1}{\sigma\sqrt{2\pi}}$$
 ### 6. Моменты
 
 - **Первый момент (среднее)**: $\mathbb{E}[X] = \mu$
-- **Второй момент (дисперсия)**: $\text{Var}(X) = \sigma^2$
-- **Третий момент (асимметрия)**: 0 (симметричное распределение)
-- **Четвертый момент (эксцесс)**: 3$\sigma^4$
+- **Второй центральный момент (дисперсия)**: $\text{Var}(X) = \sigma^2$
+- **Третий центральный момент**: $0$ (симметричное распределение, асимметрия/skewness $= 0$)
+- **Четвёртый центральный момент**: $3\sigma^4$ (куртозис/эксцесс $= 3$, избыточный эксцесс $= 0$)
 
 ---
 
@@ -196,7 +196,7 @@ $$\boldsymbol{\Sigma}_{ij} = \text{Cov}(X_i, X_j) = \mathbb{E}[(X_i - \mu_i)(X_j
 
 Если $\boldsymbol{\Sigma} = \sigma^2 \mathbf{I}$ (диагональная матрица с одинаковыми значениями), то:
 
-$$p(\mathbf{x}) = \frac{1}{(2\pi\sigma^2)^{d/2}} \exp\left(-\frac{||\mathbf{x} - \boldsymbol{\mu}||^2}{2\sigma^2}\right)$$
+$$p(\mathbf{x}) = \frac{1}{(2\pi\sigma^2)^{d/2}} \exp\left(-\frac{\|\mathbf{x} - \boldsymbol{\mu}\|^2}{2\sigma^2}\right)$$
 
 Это называется **изотропным** (isotropic) распределением - одинаковый разброс во всех направлениях.
 
@@ -204,7 +204,7 @@ $$p(\mathbf{x}) = \frac{1}{(2\pi\sigma^2)^{d/2}} \exp\left(-\frac{||\mathbf{x} -
 
 Если $\boldsymbol{\mu} = \mathbf{0}$ и $\boldsymbol{\Sigma} = \mathbf{I}$ (единичная матрица):
 
-$$p(\mathbf{x}) = \frac{1}{(2\pi)^{d/2}} \exp\left(-\frac{||\mathbf{x}||^2}{2}\right)$$
+$$p(\mathbf{x}) = \frac{1}{(2\pi)^{d/2}} \exp\left(-\frac{\|\mathbf{x}\|^2}{2}\right)$$
 
 **Обозначение**: $\mathbf{X} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
 
@@ -226,9 +226,9 @@ nn.init.normal_(layer.weight, mean=0.0, std=0.1)
 
 ### 2. Регуляризация
 
-**L2 регуляризация** эквивалентна априорному распределению весов как $\mathcal{N}(0, \lambda^{-1})$:
+**L2 регуляризация** эквивалентна априорному распределению весов как $\mathcal{N}(\mathbf{0}, \lambda^{-1}\mathbf{I})$:
 
-$$p(\mathbf{w}) \propto \exp\left(-\frac{\lambda}{2}||\mathbf{w}||^2\right)$$
+$$p(\mathbf{w}) \propto \exp\left(-\frac{\lambda}{2}\|\mathbf{w}\|^2\right)$$
 
 ### 3. Шум в Обучении
 
@@ -304,8 +304,8 @@ y = norm.pdf(x, mu, sigma)  # PDF
 
 # Визуализация
 plt.figure(figsize=(10, 6))
-plt.plot(x, y, 'b-', linewidth=2, label=f'$\mathcal{{N}}({mu}, {sigma}^2)$')
-plt.axvline(mu, color='r', linestyle='--', label=f'$\mu = {mu}$')
+plt.plot(x, y, 'b-', linewidth=2, label=rf'$\mathcal{{N}}({mu}, {sigma}^2)$')
+plt.axvline(mu, color='r', linestyle='--', label=rf'$\mu = {mu}$')
 plt.fill_between(x, 0, y, where=(x >= mu-sigma) & (x <= mu+sigma), 
                  alpha=0.3, label='68% данных')
 plt.xlabel('x')
@@ -321,11 +321,11 @@ plt.show()
 ```python
 # Разные средние и стандартные отклонения
 params = [
-    (0, 0.5, '$\mu=0, \sigma=0.5$'),
-    (0, 1, '$\mu=0, \sigma=1$'),
-    (0, 2, '$\mu=0, \sigma=2$'),
-    (-2, 1, '$\mu=-2, \sigma=1$'),
-    (2, 1, '$\mu=2, \sigma=1$')
+    (0, 0.5, r'$\mu=0, \sigma=0.5$'),
+    (0, 1, r'$\mu=0, \sigma=1$'),
+    (0, 2, r'$\mu=0, \sigma=2$'),
+    (-2, 1, r'$\mu=-2, \sigma=1$'),
+    (2, 1, r'$\mu=2, \sigma=1$')
 ]
 
 x = np.linspace(-6, 6, 1000)
@@ -361,7 +361,7 @@ plt.plot(x, y, 'r-', linewidth=2, label='Теоретическая PDF')
 
 plt.xlabel('x')
 plt.ylabel('Плотность')
-plt.title('Сэмплирование из $\mathcal{N}(0, 1)$')
+plt.title(r'Сэмплирование из $\mathcal{N}(0, 1)$')
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.show()

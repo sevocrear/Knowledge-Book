@@ -163,7 +163,7 @@ $$
 
 ### Алгоритм обучения
 
-```
+```text
 1. Sample minibatch of noise: {z₁, z₂, ..., zₘ} ~ p_z(z)
 2. Sample minibatch of real data: {x₁, x₂, ..., xₘ} ~ p_data(x)
 3. Update Discriminator (maximize):
@@ -255,7 +255,7 @@ class Discriminator(nn.Module):
         return self.main(input).view(-1, 1).squeeze(1)
 
 # Training Function
-def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002, beta1=0.5):
+def train_gan(generator, discriminator, dataloader, device, nz=100, epochs=50, lr=0.0002, beta1=0.5):
     # Loss function
     criterion = nn.BCELoss()
     
@@ -321,7 +321,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 
 **Решения**:
 - **Progressive GAN**: постепенно повышать разрешение
-- **Wasserstein GAN (WGAN)**: вместо дивергенции Йенсена–Шеннона (JS divergence) использовать расстояние Васерштейна (Wasserstein distance)
+- **Wasserstein GAN (WGAN)**: вместо дивергенции Йенсена–Шеннона (JS divergence) использовать расстояние Вассерштейна (Wasserstein distance)
 - **Gradient Penalty**: WGAN-GP добавляет штраф по градиенту для стабильности
 - **Spectral Normalization**: ограничивает константу Липшица дискриминатора
 
@@ -353,7 +353,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 - Использует strided convolutions, batch norm
 
 ### 2. WGAN / WGAN-GP (2017)
-- Расстояние Васерштейна для стабильности
+- Расстояние Вассерштейна для стабильности
 - Gradient penalty как способ обеспечить ограничение Липшица
 - Более стабильное обучение
 
@@ -410,7 +410,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 **Да, но они уже не так доминируют, как раньше:**
 
 1. **Конкретные применения**:
-   - **StyleGAN3**: всё ещё state-of-the-art для качественной генерации лиц
+   - **StyleGAN2/StyleGAN3**: по-прежнему сильный baseline для качественной генерации лиц (FFHQ), хотя по FID их уже догоняют и обгоняют diffusion-модели
    - **Редактирование изображений**: GAN inversion для семантического редактирования
    - **Перенос домена**: unsupervised domain adaptation
    - **Аугментация данных**: генерация синтетических обучающих примеров
@@ -462,7 +462,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 
 **Целевая функция VAE**:
 $$
-\mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))
+\mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) \,\|\, p(\mathbf{z}))
 $$
 
 **Целевая функция GAN**:
@@ -516,7 +516,7 @@ $$
 
 - См.: [Variational Autoencoders (VAEs)](../variational-autoencoders-vaes/README.md)
 - См.: [Diffusion Models](../diffusion-models/README.md)
-- См.: [Knowledge-book Generative Models index](../../README.md#generative-models)
+- См.: [Knowledge-book Generative Models index](../../README.md#генеративные-модели)
 
 ---
 
