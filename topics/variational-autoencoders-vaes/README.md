@@ -46,6 +46,12 @@ updated: 2026-09-18
 
 Представь машину, которая учится рисовать похожие картинки. Сначала она смотрит на настоящую картинку и записывает не «каждую точку», а короткое описание «о чём она» — как будто шёпотом. Потом по этому шёпоту рисует картинку заново. Если шёпот чуть изменить, получится *новая*, но всё ещё понятная картинка. Так VAE учится придумывать похожие вещи, а не только копировать.
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — encoder выдаёт не точку, а распределение (μ, σ); сцена 2 — reparameterization trick z = μ + σ·ε и градиент через μ и σ; сцена 3 — ELBO (reconstruction + KL), стягивание латента к N(0, I), генерация из prior и интерполяция.
+
+![VAE: encoder, reparameterization trick и ELBO](./assets/visualizations/vae-encoder-decoder-reparameterization.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/vae-encoder-decoder-reparameterization.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Введение в VAE

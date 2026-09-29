@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .title { font-size: 44px; }
+  #s2-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 460px; display: block; }
+  #s2-c1 { left: 0; top: 470px; width: 796px; }
+  #s2-c2 { left: 900px; top: 470px; width: 796px; }
+  #s2-c3 { left: 900px; top: 470px; width: 796px; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как пропустить градиент через сэмплирование?</div></div>
+    <div class="badge">Knowledge Book · VAE</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 1760 460">
+        <!-- ребра прямого прохода (серо-синие) -->
+        <g id="s2-edges"></g>
+        <!-- вход x -->
+        <g id="s2-x" opacity="0">
+          <g id="s2-xcells"></g>
+          <text x="76" y="290" text-anchor="middle" fill="#4a9eff" font-size="38" font-weight="700">x</text>
+        </g>
+        <!-- encoder -->
+        <g id="s2-enc" opacity="0">
+          <polygon points="230,100 390,140 390,230 230,270" fill="#161a24" stroke="#4a9eff" stroke-width="5" stroke-linejoin="round"/>
+          <text x="298" y="194" text-anchor="middle" fill="#f0f4ff" font-size="26" font-weight="700">Encoder</text>
+        </g>
+        <!-- μ, σ -->
+        <g id="s2-mu" opacity="0">
+          <rect x="560" y="40" width="190" height="70" rx="14" fill="#161a24" stroke="#4a9eff" stroke-width="5"/>
+          <text x="655" y="88" text-anchor="middle" fill="#4a9eff" font-size="34" font-weight="700">μ<tspan font-size="22" dy="6">φ</tspan><tspan dy="-6">(x)</tspan></text>
+        </g>
+        <g id="s2-sg" opacity="0">
+          <rect x="560" y="150" width="190" height="70" rx="14" fill="#161a24" stroke="#b48ce6" stroke-width="5"/>
+          <text x="655" y="198" text-anchor="middle" fill="#b48ce6" font-size="34" font-weight="700">σ<tspan font-size="22" dy="6">φ</tspan><tspan dy="-6">(x)</tspan></text>
+        </g>
+        <!-- ε -->
+        <g id="s2-eps" opacity="0">
+          <rect x="560" y="300" width="190" height="70" rx="14" fill="#161a24" stroke="#ff7a2f" stroke-width="5"/>
+          <text x="655" y="348" text-anchor="middle" fill="#ff7a2f" font-size="28" font-weight="700">ε ~ N(0, I)</text>
+          <text x="655" y="412" text-anchor="middle" fill="#aab3c2" font-size="24">внешний шум, без параметров</text>
+        </g>
+        <!-- z -->
+        <g id="s2-z" opacity="0">
+          <circle cx="1010" cy="185" r="52" fill="#161a24" stroke="#3dba7a" stroke-width="6"/>
+          <text x="1010" y="199" text-anchor="middle" fill="#3dba7a" font-size="44" font-weight="700">z</text>
+          <text x="1010" y="272" text-anchor="middle" fill="#aab3c2" font-size="26">z = μ + σ ⊙ ε</text>
+        </g>
+        <!-- decoder -->
+        <g id="s2-dec" opacity="0">
+          <polygon points="1190,140 1360,100 1360,270 1190,230" fill="#161a24" stroke="#2dd4bf" stroke-width="5" stroke-linejoin="round"/>
+          <text x="1268" y="194" text-anchor="middle" fill="#f0f4ff" font-size="26" font-weight="700">Decoder</text>
+        </g>
+        <!-- реконструкция x̂ -->
+        <g id="s2-xh" opacity="0">
+          <g id="s2-xhcells"></g>
+          <text x="1616" y="290" text-anchor="middle" fill="#3dba7a" font-size="38" font-weight="700">x̂</text>
+        </g>
+        <!-- ребра градиента (красные, поверх серых) -->
+        <g id="s2-grads"></g>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Трюк репараметризации</div><div class="f">z = <span class="b">μ<sub>φ</sub>(x)</span> + <span class="p">σ<sub>φ</sub>(x)</span> ⊙ <span class="o">ε</span>, &nbsp;ε ~ N(0, I)</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">σ<sub>φ</sub> = exp(½ · log σ²<sub>φ</sub>) — случайность вынесена в ε</div></div>
+      <div id="s2-c2" class="card" data-layout-allow-overlap><div class="h">Decoder</div><div class="f">x̂ = Decoder<sub>θ</sub>(<span class="g">z</span>)</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">на выходе значения пикселей (часто sigmoid)</div></div>
+      <div id="s2-c3" class="card" data-layout-allow-overlap><div class="h">Backpropagation</div><div class="f">градиент → <span class="b">μ<sub>φ</sub></span>, <span class="p">σ<sub>φ</sub></span> → encoder</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">μ и σ детерминированы — градиент проходит</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Encoder выдал <b class="b">μ</b> и <b class="p">σ</b>. Сэмплировать <b>z</b> прямо из N(μ, σ²) нельзя: через случайную операцию градиент не пройдёт</div>
+      <div id="s2-cap2" class="cap">Случайность выносим в шум <b class="o">ε ~ N(0, I)</b> и считаем <b class="g">z = μ + σ ⊙ ε</b>: z всё ещё случайный, но зависит от μ и σ</div>
+      <div id="s2-cap3" class="cap">Decoder превращает <b class="g">z</b> в реконструкцию <b class="g">x̂</b> — и обучение идёт сквозь всю сеть</div>
+      <div id="s2-cap4" class="cap">Градиенты проходят через <b>детерминированные</b> <b class="b">μ<sub>φ</sub></b> и <b class="p">σ<sub>φ</sub></b>, поэтому encoder обучается backprop-ом</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v)); parent.appendChild(el); return el; };
+    // Тайлы 4×4 (иллюстративно): вход и реконструкция чуть отличаются.
+    const patX  = [0.2, 0.9, 0.9, 0.2, 0.9, 0.5, 0.5, 0.9, 0.9, 0.5, 0.5, 0.9, 0.2, 0.9, 0.9, 0.2];
+    const patXh = [0.3, 0.8, 0.9, 0.3, 0.8, 0.5, 0.6, 0.8, 0.9, 0.6, 0.5, 0.8, 0.3, 0.8, 0.8, 0.3];
+    const tile = (parent, x0, y0, col, pat) => pat.forEach((a, i) => mk("rect", { x: x0 + (i % 4) * 30, y: y0 + Math.floor(i / 4) * 30, width: 28, height: 28, rx: 4, fill: col, "fill-opacity": a }, parent));
+    tile(document.getElementById("s2-xcells"), 16, 129, "#4a9eff", patX);
+    tile(document.getElementById("s2-xhcells"), 1556, 129, "#3dba7a", patXh);
+
+    // Ребра: [id, x0, y0, x1, y1, цвет градиента]; серо-синяя «труба» прямого прохода + красный обратный проход.
+    const FWD = "#5a6a86";
+    const edges = {
+      e1: [138, 185, 222, 185],          // x → encoder
+      e2: [390, 185, 552, 75],           // encoder → μ
+      e3: [390, 185, 552, 185],          // encoder → σ
+      e4: [750, 75, 962, 168],           // μ → z
+      e5: [750, 185, 958, 185],          // σ → z
+      e6: [750, 335, 968, 220],          // ε → z
+      e7: [1062, 185, 1182, 185],        // z → decoder
+      e8: [1360, 185, 1548, 185],        // decoder → x̂
+    };
+    const head = (x0, y0, x1, y1, col, id, parent) => { // наконечник в точке (x1, y1), направление (x0,y0)→(x1,y1)
+      const a = Math.atan2(y1 - y0, x1 - x0), L = 20, W = 11;
+      const bx = x1 - L * Math.cos(a), by = y1 - L * Math.sin(a), nx = -Math.sin(a) * W, ny = Math.cos(a) * W;
+      return mk("polygon", { id, points: `${x1},${y1} ${(bx + nx).toFixed(1)},${(by + ny).toFixed(1)} ${(bx - nx).toFixed(1)},${(by - ny).toFixed(1)}`, fill: col, opacity: 0 }, parent);
+    };
+    const fwdG = document.getElementById("s2-edges"), gradG = document.getElementById("s2-grads");
+    const lens = {};
+    Object.entries(edges).forEach(([k, [x0, y0, x1, y1]]) => {
+      lens[k] = Math.hypot(x1 - x0, y1 - y0);
+      mk("line", { id: `s2-f-${k}`, x1: x0, y1: y0, x2: x1, y2: y1, stroke: k === "e6" ? "#ff7a2f" : FWD, "stroke-width": 6, "stroke-linecap": "butt", "stroke-dasharray": "0 9999" }, fwdG);
+      head(x0, y0, x1, y1, k === "e6" ? "#ff7a2f" : FWD, `s2-fh-${k}`, fwdG);
+    });
+    // Красный обратный проход: от конца к началу ребра (только e8, e7, e4, e5, e2, e3, e1 — не e6).
+    const back = ["e8", "e7", "e4", "e5", "e2", "e3", "e1"];
+    back.forEach(k => {
+      const [x0, y0, x1, y1] = edges[k];
+      // рисуем от (x1, y1) к (x0, y0)
+      mk("line", { id: `s2-g-${k}`, x1: x1, y1: y1, x2: x0, y2: y0, stroke: "#ff4d6d", "stroke-width": 7, "stroke-linecap": "butt", "stroke-dasharray": "0 9999" }, gradG);
+      head(x1, y1, x0, y0, "#ff4d6d", `s2-gh-${k}`, gradG);
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const draw = (k, t, d = 0.4) => {
+      tl.fromTo(`#s2-f-${k}`, { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": lens[k].toFixed(1) + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+      tl.fromTo(`#s2-fh-${k}`, { opacity: 0 }, { opacity: 1, duration: 0.15 }, t + d - 0.05);
+    };
+    const drawBack = (k, t, d = 0.4) => {
+      tl.fromTo(`#s2-g-${k}`, { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": lens[k].toFixed(1) + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+      tl.fromTo(`#s2-gh-${k}`, { opacity: 0 }, { opacity: 1, duration: 0.15 }, t + d - 0.05);
+    };
+    const pop = (id, t) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, t);
+
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // Прямой проход: x → encoder → μ, σ
+    pop("#s2-x", 0.3); draw("e1", 0.8, 0.4); pop("#s2-enc", 1.1);
+    draw("e2", 1.7); draw("e3", 1.8); pop("#s2-mu", 2.2); pop("#s2-sg", 2.3);
+    cap("#s2-cap1", 0.6, 4.6);
+    // Репараметризация: ε и z
+    pop("#s2-eps", 4.9); tl.fromTo("#s2-c1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 5.1);
+    draw("e4", 5.8, 0.5); draw("e5", 5.9, 0.5); draw("e6", 6.0, 0.5); pop("#s2-z", 6.6);
+    cap("#s2-cap2", 5.0, 8.9);
+    // Decoder и реконструкция
+    draw("e7", 9.3); pop("#s2-dec", 9.6); draw("e8", 10.2, 0.5); pop("#s2-xh", 10.6);
+    tl.fromTo("#s2-c2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 9.7);
+    cap("#s2-cap3", 9.2, 12.1);
+    // Обратный проход
+    tl.to("#s2-c2", { opacity: 0, duration: 0.3 }, 12.2);
+    tl.fromTo("#s2-c3", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 12.4);
+    cap("#s2-cap4", 12.4, 0);
+    drawBack("e8", 12.6, 0.4); drawBack("e7", 13.0, 0.4); drawBack("e4", 13.4, 0.4); drawBack("e5", 13.4, 0.4);
+    drawBack("e2", 13.9, 0.4); drawBack("e3", 13.9, 0.4); drawBack("e1", 14.3, 0.4);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.45 }, 14.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>
