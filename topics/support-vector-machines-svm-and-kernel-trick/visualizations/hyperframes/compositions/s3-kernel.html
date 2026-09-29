@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s3-c2 { left: 1060px; top: 330px; width: 700px; font-size: 30px; }
+  #s3-c2 .row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #2a3140; }
+  #s3-c2 .row:last-child { border-bottom: 0; }
+  #s3-c2 .nm { color: #f0f4ff; font-weight: 600; }
+  #s3-c2 .fm { font-style: italic; font-size: 32px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Как разделить то, что не делится прямой?</div></div>
+    <div class="badge">Knowledge Book · SVM</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <g id="s3-ax">
+          <line x1="70" y1="600" x2="930" y2="600" stroke="#2a3140" stroke-width="3"/>
+          <line x1="70" y1="40" x2="70" y2="600" stroke="#2a3140" stroke-width="3"/>
+          <text x="938" y="609" fill="#aab3c2" font-size="26">x₁</text>
+          <text id="s3-ylbl-a" x="80" y="32" fill="#aab3c2" font-size="26" data-layout-allow-overlap>x₂</text>
+          <text id="s3-ylbl-b" x="80" y="32" fill="#b48ce6" font-size="26" font-weight="700" opacity="0" data-layout-allow-overlap>x₁² + x₂²</text>
+        </g>
+        <line id="s3-try" x1="300" y1="600" x2="760" y2="50" stroke="#aab3c2" stroke-width="4" stroke-dasharray="0 9999"/>
+        <text id="s3-try-x" x="700" y="122" fill="#ff4d6d" font-size="44" font-weight="700" opacity="0">✗</text>
+        <line id="s3-sep" x1="100" y1="350" x2="900" y2="350" stroke="#f0f4ff" stroke-width="6" stroke-dasharray="0 9999"/>
+        <text id="s3-sep-lbl" x="110" y="336" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0">wᵀφ(x) + b = 0</text>
+        <g id="s3-pts"></g>
+        <text id="s3-phi" x="470" y="646" text-anchor="middle" fill="#b48ce6" font-size="25" opacity="0">φ(x) = (x₁, x₂, x₁² + x₂²) — иллюстративно; в общем виде x ↦ φ(x) ∈ H</text>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Kernel trick</div>
+        <div class="f"><span class="p">k(x<sub>i</sub>, x<sub>j</sub>)</span> = ⟨φ(x<sub>i</sub>), φ(x<sub>j</sub>)⟩</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">двойственная задача и f(x) = Σ α<sub>i</sub> y<sub>i</sub> k(x<sub>i</sub>, x) + b используют данные только через скалярные произведения — φ явно не нужен</div></div>
+      <div id="s3-c2" class="card"><div class="h">Типичные ядра</div>
+        <div class="row"><span class="nm">Linear</span><span class="fm">x<sup>ᵀ</sup>z</span></div>
+        <div class="row"><span class="nm">Polynomial</span><span class="fm">(γ x<sup>ᵀ</sup>z + r)<sup>p</sup></span></div>
+        <div class="row"><span class="nm" style="color:#b48ce6">RBF (Gaussian)</span><span class="fm">exp(−γ ‖x − z‖²)</span></div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Два концентрических класса: в исходной плоскости (x₁, x₂) <b class="r">никакая прямая</b> их не разделяет</div>
+      <div id="s3-cap2" class="cap">Отображение <b class="p">φ</b>: добавим признак x₁² + x₂² (иллюстративно) — в новом пространстве классы делит обычная гиперплоскость</div>
+      <div id="s3-cap3" class="cap">В двойственной задаче данные входят только через x<sub>i</sub><sup>ᵀ</sup>x<sub>j</sub> — заменяем его на ядро <b class="p">k(x<sub>i</sub>, x<sub>j</sub>) = ⟨φ(x<sub>i</sub>), φ(x<sub>j</sub>)⟩</b>, φ явно не считаем</div>
+      <div id="s3-cap4" class="cap key">SVM = максимальный запас на опорных векторах; ядро (RBF, polynomial) даёт нелинейную границу, а задача остаётся линейной в H</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    // Концентрические классы (как make_circles): внутренний — оранжевый, внешний — синий. Радиусы и углы — константы.
+    const cx = 500, cy = 325;
+    const inner = [[0, 92], [45, 80], [90, 100], [135, 86], [180, 95], [225, 78], [270, 88], [315, 98]];
+    const outer = [[0, 232], [30, 215], [60, 245], [90, 225], [120, 238], [150, 218], [180, 242], [210, 228], [240, 220], [270, 240], [300, 230], [330, 236]];
+    const K = 500 / (245 * 245); // после φ: вертикаль = x₁² + x₂² (r²), r = 245 → y = 90
+    const NS = "http://www.w3.org/2000/svg";
+    const g = document.getElementById("s3-pts");
+    const items = [];
+    const add = (arr, color, tag) => arr.forEach(([a, r], i) => {
+      const x = cx + r * Math.cos(a * Math.PI / 180), y = cy - r * Math.sin(a * Math.PI / 180);
+      const el = document.createElementNS(NS, "circle");
+      el.setAttribute("id", `s3-p${tag}-${i}`); el.setAttribute("cx", x.toFixed(1)); el.setAttribute("cy", y.toFixed(1));
+      el.setAttribute("r", "11"); el.setAttribute("fill", color); el.setAttribute("opacity", "0");
+      g.appendChild(el); items.push([el, x, 590 - K * r * r]);
+    });
+    add(inner, "#ff7a2f", "i"); add(outer, "#4a9eff", "o");
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    items.forEach(([el], i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.3 + 0.05 * i));
+    cap("#s3-cap1", 0.6, 3.8);
+    // Попытка провести прямую — не получается
+    tl.fromTo("#s3-try", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "717 9999" }, duration: 0.8, ease: "power2.inOut" }, 1.6);
+    tl.fromTo("#s3-try-x", { opacity: 0, scale: 0.5, svgOrigin: "712 108" }, { opacity: 1, scale: 1, svgOrigin: "712 108", duration: 0.4, ease: "back.out(2)" }, 2.5);
+    tl.to("#s3-try", { opacity: 0, duration: 0.4 }, 3.5);
+    tl.to("#s3-try-x", { opacity: 0, duration: 0.4 }, 3.5);
+    // Подъём: точки едут в координаты (x₁, x₁² + x₂²)
+    cap("#s3-cap2", 4.0, 7.6);
+    items.forEach(([el, x, y2]) => tl.to(el, { attr: { cy: y2.toFixed(1) }, duration: 2.0, ease: "power2.inOut" }, 4.2));
+    tl.to("#s3-ylbl-a", { opacity: 0, duration: 0.4 }, 4.4);
+    tl.to("#s3-ylbl-b", { opacity: 1, duration: 0.4 }, 4.4);
+    tl.fromTo("#s3-phi", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 4.6);
+    tl.fromTo("#s3-sep", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "800 9999" }, duration: 0.9, ease: "power2.inOut" }, 6.3);
+    tl.fromTo("#s3-sep-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.0);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 7.6);
+    cap("#s3-cap3", 7.8, 11.0);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.8);
+    cap("#s3-cap4", 11.2, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 14.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>
