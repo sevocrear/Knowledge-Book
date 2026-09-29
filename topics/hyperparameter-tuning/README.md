@@ -32,6 +32,12 @@ updated: 2026-09-18
 
 Представь, что ты печёшь торт. Рецепт говорит: «добавь сахар» — но не говорит, сколько. Слишком мало — невкусно, слишком много — приторно. Ты пробуешь: одну ложку, две, три... и находишь самое вкусное количество. Настройка гиперпараметров — это то же самое: мы пробуем разные «рецепты» для нашей модели и выбираем тот, при котором она работает лучше всего.
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — grid vs random search на 2D-пространстве (у сетки 3 уникальных значения важного параметра, у random — 9); сцена 2 — Bayesian Optimization: суррогат μ(λ) ± σ(λ) и acquisition EI выбирают следующую точку; сцена 3 — Successive Halving / Hyperband: слабые конфигурации обрываются рано, бюджет удваивается каждый раунд.
+
+![Grid / Random Search → Bayesian Optimization → Hyperband](./assets/visualizations/grid-random-bayesian-hyperband.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/grid-random-bayesian-hyperband.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Оглавление

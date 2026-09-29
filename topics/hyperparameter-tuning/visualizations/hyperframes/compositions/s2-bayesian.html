@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-wrap .title { font-size: 42px; }
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; font-size: 27px; line-height: 1.3; }
+  #s2-c1 .st { padding: 3px 0; color: #e6ebf5; }
+  #s2-c1 .st b { color: #4a9eff; font-weight: 700; }
+  #s2-c2 { left: 1060px; top: 352px; width: 700px; }
+  #s2-c2 .f { font-size: 34px; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как Bayesian Optimization выбирает λ?</div></div>
+    <div class="badge">Knowledge Book · Hyperparameter tuning</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <!-- верхний график: суррогат -->
+        <g id="s2-ax1" opacity="0">
+          <line x1="70" y1="350" x2="930" y2="350" stroke="#aab3c2" stroke-width="3"/>
+          <line x1="70" y1="350" x2="70" y2="36" stroke="#aab3c2" stroke-width="3"/>
+          <text x="80" y="30" fill="#aab3c2" font-size="22">loss f(λ) ↓ (меньше — лучше)</text>
+          <text x="500" y="386" text-anchor="middle" fill="#aab3c2" font-size="22">гиперпараметр λ →</text>
+        </g>
+        <polyline id="s2-true" points="" fill="none" stroke="#aab3c2" stroke-width="3" stroke-dasharray="8 8" opacity="0"/>
+        <text id="s2-truelbl" x="78" y="344" fill="#aab3c2" font-size="20" opacity="0">настоящая f(λ): неизвестна, дорогая</text>
+        <polygon id="s2-bandA" points="" fill="#4a9eff" fill-opacity="0.18" opacity="0"/>
+        <polygon id="s2-bandB" points="" fill="#4a9eff" fill-opacity="0.18" opacity="0"/>
+        <polygon id="s2-bandC" points="" fill="#4a9eff" fill-opacity="0.18" opacity="0"/>
+        <polyline id="s2-muA" points="" fill="none" stroke="#4a9eff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 9999" opacity="0"/>
+        <polyline id="s2-muB" points="" fill="none" stroke="#4a9eff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+        <polyline id="s2-muC" points="" fill="none" stroke="#4a9eff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+        <text id="s2-mulbl" x="86" y="70" fill="#4a9eff" font-size="24" font-weight="700" opacity="0">μ(λ) ± σ(λ) — суррогат (GP)</text>
+        <g id="s2-ysA" opacity="0"><line x1="70" x2="930" stroke="#3dba7a" stroke-width="2" stroke-dasharray="6 8"/><text x="926" text-anchor="end" fill="#3dba7a" font-size="20">y* = лучшее наблюдение</text></g>
+        <g id="s2-ysB" opacity="0"><line x1="70" x2="930" stroke="#3dba7a" stroke-width="2" stroke-dasharray="6 8"/><text x="926" text-anchor="end" fill="#3dba7a" font-size="20">y*</text></g>
+        <g id="s2-ysC" opacity="0"><line x1="70" x2="930" stroke="#3dba7a" stroke-width="2" stroke-dasharray="6 8"/><text x="926" text-anchor="end" fill="#3dba7a" font-size="20">y*</text></g>
+        <g id="s2-obs"></g>
+        <!-- нижний график: acquisition -->
+        <g id="s2-ax2" opacity="0">
+          <line x1="70" y1="600" x2="930" y2="600" stroke="#aab3c2" stroke-width="3"/>
+          <line x1="70" y1="600" x2="70" y2="430" stroke="#aab3c2" stroke-width="3"/>
+          <text x="80" y="424" fill="#3dba7a" font-size="22" font-weight="700">acquisition α(λ) = EI(λ) ↑</text>
+        </g>
+        <polyline id="s2-eiA" points="" fill="none" stroke="#3dba7a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 9999" opacity="0"/>
+        <polyline id="s2-eiB" points="" fill="none" stroke="#3dba7a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+        <polyline id="s2-eiC" points="" fill="none" stroke="#3dba7a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+        <g id="s2-nxA" opacity="0"><line y1="600" y2="40" stroke="#ff7a2f" stroke-width="3" stroke-dasharray="10 8"/><text y="640" data-layout-allow-overlap text-anchor="middle" fill="#ff7a2f" font-size="24" font-weight="700">argmax α(λ) → следующая λ</text></g>
+        <g id="s2-nxB" opacity="0"><line y1="600" y2="40" stroke="#ff7a2f" stroke-width="3" stroke-dasharray="10 8"/><text y="640" data-layout-allow-overlap text-anchor="middle" fill="#ff7a2f" font-size="24" font-weight="700">следующая λ</text></g>
+        <g id="s2-nxC" opacity="0"><line y1="600" y2="40" stroke="#ff7a2f" stroke-width="3" stroke-dasharray="10 8"/><text y="640" data-layout-allow-overlap text-anchor="middle" fill="#ff7a2f" font-size="24" font-weight="700">следующая λ</text></g>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Цикл Bayesian Optimization</div>
+        <div class="st"><b>1.</b> warm-up: несколько случайных λ</div>
+        <div class="st"><b>2.</b> суррогат f̂(λ) по {(λ<sub>i</sub>, y<sub>i</sub>)}: предсказание + неопределённость</div>
+        <div class="st"><b>3.</b> λ<sub>next</sub> = argmax<sub>λ</sub> α(λ) — acquisition</div>
+        <div class="st"><b>4.</b> эксперимент y<sub>next</sub> = f(λ<sub>next</sub>) → в историю, повторить</div></div>
+      <div id="s2-c2" class="card"><div class="h">Acquisition: Expected Improvement</div>
+        <div class="f">EI(λ) = 𝔼[max(0, <span class="g">y*</span> − f(λ))]</div>
+        <div style="font-size:26px;color:#aab3c2;margin-top:8px">GP: μ(λ), σ(λ) · TPE (Optuna): EI ∝ ℓ(λ)/g(λ)</div>
+        <div style="font-size:26px;color:#aab3c2;margin-top:4px">бюджет: обычно 10–200 экспериментов</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Один запуск <b>f(λ)</b> — это полное обучение, дорого. Начинаем с нескольких <b class="o">случайных точек</b> (warm-up)</div>
+      <div id="s2-cap2" class="cap"><b class="b">Суррогат</b> (Gaussian Process) даёт в каждой точке предсказание <b class="b">μ(λ)</b> и неопределённость <b class="b">σ(λ)</b> — дёшево</div>
+      <div id="s2-cap3" class="cap"><b class="g">Acquisition</b> (EI) балансирует exploitation и exploration: следующая точка — <b class="o">argmax α(λ)</b></div>
+      <div id="s2-cap4" class="cap">Новое наблюдение <b>уточняет суррогат</b> и сдвигает y*; в Optuna по умолчанию суррогат — <b class="p">TPE</b>, а не GP</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Иллюстративная целевая функция (минимум около λ ≈ 0.72) и GP-суррогат с RBF-ядром — всё детерминированно.
+    const f = x => 1 - 0.9 * Math.exp(-Math.pow((x - 0.72) / 0.12, 2)) - 0.35 * Math.exp(-Math.pow((x - 0.25) / 0.15, 2));
+    const S = 0.35, L = 0.16, NZ = 1e-4;
+    const kern = (a, b) => S * S * Math.exp(-Math.pow(a - b, 2) / (2 * L * L));
+    const inv = M => { const n = M.length; const A = M.map((r, i) => [...r, ...Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))]);
+      for (let i = 0; i < n; i++) { const p = A[i][i]; for (let j = 0; j < 2 * n; j++) A[i][j] /= p;
+        for (let r = 0; r < n; r++) if (r !== i) { const q = A[r][i]; for (let j = 0; j < 2 * n; j++) A[r][j] -= q * A[i][j]; } }
+      return A.map(r => r.slice(n)); };
+    const erf = z => { const t = 1 / (1 + 0.3275911 * Math.abs(z)); const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-z * z); return z >= 0 ? y : -y; };
+    const Phi = z => 0.5 * (1 + erf(z / Math.SQRT2)), phi = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
+    const grid = Array.from({ length: 81 }, (_, i) => i / 80);
+    const posterior = (X, Y) => { const n = X.length, m = Y.reduce((a, b) => a + b, 0) / n;
+      const K = X.map((xi, i) => X.map((xj, j) => kern(xi, xj) + (i === j ? NZ : 0))); const Ki = inv(K);
+      const yc = Y.map(y => y - m); const alpha = Ki.map(row => row.reduce((s, v, j) => s + v * yc[j], 0));
+      const ys = Math.min(...Y);
+      const pts = grid.map(x => { const kx = X.map(xi => kern(x, xi)); const mu = m + kx.reduce((s, v, i) => s + v * alpha[i], 0);
+        let v = S * S; for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) v -= kx[i] * Ki[i][j] * kx[j]; const sd = Math.sqrt(Math.max(v, 1e-9));
+        const z = (ys - mu) / sd; const ei = (ys - mu) * Phi(z) + sd * phi(z); return { x, mu, sd, ei }; });
+      let best = 0; pts.forEach((p, i) => { if (p.ei > pts[best].ei) best = i; });
+      return { pts, ys, xnext: grid[best] }; };
+    // Координаты: верхний график x 70..930, y 40..350 (loss 0..1.1); нижний: EI 0..0.12 → y 600..450.
+    const X = x => 70 + 860 * x, Y = y => 350 - 310 * Math.min(Math.max(y, 0), 1.1) / 1.1, YE = e => 600 - 150 * Math.min(e / 0.12, 1);
+    const pl = (arr, fn) => arr.map(p => `${X(p.x).toFixed(1)},${fn(p).toFixed(1)}`).join(" ");
+    const plen = (arr, fn) => { let s = 0; for (let i = 1; i < arr.length; i++) s += Math.hypot(X(arr[i].x) - X(arr[i - 1].x), fn(arr[i]) - fn(arr[i - 1])); return s.toFixed(1); };
+    const truePts = grid.map(x => ({ x, y: f(x) }));
+    document.getElementById("s2-true").setAttribute("points", pl(truePts, p => Y(p.y)));
+    const Xs = [0.10, 0.40, 0.95], Ys = Xs.map(f);
+    const states = {};
+    ["A", "B", "C"].forEach(s => {
+      const st = posterior(Xs, Ys); states[s] = st;
+      document.getElementById(`s2-mu${s}`).setAttribute("points", pl(st.pts, p => Y(p.mu)));
+      document.getElementById(`s2-band${s}`).setAttribute("points", pl(st.pts, p => Y(p.mu - p.sd)) + " " + pl([...st.pts].reverse(), p => Y(p.mu + p.sd)));
+      document.getElementById(`s2-ei${s}`).setAttribute("points", pl(st.pts, p => YE(p.ei)));
+      const ys = document.getElementById(`s2-ys${s}`); const yy = Y(st.ys).toFixed(1);
+      ys.querySelector("line").setAttribute("y1", yy); ys.querySelector("line").setAttribute("y2", yy); ys.querySelector("text").setAttribute("y", (Y(st.ys) + 26).toFixed(1));
+      const nx = document.getElementById(`s2-nx${s}`); const xx = X(st.xnext).toFixed(1);
+      nx.querySelector("line").setAttribute("x1", xx); nx.querySelector("line").setAttribute("x2", xx); nx.querySelector("text").setAttribute("x", xx);
+      Xs.push(st.xnext); Ys.push(f(st.xnext));   // следующее состояние — с новой точкой
+    });
+    const gobs = document.getElementById("s2-obs");
+    const obs = Xs.map((x, i) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("id", `s2-o${i}`); c.setAttribute("cx", X(x).toFixed(1)); c.setAttribute("cy", Y(Ys[i]).toFixed(1));
+      c.setAttribute("r", 11); c.setAttribute("fill", "#ff7a2f"); c.setAttribute("stroke", "#0f1117"); c.setAttribute("stroke-width", 3); c.setAttribute("opacity", 0); gobs.appendChild(c); return c; });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const swap = (from, to, t) => { ["band", "mu", "ys", "ei", "nx"].forEach(k => { tl.to(`#s2-${k}${from}`, { opacity: 0, duration: 0.5 }, t); tl.to(`#s2-${k}${to}`, { opacity: 1, duration: 0.5 }, t); }); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-ax1", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.3);
+    tl.fromTo("#s2-true", { opacity: 0 }, { opacity: 0.35, duration: 0.6 }, 0.6);
+    tl.fromTo("#s2-truelbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.8);
+    [0, 1, 2].forEach(i => tl.fromTo(obs[i], { opacity: 0, attr: { cy: 40 } }, { opacity: 1, attr: { cy: Y(Ys[i]).toFixed(1) }, duration: 0.55, ease: "bounce.out" }, 1.2 + 0.35 * i));
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.4);
+    cap("#s2-cap1", 0.6, 4.4);
+    // Суррогат по трём точкам.
+    cap("#s2-cap2", 4.6, 8.4);
+    tl.fromTo("#s2-bandA", { opacity: 0 }, { opacity: 1, duration: 0.8 }, 4.9);
+    tl.fromTo("#s2-muA", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.8);
+    tl.fromTo("#s2-muA", { attr: { "stroke-dasharray": "0 9999" } }, { immediateRender: false, attr: { "stroke-dasharray": plen(states.A.pts, p => Y(p.mu)) + " 9999" }, duration: 1.1, ease: "power2.inOut" }, 4.8);
+    tl.fromTo("#s2-mulbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.6);
+    tl.fromTo("#s2-ysA", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.2);
+    // Acquisition и argmax.
+    cap("#s2-cap3", 8.6, 11.8);
+    tl.fromTo("#s2-ax2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.6);
+    tl.fromTo("#s2-eiA", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 8.8);
+    tl.fromTo("#s2-eiA", { attr: { "stroke-dasharray": "0 9999" } }, { immediateRender: false, attr: { "stroke-dasharray": plen(states.A.pts, p => YE(p.ei)) + " 9999" }, duration: 1.0, ease: "power2.inOut" }, 8.8);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.9);
+    tl.fromTo("#s2-nxA", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.8);
+    // Новая точка → суррогат B; ещё одна → суррогат C.
+    tl.fromTo(obs[3], { opacity: 0, attr: { cy: 40 } }, { opacity: 1, attr: { cy: Y(Ys[3]).toFixed(1) }, duration: 0.6, ease: "bounce.out" }, 10.6);
+    swap("A", "B", 11.3);
+    cap("#s2-cap4", 12.0, 14.5);
+    tl.fromTo(obs[4], { opacity: 0, attr: { cy: 40 } }, { opacity: 1, attr: { cy: Y(Ys[4]).toFixed(1) }, duration: 0.6, ease: "bounce.out" }, 12.4);
+    swap("B", "C", 13.1);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.45 }, 14.5);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>
