@@ -30,20 +30,20 @@ updated: 2026-09-18
 
 ## Оглавление
 
-1. Введение: что такое VLA модели и зачем они нужны
-2. Архитектура VLA: как объединяются Vision, Language и Action
-3. Ключевые компоненты: энкодеры, проекторы, декодеры действий
-4. Обучение VLA моделей: данные, loss функции, fine-tuning
-5. Современные VLA модели: RT-1, RT-2, OpenVLA, F1-VLA, Octo
-6. Применения: манипуляция, навигация, автономные системы
-7. Сравнение с другими подходами: RL, Imitation Learning
-8. Реализация: примеры кода и использование
-9. Связанные темы и источники
-10. Как объяснить это 5‑летнему ребёнку
+1. [Введение: что такое VLA модели и зачем они нужны](#1-введение-что-такое-vla-модели-и-зачем-они-нужны)
+2. [Архитектура VLA: как объединяются Vision, Language и Action](#2-архитектура-vla-как-объединяются-vision-language-и-action)
+3. [Ключевые компоненты: энкодеры, проекторы, декодеры действий](#3-ключевые-компоненты-энкодеры-проекторы-декодеры-действий)
+4. [Обучение VLA моделей: данные, loss функции, fine-tuning](#4-обучение-vla-моделей-данные-loss-функции-fine-tuning)
+5. [Современные VLA модели: RT-1, RT-2, OpenVLA, F1-VLA, Octo, SmolVLA](#5-современные-vla-модели-rt-1-rt-2-openvla-f1-vla-octo-smolvla)
+6. [Применения: манипуляция, навигация, автономные системы](#6-применения-манипуляция-навигация-автономные-системы)
+7. [Сравнение с другими подходами: RL, Imitation Learning](#7-сравнение-с-другими-подходами-rl-imitation-learning)
+8. [Реализация: примеры кода и использование](#8-реализация-примеры-кода-и-использование)
+9. [Связанные темы и источники](#9-связанные-темы-и-источники)
+10. [Как объяснить это 5-летнему ребёнку](#10-как-объяснить-это-5-летнему-ребёнку)
 
 ---
 
-### 1. Введение: что такое VLA модели и зачем они нужны
+## 1. Введение: что такое VLA модели и зачем они нужны
 
 **VLA (Vision-Language-Action)** модели — это новый класс AI систем, которые объединяют:
 - **Vision**: визуальное восприятие (изображения с камер робота)
@@ -63,19 +63,19 @@ updated: 2026-09-18
 
 **История:**
 - **2021-2022**: Первые попытки объединить vision-language для роботов
-- **2023**: RT-1, RT-2 (Google) — прорыв в масштабировании
-- **2024**: OpenVLA, F1-VLA — open-source альтернативы
-- **2024-2025**: Массовое распространение, fine-tuning на consumer GPU
+- **2022-2023**: RT-1 (декабрь 2022), RT-2 (2023) от Google — прорыв в масштабировании
+- **2024**: OpenVLA, Octo, π0 — open-source альтернативы
+- **2025-2026**: SmolVLA, F1-VLA, π0.5 и др.; массовое распространение, fine-tuning на consumer GPU
 
 ---
 
-### 2. Архитектура VLA: как объединяются Vision, Language и Action
+## 2. Архитектура VLA: как объединяются Vision, Language и Action
 
-#### 2.1. Общая архитектура
+### 2.1. Общая архитектура
 
 **Типичная VLA архитектура:**
 
-```
+```text
 [Изображения] → [Vision Encoder] ─┐
                                    ├→ [Fusion Layer] → [Action Decoder] → [Действия робота]
 [Текстовая инструкция] → [Language Encoder] ─┘
@@ -85,7 +85,7 @@ updated: 2026-09-18
 
 1. **Vision Encoder**: 
    - Извлекает визуальные признаки из изображений камер
-   - Обычно: ViT (Vision Transformer), ResNet, или комбинация (SigLIP + DinoV2)
+   - Обычно: ViT (Vision Transformer), ResNet, или комбинация (SigLIP + DINOv2)
 
 2. **Language Encoder**:
    - Кодирует текстовые инструкции
@@ -99,7 +99,7 @@ updated: 2026-09-18
    - Генерирует действия робота (позиции, скорости, захват)
    - Может быть: MLP head, Transformer decoder, или diffusion model
 
-#### 2.2. Математическая формулировка
+### 2.2. Математическая формулировка
 
 **Входы:**
 - Изображения: $I \in \mathbb{R}^{H \times W \times 3}$ (или последовательность изображений)
@@ -142,27 +142,27 @@ updated: 2026-09-18
    \mathbf{a} = \text{ActionDecoder}(\mathbf{h}) \in \mathbb{R}^{d_a}
    $$
 
-#### 2.3. Типы архитектур
+### 2.3. Типы архитектур
 
 **1. Autoregressive VLA:**
-- Генерируют действия последовательно (как языковые модели)
-- Пример: RT-1, RT-2
-- Формула: $p(\mathbf{a}_t | I, T, \mathbf{a}_{<t})$
+- Генерируют действия как дискретные токены последовательно (как языковые модели)
+- Пример: RT-1, RT-2, OpenVLA
+- Формула: $p(\mathbf{a}_t \mid I, T, \mathbf{a}_{\lt t})$
 
 **2. Diffusion-based VLA:**
 - Используют diffusion models для генерации действий
 - Пример: Octo, Diffusion Policy
 - Более плавные и естественные движения
 
-**3. Hybrid (Fusion + Decoder):**
-- Отдельные энкодеры + общий декодер
-- Пример: OpenVLA, F1-VLA
+**3. Hybrid (VLM-бэкбон + отдельный action expert):**
+- Предобученная VLM для восприятия и языка + отдельный модуль (flow matching / diffusion), генерирующий chunk непрерывных действий
+- Пример: π0, SmolVLA, F1-VLA
 
 ---
 
-### 3. Ключевые компоненты: энкодеры, проекторы, декодеры действий
+## 3. Ключевые компоненты: энкодеры, проекторы, декодеры действий
 
-#### 3.1. Vision Encoders
+### 3.1. Vision Encoders
 
 **Варианты:**
 
@@ -181,16 +181,16 @@ class ViTVisionEncoder(nn.Module):
         return features
 ```
 
-**2. SigLIP + DinoV2 (как в OpenVLA):**
+**2. SigLIP + DINOv2 (как в OpenVLA):**
 - **SigLIP**: Vision-language модель для понимания изображений
-- **DinoV2**: Self-supervised модель для детальных признаков
+- **DINOv2**: Self-supervised модель для детальных признаков
 - Комбинация даёт лучшее понимание сцены
 
 **3. ResNet-based:**
 - Классические CNN энкодеры
 - Быстрее, но менее гибкие
 
-#### 3.2. Language Encoders
+### 3.2. Language Encoders
 
 **Варианты:**
 
@@ -206,7 +206,7 @@ class LLMLanguageEncoder(nn.Module):
         
     def forward(self, text_tokens):
         # text_tokens: [B, seq_len]
-        outputs = self.llm.model(text_tokens)  # Используем только encoder
+        outputs = self.llm.model(text_tokens)  # Скрытые состояния decoder-only LLM без LM head
         return outputs.last_hidden_state  # [B, seq_len, hidden_dim]
 ```
 
@@ -214,7 +214,7 @@ class LLMLanguageEncoder(nn.Module):
 - Быстрее, но менее выразительные
 - Хорошо для простых инструкций
 
-#### 3.3. Fusion Layers
+### 3.3. Fusion Layers
 
 **Cross-Attention Fusion:**
 
@@ -267,7 +267,7 @@ class TransformerFusion(nn.Module):
         return fused
 ```
 
-#### 3.4. Action Decoders
+### 3.4. Action Decoders
 
 **1. MLP Head (простой):**
 
@@ -343,9 +343,9 @@ class DiffusionActionDecoder(nn.Module):
 
 ---
 
-### 4. Обучение VLA моделей: данные, loss функции, fine-tuning
+## 4. Обучение VLA моделей: данные, loss функции, fine-tuning
 
-#### 4.1. Данные для обучения
+### 4.1. Данные для обучения
 
 **Требования:**
 - **Много данных**: сотни тысяч или миллионы демонстраций
@@ -355,8 +355,8 @@ class DiffusionActionDecoder(nn.Module):
 **Примеры датасетов:**
 
 **1. Open X-Embodiment:**
-- 970k+ демонстраций
-- 25+ различных роботов
+- 1M+ траекторий (60 датасетов от 21 организации; OpenVLA обучен на подвыборке ~970k)
+- 22 различных робота (embodiments)
 - Множество задач (манипуляция, навигация)
 
 **2. RT-1 Dataset:**
@@ -365,27 +365,27 @@ class DiffusionActionDecoder(nn.Module):
 - Различные объекты и сцены
 
 **3. Bridge Dataset:**
-- 7k демонстраций
+- 7.2k демонстраций (Bridge Data, 2021); BridgeData V2 (2023) — 60k+
 - Сложные манипуляционные задачи
 
-#### 4.2. Loss функции
+### 4.2. Loss функции
 
 **1. Mean Squared Error (MSE) для действий:**
 
 $$
-\mathcal{L}_{\text{action}} = \frac{1}{N} \sum_{i=1}^{N} \|\mathbf{a}_i - \hat{\mathbf{a}}_i\|^2
+\mathcal{L}_{\text{action}} = \frac{1}{N} \sum_{i=1}^{N} \|\hat{\mathbf{a}}_i - \mathbf{a}_i\|^2
 $$
 
 где:
-- $\mathbf{a}_i$ — предсказанные действия
-- $\hat{\mathbf{a}}_i$ — целевые действия из демонстраций
+- $\hat{\mathbf{a}}_i$ — предсказанные действия
+- $\mathbf{a}_i$ — целевые действия из демонстраций
 
 **2. Smooth L1 Loss (для робототехники):**
 
 $$
 \mathcal{L}_{\text{smooth\_l1}} = \begin{cases}
-0.5 (\mathbf{a} - \hat{\mathbf{a}})^2 & \text{if } |\mathbf{a} - \hat{\mathbf{a}}| < 1 \\
-|\mathbf{a} - \hat{\mathbf{a}}| - 0.5 & \text{otherwise}
+0.5 (\hat{\mathbf{a}} - \mathbf{a})^2 & \text{if } |\hat{\mathbf{a}} - \mathbf{a}| < 1 \\
+|\hat{\mathbf{a}} - \mathbf{a}| - 0.5 & \text{otherwise}
 \end{cases}
 $$
 
@@ -403,7 +403,7 @@ $$
 
 где $\text{sim}(v, l)$ — косинусное сходство между vision и language представлениями.
 
-#### 4.3. Процесс обучения
+### 4.3. Процесс обучения
 
 **Этапы:**
 
@@ -442,7 +442,7 @@ def train_vla_model(model, dataloader, optimizer, num_epochs=10):
 - Fine-tune только последние слои или используем LoRA
 - Нужно гораздо меньше данных (сотни вместо миллионов)
 
-#### 4.4. Data Augmentation
+### 4.4. Data Augmentation
 
 **Важно для робототехники:**
 
@@ -464,9 +464,9 @@ def augment_robot_data(image, action):
 
 ---
 
-### 5. Современные VLA модели: RT-1, RT-2, OpenVLA, F1-VLA, Octo
+## 5. Современные VLA модели: RT-1, RT-2, OpenVLA, F1-VLA, Octo, SmolVLA
 
-#### 5.1. RT-1 (Robotic Transformer 1)
+### 5.1. RT-1 (Robotic Transformer 1)
 
 **Авторы:** Google (2022)
 
@@ -477,29 +477,29 @@ def augment_robot_data(image, action):
 - Высокая успешность на манипуляционных задачах
 
 **Архитектура:**
-- Vision: EfficientNet-B3
-- Language: SentencePiece tokenizer + embedding
-- Fusion: Transformer encoder
-- Action: MLP head для 7-DoF действий
+- Vision: EfficientNet-B3 с FiLM-кондиционированием на текст + TokenLearner (сжатие до 8 токенов)
+- Language: Universal Sentence Encoder (эмбеддинг инструкции)
+- Fusion: Transformer (decoder-only, 8 слоёв)
+- Action: дискретизация каждого измерения в 256 бинов; 11 измерений (7 — рука, 3 — база, 1 — режим)
 
 **Результаты:**
 - 97% успешность на обученных задачах
-- 76% на новых объектах
-- 69% на новых сценах
+- 76% на новых (unseen) задачах
+- 83% с отвлекающими объектами, 59% на новых фонах/сценах
 
-#### 5.2. RT-2 (Robotic Transformer 2)
+### 5.2. RT-2 (Robotic Transformer 2)
 
-**Авторы:** Google (2023)
+**Авторы:** Google DeepMind (2023)
 
 **Ключевые улучшения:**
-- Использует **pre-trained vision-language модель** (PaLM-E)
+- Использует **pre-trained vision-language модель** (PaLI-X, PaLM-E)
 - **Co-fine-tuning** на роботических данных
 - Лучшая генерализация на новые задачи
 
 **Архитектура:**
-- Vision-Language: PaLM-E (540B параметров)
-- Fine-tuning на роботических данных
-- Action head для генерации действий
+- Vision-Language: PaLI-X (55B) или PaLM-E (12B)
+- Co-fine-tuning на роботических данных (RT-1) вместе с web-данными
+- Действия выводятся **как текстовые токены** (256 бинов на измерение), отдельной action head нет
 
 **Результаты:**
 - 90%+ на обученных задачах
@@ -508,12 +508,14 @@ def augment_robot_data(image, action):
 
 **Формула:**
 $$
-\mathbf{a} = \text{ActionHead}(\text{PaLM-E}(I, T))
+\mathbf{a} = \text{Detokenize}(\text{VLM}(I, T))
 $$
 
-#### 5.3. OpenVLA
+где VLM (PaLI-X / PaLM-E) генерирует строку action-токенов, которая детокенизируется в вектор действия.
 
-**Авторы:** Open-source community (2024)
+### 5.3. OpenVLA
+
+**Авторы:** Stanford, UC Berkeley, TRI, Google DeepMind, MIT — Kim et al. (2024)
 
 **Ключевые особенности:**
 - **Полностью open-source** (код, веса, данные)
@@ -522,30 +524,33 @@ $$
 - **Превосходит RT-2-X на 16.5%** при меньшем размере
 
 **Архитектура:**
-- Vision: SigLIP + DinoV2 (fused encoder)
+- Vision: SigLIP + DINOv2 (fused encoder)
 - Language: LLaMA 2 7B (исторический backbone оригинального OpenVLA; более новые open VLA часто берут Llama 3 / Qwen2.5-VL class bases)
-- Fusion: Cross-attention
-- Action: MLP decoder
+- Fusion: визуальные патч-токены через MLP-проектор подаются в LLM одним потоком (Prismatic VLM)
+- Action: дискретные action-токены (256 бинов на измерение), генерируются LLM авторегрессивно
 
 **Преимущества:**
-- Можно fine-tune на consumer GPU (24GB+)
+- LoRA fine-tuning на одном A100 (в репозитории ~72 GB при batch 16, меньше — с gradient accumulation); 4-bit инференс на consumer GPU
 - Поддержка множества роботических платформ
 - Активное сообщество и документация
 
 **Использование:**
 ```python
-from openvla import OpenVLA
+from transformers import AutoModelForVision2Seq, AutoProcessor
 
-model = OpenVLA.from_pretrained("openvla/openvla-7b")
-action = model.predict(
-    image=camera_image,
-    instruction="pick up the red block"
-)
+processor = AutoProcessor.from_pretrained("openvla/openvla-7b", trust_remote_code=True)
+vla = AutoModelForVision2Seq.from_pretrained(
+    "openvla/openvla-7b", torch_dtype=torch.bfloat16, trust_remote_code=True
+).to("cuda")
+
+prompt = "In: What action should the robot take to pick up the red block?\nOut:"
+inputs = processor(prompt, camera_image).to("cuda", dtype=torch.bfloat16)
+action = vla.predict_action(**inputs, unnorm_key="bridge_orig", do_sample=False)
 ```
 
-#### 5.4. F1-VLA (Foresight-1 Vision-Language-Action)
+### 5.4. F1-VLA (F1: foresight-guided VLA)
 
-**Авторы:** 2024
+**Авторы:** InternRobotics / Shanghai AI Lab (2025)
 
 **Ключевая инновация:**
 - **Visual Foresight**: предсказывает будущие состояния
@@ -553,18 +558,18 @@ action = model.predict(
 - Лучше работает в динамических средах
 
 **Архитектура:**
-- Mixture-of-Transformer
-- Отдельные модули: Perception, Foresight, Control
-- 330k+ траекторий, 136 задач
+- Mixture-of-Transformer (~4B параметров)
+- Отдельные эксперты: Understanding (perception), Generation (foresight, next-scale prediction), Action (control)
+- 330k+ траекторий, 136 задач, трёхстадийное обучение
 
 **Формула:**
 $$
 \mathbf{a}_t = \text{Control}(\text{Foresight}(I_t, T), \text{Perception}(I_t))
 $$
 
-#### 5.5. Octo
+### 5.5. Octo
 
-**Авторы:** Open-source (2024)
+**Авторы:** Octo Model Team — UC Berkeley, Stanford, CMU, Google DeepMind (2024)
 
 **Ключевые особенности:**
 - **Diffusion-based** policy
@@ -573,9 +578,9 @@ $$
 - Гибкие task definitions (текст, goal images)
 
 **Архитектура:**
-- Vision: ViT encoder
-- Language: T5 encoder
-- Action: Diffusion decoder (1D UNet)
+- Vision: лёгкий свёрточный патч-энкодер → transformer backbone
+- Language: T5-base encoder
+- Action: diffusion head (MLP), предсказывает chunk действий
 
 **Преимущества:**
 - Плавные и естественные движения
@@ -584,17 +589,14 @@ $$
 
 **Использование:**
 ```python
-from octo.model.octo import OctoModel
+from octo.model.octo_model import OctoModel
 
-model = OctoModel.from_pretrained("octo-models/octo-base")
-action = model.sample_action(
-    image_obs=camera_image,
-    task="pick up the cup",
-    num_samples=1
-)
+model = OctoModel.load_pretrained("hf://rail-berkeley/octo-base-1.5")
+task = model.create_tasks(texts=["pick up the cup"])
+action = model.sample_actions(observation, task, rng=jax.random.PRNGKey(0))
 ```
 
-#### 5.6. SmolVLA
+### 5.6. SmolVLA
 
 **Авторы:** Hugging Face (2025)
 
@@ -619,45 +621,39 @@ action = model.sample_action(
 
 **Использование:**
 ```python
-from lerobot import SmolVLA
+from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
 # Загрузка модели
-model = SmolVLA.from_pretrained("lerobot/smolvla_base")
+policy = SmolVLAPolicy.from_pretrained("lerobot/smolvla_base")
 
-# Предсказание
-action = model.predict(
-    image=camera_image,
-    instruction="pick up the red block"
-)
+# Предсказание: batch = {"observation.images.*": ..., "observation.state": ..., "task": "pick up the red block"}
+action = policy.select_action(batch)  # внутри — chunk из n_action_steps действий
 
-# Asynchronous inference
-action_chunk = model.predict_async(
-    image=camera_image,
-    instruction="pick up the red block",
-    chunk_size=10  # Генерирует chunk из 10 действий
-)
+# Asynchronous inference: отдельный policy server + robot client
+# python -m lerobot.async_inference.policy_server ...
+# python -m lerobot.async_inference.robot_client --policy_type smolvla ...
 ```
 
 **GitHub:** [lerobot/smolvla](https://github.com/huggingface/lerobot)
 **Hugging Face:** [lerobot/smolvla_base](https://huggingface.co/lerobot/smolvla_base)
 **Статья:** [arXiv:2506.01844](https://arxiv.org/abs/2506.01844)
 
-#### 5.7. Сравнение моделей
+### 5.7. Сравнение моделей
 
 | Модель | Параметры | Данные | Архитектура | Open Source | Лучшее применение |
 |--------|-----------|--------|-------------|-------------|-------------------|
 | **SmolVLA** | **450M** | LeRobot | SmolVLM-2 + Flow-Matching | ✅ | **Эффективность, consumer hardware** |
 | RT-1 | ~35M | 130k | Transformer | ❌ | Манипуляция |
 | Octo | 27M-93M | 800k | Diffusion | ✅ | Плавные движения |
-| RT-2 | 540B (PaLM-E) | 130k | VL Model + Fine-tune | ❌ | Генерализация |
+| RT-2 | 12B (PaLM-E) / 55B (PaLI-X) | 130k + web | VL Model + Fine-tune | ❌ | Генерализация |
 | OpenVLA | 7B | 970k | Transformer | ✅ | Универсальность |
-| F1-VLA | ~1B | 330k | MoT + Foresight | ❓ | Динамические среды |
+| F1-VLA | ~4B | 330k | MoT + Foresight | ✅ | Динамические среды |
 
 ---
 
-### 6. Применения: манипуляция, навигация, автономные системы
+## 6. Применения: манипуляция, навигация, автономные системы
 
-#### 6.1. Манипуляция (Manipulation)
+### 6.1. Манипуляция (Manipulation)
 
 **Задачи:**
 - Pick and place
@@ -667,7 +663,7 @@ action_chunk = model.predict_async(
 
 **Пример:**
 ```python
-# Pick and place с OpenVLA
+# Pick and place с OpenVLA (псевдокод; реальный API — см. раздел 8.2)
 model = OpenVLA.from_pretrained("openvla/openvla-7b")
 
 while True:
@@ -681,7 +677,7 @@ while True:
         break
 ```
 
-#### 6.2. Навигация (Navigation)
+### 6.2. Навигация (Navigation)
 
 **Задачи:**
 - Движение к цели
@@ -693,7 +689,7 @@ while True:
 - Множественные камеры (front, back, side)
 - Инструкции: "go to the kitchen", "find the red door"
 
-#### 6.3. Автономные системы
+### 6.3. Автономные системы
 
 **Роботы-собаки (Quadruped):**
 - Ходьба, бег, прыжки
@@ -712,9 +708,9 @@ while True:
 
 ---
 
-### 7. Сравнение с другими подходами: RL, Imitation Learning
+## 7. Сравнение с другими подходами: RL, Imitation Learning
 
-#### 7.1. VLA vs Reinforcement Learning
+### 7.1. VLA vs Reinforcement Learning
 
 | Аспект | VLA | RL |
 |--------|-----|-----|
@@ -737,7 +733,7 @@ while True:
 - ✅ Можно экспериментировать
 - ✅ Уникальные задачи
 
-#### 7.2. VLA vs Imitation Learning
+### 7.2. VLA vs Imitation Learning
 
 **Imitation Learning (IL):**
 - Обучение только на демонстрациях
@@ -758,9 +754,9 @@ while True:
 
 ---
 
-### 8. Реализация: примеры кода и использование
+## 8. Реализация: примеры кода и использование
 
-#### 8.1. Простая VLA модель с нуля
+### 8.1. Простая VLA модель с нуля
 
 ```python
 import torch
@@ -817,102 +813,111 @@ class SimpleVLA(nn.Module):
         return actions
 ```
 
-#### 8.2. Использование OpenVLA
+### 8.2. Использование OpenVLA
 
 ```python
-# Установка
-# pip install openvla
+# Установка: pip install transformers timm tokenizers (см. github.com/openvla/openvla)
+import torch
+from PIL import Image
+from transformers import AutoModelForVision2Seq, AutoProcessor
 
-from openvla import OpenVLA
-import cv2
-
-# Загрузка модели
-model = OpenVLA.from_pretrained("openvla/openvla-7b")
+# Загрузка модели (веса на Hugging Face, код модели — через trust_remote_code)
+processor = AutoProcessor.from_pretrained("openvla/openvla-7b", trust_remote_code=True)
+vla = AutoModelForVision2Seq.from_pretrained(
+    "openvla/openvla-7b",
+    torch_dtype=torch.bfloat16,
+    low_cpu_mem_usage=True,
+    trust_remote_code=True,
+).to("cuda:0")
 
 # Загрузка изображения
-image = cv2.imread("robot_camera_view.jpg")
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+image = Image.open("robot_camera_view.jpg").convert("RGB")
 
 # Предсказание действия
 instruction = "pick up the red block and place it in the box"
-action = model.predict(
-    image=image,
-    instruction=instruction
-)
+prompt = f"In: What action should the robot take to {instruction}?\nOut:"
+inputs = processor(prompt, image).to("cuda:0", dtype=torch.bfloat16)
+action = vla.predict_action(**inputs, unnorm_key="bridge_orig", do_sample=False)
 
-# action: dict с ключами:
-# - 'position': [x, y, z]
-# - 'rotation': [qx, qy, qz, qw]
-# - 'gripper': 0.0 или 1.0
+# action: numpy array из 7 чисел (для Bridge): [dx, dy, dz, droll, dpitch, dyaw, gripper]
+# unnorm_key задаёт статистику денормализации под конкретного робота/датасет
 ```
 
-#### 8.3. Fine-tuning OpenVLA на новой задаче
+### 8.3. Fine-tuning OpenVLA на новой задаче
 
 ```python
-from openvla import OpenVLA
+# Официальный путь: torchrun vla-scripts/finetune.py --use_lora True --lora_rank 32 ...
+# Ниже — упрощённая схема того, что делает этот скрипт
+from transformers import AutoModelForVision2Seq, AutoProcessor
 from peft import LoraConfig, get_peft_model
 import torch
 
 # Загрузка базовой модели
-model = OpenVLA.from_pretrained("openvla/openvla-7b")
+processor = AutoProcessor.from_pretrained("openvla/openvla-7b", trust_remote_code=True)
+model = AutoModelForVision2Seq.from_pretrained(
+    "openvla/openvla-7b", torch_dtype=torch.bfloat16, trust_remote_code=True
+).to("cuda")
 
 # Применение LoRA для эффективного fine-tuning
 lora_config = LoraConfig(
-    r=8,
+    r=32,
     lora_alpha=16,
-    target_modules=["q_proj", "v_proj", "k_proj", "o_proj"],
-    lora_dropout=0.1,
+    target_modules="all-linear",
+    lora_dropout=0.0,
 )
 
 model = get_peft_model(model, lora_config)
 
-# Обучение на новых данных
-optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
+# Обучение на новых данных: OpenVLA предсказывает action-токены,
+# поэтому loss — next-token cross-entropy по токенам действия, а не MSE
+optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4)
 
 for epoch in range(10):
     for batch in train_dataloader:
-        images = batch['images']
-        instructions = batch['instructions']
-        target_actions = batch['actions']
-        
-        predicted_actions = model(images, instructions)
-        loss = F.mse_loss(predicted_actions, target_actions)
-        
+        # batch: pixel_values, input_ids (промпт + action-токены), labels (маска: loss только на action-токенах)
+        outputs = model(
+            input_ids=batch["input_ids"].to("cuda"),
+            attention_mask=batch["attention_mask"].to("cuda"),
+            pixel_values=batch["pixel_values"].to("cuda", dtype=torch.bfloat16),
+            labels=batch["labels"].to("cuda"),
+        )
+        loss = outputs.loss
+
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        
+
         print(f"Loss: {loss.item():.4f}")
 ```
 
-#### 8.4. Использование Octo
+### 8.4. Использование Octo
 
 ```python
-from octo.model.octo import OctoModel
+import jax
 import numpy as np
+from octo.model.octo_model import OctoModel
 
-# Загрузка модели
-model = OctoModel.from_pretrained("octo-models/octo-base")
+# Загрузка модели (JAX/Flax, веса на Hugging Face)
+model = OctoModel.load_pretrained("hf://rail-berkeley/octo-base-1.5")
 
-# Предсказание действия
-image_obs = np.random.rand(224, 224, 3)  # Изображение с камеры
-task = "pick up the cup"  # Текстовая инструкция
+# Наблюдение: [batch, window, H, W, 3] + маска временного окна
+image_obs = np.random.randint(0, 255, (1, 1, 256, 256, 3), dtype=np.uint8)
+observation = {"image_primary": image_obs, "timestep_pad_mask": np.array([[True]])}
 
-action = model.sample_action(
-    image_obs=image_obs,
-    task=task,
-    num_samples=1,
-    temperature=0.1
-)
+# Задача: текстовая инструкция (или goal image через create_tasks(goals=...))
+task = model.create_tasks(texts=["pick up the cup"])
 
-# action: numpy array с действиями робота
+# Сэмплирование chunk действий из diffusion head
+action = model.sample_actions(observation, task, rng=jax.random.PRNGKey(0))
+
+# action: array [batch, action_horizon, action_dim] с действиями робота
 ```
 
 ---
 
-### 9. Связанные темы и источники
+## 9. Связанные темы и источники
 
-#### 9.1. Связанные техники
+### 9.1. Связанные техники
 
 - **Vision-Language Models**: CLIP, BLIP, LLaVA — понимание изображений и текста
 - **Transformer Architecture**: основа многих VLA моделей
@@ -920,36 +925,38 @@ action = model.sample_action(
 - **Imitation Learning**: поведенческое клонирование, основа VLA
 - **Reinforcement Learning**: альтернативный подход к обучению роботов
 
-#### 9.2. Связанные документы
+### 9.2. Связанные документы
 
 - **[Deep Reinforcement Learning](../deep-reinforcement-learning/README.md)**: RL методы для роботов
 - **[Transformers, Attention and Vision Transformers](../transformers-attention-and-vision-transformers-vit/README.md)**: архитектура Transformer
 - **[Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md)**: эффективный fine-tuning VLA моделей
 
-#### 9.3. Ключевые статьи
+### 9.3. Ключевые статьи
 
 1. **RT-1: Robotics Transformer for Real-World Control at Scale** (2022)
    - Brohan et al., Google
    - [arXiv:2212.06817](https://arxiv.org/abs/2212.06817)
 
 2. **RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control** (2023)
-   - Brohan et al., Google
+   - Brohan et al., Google DeepMind
    - [arXiv:2307.15818](https://arxiv.org/abs/2307.15818)
 
 3. **OpenVLA: An Open-Source Vision-Language-Action Model** (2024)
-   - Kim et al.
+   - Kim et al., CoRL 2024
    - [arXiv:2406.09246](https://arxiv.org/abs/2406.09246)
    - [GitHub](https://github.com/openvla/openvla)
 
 4. **Octo: An Open-Source Generalist Robot Policy** (2024)
-   - Shafiullah et al.
-   - [arXiv:2409.10693](https://arxiv.org/abs/2409.10693)
+   - Octo Model Team (Ghosh, Walke, Pertsch et al.), RSS 2024
+   - [arXiv:2405.12213](https://arxiv.org/abs/2405.12213)
    - [GitHub](https://github.com/octo-models/octo)
 
-5. **F1-VLA: A Vision-Language-Action Model Bridging Understanding and Generation to Actions** (2024)
+5. **F1: A Vision-Language-Action Model Bridging Understanding and Generation to Actions** (2025)
+   - InternRobotics / Shanghai AI Lab
    - [arXiv:2509.06951](https://arxiv.org/abs/2509.06951)
+   - [GitHub](https://github.com/InternRobotics/F1-VLA)
 
-6. **Pure Vision Language Action (VLA) Models: A Comprehensive Survey** (2024)
+6. **Pure Vision Language Action (VLA) Models: A Comprehensive Survey** (2025)
    - [arXiv:2509.19012](https://arxiv.org/abs/2509.19012)
 
 7. **SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics** (2025)
@@ -959,22 +966,23 @@ action = model.sample_action(
    - [Hugging Face Model](https://huggingface.co/lerobot/smolvla_base)
    - [Website](https://smolvla.net/)
 
-#### 9.4. Датасеты
+### 9.4. Датасеты
 
 - **Open X-Embodiment**: крупнейший open-source датасет роботических демонстраций
 - **RT-1 Dataset**: 130k демонстраций от Google
-- **Bridge Dataset**: сложные манипуляционные задачи
+- **BridgeData V2**: 60k+ демонстраций, сложные манипуляционные задачи
 
-#### 9.5. Библиотеки и инструменты
+### 9.5. Библиотеки и инструменты
 
 - **OpenVLA**: [GitHub](https://github.com/openvla/openvla)
 - **Octo**: [GitHub](https://github.com/octo-models/octo)
+- **LeRobot (SmolVLA, π0, ACT, Diffusion Policy)**: [GitHub](https://github.com/huggingface/lerobot)
 - **Hugging Face**: модели и датасеты
 - **ROS (Robot Operating System)**: интеграция с роботами
 
 ---
 
-### 10. Как объяснить это 5‑летнему ребёнку
+## 10. Как объяснить это 5-летнему ребёнку
 
 **Представь, что у тебя есть робот-помощник, который умеет видеть, понимать слова и делать что-то.**
 
