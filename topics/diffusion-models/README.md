@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: diffusion-models
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Diffusion Models (диффузионные модели)
 

@@ -1093,6 +1093,48 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "type": "note",
     },
     # --- storyboards (auto) ---
+    "action-recognition-and-object-tracking-metrics/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: метрики MOT — MOTA, IDF1, HOTA",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа tracking-metrics-mota-idf1-hota: покадровое сопоставление детекций с GT-треками по IoU (TP / FN / FP / IDSW), чем MOTA отличается от IDF1 и как HOTA объединяет DetA и AssA с усреднением по порогам α."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/metrics",
+            "concept/tracking",
+        ],
+        "aliases": ["tracking-metrics-mota-idf1-hota", "MOT metrics storyboard"],
+        "related": [
+            "action-recognition-and-object-tracking-metrics",
+            "unscented-kalman-filter-and-tracking",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "agent-protocols-mcp-acp-ucp-and-harness/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: слои агентных протоколов и harness",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа agent-protocol-layers-and-harness: карта слоёв ACP / MCP / A2A / UCP вокруг агента, три примитива MCP и направление разговора, цикл agent harness с шагом verify."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/agents",
+            "concept/mcp",
+            "concept/harness",
+        ],
+        "aliases": ["agent-protocol-layers-and-harness"],
+        "related": [
+            "agent-protocols-mcp-acp-ucp-and-harness",
+            "code-agents-autoresearch-and-loopy-era",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
     "arcface-and-angular-margin-losses-for-identification/visualizations/hyperframes/storyboard": {
         "title": "Сториборд клипа: ArcFace — угловой margin на гиперсфере",
         "description": (
@@ -1114,6 +1156,69 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "note",
     },
+    "bayes-theorem-and-probability-foundations/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: теорема Байеса — от условной вероятности к posterior",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа bayes-theorem-total-probability: сужение Ω до B на кубике, формула полной вероятности на медицинском тесте и байесовское обновление prior 1% → posterior 16.7%."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/math",
+            "concept/probability",
+            "concept/bayes",
+        ],
+        "aliases": ["bayes-theorem-total-probability", "Bayes storyboard"],
+        "related": [
+            "bayes-theorem-and-probability-foundations",
+            "gaussian-distribution",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "classification-losses-cross-entropy-focal-loss/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Cross Entropy vs Focal Loss",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа cross-entropy-vs-focal-loss: логиты → softmax → −log p, кривые Focal Loss для γ = 0, 1, 2, 5 и α, когда выбирать CE, а когда Focal (RetinaNet, dense prediction)."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/loss",
+            "concept/classification",
+        ],
+        "aliases": ["cross-entropy-vs-focal-loss"],
+        "related": [
+            "classification-losses-cross-entropy-focal-loss",
+            "detection-segmentation-3d-losses",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "code-agents-autoresearch-and-loopy-era/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: агентный цикл с verification gate",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа code-agent-verification-loop: переход 80/20 → 20/80 и Ralph Loop, verification gate с тремя итерациями до done, agent harness и AutoResearch с evaluator."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/agents",
+            "concept/orchestration",
+            "concept/verification",
+        ],
+        "aliases": ["code-agent-verification-loop"],
+        "related": [
+            "code-agents-autoresearch-and-loopy-era",
+            "agent-protocols-mcp-acp-ucp-and-harness",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
     "contrastive-and-metric-learning-for-fine-grained-visual-recognition/visualizations/hyperframes/storyboard": {
         "title": "Сториборд клипа: contrastive / metric learning и triplet loss",
         "description": (
@@ -1129,6 +1234,321 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "aliases": ["metric learning storyboard", "contrastive_embedding_space"],
         "related": [
             "contrastive-and-metric-learning-for-fine-grained-visual-recognition",
+            "arcface-and-angular-margin-losses-for-identification",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "convolutions-and-parameters-in-cnn/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: свёртка 3×3 — размер карты, receptive field и параметры",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа convolution-3x3-receptive-field-params: окно 3×3 скользит по входу и формула размера feature map, две 3×3 вместо одной 5×5 (receptive field и 18 против 25 весов), подсчёт параметров Conv2d / depthwise / Linear."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/cnn",
+            "concept/convolution",
+        ],
+        "aliases": ["convolution-3x3-receptive-field-params"],
+        "related": [
+            "convolutions-and-parameters-in-cnn",
+            "normalization-layers-batchnorm-layernorm",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "decision-trees/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Деревья решений — Gini, IG и выбор разбиения",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа decision-tree-gini-split: примесь узла (Gini 0.32 / энтропия 0.72 бит), перебор порогов и Information Gain, рекурсия в дерево и ограничение глубины против переобучения."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/classical-ml",
+            "concept/decision-trees",
+        ],
+        "aliases": ["decision-tree-gini-split"],
+        "related": [
+            "decision-trees",
+            "ensemble-methods-model-combination",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "deep-reinforcement-learning/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Deep RL — цикл агент–среда, DQN vs policy gradient, PPO clip",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа rl-agent-environment-loop-ppo: цикл агент–среда и MDP с дисконтированным возвратом, value-based (DQN: target-сеть, replay buffer) против policy gradient (∇ log π · Â, actor-critic) и обрезанная целевая функция PPO с ε-трубкой [1−ε, 1+ε]."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/rl",
+            "concept/rl",
+            "concept/ppo",
+        ],
+        "aliases": ["Deep RL storyboard", "rl-agent-environment-loop-ppo"],
+        "related": [
+            "deep-reinforcement-learning",
+            "vision-language-action-models-vla",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "detection-segmentation-3d-losses/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: loss детекции и сегментации — IoU, GIoU, Dice",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа detection-losses-iou-giou-dice: составной loss детектора (CE/Focal + регрессия бокса), почему IoU-loss не даёт градиента без перекрытия и как его чинят GIoU/DIoU/CIoU, Dice и Tversky для масок сегментации."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/loss",
+            "concept/object-detection",
+        ],
+        "aliases": ["detection-losses-iou-giou-dice", "Detection losses storyboard"],
+        "related": [
+            "detection-segmentation-3d-losses",
+            "classification-losses-cross-entropy-focal-loss",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "diffusion-models/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Diffusion — прямой и обратный процесс",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа diffusion-forward-reverse-process: прямой процесс зашумления x_t = √ᾱ_t·x₀ + √(1−ᾱ_t)·ε, обратный процесс с сетью ε_θ и loss DDPM, ускорение через DDIM и latent diffusion."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/generative",
+            "concept/diffusion",
+            "concept/latent-diffusion",
+        ],
+        "aliases": ["diffusion-forward-reverse-process"],
+        "related": [
+            "diffusion-models",
+            "variational-autoencoders-vaes",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "dinov3-self-supervised-vision-transformer-and-2d-rope/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: DINOv3 — student–teacher без разметки и 2D RoPE",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа dino-student-teacher-2d-rope: self-supervised обучение student–teacher на глобальных и локальных кропах с EMA-teacher’ом и DINO-loss, 2D RoPE — вращение половин каналов Q и K на углы, пропорциональные координатам патча, и что дают глобальные и dense-фичи для классификации, детекции и сегментации."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/self-supervised",
+            "concept/rope",
+        ],
+        "aliases": ["dino-student-teacher-2d-rope"],
+        "related": [
+            "dinov3-self-supervised-vision-transformer-and-2d-rope",
+            "transformers-attention-and-vision-transformers-vit",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "embeddings-and-embedding-matrix/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: эмбеддинги — матрица E и lookup по ID",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа embedding-matrix-lookup: текст → токены → ID → строки матрицы E ∈ ℝ^{V×d} → тензор n×d в Transformer; косинусное сходство и карта кластеров; pooling (mean / [CLS] / last) в один вектор для RAG."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/nlp",
+            "domain/llm",
+            "concept/embeddings",
+        ],
+        "aliases": ["embedding-matrix-lookup"],
+        "related": [
+            "embeddings-and-embedding-matrix",
+            "tokenization-and-text-compression-in-llms",
+            "retrieval-augmented-generation-rag",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "ensemble-methods-model-combination/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Bagging, boosting, stacking",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа bagging-boosting-stacking: бутстрэп-выборки и усреднение независимых моделей (variance), последовательный gradient boosting по псевдо-остаткам (bias) и двухуровневый stacking с мета-моделью на OOF-предсказаниях."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/classical-ml",
+            "concept/ensemble",
+            "concept/boosting",
+        ],
+        "aliases": ["bagging-boosting-stacking"],
+        "related": [
+            "ensemble-methods-model-combination",
+            "decision-trees",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "few-shot-anomaly-detection-anomalydino/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: AnomalyDINO — патч-фичи DINOv2 и memory bank",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа anomalydino-patch-nn-memory-bank: memory bank из патч-фич DINOv2 без обучения, nearest-neighbour косинусное расстояние и anomaly map с маской, image score как среднее top-1 % расстояний и порог OK / defect."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/anomaly-detection",
+            "concept/few-shot",
+        ],
+        "aliases": ["anomalydino-patch-nn-memory-bank", "AnomalyDINO storyboard"],
+        "related": [
+            "few-shot-anomaly-detection-anomalydino",
+            "dinov3-self-supervised-vision-transformer-and-2d-rope",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "gaussian-distribution/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Гауссиана — PDF, правило 68-95-99.7 и многомерный случай",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа gaussian-pdf-and-multivariate: одномерная плотность и роль μ и σ, правило 68-95-99.7 со стандартизацией и CDF Φ(z), эллипсы равной плотности многомерной гауссианы и её роль в ML."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/math",
+            "domain/ml-foundations",
+            "concept/gaussian",
+        ],
+        "aliases": ["gaussian-pdf-and-multivariate"],
+        "related": [
+            "gaussian-distribution",
+            "diffusion-models",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "generative-adversarial-networks-gans/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: GAN — игра генератора и дискриминатора",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа gan-generator-discriminator-game: пайплайн z → G → G(z) и x → D → вероятность, минимаксный критерий с чередованием шагов D и G (non-saturating loss), движение p_g к p_data, mode collapse и стабилизация обучения (WGAN)."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/generative",
+            "concept/gan",
+            "concept/adversarial-training",
+        ],
+        "aliases": ["GAN storyboard", "gan-generator-discriminator-game"],
+        "related": [
+            "generative-adversarial-networks-gans",
+            "variational-autoencoders-vaes",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "how-models-predict-confidence-and-calibration/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: калибровка — softmax, reliability diagram, temperature scaling",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа softmax-calibration-temperature-scaling: overconfident softmax из логитов, reliability diagram с ECE и temperature scaling softmax(z/T), которое меняет уверенность, но не argmax."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/ml-foundations",
+            "concept/calibration",
+            "concept/confidence",
+        ],
+        "aliases": ["softmax-calibration-temperature-scaling"],
+        "related": [
+            "how-models-predict-confidence-and-calibration",
+            "roc-curve-and-roc-auc",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "hyperparameter-tuning/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Grid / Random → Bayesian → Hyperband",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа grid-random-bayesian-hyperband: grid vs random search на 2D-пространстве, суррогат + acquisition в Bayesian Optimization и раннее отсечение Successive Halving / Hyperband."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/mlops",
+            "concept/hyperparameter-tuning",
+            "concept/bayesian-optimization",
+        ],
+        "aliases": ["hyperparameter tuning storyboard", "grid-random-bayesian-hyperband"],
+        "related": [
+            "hyperparameter-tuning",
+            "bayes-theorem-and-probability-foundations",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "low-rank-adaptation-lora/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: LoRA — низкоранговая добавка ΔW = B·A",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа lora-low-rank-delta-w: заморозка W и разложение ΔW = B·A, экономия параметров и памяти (4096×4096, LLaMA-7B), прямой проход с α/r, слияние на инференсе и сменные адаптеры."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/llm",
+            "concept/peft",
+            "concept/lora",
+        ],
+        "aliases": ["lora-low-rank-delta-w", "LoRA storyboard"],
+        "related": [
+            "low-rank-adaptation-lora",
+            "transformers-attention-and-vision-transformers-vit",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "metric-learning-losses-and-miners/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: triplet loss и майнеры",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа metric-learning-losses-and-miners: якорь/positive/negative и triplet loss с margin, зоны easy / semi-hard / hard негативов, конвейер сэмплер P×K → майнер → лосс."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/metric-learning",
+            "concept/loss",
+        ],
+        "aliases": ["metric-learning-losses-and-miners", "triplet loss storyboard"],
+        "related": [
+            "metric-learning-losses-and-miners",
             "arcface-and-angular-margin-losses-for-identification",
         ],
         "status": "notes",
@@ -1156,6 +1576,48 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "note",
     },
+    "non-maximum-suppression-nms/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: NMS → Soft-NMS → NMS-free детекторы",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа nms-soft-nms-nms-free: greedy NMS на примере из README (сортировка по score, IoU > τ → удалить), Soft-NMS с линейным и гауссовым понижением score и NMS-free детекторы (DETR one-to-one matching, dual-head YOLOv10 → YOLO26)."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/nms",
+            "concept/object-detection",
+        ],
+        "aliases": ["NMS storyboard", "nms-soft-nms-nms-free"],
+        "related": [
+            "non-maximum-suppression-nms",
+            "sota-metrics-for-detection-segmentation-multiclass-classification",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "normalization-layers-batchnorm-layernorm/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: BatchNorm vs LayerNorm — по какой оси нормализуем",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа batchnorm-vs-layernorm-axes: тензор N × C как сетка и статистики BatchNorm по столбцу канала, LayerNorm по строке объекта независимо от батча, сравнение и RMSNorm в LLM."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/dl-foundations",
+            "concept/normalization",
+            "concept/batchnorm",
+        ],
+        "aliases": ["batchnorm-vs-layernorm-axes"],
+        "related": [
+            "normalization-layers-batchnorm-layernorm",
+            "transformers-attention-and-vision-transformers-vit",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
     "retrieval-augmented-generation-rag/visualizations/hyperframes/storyboard": {
         "title": "Сториборд клипа: RAG — индексация, retrieval, augmentation, generation",
         "description": (
@@ -1171,6 +1633,90 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "aliases": ["RAG storyboard", "rag_pipeline"],
         "related": [
             "retrieval-augmented-generation-rag",
+            "embeddings-and-embedding-matrix",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "roc-curve-and-roc-auc/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: ROC-кривая и ROC AUC — порог, кривая, площадь",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа roc-curve-threshold-sweep-auc: два холма скоров и движущийся порог t (TPR/FPR), прогон порогов рисует ROC-кривую с точкой Youden’s J, AUC как площадь и вероятность P(s(x⁺) > s(x⁻)), контраст с PR-кривой."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/ml-foundations",
+            "concept/metrics",
+            "concept/roc",
+        ],
+        "aliases": ["roc-curve-threshold-sweep-auc", "ROC AUC storyboard"],
+        "related": [
+            "roc-curve-and-roc-auc",
+            "how-models-predict-confidence-and-calibration",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "sota-metrics-for-detection-segmentation-multiclass-classification/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: COCO AP, mIoU, Top-1 и F1",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа coco-ap-miou-top1-f1: IoU-матчинг, PR-кривая и усреднение COCO AP по порогам IoU 0.50:0.95; per-class IoU и mIoU против pixel accuracy; матрица ошибок, Top-1/Top-5 и macro vs micro F1."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/metrics",
+            "concept/object-detection",
+        ],
+        "aliases": ["coco-ap-miou-top1-f1"],
+        "related": [
+            "sota-metrics-for-detection-segmentation-multiclass-classification",
+            "roc-curve-and-roc-auc",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "support-vector-machines-svm-and-kernel-trick/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: SVM — максимальный запас и kernel trick",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа svm-margin-and-kernel-trick: разделяющая гиперплоскость с максимальным запасом 2/‖w‖ и опорные векторы, soft margin со slack ξ и компромиссом C, kernel trick — отображение φ и ядро k(x, x′) без явного φ."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/classical-ml",
+            "concept/svm",
+            "concept/kernel-methods",
+        ],
+        "aliases": ["SVM storyboard", "svm-margin-and-kernel-trick"],
+        "related": [
+            "support-vector-machines-svm-and-kernel-trick",
+            "decision-trees",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "tokenization-and-text-compression-in-llms/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: BPE — как токенизатор учит словарь и сжимает текст",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа bpe-tokenization-merges: текст → токены → ID → строка матрицы эмбеддингов и почему это сжатие; обучение BPE — частоты соседних пар и четыре слияния; кодирование нового слова выученными merges, компромисс размера словаря и byte-level BPE."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/nlp",
+            "domain/llm",
+            "concept/bpe",
+        ],
+        "aliases": ["BPE storyboard", "bpe-tokenization-merges"],
+        "related": [
+            "tokenization-and-text-compression-in-llms",
             "embeddings-and-embedding-matrix",
         ],
         "status": "notes",
@@ -1198,6 +1744,69 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "lang": "ru",
         "type": "note",
     },
+    "triton-inference-server-and-gpu-model-serving/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: Triton — dynamic batching и concurrent models",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа triton-dynamic-batching-concurrent-models: сбор запросов в батч, несколько моделей на одной GPU и устройство model repository с endpoints."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/mlops",
+            "concept/model-serving",
+            "concept/triton",
+        ],
+        "aliases": ["triton-dynamic-batching-concurrent-models", "Triton storyboard"],
+        "related": [
+            "triton-inference-server-and-gpu-model-serving",
+            "ml-system-design-for-cv-and-nlp",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "unscented-kalman-filter-and-tracking/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: UKF — sigma points, predict и update",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа ukf-sigma-points-predict-update: почему KF/EKF ломаются на нелинейности, как sigma points заменяют якобиан, шаги predict и update с χ²-гейтом в трекинге."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/cv",
+            "concept/kalman-filter",
+            "concept/tracking",
+        ],
+        "aliases": ["UKF storyboard", "ukf-sigma-points-predict-update"],
+        "related": [
+            "unscented-kalman-filter-and-tracking",
+            "action-recognition-and-object-tracking-metrics",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "variational-autoencoders-vaes/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: VAE — encoder, репараметризация и ELBO",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа vae-encoder-decoder-reparameterization: encoder выдаёт распределение (μ, σ), reparameterization trick z = μ + σ·ε, ELBO и генерация из prior N(0, I) с интерполяцией."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/generative",
+            "concept/vae",
+            "concept/elbo",
+        ],
+        "aliases": ["VAE storyboard", "vae-encoder-decoder-reparameterization"],
+        "related": [
+            "variational-autoencoders-vaes",
+            "diffusion-models",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
     "video-codecs-h264-h265-and-gpu-decode/visualizations/hyperframes/storyboard": {
         "title": "Сториборд клипа: видеокодеки — intra, inter и GOP из I/P/B",
         "description": (
@@ -1213,6 +1822,48 @@ NOTE_METADATA: dict[str, TopicMeta] = {
         "related": [
             "video-codecs-h264-h265-and-gpu-decode",
             "ml-system-design-for-cv-and-nlp",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "vision-based-robot-training-methods/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: обучение робота по камере — IL, RL и VLA",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа robot-learning-il-rl-vla: петля камера-политика-действие и imitation learning, RL в симуляторе с sim-to-real и domain randomization, VLA на данных многих роботов."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/robotics",
+            "concept/imitation-learning",
+            "concept/sim-to-real",
+        ],
+        "aliases": ["robot-learning-il-rl-vla", "robot training storyboard"],
+        "related": [
+            "vision-based-robot-training-methods",
+            "vision-language-action-models-vla",
+        ],
+        "status": "notes",
+        "lang": "ru",
+        "type": "note",
+    },
+    "vision-language-action-models-vla/visualizations/hyperframes/storyboard": {
+        "title": "Сториборд клипа: VLA — от кадра и инструкции к действию робота",
+        "description": (
+            "Сториборд и команды сборки HyperFrames-клипа vla-vision-language-action-pipeline: входные токены кадра и инструкции, два типа action head (дискретные токены и chunk непрерывных действий), замкнутый цикл и данные для обучения."
+        ),
+        "tags": [
+            "kb/note",
+            "kb/visualization",
+            "domain/robotics",
+            "domain/multimodal",
+            "concept/vla",
+        ],
+        "aliases": ["vla-vision-language-action-pipeline", "VLA storyboard"],
+        "related": [
+            "vision-language-action-models-vla",
+            "vision-based-robot-training-methods",
         ],
         "status": "notes",
         "lang": "ru",

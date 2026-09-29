@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: tokenization-and-text-compression-in-llms
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Токенизация и сжатие текста в LLM
 

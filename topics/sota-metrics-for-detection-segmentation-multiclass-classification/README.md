@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: sota-metrics-for-detection-segmentation-multiclass-classification
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # SOTA-метрики и протоколы оценки для детекции, сегментации и мультиклассовой классификации
 

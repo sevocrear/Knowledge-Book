@@ -21,7 +21,7 @@ status: canonical
 lang: ru
 type: topic
 slug: support-vector-machines-svm-and-kernel-trick
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Support Vector Machines (SVM) и Kernel Trick
 

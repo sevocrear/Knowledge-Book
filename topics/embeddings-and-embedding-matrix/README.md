@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: embeddings-and-embedding-matrix
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Эмбеддинги и матрица эмбеддингов
 

@@ -14,4 +14,5 @@ updated: 2026-09-29
 ## Заметки
 
 - [Свёртки в CNN, размеры карт признаков и число параметров](../../topics/convolutions-and-parameters-in-cnn/README.md) — Почему популярны ядра 3×3, формулы размера feature map, transposed conv и подсчёт параметров Conv/Linear/BatchNorm/depthwise.
+- [Сториборд клипа: свёртка 3×3 — размер карты, receptive field и параметры](../../topics/convolutions-and-parameters-in-cnn/visualizations/hyperframes/storyboard.md) — Сториборд и команды сборки HyperFrames-клипа convolution-3x3-receptive-field-params: окно 3×3 скользит по входу и формула размера feature map, две 3×3 вместо одной 5×5 (receptive field и 18 против 25 весов), подсчёт параметров Conv2d / depthwise / Linear.
 

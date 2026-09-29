@@ -24,7 +24,7 @@ status: canonical
 lang: ru
 type: topic
 slug: code-agents-autoresearch-and-loopy-era
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Code Agents, AutoResearch и Loopy Era
 

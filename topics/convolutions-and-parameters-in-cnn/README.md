@@ -21,7 +21,7 @@ status: canonical
 lang: ru
 type: topic
 slug: convolutions-and-parameters-in-cnn
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Свёртки в CNN, размеры карт признаков и число параметров
 

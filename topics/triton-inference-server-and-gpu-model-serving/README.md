@@ -26,7 +26,7 @@ status: canonical
 lang: ru
 type: topic
 slug: triton-inference-server-and-gpu-model-serving
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Triton Inference Server и развёртывание моделей на 1–N GPU
 

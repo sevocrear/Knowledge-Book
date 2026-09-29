@@ -24,7 +24,7 @@ status: canonical
 lang: ru
 type: topic
 slug: vision-language-action-models-vla
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Модели Vision-Language-Action (VLA)
 

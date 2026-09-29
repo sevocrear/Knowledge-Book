@@ -20,7 +20,7 @@ status: canonical
 lang: ru
 type: topic
 slug: gaussian-distribution
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Гауссово Распределение (Normal Distribution): Основы
 

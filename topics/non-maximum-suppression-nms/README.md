@@ -24,7 +24,7 @@ status: canonical
 lang: ru
 type: topic
 slug: non-maximum-suppression-nms
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Non-Maximum Suppression (NMS) и Современные End-to-End Детекторы
 

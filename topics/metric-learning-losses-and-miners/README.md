@@ -26,7 +26,7 @@ status: canonical
 lang: ru
 type: topic
 slug: metric-learning-losses-and-miners
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Лоссы metric learning и подбор майнеров
 

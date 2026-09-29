@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: low-rank-adaptation-lora
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Low-Rank Adaptation (LoRA)
 

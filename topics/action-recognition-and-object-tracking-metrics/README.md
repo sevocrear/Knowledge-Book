@@ -24,7 +24,7 @@ status: canonical
 lang: ru
 type: topic
 slug: action-recognition-and-object-tracking-metrics
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Метрики оценки Action Recognition и Object Tracking
 
