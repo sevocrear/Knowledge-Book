@@ -1,21 +1,19 @@
 ---
-title: "Тег: kb/note"
-description: Заметки с тегом kb/note в книге знаний.
+title: "Тег: kb/visualization"
+description: Заметки с тегом kb/visualization в книге знаний.
 tags:
-  - kb/note
+  - kb/visualization
   - kb/tag-page
 type: index
 status: canonical
 updated: 2026-09-29
 ---
 
-# Тег `kb/note`
+# Тег `kb/visualization`
 
 ## Заметки
 
 - [Сториборд клипа: ArcFace — угловой margin на гиперсфере](../../topics/arcface-and-angular-margin-losses-for-identification/visualizations/hyperframes/storyboard.md) — Сториборд и команды сборки HyperFrames-клипа arcface_angular_margin: единичная сфера и угол θ, что делает additive angular margin m, компактные классы с зазором и сравнение SphereFace / CosFace / ArcFace.
-- [AI Harness Engineering (Tejas, IBM)](../../topics/code-agents-autoresearch-and-loopy-era/ai-harness-engineering-tejas-ibm.md) — Конспект про harness engineering: guardrails, verify step и почему обвязка агента важнее одного удачного промпта.
-- [Stop Babysitting Your Agents (Claude Code)](../../topics/code-agents-autoresearch-and-loopy-era/stop-babysitting-your-agents-claude-code.md) — Конспект про verification skills, /loop и Routines в Claude Code: как меньше babysit'ить агентов и больше опираться на verify-циклы.
 - [Сториборд клипа: contrastive / metric learning и triplet loss](../../topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/visualizations/hyperframes/storyboard.md) — Сториборд и команды сборки HyperFrames-клипа contrastive_embedding_space: зачем эмбеддинги вместо классификатора, triplet loss с margin и semi-hard mining, кластеры, поиск ближайших соседей и порог τ в проде.
 - [Сториборд клипа: serving — закон очередей, балансировщик, dynamic batching](../../topics/ml-system-design-for-cv-and-nlp/visualizations/hyperframes/storyboard.md) — Сториборд и команды сборки HyperFrames-клипа serving-load-balancer-batching: ρ = λ/μ на 100 и 1000 клиентов, реплики за балансировщиком с автоскейлом по очереди, dynamic batching на GPU-ноде.
 - [Сториборд клипа: RAG — индексация, retrieval, augmentation, generation](../../topics/retrieval-augmented-generation-rag/visualizations/hyperframes/storyboard.md) — Сториборд и команды сборки HyperFrames-клипа rag_pipeline: почему не просто LLM, offline-индексация документов в vector store, online-поиск Top-K чанков, промпт с контекстом и ответ с источниками.

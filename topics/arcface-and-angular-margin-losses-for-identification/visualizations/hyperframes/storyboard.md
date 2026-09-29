@@ -1,19 +1,22 @@
 ---
 title: "Сториборд клипа: ArcFace — угловой margin на гиперсфере"
-description: "Сториборд и команды сборки HyperFrames-клипа arcface_angular_margin: три сцены про единичную сферу, additive angular margin и итоговую геометрию классов."
+description: "Сториборд и команды сборки HyperFrames-клипа arcface_angular_margin: единичная сфера и угол θ, что делает additive angular margin m, компактные классы с зазором и сравнение SphereFace / CosFace / ArcFace."
 tags:
   - kb/note
   - kb/visualization
   - domain/cv
   - concept/metric-learning
+  - concept/face-recognition
 aliases:
-  - arcface_angular_margin storyboard
+  - ArcFace storyboard
+  - arcface_angular_margin
 related:
   - arcface-and-angular-margin-losses-for-identification
+  - contrastive-and-metric-learning-for-fine-grained-visual-recognition
 status: notes
 lang: ru
 type: note
-slug: arcface-angular-margin-storyboard
+slug: arcface-and-angular-margin-losses-for-identification/visualizations/hyperframes/storyboard
 updated: 2026-09-29
 ---
 # ArcFace: угловой margin на гиперсфере — сториборд

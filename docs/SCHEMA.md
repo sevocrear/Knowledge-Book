@@ -7,7 +7,7 @@ tags:
 status: canonical
 lang: ru
 type: schema
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 
 # Схема Obsidian frontmatter

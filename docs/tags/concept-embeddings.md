@@ -6,7 +6,7 @@ tags:
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 
 # Тег `concept/embeddings`
@@ -17,4 +17,5 @@ updated: 2026-09-18
 - [Contrastive и metric learning для fine-grained распознавания](../../topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md) — Contrastive/triplet/InfoNCE и proxy losses для fine-grained retrieval: mining, Recall@K, ANN-индексы и continual learning новых классов.
 - [Эмбеддинги и матрица эмбеддингов](../../topics/embeddings-and-embedding-matrix/README.md) — Векторные представления токенов, матрица эмбеддингов V×d, lookup по ID и роль эмбеддингов в Transformer и RAG.
 - [Лоссы metric learning и подбор майнеров](../../topics/metric-learning-losses-and-miners/README.md) — Каталог лоссов metric learning (contrastive, triplet, N-pair, Multi-Similarity, Circle, InfoNCE/SupCon, Proxy-NCA/Anchor, SoftTriple, ArcFace/CosFace/AdaFace): формулы, интуиция, какие майнеры к какому лоссу и когда что выбирать.
+- [Сториборд клипа: RAG — индексация, retrieval, augmentation, generation](../../topics/retrieval-augmented-generation-rag/visualizations/hyperframes/storyboard.md) — Сториборд и команды сборки HyperFrames-клипа rag_pipeline: почему не просто LLM, offline-индексация документов в vector store, online-поиск Top-K чанков, промпт с контекстом и ответ с источниками.
 

@@ -6,7 +6,7 @@ tags:
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 
 # Тег `concept/segmentation`

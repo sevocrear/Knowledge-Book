@@ -31,7 +31,7 @@ status: canonical
 lang: ru
 type: topic
 slug: ml-system-design-for-cv-and-nlp
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # System Design для Computer Vision и NLP
 

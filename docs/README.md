@@ -11,7 +11,7 @@ aliases:
 status: canonical
 lang: ru
 type: index
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 
 # Документация Knowledge Book
