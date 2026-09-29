@@ -294,6 +294,12 @@ $$
 - DeConv — это волшебная лупа: из маленькой картинки делает большую и старается красиво дорисовать детали.
 - Число параметров — это сколько ручек‑крутилок у модели. В свёртке мы просто считаем, сколько чисел в каждом фильтре, и умножаем на количество фильтров.
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — окно 3×3 скользит по входу 6×6 и формула размера feature map (padding = 1 сохраняет размер, stride = 2 уменьшает вдвое); сцена 2 — две 3×3 подряд дают receptive field 5×5 за 18 весов вместо 25; сцена 3 — подсчёт параметров Conv2d(4, 5, 3) = 185 и формулы для depthwise / pointwise / Linear / BatchNorm.
+
+![Свёртка 3×3: размер карты признаков, receptive field и число параметров](./assets/visualizations/convolution-3x3-receptive-field-params.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/convolution-3x3-receptive-field-params.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## 8. Источники
