@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; font-size: 28px; }
+  #s2-c2 { left: 1060px; top: 214px; width: 700px; font-size: 28px; }
+  #s2-c2 .li { padding: 4px 0; }
+  #s2-c3 { left: 1060px; top: 462px; width: 700px; font-size: 28px; }
+  #s2-c3 .li { padding: 2px 0; }
+  .card .k { color: #f0f4ff; font-weight: 600; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Что добавляет verification gate?</div></div>
+    <div class="badge">Knowledge Book · Code agents</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <defs>
+          <marker id="s2-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+          <marker id="s2-ah-r" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#ff4d6d"/></marker>
+        </defs>
+        <!-- implement / fix -->
+        <g id="s2-impl" opacity="0">
+          <rect x="20" y="92" width="230" height="60" rx="12" fill="#161a24" stroke="#4a9eff" stroke-width="3"/>
+          <text x="135" y="130" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">implement / fix</text>
+        </g>
+        <line id="s2-ar1" x1="254" y1="122" x2="292" y2="122" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s2-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <!-- gate -->
+        <g id="s2-gate" opacity="0">
+          <rect x="300" y="52" width="400" height="140" rx="14" fill="#161a24" stroke="#ff7a2f" stroke-width="3"/>
+          <text x="500" y="82" text-anchor="middle" fill="#ff7a2f" font-size="22" font-weight="700" letter-spacing="1">VERIFICATION GATE</text>
+          <circle cx="350" cy="122" r="14" fill="#2a3140"/><circle cx="450" cy="122" r="14" fill="#2a3140"/><circle cx="550" cy="122" r="14" fill="#2a3140"/><circle cx="650" cy="122" r="14" fill="#2a3140"/>
+          <text x="350" y="172" text-anchor="middle" fill="#aab3c2" font-size="20">tests</text>
+          <text x="450" y="172" text-anchor="middle" fill="#aab3c2" font-size="20">lint</text>
+          <text x="550" y="172" text-anchor="middle" fill="#aab3c2" font-size="20">types</text>
+          <text x="650" y="172" text-anchor="middle" fill="#aab3c2" font-size="20">perf</text>
+        </g>
+        <g id="s2-lamps"></g>
+        <line id="s2-ar2" x1="704" y1="122" x2="748" y2="122" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s2-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s2-done" opacity="0.3">
+          <rect x="756" y="92" width="204" height="60" rx="12" fill="rgba(61,186,122,0.14)" stroke="#3dba7a" stroke-width="3"/>
+          <text x="858" y="131" text-anchor="middle" fill="#3dba7a" font-size="26" font-weight="700">done ✓</text>
+        </g>
+        <!-- возврат fail → fix -->
+        <path id="s2-ret" d="M 500 194 L 500 250 L 135 250 L 135 160" fill="none" stroke="#ff4d6d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#s2-ah-r)" stroke-dasharray="0 9999" opacity="0"/>
+        <text id="s2-ret-lbl" x="318" y="240" fill="#ff4d6d" font-size="22" font-weight="700" opacity="0">fail → fix</text>
+        <!-- бегущий запрос -->
+        <circle id="s2-dot" cx="135" cy="122" r="12" fill="#4a9eff" stroke="#f0f4ff" stroke-width="3" opacity="0"/>
+        <!-- журнал итераций -->
+        <text id="s2-log-hd" x="20" y="300" fill="#aab3c2" font-size="22" font-weight="600" opacity="0">ЖУРНАЛ ИТЕРАЦИЙ</text>
+        <g id="s2-row1" opacity="0">
+          <text x="20" y="348" fill="#f0f4ff" font-size="26" font-weight="700">итерация 1</text>
+          <circle cx="220" cy="339" r="10" fill="#ff4d6d"/><circle cx="252" cy="339" r="10" fill="#2a3140"/><circle cx="284" cy="339" r="10" fill="#2a3140"/><circle cx="316" cy="339" r="10" fill="#2a3140"/>
+          <text x="350" y="348" fill="#e6ebf5" font-size="24">tests <tspan fill="#ff4d6d" font-weight="700">✗</tspan> → fix</text>
+        </g>
+        <g id="s2-row2" opacity="0">
+          <text x="20" y="428" fill="#f0f4ff" font-size="26" font-weight="700">итерация 2</text>
+          <circle cx="220" cy="419" r="10" fill="#3dba7a"/><circle cx="252" cy="419" r="10" fill="#ff4d6d"/><circle cx="284" cy="419" r="10" fill="#2a3140"/><circle cx="316" cy="419" r="10" fill="#2a3140"/>
+          <text x="350" y="428" fill="#e6ebf5" font-size="24">tests <tspan fill="#3dba7a" font-weight="700">✓</tspan> · lint <tspan fill="#ff4d6d" font-weight="700">✗</tspan> → fix</text>
+        </g>
+        <g id="s2-row3" opacity="0">
+          <text x="20" y="508" fill="#f0f4ff" font-size="26" font-weight="700">итерация 3</text>
+          <circle cx="220" cy="499" r="10" fill="#3dba7a"/><circle cx="252" cy="499" r="10" fill="#3dba7a"/><circle cx="284" cy="499" r="10" fill="#3dba7a"/><circle cx="316" cy="499" r="10" fill="#3dba7a"/>
+          <text x="350" y="508" fill="#e6ebf5" font-size="24">все gates <tspan fill="#3dba7a" font-weight="700">✓</tspan> → <tspan fill="#3dba7a" font-weight="700">done</tspan></text>
+        </g>
+        <g id="s2-guard" opacity="0">
+          <rect x="20" y="560" width="940" height="56" rx="12" fill="rgba(180,140,230,0.12)" stroke="#b48ce6" stroke-width="3" stroke-dasharray="12 8"/>
+          <text x="490" y="596" text-anchor="middle" fill="#b48ce6" font-size="21" font-weight="700">guardrails: max iterations · completion signal · human approve</text>
+        </g>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Test-gated loop</div>
+        <div>Выход из цикла только при <span class="g">green quality gates</span>: <span class="k">tests, lint, type checks, perf budget</span></div></div>
+      <div id="s2-c2" class="card"><div class="h">Objective — верифицируемо</div>
+        <div class="li"><span class="r">✗</span> «Сделай лучше»</div>
+        <div class="li"><span class="g">✓</span> «Уменьши p95 latency на 20 % без регрессии test-suite»</div></div>
+      <div id="s2-c3" class="card"><div class="h">Guardrails</div>
+        <div class="li"><span class="k">max iterations</span> — лимит попыток</div>
+        <div class="li"><span class="k">completion signal</span> — чёткий критерий done</div>
+        <div class="li"><span class="k">human approve</span> — prod, security-critical</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap"><b class="o">Verification gate</b>: после правки код проходит tests, lint, type checks, perf budget — тот же цикл проверки, что у человека</div>
+      <div id="s2-cap2" class="cap">Красный gate возвращает агента на <b class="b">fix</b>. Человек не в середине цикла: он задал objective и guardrails</div>
+      <div id="s2-cap3" class="cap">Objective — верифицируемо: «сделай лучше» — <b class="r">плохо</b>; «p95 latency −20 % без регрессии test-suite» — <b class="g">хорошо</b></div>
+      <div id="s2-cap4" class="cap">Только все gates зелёные → <b class="g">done</b>. Guardrails: <b>max iterations</b> и чёткий completion signal, иначе loop блуждает</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Лампы gate: красный/зелёный слой поверх серой базы, переключаются opacity.
+    const lampX = [350, 450, 550, 650];
+    const gL = document.getElementById("s2-lamps");
+    lampX.forEach((x, i) => {
+      [["r", "#ff4d6d"], ["g", "#3dba7a"]].forEach(([k, color]) => {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("id", `s2-l${i + 1}${k}`); c.setAttribute("cx", x); c.setAttribute("cy", 122); c.setAttribute("r", "14");
+        c.setAttribute("fill", color); c.setAttribute("opacity", "0"); gL.appendChild(c);
+      });
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const lamp = (i, k, t) => tl.fromTo(`#s2-l${i}${k}`, { opacity: 0 }, { opacity: 1, duration: 0.25 }, t);
+    const lampOff = (i, k, t) => tl.to(`#s2-l${i}${k}`, { opacity: 0, duration: 0.2 }, t);
+    // Запрос: implement → gate (t), затем возврат по красной стрелке (t0) или к done.
+    const toGate = (t) => tl.to("#s2-dot", { attr: { cx: 500, cy: 122 }, duration: 0.7, ease: "power2.inOut" }, t);
+    const back = (t) => {
+      tl.to("#s2-dot", { attr: { cx: 500, cy: 250 }, duration: 0.3, ease: "power1.in" }, t);
+      tl.to("#s2-dot", { attr: { cx: 135, cy: 250 }, duration: 0.6, ease: "none" }, t + 0.3);
+      tl.to("#s2-dot", { attr: { cx: 135, cy: 122 }, duration: 0.3, ease: "power1.out" }, t + 0.9);
+    };
+
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-impl", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+    tl.fromTo("#s2-ar1", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "38 9999" }, duration: 0.35, ease: "power2.inOut" }, 0.6);
+    tl.fromTo("#s2-gate", { opacity: 0, scale: 0.92, svgOrigin: "500 122" }, { opacity: 1, scale: 1, svgOrigin: "500 122", duration: 0.5, ease: "back.out(1.4)" }, 0.8);
+    tl.fromTo("#s2-ar2", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "44 9999" }, duration: 0.35, ease: "power2.inOut" }, 1.2);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 0.9);
+    tl.fromTo("#s2-log-hd", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.4);
+    cap("#s2-cap1", 0.6, 4.4);
+    // Итерация 1: tests ✗
+    tl.fromTo("#s2-dot", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.5);
+    toGate(1.7);
+    lamp(1, "r", 2.5);
+    tl.fromTo("#s2-row1", { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 2.7);
+    tl.fromTo("#s2-ret", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "511 9999" }, duration: 0.8, ease: "power2.inOut" }, 2.8);
+    tl.fromTo("#s2-ret-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.4);
+    back(3.2);
+    lampOff(1, "r", 4.3);
+    // Итерация 2: tests ✓, lint ✗
+    cap("#s2-cap2", 4.6, 8.4);
+    toGate(4.8);
+    lamp(1, "g", 5.6); lamp(2, "r", 5.85);
+    tl.fromTo("#s2-row2", { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 6.0);
+    back(6.3);
+    lampOff(1, "g", 7.4); lampOff(2, "r", 7.4);
+    // Objective
+    cap("#s2-cap3", 8.6, 11.8);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.8);
+    // Итерация 3: все ✓ → done
+    toGate(9.0);
+    lamp(1, "g", 9.8); lamp(2, "g", 10.05); lamp(3, "g", 10.3); lamp(4, "g", 10.55);
+    tl.fromTo("#s2-row3", { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 10.7);
+    tl.to("#s2-ret", { opacity: 0.3, duration: 0.4 }, 10.8); tl.to("#s2-ret-lbl", { opacity: 0.3, duration: 0.4 }, 10.8);
+    tl.to("#s2-dot", { attr: { cx: 858, cy: 122 }, duration: 0.7, ease: "power2.inOut" }, 11.0);
+    tl.to("#s2-done", { opacity: 1, duration: 0.4 }, 11.5);
+    tl.to("#s2-dot", { opacity: 0, duration: 0.3 }, 11.7);
+    tl.fromTo("#s2-done", { scale: 1, svgOrigin: "858 122" }, { scale: 1.06, svgOrigin: "858 122", duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, 11.5);
+    // Guardrails
+    cap("#s2-cap4", 12.0, 14.55);
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 12.2);
+    tl.fromTo("#s2-guard", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 12.4);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 14.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s1-c1 .code { display: block; margin-top: 6px; padding: 12px 18px; border-radius: 12px; background: #0f1117; border: 1px solid #2a3140;
+    font-family: monospace; font-size: 25px; color: #ff7a2f; white-space: nowrap; }
+  #s1-c2 { left: 1060px; top: 300px; width: 700px; font-size: 28px; }
+  #s1-c2 .li { padding: 3px 0; }
+  #s1-c2 .li .k { color: #f0f4ff; font-weight: 600; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Что такое агентный цикл?</div></div>
+    <div class="badge">Knowledge Book · Code agents</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <defs>
+          <marker id="s1-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+          <marker id="s1-ah-g" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#3dba7a"/></marker>
+        </defs>
+        <!-- роль инженера: 80/20 → 20/80 -->
+        <g id="s1-role" opacity="0">
+          <text x="0" y="26" fill="#aab3c2" font-size="24">роль инженера: доля ручного кода</text>
+          <rect id="s1-bar-code" x="0" y="42" width="560" height="44" rx="8" fill="#ff7a2f"/>
+          <rect id="s1-bar-int" x="560" y="42" width="140" height="44" rx="8" fill="#4a9eff"/>
+          <text id="s1-pc-a" x="280" y="73" text-anchor="middle" fill="#0f1117" font-size="26" font-weight="700" data-layout-allow-overlap>80 %</text>
+          <text id="s1-pc-b" x="630" y="73" text-anchor="middle" fill="#0f1117" font-size="26" font-weight="700" data-layout-allow-overlap>20 %</text>
+          <text id="s1-pc-c" x="70" y="73" text-anchor="middle" fill="#0f1117" font-size="26" font-weight="700" opacity="0" data-layout-allow-overlap>20 %</text>
+          <text id="s1-pc-d" x="420" y="73" text-anchor="middle" fill="#0f1117" font-size="26" font-weight="700" opacity="0" data-layout-allow-overlap>80 %</text>
+          <text x="0" y="118" fill="#ff7a2f" font-size="22" font-weight="600">код руками</text>
+          <text x="700" y="118" text-anchor="end" fill="#4a9eff" font-size="22" font-weight="600">intent · constraints · review-стандарты</text>
+          <text id="s1-shift" x="720" y="66" fill="#f0f4ff" font-size="26" font-weight="700" opacity="0">80/20 → 20/80</text>
+          <text id="s1-shift2" x="720" y="96" fill="#aab3c2" font-size="22" opacity="0">и ниже</text>
+        </g>
+        <!-- инженер -->
+        <g id="s1-human" opacity="0">
+          <circle cx="90" cy="372" r="16" fill="#4a9eff"/>
+          <rect x="72" y="392" width="36" height="50" rx="14" fill="#4a9eff"/>
+          <text x="90" y="470" text-anchor="middle" fill="#f0f4ff" font-size="22" font-weight="600">инженер</text>
+        </g>
+        <line id="s1-ar-h" x1="124" y1="430" x2="186" y2="430" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s1-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <!-- кольцо цикла -->
+        <circle id="s1-ring" cx="440" cy="430" r="160" fill="none" stroke="#2a3140" stroke-width="4" stroke-dasharray="0 9999"/>
+        <path id="s1-a1" d="" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/><polygon id="s1-ah1" points="0,0 0,0 0,0" fill="#aab3c2" opacity="0"/>
+        <path id="s1-a2" d="" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/><polygon id="s1-ah2" points="0,0 0,0 0,0" fill="#aab3c2" opacity="0"/>
+        <path id="s1-a3" d="" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/><polygon id="s1-ah3" points="0,0 0,0 0,0" fill="#aab3c2" opacity="0"/>
+        <path id="s1-a4" d="" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/><polygon id="s1-ah4" points="0,0 0,0 0,0" fill="#aab3c2" opacity="0"/>
+        <g id="s1-n1" opacity="0"><rect x="355" y="243" width="170" height="54" rx="12" fill="#161a24" stroke="#b48ce6" stroke-width="3"/><text x="440" y="279" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">plan</text></g>
+        <g id="s1-n2" opacity="0"><rect x="515" y="403" width="170" height="54" rx="12" fill="#161a24" stroke="#4a9eff" stroke-width="3"/><text x="600" y="439" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">implement</text></g>
+        <g id="s1-n3" opacity="0"><rect x="355" y="563" width="170" height="54" rx="12" fill="#161a24" stroke="#ff7a2f" stroke-width="3"/><text x="440" y="599" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">test</text></g>
+        <g id="s1-n4" opacity="0"><rect x="195" y="403" width="170" height="54" rx="12" fill="#161a24" stroke="#3dba7a" stroke-width="3"/><text x="280" y="439" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">fix</text></g>
+        <g id="s1-center" opacity="0">
+          <text x="440" y="422" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">repeat</text>
+          <text x="440" y="454" text-anchor="middle" fill="#aab3c2" font-size="20">пока не done</text>
+        </g>
+        <g id="s1-dotg" opacity="0"><circle cx="440" cy="270" r="13" fill="#4a9eff" stroke="#f0f4ff" stroke-width="3"/></g>
+        <!-- внешнее состояние -->
+        <g id="s1-state" opacity="0">
+          <rect x="720" y="250" width="240" height="210" rx="14" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+          <text x="840" y="286" text-anchor="middle" fill="#aab3c2" font-size="20" font-weight="600">внешнее состояние</text>
+          <text x="744" y="326" fill="#e6ebf5" font-size="24">код, git</text>
+          <text x="744" y="360" fill="#e6ebf5" font-size="24">PRD</text>
+          <text x="744" y="394" fill="#e6ebf5" font-size="24">progress-файлы</text>
+          <text x="744" y="428" fill="#e6ebf5" font-size="24">тестовые отчёты</text>
+        </g>
+        <!-- done -->
+        <line id="s1-ar-d" x1="530" y1="590" x2="712" y2="590" stroke="#3dba7a" stroke-width="5" stroke-linecap="round" marker-end="url(#s1-ah-g)" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s1-done" opacity="0">
+          <rect x="720" y="563" width="240" height="54" rx="12" fill="rgba(61,186,122,0.14)" stroke="#3dba7a" stroke-width="3"/>
+          <text x="840" y="599" text-anchor="middle" fill="#3dba7a" font-size="26" font-weight="700">done-сигнал ✓</text>
+        </g>
+      </svg>
+      <div id="s1-c1" class="card"><div class="h">Ralph Loop</div>
+        <span class="code">while ! done; do ai_agent "$PROMPT"; done</span>
+        <div style="font-size:28px;color:#aab3c2;margin-top:10px">один и тот же high-level prompt, повтор до явного done-сигнала</div></div>
+      <div id="s1-c2" class="card"><div class="h">Один агент = одна роль</div>
+        <div class="li"><span class="k">Planner</span> — план и декомпозиция задач</div>
+        <div class="li"><span class="k">Implementer</span> — правит код</div>
+        <div class="li"><span class="k">Reviewer / Evaluator</span> — проверяет результат</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Ручной код: <b>80/20 → 20/80</b> и ниже. Инженер всё меньше печатает и всё больше формулирует <b class="b">intent, constraints и review-стандарты</b></div>
+      <div id="s1-cap2" class="cap"><b class="o">Ralph Loop</b>: агент получает тот же high-level prompt, а прогресс копится во внешнем состоянии — код, git, PRD, progress-файлы</div>
+      <div id="s1-cap3" class="cap">Цикл <b>implement → test → fix → repeat</b> повторяется, пока не придёт явный <b class="g">done</b>-сигнал по критериям качества</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const cx = 440, cy = 430, R = 160;
+    const pt = (r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cy - r * Math.sin(deg * Math.PI / 180)];
+    const arc = (r, a0, a1) => { const [x0, y0] = pt(r, a0), [x1, y1] = pt(r, a1); const sweep = a1 > a0 ? 0 : 1; return `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 0 ${sweep} ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+    const len = (r, a0, a1) => (r * Math.abs(a1 - a0) * Math.PI / 180).toFixed(1);
+    // Дуги по часовой (углы убывают): plan → implement → test → fix → plan; зазоры под блоки.
+    const arcs = [["#s1-a1", 56, 14], ["#s1-a2", 346, 304], ["#s1-a3", 236, 194], ["#s1-a4", 166, 124]];
+    arcs.forEach(([id, a0, a1], i) => {
+      document.querySelector(id).setAttribute("d", arc(R, a0, a1));
+      // Стрелка на конце дуги: касательная по часовой в точке a1.
+      const [px, py] = pt(R, a1); const rad = a1 * Math.PI / 180; const tx = Math.sin(rad), ty = Math.cos(rad); const nx = Math.cos(rad), ny = -Math.sin(rad);
+      const P = (x, y) => `${x.toFixed(1)},${y.toFixed(1)}`;
+      document.getElementById(`s1-ah${i + 1}`).setAttribute("points", [P(px + 12 * tx, py + 12 * ty), P(px - 3 * tx + 7 * nx, py - 3 * ty + 7 * ny), P(px - 3 * tx - 7 * nx, py - 3 * ty - 7 * ny)].join(" "));
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // 80/20 → 20/80
+    tl.fromTo("#s1-role", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+    cap("#s1-cap1", 0.6, 5.0);
+    tl.fromTo("#s1-shift", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+    tl.to("#s1-bar-code", { attr: { width: 140 }, duration: 1.4, ease: "power2.inOut" }, 2.0);
+    tl.to("#s1-bar-int", { attr: { x: 140, width: 560 }, duration: 1.4, ease: "power2.inOut" }, 2.0);
+    tl.to("#s1-pc-a", { opacity: 0, duration: 0.3 }, 2.2); tl.to("#s1-pc-b", { opacity: 0, duration: 0.3 }, 2.2);
+    tl.fromTo("#s1-pc-c", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.1); tl.fromTo("#s1-pc-d", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.1);
+    tl.fromTo("#s1-shift2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.4);
+    // Кольцо и узлы цикла
+    tl.fromTo("#s1-human", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 1.6);
+    tl.fromTo("#s1-ring", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "1005.3 9999" }, duration: 1.0, ease: "power2.inOut" }, 1.8);
+    tl.fromTo("#s1-ar-h", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "62 9999" }, duration: 0.4, ease: "power2.inOut" }, 2.1);
+    ["#s1-n1", "#s1-n2", "#s1-n3", "#s1-n4"].forEach((id, i) => {
+      tl.fromTo(id, { opacity: 0, scale: 0.85, svgOrigin: "440 430" }, { opacity: 1, scale: 1, svgOrigin: "440 430", duration: 0.45, ease: "back.out(1.6)" }, 2.3 + 0.35 * i);
+      const [aid, a0, a1] = arcs[i];
+      tl.fromTo(aid, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len(R, a0, a1) + " 9999" }, duration: 0.4, ease: "power2.inOut" }, 2.55 + 0.35 * i);
+      tl.fromTo(`#s1-ah${i + 1}`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 2.85 + 0.35 * i);
+    });
+    tl.fromTo("#s1-center", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.9);
+    // Ralph Loop + внешнее состояние
+    cap("#s1-cap2", 5.3, 9.4);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.5);
+    tl.fromTo("#s1-state", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 6.6);
+    // Бегущий по кольцу цикл: plan → implement → test → fix → plan, затем done
+    cap("#s1-cap3", 9.7, 0);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.9);
+    tl.fromTo("#s1-dotg", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.8);
+    [90, 180, 270, 360].forEach((deg, i) => {
+      tl.to("#s1-dotg", { rotation: deg, svgOrigin: "440 430", duration: 0.55, ease: "power2.inOut" }, 10.0 + 0.7 * i);
+    });
+    tl.to("#s1-dotg", { rotation: 540, svgOrigin: "440 430", duration: 1.0, ease: "power2.inOut" }, 12.8);
+    tl.fromTo("#s1-ar-d", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "182 9999" }, duration: 0.5, ease: "power2.inOut" }, 12.6);
+    tl.fromTo("#s1-done", { opacity: 0, scale: 0.9, svgOrigin: "840 590" }, { opacity: 1, scale: 1, svgOrigin: "840 590", duration: 0.45, ease: "back.out(1.6)" }, 12.9);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 13.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

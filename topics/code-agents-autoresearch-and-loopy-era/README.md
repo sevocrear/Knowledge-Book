@@ -60,6 +60,12 @@ updated: 2026-09-18
 
 Раньше человек сам строил дом по кирпичику. Теперь у него есть много умных роботов-строителей. Его работа — не класть каждый кирпич, а говорить, какой дом нужен, проверять, что он получается правильным, и давать роботам новые задания.
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — переход 80/20 → 20/80 и Ralph Loop (plan → implement → test → fix → repeat до done-сигнала); сцена 2 — verification gate (tests, lint, type checks, perf budget) и три итерации до зелёных gates; сцена 3 — agent harness (tools, guardrails, verify, outer loop) и AutoResearch с evaluator.
+
+![Агентный цикл с verification gate: от ручного кода к управлению loop](./assets/visualizations/code-agent-verification-loop.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/code-agent-verification-loop.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## О чем это видео

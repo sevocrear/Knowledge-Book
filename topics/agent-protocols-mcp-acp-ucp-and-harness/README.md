@@ -54,6 +54,12 @@ updated: 2026-09-29
 
 Cursor — это уже готовый harness. Настройка — не «включить всё», а повесить правильный поводок: короткие правила, нужные инструменты, проверка после правок.
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — карта слоёв: человек → редактор → агент и стрелки ACP / MCP / A2A / UCP к своим стыкам; сцена 2 — три примитива MCP, транспорт и направление разговора (ACP: редактор спрашивает, MCP: агент спрашивает); сцена 3 — agent harness: rules → loop ← MCP + guardrails → verify, fail возвращает в цикл, pass → Done.
+
+![Слои агентных протоколов и agent harness](./assets/visualizations/agent-protocol-layers-and-harness.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/agent-protocol-layers-and-harness.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Карта слоёв
