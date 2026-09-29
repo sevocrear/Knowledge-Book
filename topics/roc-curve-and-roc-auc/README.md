@@ -447,6 +447,12 @@ else:
 
 Чем больше это число (ближе к 1), тем лучше машинка различает фрукты.
 
+**Визуализация (HyperFrames, 42 с):** сцена 1 — два холма скоров и движущийся порог t, при котором меняются TPR и FPR; сцена 2 — прогон порогов от +∞ к −∞ рисует ROC-кривую точка за точкой (идеал, диагональ-монетка, порог по Youden’s J); сцена 3 — ROC AUC как площадь под кривой и как вероятность P(s(x⁺) > s(x⁻)), плюс когда смотреть PR-кривую.
+
+![ROC-кривая: порог t, TPR/FPR, построение кривой и AUC](./assets/visualizations/roc-curve-threshold-sweep-auc.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/roc-curve-threshold-sweep-auc.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Источники
