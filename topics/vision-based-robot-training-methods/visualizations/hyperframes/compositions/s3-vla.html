@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 660px; display: block; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Одна модель для многих роботов?</div></div>
+    <div class="badge">Knowledge Book · Robot learning</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 1760 660">
+        <defs>
+          <marker id="s3-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+        </defs>
+        <!-- разные роботы -->
+        <g id="s3-r1" opacity="0"><rect x="0" y="30" width="340" height="90" rx="16" fill="#161a24" stroke="#4a9eff" stroke-width="3"/><circle cx="34" cy="75" r="11" fill="#4a9eff"/><text x="62" y="84" fill="#f0f4ff" font-size="26">манипуляторы</text></g>
+        <g id="s3-r2" opacity="0"><rect x="0" y="150" width="340" height="90" rx="16" fill="#161a24" stroke="#3dba7a" stroke-width="3"/><circle cx="34" cy="195" r="11" fill="#3dba7a"/><text x="62" y="187" fill="#f0f4ff" font-size="26">мобильные</text><text x="62" y="217" fill="#f0f4ff" font-size="26">манипуляторы</text></g>
+        <g id="s3-r3" opacity="0"><rect x="0" y="270" width="340" height="90" rx="16" fill="#161a24" stroke="#ff7a2f" stroke-width="3"/><circle cx="34" cy="315" r="11" fill="#ff7a2f"/><text x="62" y="324" fill="#f0f4ff" font-size="26">квадрупед</text></g>
+        <g id="s3-r4" opacity="0"><rect x="0" y="390" width="340" height="90" rx="16" fill="#161a24" stroke="#b48ce6" stroke-width="3"/><circle cx="34" cy="435" r="11" fill="#b48ce6"/><text x="62" y="444" fill="#f0f4ff" font-size="26">двурукие системы</text></g>
+        <path id="s3-ra1" d="M 344 75 L 436 210" fill="none" stroke="#aab3c2" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <path id="s3-ra2" d="M 344 195 L 436 235" fill="none" stroke="#aab3c2" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <path id="s3-ra3" d="M 344 315 L 436 265" fill="none" stroke="#aab3c2" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <path id="s3-ra4" d="M 344 435 L 436 290" fill="none" stroke="#aab3c2" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 9999"/>
+
+        <!-- датасет -->
+        <g id="s3-ds" opacity="0"><rect x="440" y="90" width="360" height="320" rx="20" fill="#161a24" stroke="#ff7a2f" stroke-width="3"/>
+          <text x="620" y="142" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">Open X-Embodiment</text></g>
+        <text id="s3-ds1" x="620" y="206" text-anchor="middle" fill="#ff7a2f" font-size="32" font-weight="700" opacity="0">1M+ траекторий</text>
+        <text id="s3-ds2" x="620" y="250" text-anchor="middle" fill="#f0f4ff" font-size="28" opacity="0">60 датасетов</text>
+        <text id="s3-ds3" x="620" y="296" text-anchor="middle" fill="#f0f4ff" font-size="28" opacity="0">22 типа роботов</text>
+        <text id="s3-ds4" x="620" y="342" text-anchor="middle" fill="#f0f4ff" font-size="28" opacity="0">21 институт</text>
+        <text id="s3-ds5" x="620" y="386" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">релиз 2023</text>
+
+        <!-- VLA -->
+        <path id="s3-a1" d="M 804 250 L 866 250" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s3-vla" opacity="0"><rect x="870" y="90" width="400" height="320" rx="20" fill="#1e3a5f" stroke="#4a9eff" stroke-width="3"/>
+          <text x="1070" y="146" text-anchor="middle" fill="#f0f4ff" font-size="36" font-weight="700">VLA-модель</text>
+          <text x="1070" y="190" text-anchor="middle" fill="#aab3c2" font-size="26">OpenVLA · 7B параметров</text>
+          <text x="1070" y="262" text-anchor="middle" fill="#f0f4ff" font-size="26">зрение: <tspan fill="#4a9eff" font-weight="700">SigLIP + DinoV2</tspan></text>
+          <text x="1070" y="312" text-anchor="middle" fill="#f0f4ff" font-size="26">язык: <tspan fill="#b48ce6" font-weight="700">LLaMA 2 7B</tspan></text></g>
+        <g id="s3-in1" opacity="0"><rect x="800" y="460" width="240" height="64" rx="14" fill="#161a24" stroke="#4a9eff" stroke-width="3"/><text x="920" y="502" text-anchor="middle" fill="#f0f4ff" font-size="26">изображение</text></g>
+        <g id="s3-in2" opacity="0"><rect x="1070" y="460" width="390" height="64" rx="14" fill="#161a24" stroke="#b48ce6" stroke-width="3"/><text x="1265" y="502" text-anchor="middle" fill="#f0f4ff" font-size="26">«pick up the red block»</text></g>
+        <path id="s3-ia1" d="M 920 456 L 920 414" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s3-ia2" d="M 1265 456 L 1265 414" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah)" stroke-dasharray="0 9999" opacity="0"/>
+
+        <!-- действия -->
+        <path id="s3-a2" d="M 1276 250 L 1352 250" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s3-out" opacity="0"><rect x="1360" y="90" width="400" height="320" rx="20" fill="#161a24" stroke="#ff7a2f" stroke-width="3"/>
+          <text x="1560" y="146" text-anchor="middle" fill="#f0f4ff" font-size="36" font-weight="700">Действие</text>
+          <text x="1560" y="214" text-anchor="middle" fill="#ff7a2f" font-size="30" font-weight="700">action-токены</text>
+          <text x="1560" y="262" text-anchor="middle" fill="#f0f4ff" font-size="26">256 бинов на каждое</text>
+          <text x="1560" y="298" text-anchor="middle" fill="#f0f4ff" font-size="26">измерение действия</text>
+          <text x="1560" y="352" text-anchor="middle" fill="#aab3c2" font-size="24">предсказывает сам LLM,</text>
+          <text x="1560" y="386" text-anchor="middle" fill="#aab3c2" font-size="24">отдельной головы нет</text></g>
+
+        <!-- цифры OpenVLA -->
+        <g id="s3-stats" opacity="0">
+          <text x="860" y="596" fill="#f0f4ff" font-size="28"><tspan fill="#ff7a2f" font-weight="700">970k</tspan> демонстраций из Open X-Embodiment</text>
+          <text x="860" y="638" fill="#f0f4ff" font-size="28">превосходит RT-2-X (55B) на <tspan fill="#3dba7a" font-weight="700">16.5%</tspan></text>
+        </g>
+
+        <!-- гибриды -->
+        <g id="s3-hyb" opacity="0">
+          <text x="8" y="540" fill="#aab3c2" font-size="24">гибридные подходы</text>
+          <rect x="8" y="560" width="400" height="76" rx="14" fill="#161a24" stroke="#3dba7a" stroke-width="3"/>
+          <text x="208" y="606" text-anchor="middle" fill="#f0f4ff" font-size="24">pre-train на демонстрациях</text>
+          <path id="s3-ha" d="M 412 598 L 472 598" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah)"/>
+          <rect x="476" y="560" width="300" height="76" rx="14" fill="#161a24" stroke="#ff7a2f" stroke-width="3"/>
+          <text x="626" y="606" text-anchor="middle" fill="#f0f4ff" font-size="24">fine-tune через RL</text>
+        </g>
+      </svg>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Данные многих роботов собраны вместе: <b class="o">Open X-Embodiment</b>, 1M+ траекторий</div>
+      <div id="s3-cap2" class="cap"><b class="b">VLA</b>: картинка + инструкция → action-токены; OpenVLA (7B) обучен на 970k демонстраций</div>
+      <div id="s3-cap3" class="cap key">Камера → политика → действие: учим на демонстрациях (IL), улучшаем через RL, масштабируем VLA на данных многих роботов</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const draw = (id, len, t, d = 0.5) => tl.fromTo(id, { attr: { "stroke-dasharray": "0 9999" }, opacity: 0 }, { attr: { "stroke-dasharray": len + " 9999" }, opacity: 1, duration: d, ease: "power2.inOut" }, t);
+    const fade = (id, t, d = 0.4) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: d }, t);
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // 1: данные многих роботов
+    ["#s3-r1", "#s3-r2", "#s3-r3", "#s3-r4"].forEach((id, i) => fade(id, 0.4 + 0.3 * i, 0.4));
+    [["#s3-ra1", 158], ["#s3-ra2", 92], ["#s3-ra3", 82], ["#s3-ra4", 165]].forEach(([id, l], i) => draw(id, l, 1.5 + 0.15 * i, 0.5));
+    fade("#s3-ds", 2.0, 0.5);
+    ["#s3-ds1", "#s3-ds2", "#s3-ds3", "#s3-ds4", "#s3-ds5"].forEach((id, i) => fade(id, 2.4 + 0.4 * i, 0.4));
+    cap("#s3-cap1", 0.6, 4.6);
+    // 2: VLA
+    draw("#s3-a1", 62, 4.9, 0.5);
+    fade("#s3-vla", 5.2, 0.5);
+    fade("#s3-in1", 5.9, 0.4); draw("#s3-ia1", 42, 6.2, 0.4);
+    fade("#s3-in2", 6.4, 0.4); draw("#s3-ia2", 42, 6.7, 0.4);
+    draw("#s3-a2", 76, 7.2, 0.5);
+    fade("#s3-out", 7.5, 0.5);
+    fade("#s3-stats", 8.0, 0.5);
+    cap("#s3-cap2", 4.9, 8.9);
+    // 3: ключевая идея + гибриды
+    fade("#s3-hyb", 9.6, 0.6);
+    cap("#s3-cap3", 9.2, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

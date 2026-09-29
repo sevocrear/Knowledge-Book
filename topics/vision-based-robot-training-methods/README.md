@@ -39,6 +39,12 @@ updated: 2026-09-18
 9. [Связанные темы и источники](#9-связанные-темы-и-источники)
 10. [Как объяснить это 5-летнему ребёнку](#10-как-объяснить-это-5-летнему-ребёнку)
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — петля «камера → политика → действие» и imitation learning на демонстрациях с проблемой distribution shift; сцена 2 — RL в симуляторе, sim-to-real gap и domain randomization; сцена 3 — VLA-модель на данных многих роботов (Open X-Embodiment).
+
+![Обучение робота по камере: imitation learning, RL в симуляторе и VLA](./assets/visualizations/robot-learning-il-rl-vla.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/robot-learning-il-rl-vla.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## 1. Введение: обучение роботов с визуальным восприятием
