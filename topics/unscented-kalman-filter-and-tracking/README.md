@@ -26,7 +26,7 @@ status: canonical
 lang: ru
 type: topic
 slug: unscented-kalman-filter-and-tracking
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Unscented Kalman Filter и Современные Методы Отслеживания Объектов
 
@@ -47,6 +47,13 @@ updated: 2026-09-18
 10. [Применения и Примеры](#применения-и-примеры)
 11. [Текущее Состояние (2023-2026)](#текущее-состояние-2023-2026)
 12. [Источники](#источники)
+13. [Заключение](#заключение)
+
+**Визуализация (HyperFrames, 44 с):** сцена 1 показывает, как нелинейная f гнёт гауссиану в «банан» и почему EKF с якобианом её плохо аппроксимирует; сцена 2 — как 2n+1 sigma points с весами проходят через f и дают ȳ и P_y; сцена 3 — шаги predict и update в треке с Kalman gain и χ²-гейтом против выбросов.
+
+![UKF: sigma points, predict и update](./assets/visualizations/ukf-sigma-points-predict-update.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/ukf-sigma-points-predict-update.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
@@ -427,7 +434,8 @@ P0 = np.diag([10.0**2, 10.0**2, 1.0**2, 1.0**2])
 
 ```python
 # Состояние: [x, y, z, vx, vy, vz, qw, qx, qy, qz]
-# где q - кватернион ориентации
+# где q - кватернион ориентации. Q задаётся для 9-мерного error-state:
+# ориентация в нём — 3 малых угла поворота (error-state / MEKF), а не 4 компоненты кватерниона
 
 dt = 0.05  # 20 Hz
 
@@ -443,9 +451,9 @@ Q_orient = np.diag([
 ])
 
 Q = np.block([
-    [Q_pos_vel, np.zeros((6, 4))],
-    [np.zeros((4, 6)), Q_orient]
-])
+    [Q_pos_vel, np.zeros((6, 3))],
+    [np.zeros((3, 6)), Q_orient]
+])  # 9x9
 
 # R: GPS позиция ±2м, IMU ориентация ±0.01 рад
 R = np.diag([
@@ -1125,7 +1133,7 @@ UKF имеет те же основные параметры, что и EKF ($\m
 # Стандартные параметры UKF
 ukf_alpha = 1.0      # Полное распространение sigma points
 ukf_beta = 2.0       # Оптимально для гауссовских распределений
-ukf_kappa = 0.0      # Или 3 - dim_x для обеспечения положительной определенности
+ukf_kappa = 0.0      # Или 3 - dim_x (совпадение 4-го момента гауссианы; при dim_x > 3 даёт kappa < 0)
 ```
 
 **Шаг 2: Настройка $\alpha$ (ukf_alpha)**
@@ -1170,7 +1178,8 @@ dim_x = 4  # Размерность состояния
 # Вариант 1: kappa = 0 (стандартный)
 ukf_kappa = 0.0
 
-# Вариант 2: kappa = 3 - dim_x (обеспечивает положительную определенность)
+# Вариант 2: kappa = 3 - dim_x (совпадение 4-го момента для гауссианы;
+# при dim_x > 3 kappa < 0 и P может потерять положительную полуопределённость)
 ukf_kappa = 3 - dim_x  # Для dim_x=4: kappa = -1
 
 # Обычно оба варианта работают одинаково хорошо
@@ -1307,7 +1316,7 @@ class UKFConfig:
 
 **Решение:**
 - Уменьшите $\alpha$ до 0.5 или меньше
-- Увеличьте $\kappa$ до $3-n$ для обеспечения положительной определенности
+- Возьмите $\kappa \geq 0$ (например, $\kappa = 0$ вместо $3-n$ при $n \gt 3$): при $n + \kappa \gt 0$ ковариация остаётся положительно полуопределённой
 - Добавьте небольшой шум к диагонали $\mathbf{P}$: $\mathbf{P} = \mathbf{P} + \epsilon \mathbf{I}$
 
 **Проблема: Недостаточное Покрытие Нелинейности**
@@ -1371,12 +1380,12 @@ $$\mathbf{x}_0^{(i)} \sim p(\mathbf{x}_0), \quad i = 1, ..., N$$
 **Predict Step:**
 
 Для каждой частицы:
-$$\mathbf{x}_t^{(i)} \sim p(\mathbf{x}_t | \mathbf{x}_{t-1}^{(i)}) = f(\mathbf{x}_{t-1}^{(i)}, \mathbf{w}_t^{(i)})$$
+$$\mathbf{x}_t^{(i)} \sim p(\mathbf{x}_t \mid \mathbf{x}_{t-1}^{(i)}), \quad \text{например } \mathbf{x}_t^{(i)} = f(\mathbf{x}_{t-1}^{(i)}, \mathbf{u}_t, \mathbf{w}_t^{(i)}),\ \mathbf{w}_t^{(i)} \sim p(\mathbf{w}_t)$$
 
 **Update Step:**
 
 1. **Вычисление весов:**
-   $$w_t^{(i)} = p(\mathbf{z}_t | \mathbf{x}_t^{(i)}) = h(\mathbf{x}_t^{(i)}, \mathbf{v}_t)$$
+   $$w_t^{(i)} = p(\mathbf{z}_t \mid \mathbf{x}_t^{(i)}), \quad \text{для гауссовского шума } = \mathcal{N}\big(\mathbf{z}_t;\ h(\mathbf{x}_t^{(i)}, \mathbf{0}),\ \mathbf{R}_t\big)$$
    $$\tilde{w}_t^{(i)} = \frac{w_t^{(i)}}{\sum_{j=1}^N w_t^{(j)}}$$
 
 2. **Resampling (перевыборка):**
@@ -1572,10 +1581,12 @@ UKF точнее EKF, потому что:
 - **MixFormer** (2022): Mixed attention mechanism
 - **SimTrack** (2022): Simple and effective
 
-**Latest (2024-2026):**
+**Более поздние (2023-2025):**
 - **SeqTrack** (2023): Sequence-to-sequence tracking
-- **GRM** (2023): Global Response Mechanism
-- **AiATrack** (2023): Attention in Attention
+- **GRM** (2023): Generalized Relation Modeling
+- **AiATrack** (2022): Attention in Attention
+- **ODTrack** (2024), **LoRAT** (2024): видео-уровневая ассоциация токенов и LoRA-дообучение больших ViT-бэкбонов
+- **SAM 2** (2024) и трекеры на его основе (**SAMURAI**, **DAM4SAM**, 2024): промптируемая сегментация видео с памятью; SAMURAI добавляет Kalman-фильтр для отбора масок
 
 #### 3D Object Tracking
 
@@ -1679,8 +1690,8 @@ class UnscentedKalmanFilter:
         # Параметры Unscented Transform
         self.alpha = alpha
         self.beta = beta
-        self.kappa = kappa if kappa != 0 else 3 - dim_x
-        self.lambda_ = alpha**2 * (dim_x + kappa) - dim_x
+        self.kappa = kappa
+        self.lambda_ = alpha**2 * (dim_x + self.kappa) - dim_x
         
         # Веса
         self.Wm = np.zeros(2*dim_x + 1)
@@ -1765,8 +1776,8 @@ class UnscentedKalmanFilter:
         
         # Вычисление матричного квадратного корня
         try:
-            L = cholesky((n + self.lambda_) * P)
-        except:
+            L = cholesky((n + self.lambda_) * P, lower=True)  # P = L L^T, берём столбцы L
+        except np.linalg.LinAlgError:
             # Если Cholesky не работает, используем SVD
             U, s, V = np.linalg.svd((n + self.lambda_) * P)
             L = U @ np.diag(np.sqrt(s))
@@ -1994,8 +2005,10 @@ def track_objects_with_ukf(video, yolo_model):
 
 **Новые методы:**
 - **MOTRv2** (2023) — улучшенный Transformer-based
-- **GTR** (2023) — Graph Transformer для tracking
-- **QDTrack** (2023) — Query-based detection и tracking
+- **GTR** (2022) — Global Tracking Transformers
+- **QDTrack** (2021, TPAMI 2023) — Quasi-Dense similarity learning для ассоциации
+- **Deep OC-SORT** (2023), **Hybrid-SORT** (2024) — развитие SORT-семейства (appearance + confidence/height cues)
+- **MOTIP** (2024-2025) — трекинг как предсказание ID токенами
 
 #### Single Object Tracking (SOT)
 
@@ -2003,7 +2016,7 @@ def track_objects_with_ukf(video, yolo_model):
 1. **OSTrack** (2022) — One-Stream Transformer
 2. **MixFormer** (2022) — Mixed attention
 3. **SeqTrack** (2023) — Sequence-to-sequence
-4. **AiATrack** (2023) — Attention in Attention
+4. **AiATrack** (2022) — Attention in Attention
 
 ### Роль UKF в Современных Системах
 
@@ -2051,7 +2064,7 @@ def track_objects_with_ukf(video, yolo_model):
 
 8. **Zeng, F., et al.** (2022). "MOTR: End-to-End Multiple-Object Tracking with Transformer." *ECCV*.
 
-9. **Ye, B., et al.** (2022). "OSTrack: One-Stream Transformer for Visual Object Tracking." *CVPR*.
+9. **Ye, B., et al.** (2022). "Joint Feature Learning and Relation Modeling for Tracking: A One-Stream Framework (OSTrack)." *ECCV*.
 
 10. **Cui, Y., et al.** (2022). "MixFormer: End-to-End Tracking with Iterative Mixed Attention." *CVPR*.
 

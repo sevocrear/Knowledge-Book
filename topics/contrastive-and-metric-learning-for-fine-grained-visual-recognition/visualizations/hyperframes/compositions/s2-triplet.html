@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 268px; width: 700px; font-size: 28px; }
+  #s2-c2 .row { padding: 8px 0; border-bottom: 1px solid #2a3140; line-height: 1.3; }
+  #s2-c2 .row:last-child { border-bottom: 0; }
+  #s2-c2 .nm { color: #f0f4ff; font-weight: 600; }
+  #s2-c2 .fm { font-style: italic; font-size: 30px; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Что такое triplet loss?</div></div>
+    <div class="badge">Knowledge Book · Metric learning</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <!-- панель с тройкой -->
+        <rect id="s2-panel" x="20" y="20" width="600" height="600" rx="28" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+        <text id="s2-panel-lbl" x="320" y="62" text-anchor="middle" fill="#aab3c2" font-size="26">тройка: anchor a, positive p, negative n</text>
+        <g id="s2-rings" opacity="0">
+          <circle id="s2-ring-in" cx="300" cy="330" r="111.8" fill="none" stroke="#3dba7a" stroke-width="3" stroke-dasharray="0 9999" opacity="0.8"/>
+          <circle id="s2-ring-out" cx="300" cy="330" r="231.8" fill="none" stroke="#ff7a2f" stroke-width="3" stroke-dasharray="0 9999" opacity="0.8"/>
+          <text id="s2-ring-lbl" x="300" y="150" text-anchor="middle" fill="#ff7a2f" font-size="26" font-weight="700">semi-hard зона</text>
+          <text id="s2-ring-lbl2" x="300" y="180" text-anchor="middle" fill="#aab3c2" font-size="22">d(a,p) &lt; d(a,n) &lt; d(a,p) + m</text>
+        </g>
+        <line id="s2-ln-p" x1="300" y1="330" x2="560" y2="200" stroke="#3dba7a" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <line id="s2-ln-n" x1="300" y1="330" x2="520" y2="470" stroke="#ff4d6d" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <text id="s2-dp-lbl" x="430" y="248" text-anchor="middle" fill="#3dba7a" font-size="28" font-weight="700" opacity="0">d(a,p)</text>
+        <text id="s2-dn-lbl" x="392" y="438" text-anchor="middle" fill="#ff4d6d" font-size="28" font-weight="700" opacity="0">d(a,n)</text>
+        <g id="s2-a" opacity="0"><circle cx="300" cy="330" r="15" fill="#4a9eff"/><text x="270" y="341" text-anchor="end" fill="#4a9eff" font-size="30" font-weight="700">anchor a</text></g>
+        <circle id="s2-p" cx="560" cy="200" r="13" fill="#3dba7a" opacity="0"/>
+        <text id="s2-p-lbl" x="560" y="176" text-anchor="middle" fill="#3dba7a" font-size="30" font-weight="700" opacity="0">positive p</text>
+        <circle id="s2-n" cx="520" cy="470" r="13" fill="#ff4d6d" opacity="0"/>
+        <text id="s2-n-lbl" x="498" y="480" text-anchor="end" fill="#ff4d6d" font-size="30" font-weight="700" opacity="0">negative n</text>
+        <!-- столбики расстояний -->
+        <g id="s2-bars" opacity="0">
+          <text x="810" y="80" text-anchor="middle" fill="#aab3c2" font-size="26">расстояния</text>
+          <line x1="670" y1="430" x2="950" y2="430" stroke="#2a3140" stroke-width="3"/>
+          <rect id="s2-bar-p" x="690" y="430" width="90" height="0" rx="8" fill="#3dba7a"/>
+          <rect id="s2-band" x="690" y="430" width="90" height="0" rx="8" fill="#ff7a2f" fill-opacity="0.3" stroke="#ff7a2f" stroke-width="3" stroke-dasharray="10 8"/>
+          <text id="s2-band-lbl" x="735" y="0" text-anchor="middle" fill="#ff7a2f" font-size="30" font-weight="700">+ m</text>
+          <line id="s2-mline" x1="690" y1="430" x2="945" y2="430" stroke="#ff7a2f" stroke-width="3" stroke-dasharray="10 8"/>
+          <rect id="s2-bar-n" x="830" y="430" width="90" height="0" rx="8" fill="#ff4d6d"/>
+          <text x="735" y="468" text-anchor="middle" fill="#3dba7a" font-size="28" font-weight="700">d(a,p)</text>
+          <text x="875" y="468" text-anchor="middle" fill="#ff4d6d" font-size="28" font-weight="700">d(a,n)</text>
+          <text id="s2-loss-pos" x="810" y="524" text-anchor="middle" fill="#ff4d6d" font-size="38" font-weight="700" opacity="0" data-layout-allow-overlap>L &gt; 0</text>
+          <text id="s2-loss-zero" x="810" y="524" text-anchor="middle" fill="#3dba7a" font-size="38" font-weight="700" opacity="0" data-layout-allow-overlap>L = 0</text>
+        </g>
+        <!-- батч P × K -->
+        <g id="s2-pk" opacity="0">
+          <text x="810" y="582" text-anchor="middle" fill="#aab3c2" font-size="24">батч P × K = 3 × 3</text>
+          <g id="s2-pk-dots"></g>
+        </g>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Triplet loss</div>
+        <div class="f">L = max(0, <span class="g">d(z<sub>a</sub>, z<sub>p</sub>)</span> − <span class="r">d(z<sub>a</sub>, z<sub>n</sub>)</span> + <span class="o">m</span>)</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">m — margin: негатив должен быть дальше позитива минимум на m</div></div>
+      <div id="s2-c2" class="card"><div class="h">Родственники</div>
+        <div class="row"><span class="nm">Contrastive</span> (pairwise): <span class="fm">y·d² + (1−y)·max(0, m−d)²</span></div>
+        <div class="row"><span class="nm">InfoNCE / NT-Xent</span>: один позитив, негативы — из батча, температура <span class="fm">τ</span></div>
+        <div class="row"><span class="nm">SupCon</span>: позитивы — все примеры того же класса в батче</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Тройка: <b class="b">anchor a</b>, <b class="g">positive p</b> (тот же класс), <b class="r">negative n</b> (другой класс)</div>
+      <div id="s2-cap2" class="cap">Пока d(a,n) &lt; d(a,p) + m, лосс &gt; 0: позитив <b class="g">притягиваем</b>, негатив <b class="r">отталкиваем</b></div>
+      <div id="s2-cap3" class="cap"><b>Mining</b>: случайные негативы слишком лёгкие (градиент ≈ 0); <b class="o">semi-hard</b> — ближе, чем позитив + m, но не самый близкий — обычно лучший компромисс</div>
+      <div id="s2-cap4" class="cap">Батч <b>P классов × K примеров</b> гарантирует и позитивы, и конкурирующие негативы</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    // Геометрия (иллюстративно, в px): a фиксирован, p притягивается, n отталкивается; m = 120 px.
+    const A = [300, 330], P0 = [560, 200], P1 = [400, 280], N0 = [520, 470], N1 = [580, 555], M = 120;
+    const dist = (u, v) => Math.hypot(u[0] - v[0], u[1] - v[1]);
+    const dp0 = dist(A, P0), dp1 = dist(A, P1), dn0 = dist(A, N0), dn1 = dist(A, N1); // 290.7, 111.8, 260.8, 358.6
+    const BASE = 430, K = 0.75; // px столбика на px расстояния
+    const h = d => (d * K).toFixed(1), top = d => (BASE - d * K).toFixed(1);
+    // Мини-батч P×K: 3 класса × 3 примера.
+    const cols = ["#3dba7a", "#b48ce6", "#ff7a2f"];
+    const pk = document.getElementById("s2-pk-dots");
+    const pkDots = [];
+    for (let c = 0; c < 3; c++) for (let k = 0; k < 3; k++) {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      el.setAttribute("id", `s2-pk-${c}-${k}`); el.setAttribute("cx", 762 + k * 48); el.setAttribute("cy", 606 + c * 22);
+      el.setAttribute("r", "9"); el.setAttribute("fill", cols[c]); el.setAttribute("opacity", "0");
+      pk.appendChild(el); pkDots.push(el);
+    }
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-a", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.5);
+    tl.fromTo("#s2-p", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.9);
+    tl.fromTo("#s2-p-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.9);
+    tl.fromTo("#s2-n", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.3);
+    tl.fromTo("#s2-n-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.3);
+    tl.fromTo("#s2-ln-p", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": dp0.toFixed(1) + " 9999" }, duration: 0.6, ease: "power2.inOut" }, 1.7);
+    tl.fromTo("#s2-ln-n", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": dn0.toFixed(1) + " 9999" }, duration: 0.6, ease: "power2.inOut" }, 2.0);
+    tl.fromTo("#s2-dp-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.3);
+    tl.fromTo("#s2-dn-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.6);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.2);
+    cap("#s2-cap1", 0.6, 4.4);
+    // Столбики: d(a,p), полоса + m над ним, d(a,n). Пока красный ниже пунктира — L > 0.
+    tl.fromTo("#s2-bars", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 3.2);
+    tl.fromTo("#s2-bar-p", { attr: { y: BASE, height: 0 } }, { attr: { y: top(dp0), height: h(dp0) }, duration: 0.7, ease: "power2.out" }, 3.5);
+    tl.fromTo("#s2-band", { attr: { y: BASE, height: 0 } }, { attr: { y: top(dp0 + M), height: h(M) }, duration: 0.7, ease: "power2.out" }, 3.5);
+    tl.fromTo("#s2-band-lbl", { opacity: 0, attr: { y: BASE + 11 } }, { opacity: 1, attr: { y: (BASE - (dp0 + M / 2) * K + 11).toFixed(1) }, duration: 0.4 }, 4.0);
+    tl.fromTo("#s2-mline", { attr: { y1: BASE, y2: BASE } }, { attr: { y1: top(dp0 + M), y2: top(dp0 + M) }, duration: 0.7, ease: "power2.out" }, 3.5);
+    tl.fromTo("#s2-bar-n", { attr: { y: BASE, height: 0 } }, { attr: { y: top(dn0), height: h(dn0) }, duration: 0.7, ease: "power2.out" }, 3.8);
+    tl.fromTo("#s2-loss-pos", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.5);
+    cap("#s2-cap2", 4.6, 8.8);
+    // Фаза 1: позитив притягиваем к a (5.2–6.8).
+    tl.to("#s2-p", { attr: { cx: P1[0], cy: P1[1] }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    tl.to("#s2-p-lbl", { attr: { x: P1[0] + 10, y: P1[1] - 30 }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    tl.to("#s2-ln-p", { attr: { x2: P1[0], y2: P1[1], "stroke-dasharray": dp1.toFixed(1) + " 9999" }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    tl.to("#s2-dp-lbl", { attr: { x: 322, y: 296 }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    tl.to("#s2-bar-p", { attr: { y: top(dp1), height: h(dp1) }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    tl.to("#s2-band", { attr: { y: top(dp1 + M) }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    tl.to("#s2-band-lbl", { attr: { y: (BASE - (dp1 + M / 2) * K + 11).toFixed(1) }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    tl.to("#s2-mline", { attr: { y1: top(dp1 + M), y2: top(dp1 + M) }, duration: 1.6, ease: "power2.inOut" }, 5.2);
+    // Фаза 2: негатив отталкиваем (6.6–8.4); красный столбик пересекает пунктир d(a,p)+m → L = 0.
+    tl.to("#s2-n", { attr: { cx: N1[0], cy: N1[1] }, duration: 1.8, ease: "power2.inOut" }, 6.6);
+    tl.to("#s2-n-lbl", { attr: { x: N1[0] - 22, y: N1[1] + 10 }, duration: 1.8, ease: "power2.inOut" }, 6.6);
+    tl.to("#s2-ln-n", { attr: { x2: N1[0], y2: N1[1], "stroke-dasharray": dn1.toFixed(1) + " 9999" }, duration: 1.8, ease: "power2.inOut" }, 6.6);
+    tl.to("#s2-dn-lbl", { attr: { x: 412, y: 476 }, duration: 1.8, ease: "power2.inOut" }, 6.6);
+    tl.to("#s2-bar-n", { attr: { y: top(dn1), height: h(dn1) }, duration: 1.8, ease: "power2.inOut" }, 6.6);
+    tl.to("#s2-loss-pos", { opacity: 0, duration: 0.4 }, 8.0);
+    tl.to("#s2-loss-zero", { opacity: 1, duration: 0.4 }, 8.0);
+    // Mining: кольца d(a,p) и d(a,p)+m вокруг a — semi-hard негативы лежат между ними.
+    cap("#s2-cap3", 9.0, 12.6);
+    tl.fromTo("#s2-rings", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.3);
+    tl.fromTo("#s2-ring-in", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": (2 * Math.PI * 111.8).toFixed(1) + " 9999" }, duration: 0.8, ease: "power2.inOut" }, 9.3);
+    tl.fromTo("#s2-ring-out", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": (2 * Math.PI * 231.8).toFixed(1) + " 9999" }, duration: 1.0, ease: "power2.inOut" }, 9.6);
+    tl.fromTo("#s2-ring-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.5);
+    tl.fromTo("#s2-ring-lbl2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.7);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.6);
+    // Батч P×K.
+    cap("#s2-cap4", 12.8, 15.5);
+    tl.fromTo("#s2-pk", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 12.9);
+    pkDots.forEach((el, i) => tl.fromTo(el, { opacity: 0, attr: { r: 3 } }, { opacity: 1, attr: { r: 9 }, duration: 0.3, ease: "back.out(2)" }, 13.1 + 0.07 * i));
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.45 }, 15.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

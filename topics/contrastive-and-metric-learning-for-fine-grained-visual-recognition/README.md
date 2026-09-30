@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: contrastive-and-metric-learning-for-fine-grained-visual-recognition
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Contrastive и metric learning для fine-grained распознавания
 
@@ -35,18 +35,18 @@ updated: 2026-09-18
 - Эмбеддинги и метрика сходства
 - Основные семейства лоссов
   - Contrastive loss (pairwise)
-  - Triplet loss и mining (hard / semi-hard)
+  - Triplet loss и mining
   - InfoNCE / NT-Xent (contrastive с in-batch negatives)
-  - Proxy-based лоссы (Proxy-NCA, ArcFace/CosFace и др.)
+  - Proxy-based лоссы (практично для большого числа классов)
 - “15 сортов яблок” как fine-grained recognition
-  - Как формулировать задачу (retrieval/verification)
+  - Как формулировать задачу
   - Как собирать данные и разметку
   - Аугментации и “инвариантности”, которые НЕ стоит делать
   - Самые частые причины провала
 - Метрики качества (оффлайн)
-  - Retrieval: Recall@K, mAP, nDCG
-  - Verification: ROC-AUC, EER, TAR@FAR
-  - Clustering: NMI, ARI (опционально)
+  - Retrieval
+  - Verification
+  - Clustering (опционально)
 - Как обучать в production
   - Сплит данных и leakage
   - Сэмплинг батчей (P×K) и mining
@@ -71,11 +71,11 @@ updated: 2026-09-18
 **Как объяснить 5‑летнему ребёнку.**  
 Представь, что у каждого яблока есть “адрес” на карте. Похожие яблоки живут рядом, а разные — далеко. Мы учим модель рисовать такую карту. Потом, когда видим новое яблоко, мы ищем на карте ближайших “соседей” и понимаем, какой это сорт.
 
-**Визуализация (Manim):** до/после обучения в пространстве эмбеддингов, triplet (якорь / позитив / негатив) и смысл лосса.
+**Визуализация (HyperFrames, ~43 с):** зачем эмбеддинги вместо жёсткого классификатора и как выглядит перемешанное пространство до обучения (сцена 1); triplet loss $\max(0, d(a,p) - d(a,n) + m)$ — позитив притягиваем, негатив отталкиваем за margin, semi-hard mining (сцена 2); компактные кластеры, запрос → $k$ ближайших соседей → порог $\tau$ и production-пайплайн эмбеддинг → ANN-индекс → мониторинг (сцена 3).
 
-<video src="./assets/visualizations/contrastive_embedding_space.mp4" controls muted loop playsinline width="100%"></video>
+![Contrastive / metric learning: пространство эмбеддингов и triplet loss](./assets/visualizations/contrastive_embedding_space.gif)
 
-*Если `<video>` не отображается в вашем просмотрщике Markdown, используйте GIF:* `![](./assets/visualizations/contrastive_embedding_space.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/contrastive_embedding_space.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
@@ -145,14 +145,14 @@ $$
 Для каждого anchor есть один positive (например, две аугментации) и много negatives в батче:
 
 $$
-L_i = -\log\frac{\exp(s(z_i, z_i^+)/\tau)}{\sum_{j \in \mathcal{B}}\exp(s(z_i, z_j)/\tau)}
+L_i = -\log\frac{\exp(s(z_i, z_i^+)/\tau)}{\sum_{j \in \mathcal{B},\, j \neq i}\exp(s(z_i, z_j)/\tau)}
 $$
 
-где $\tau$ — temperature. В supervised варианте positives — все примеры того же класса в батче (SupCon).
+где $\tau$ — temperature, а сумма в знаменателе идёт по всем остальным элементам батча (positive и negatives). В supervised варианте positives — все примеры того же класса в батче (SupCon).
 
 ### Proxy-based лоссы (практично для большого числа классов)
 
-Вместо явного mining учим “прокси” w_c для классов (как центры). Пример “Angular margin” (ArcFace-подобная идея):
+Вместо явного mining учим “прокси” $w_c$ для классов (как центры). Пример “Angular margin” (ArcFace-подобная идея):
 
 - нормируем эмбеддинг и веса, работаем в косинусах
 - добавляем угловой margin для правильного класса
@@ -336,10 +336,10 @@ Mining можно делать:
 ## Источники
 
 - Внутри knowledge-book:
-  - `./topics/embeddings-and-embedding-matrix/README.md`
-  - `./topics/arcface-and-angular-margin-losses-for-identification/README.md`
-  - `./topics/dinov3-self-supervised-vision-transformer-and-2d-rope/README.md` (self-supervised contrastive идеи в CV)
-  - `./topics/roc-curve-and-roc-auc/README.md` (verification-порог и ROC)
+  - [`embeddings-and-embedding-matrix`](../embeddings-and-embedding-matrix/README.md)
+  - [`arcface-and-angular-margin-losses-for-identification`](../arcface-and-angular-margin-losses-for-identification/README.md)
+  - [`dinov3-self-supervised-vision-transformer-and-2d-rope`](../dinov3-self-supervised-vision-transformer-and-2d-rope/README.md) (self-supervised contrastive идеи в CV)
+  - [`roc-curve-and-roc-auc`](../roc-curve-and-roc-auc/README.md) (verification-порог и ROC)
 - Ключевые термины/направления для поиска:
   - “InfoNCE”, “NT-Xent”, “SupCon”
   - “Triplet loss semi-hard mining”

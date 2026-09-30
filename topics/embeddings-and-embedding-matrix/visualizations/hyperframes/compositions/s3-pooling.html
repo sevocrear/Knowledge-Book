@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s3-c2 { left: 1060px; top: 300px; width: 700px; font-size: 28px; }
+  #s3-c2 .row { padding: 8px 0; border-bottom: 1px solid #2a3140; line-height: 1.3; }
+  #s3-c2 .row:last-of-type { border-bottom: 0; }
+  #s3-c2 .nm { font-weight: 700; display: inline-block; min-width: 96px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Как получить один вектор на весь текст?</div></div>
+    <div class="badge">Knowledge Book · Embeddings</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <defs>
+          <marker id="s3-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+        </defs>
+        <text id="s3-hd1" x="250" y="70" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0">выход энкодера: (n, d)</text>
+        <text id="s3-hd1b" x="250" y="102" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">по вектору h<tspan font-size="16" dy="6">i</tspan><tspan dy="-6"> на каждый токен</tspan></text>
+        <text id="s3-hd2" x="800" y="70" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0">один вектор на текст</text>
+        <text id="s3-hd2b" x="800" y="102" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">h<tspan font-size="16" dy="6">sent</tspan><tspan dy="-6"> ∈ ℝ</tspan><tspan font-size="16" dy="-10">d</tspan></text>
+        <g id="s3-src"></g>
+        <g id="s3-lines" stroke="#aab3c2" stroke-width="2.5" fill="none" stroke-linecap="round"></g>
+        <g id="s3-copies"></g>
+        <g id="s3-res"></g>
+        <text id="s3-lm" x="640" y="138" fill="#2dd4bf" font-size="26" font-weight="700" opacity="0">mean · среднее</text>
+        <text id="s3-lc" x="632" y="278" fill="#3dba7a" font-size="26" font-weight="700" opacity="0">[CLS] · первая позиция</text>
+        <text id="s3-ll" x="640" y="418" fill="#ff7a2f" font-size="26" font-weight="700" opacity="0">last · последний токен</text>
+        <text id="s3-rag" x="780" y="540" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">→ RAG: запрос и чанки —<tspan x="780" dy="32">по одному вектору, поиск по cos</tspan></text>
+        <text id="s3-note" x="30" y="600" fill="#aab3c2" font-size="22" opacity="0">значения ячеек — иллюстративно</text>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Mean pooling</div><div class="f">h<sub>sent</sub> = (1 / |I|) · Σ<sub>i∈I</sub> h<sub>i</sub></div><div style="font-size:28px;color:#aab3c2;margin-top:8px">I — токены без [PAD]; Sentence-BERT и большинство эмбеддингов для RAG / поиска</div></div>
+      <div id="s3-c2" class="card"><div class="h">Какой pooling где</div>
+        <div class="row"><span class="nm t">mean</span> Sentence-BERT, эмбеддинги для RAG / поиска</div>
+        <div class="row"><span class="nm g">[CLS]</span> BERT и производные</div>
+        <div class="row"><span class="nm o">last</span> декодеры: E5-Mistral, NV-Embed, Qwen3-Embedding</div>
+      </div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">После энкодера — по вектору на каждый токен: тензор <b>(n, d)</b>. Для поиска и RAG нужен <b class="t">один вектор</b> на текст</div>
+      <div id="s3-cap2" class="cap"><b>Pooling</b>: <b class="t">mean</b> — среднее по токенам без [PAD]; <b class="g">[CLS]</b> — первая позиция; <b class="o">last</b> — последний токен в декодерах</div>
+      <div id="s3-cap3" class="cap key">E превращает ID в векторы, pooling — n векторов в один; по нему RAG находит близкие чанки косинусом</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const SX = 150, CW = 40, RH = 44, D = 8, TX = 640;
+    const names = ["[CLS]", "кот", "сидит", "на", "коврике"];
+    const rowY = [120, 190, 260, 330, 400];
+    // Значения ячеек (0..1) — детерминированные, иллюстративные.
+    const vals = [
+      [0.9, 0.3, 0.6, 0.2, 0.8, 0.4, 0.7, 0.5],
+      [0.2, 0.8, 0.5, 0.9, 0.3, 0.7, 0.4, 0.6],
+      [0.6, 0.4, 0.9, 0.3, 0.5, 0.8, 0.2, 0.7],
+      [0.4, 0.7, 0.2, 0.6, 0.9, 0.3, 0.8, 0.5],
+      [0.8, 0.5, 0.7, 0.4, 0.2, 0.9, 0.6, 0.3],
+    ];
+    const mean = vals[0].map((_, c) => vals.reduce((s, r) => s + r[c], 0) / vals.length);
+    const op = v => (0.15 + 0.75 * v).toFixed(2);
+    const rowG = (id, x, y, arr, color) => {
+      const g = document.createElementNS(NS, "g"); g.setAttribute("id", id); g.setAttribute("opacity", "0");
+      arr.forEach((v, c) => { const e = document.createElementNS(NS, "rect"); e.setAttribute("x", x + c * CW + 2); e.setAttribute("y", y + 2); e.setAttribute("width", CW - 4); e.setAttribute("height", RH - 4); e.setAttribute("rx", 5); e.setAttribute("fill", color); e.setAttribute("opacity", op(v)); g.appendChild(e); });
+      return g;
+    };
+    const src = document.getElementById("s3-src"), copies = document.getElementById("s3-copies"), res = document.getElementById("s3-res"), lines = document.getElementById("s3-lines");
+    names.forEach((nm, i) => {
+      const g = rowG(`s3-row${i}`, SX, rowY[i], vals[i], "#4a9eff");
+      const t = document.createElementNS(NS, "text"); t.setAttribute("x", SX - 16); t.setAttribute("y", rowY[i] + 30); t.setAttribute("text-anchor", "end"); t.setAttribute("fill", i === 0 ? "#3dba7a" : "#e6ebf5"); t.setAttribute("font-size", "26"); t.setAttribute("font-weight", "600"); t.textContent = nm; g.appendChild(t);
+      src.appendChild(g);
+    });
+    // Копии строк для анимации pooling: mean — все 5, [CLS] — строка 0, last — строка 4.
+    const tgt = { mean: 150, cls: 290, last: 430 };
+    names.forEach((_, i) => copies.appendChild(rowG(`s3-cm${i}`, SX, rowY[i], vals[i], "#2dd4bf")));
+    copies.appendChild(rowG("s3-cc", SX, rowY[0], vals[0], "#3dba7a"));
+    copies.appendChild(rowG("s3-cl", SX, rowY[4], vals[4], "#ff7a2f"));
+    res.appendChild(rowG("s3-rm", TX, tgt.mean, mean, "#2dd4bf"));
+    res.appendChild(rowG("s3-rc", TX, tgt.cls, vals[0], "#3dba7a"));
+    res.appendChild(rowG("s3-rl", TX, tgt.last, vals[4], "#ff7a2f"));
+    // Линии от строк-источников к результату.
+    const mkLine = (id, x0, y0, x1, y1) => { const p = document.createElementNS(NS, "path"); p.setAttribute("id", id); p.setAttribute("d", `M ${x0} ${y0} L ${x1} ${y1}`); p.setAttribute("stroke-dasharray", "0 9999"); p.setAttribute("opacity", "0"); lines.appendChild(p); return Math.hypot(x1 - x0, y1 - y0).toFixed(1); };
+    const X0 = SX + D * CW + 4, X1 = TX - 6;
+    const lm = names.map((_, i) => mkLine(`s3-lnm${i}`, X0, rowY[i] + RH / 2, X1, tgt.mean + RH / 2));
+    const lc = mkLine("s3-lnc", X0, rowY[0] + RH / 2, X1, tgt.cls + RH / 2);
+    const ll = mkLine("s3-lnl", X0, rowY[4] + RH / 2, X1, tgt.last + RH / 2);
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-hd1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    tl.fromTo("#s3-hd1b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.5);
+    names.forEach((_, i) => tl.fromTo(`#s3-row${i}`, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 0.7 + 0.2 * i));
+    tl.fromTo("#s3-note", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+    cap("#s3-cap1", 0.6, 4.6);
+    tl.fromTo("#s3-hd2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.4);
+    tl.fromTo("#s3-hd2b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.6);
+    // Pooling.
+    cap("#s3-cap2", 4.8, 9.2);
+    // mean: линии от всех строк, копии всех строк съезжаются в одну, появляется усреднённая.
+    names.forEach((_, i) => {
+      tl.fromTo(`#s3-lnm${i}`, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": lm[i] + " 9999" }, duration: 0.5, ease: "power2.inOut" }, 4.9 + 0.06 * i);
+      tl.fromTo(`#s3-cm${i}`, { opacity: 0, x: 0, y: 0 }, { opacity: 0.9, duration: 0.2 }, 5.1);
+      tl.to(`#s3-cm${i}`, { x: TX - SX, y: tgt.mean - rowY[i], opacity: 0, duration: 0.9, ease: "power2.inOut" }, 5.3);
+    });
+    tl.fromTo("#s3-rm", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.9);
+    tl.fromTo("#s3-lm", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.0);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.4);
+    // [CLS]: только первая строка.
+    tl.fromTo("#s3-lnc", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": lc + " 9999" }, duration: 0.5, ease: "power2.inOut" }, 6.5);
+    tl.fromTo("#s3-cc", { opacity: 0, x: 0, y: 0 }, { opacity: 0.9, duration: 0.2 }, 6.6);
+    tl.to("#s3-cc", { x: TX - SX, y: tgt.cls - rowY[0], opacity: 0, duration: 0.8, ease: "power2.inOut" }, 6.8);
+    tl.fromTo("#s3-rc", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.3);
+    tl.fromTo("#s3-lc", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.4);
+    // last: только последняя строка.
+    tl.fromTo("#s3-lnl", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": ll + " 9999" }, duration: 0.5, ease: "power2.inOut" }, 7.7);
+    tl.fromTo("#s3-cl", { opacity: 0, x: 0, y: 0 }, { opacity: 0.9, duration: 0.2 }, 7.8);
+    tl.to("#s3-cl", { x: TX - SX, y: tgt.last - rowY[4], opacity: 0, duration: 0.8, ease: "power2.inOut" }, 8.0);
+    tl.fromTo("#s3-rl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.5);
+    tl.fromTo("#s3-ll", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.6);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.9);
+    // Ключевая идея + связь с RAG.
+    cap("#s3-cap3", 9.4, 0);
+    tl.fromTo("#s3-rag", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 9.8);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .title { font-size: 44px; }
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 10px; width: 636px; }
+  #s3-c2 { left: 1060px; top: 370px; width: 636px; }
+  #s3-c3 { left: 1060px; top: 10px; width: 636px; }
+  #s3-c4 { left: 1060px; top: 290px; width: 636px; }
+  #s3-tiles { display: block; margin-top: 4px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Чему учим VAE и как из него генерировать?</div></div>
+    <div class="badge">Knowledge Book · VAE</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <rect x="20" y="20" width="940" height="600" rx="20" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+        <text x="490" y="652" text-anchor="middle" fill="#aab3c2" font-size="24">латентное пространство, 2D (иллюстративно)</text>
+        <!-- prior N(0, I) -->
+        <g id="s3-prior" opacity="0">
+          <circle cx="490" cy="320" r="240" fill="none" stroke="#aab3c2" stroke-width="4" stroke-dasharray="14 12"/>
+          <text x="490" y="62" text-anchor="middle" fill="#aab3c2" font-size="30" font-weight="700">prior p(z) = N(0, I)</text>
+        </g>
+        <!-- облака q(z|x) для разных входов x -->
+        <ellipse id="s3-e1" cx="170" cy="150" rx="55" ry="40" fill="#4a9eff" fill-opacity="0.25" stroke="#4a9eff" stroke-width="5" opacity="0"/>
+        <ellipse id="s3-e2" cx="800" cy="160" rx="50" ry="36" fill="#3dba7a" fill-opacity="0.25" stroke="#3dba7a" stroke-width="5" opacity="0"/>
+        <ellipse id="s3-e3" cx="810" cy="520" rx="60" ry="42" fill="#ff7a2f" fill-opacity="0.25" stroke="#ff7a2f" stroke-width="5" opacity="0"/>
+        <ellipse id="s3-e4" cx="170" cy="510" rx="55" ry="40" fill="#b48ce6" fill-opacity="0.25" stroke="#b48ce6" stroke-width="5" opacity="0"/>
+        <ellipse id="s3-e5" cx="490" cy="565" rx="60" ry="30" fill="#2dd4bf" fill-opacity="0.25" stroke="#2dd4bf" stroke-width="5" opacity="0"/>
+        <text id="s3-holes" x="490" y="336" text-anchor="middle" fill="#ff4d6d" font-size="30" font-weight="700" opacity="0">«дыра» между кодами</text>
+        <!-- генерация: z ~ N(0, I) -->
+        <g id="s3-gen" opacity="0">
+          <circle cx="495" cy="212" r="13" fill="#f0f4ff" stroke="#0f1117" stroke-width="3"/>
+          <circle cx="495" cy="212" r="26" fill="none" stroke="#f0f4ff" stroke-width="3"/>
+          <text x="495" y="150" text-anchor="middle" fill="#f0f4ff" font-size="30" font-weight="700">z ~ N(0, I)</text>
+        </g>
+        <!-- интерполяция между двумя кодами -->
+        <line id="s3-iline" x1="382" y1="260" x2="622" y2="386" stroke="#f0f4ff" stroke-width="5" stroke-dasharray="0 9999" stroke-linecap="butt"/>
+        <g id="s3-dots"></g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Функция потерь</div><div class="f">L = <span class="g">L<sub>recon</sub></span> + β · <span class="o">L<sub>KL</sub></span></div><div style="font-size:28px;color:#aab3c2;margin-top:8px"><span class="g">L<sub>recon</sub></span> — BCE или MSE(x, x̂)<br/>β = 1 (обычный VAE): L = −ELBO</div></div>
+      <div id="s3-c2" class="card"><div class="h">KL-член</div><div class="f"><span class="o">½ Σ [σ² + μ² − 1 − log σ²]</span></div><div style="font-size:28px;color:#aab3c2;margin-top:8px">прижимает q(z|x) к prior N(0, I); равен нулю при μ = 0, σ = 1</div></div>
+      <div id="s3-c3" class="card" data-layout-allow-overlap><div class="h">Генерация новых данных</div><div class="f">z ~ N(0, I) → Decoder<sub>θ</sub>(z) → <span class="g">x̂</span></div><div style="font-size:28px;color:#aab3c2;margin-top:8px">сэмплируем из prior и прогоняем через decoder — encoder не нужен</div></div>
+      <div id="s3-c4" class="card" data-layout-allow-overlap><div class="h">Интерполяция между двумя кодами</div>
+        <svg id="s3-tiles" width="572" height="135" viewBox="0 0 636 150"></svg>
+        <div style="font-size:26px;color:#aab3c2;margin-top:2px">плавный переход в латентном пространстве → плавный переход x̂ (иллюстративно)</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Учим <b>reconstruction + KL</b>: <b class="g">x̂</b> должен быть точным, а облако <b>q(z|x)</b> — близким к prior <b>N(0, I)</b></div>
+      <div id="s3-cap2" class="cap"><b class="o">KL</b> стягивает облака к N(0, I): они перекрываются, и «дыр» между кодами не остаётся</div>
+      <div id="s3-cap3" class="cap">Генерация: берём <b>z ~ N(0, I)</b> и пропускаем через decoder. Пространство непрерывно, поэтому интерполяция плавная</div>
+      <div id="s3-cap4" class="cap key">VAE = encoder выдаёт распределение + репараметризация + ELBO. KL держит латент около N(0, I), поэтому z ~ N(0, I) декодируется в новые данные</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v)); parent.appendChild(el); return el; };
+    const mix = (a, b, t) => { const ca = [1, 3, 5].map(i => parseInt(a.slice(i, i + 2), 16)), cb = [1, 3, 5].map(i => parseInt(b.slice(i, i + 2), 16));
+      return "#" + ca.map((v, i) => Math.round(v + (cb[i] - v) * t).toString(16).padStart(2, "0")).join(""); };
+    // Интерполяция z_A → z_B: пять точек t = 0, 0.25, 0.5, 0.75, 1 и пять «декодированных» плиток (иллюстративно).
+    const A = [382, 260], B = [622, 386], ts = [0, 0.25, 0.5, 0.75, 1], rxs = [48, 36, 24, 12, 0];
+    const dots = document.getElementById("s3-dots"), tiles = document.getElementById("s3-tiles");
+    const iA = "#4a9eff", iB = "#3dba7a";
+    ts.forEach((t, i) => {
+      mk("circle", { id: `s3-d${i}`, cx: A[0] + (B[0] - A[0]) * t, cy: A[1] + (B[1] - A[1]) * t, r: 12, fill: mix(iA, iB, t), stroke: "#f0f4ff", "stroke-width": 4, opacity: 0 }, dots);
+      mk("rect", { id: `s3-t${i}`, x: 10 + i * 132, y: 6, width: 96, height: 96, rx: rxs[i], fill: mix(iA, iB, t), opacity: 0 }, tiles);
+      mk("text", { x: 58 + i * 132, y: 138, "text-anchor": "middle", fill: "#aab3c2", "font-size": 24 }, tiles).textContent = "t = " + t;
+    });
+    const lineLen = Math.hypot(B[0] - A[0], B[1] - A[1]).toFixed(1);
+
+    // Облака: [id, стартовое (cx, cy, rx, ry) — из HTML; конечное — внутри prior].
+    const fin = { "#s3-e1": [382, 260, 120, 84], "#s3-e2": [622, 386, 120, 84], "#s3-e3": [610, 230, 108, 74], "#s3-e4": [376, 410, 108, 74], "#s3-e5": [495, 320, 96, 66] };
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const card = (id, t) => tl.fromTo(id, { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, t);
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    Object.keys(fin).forEach((id, i) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3 + 0.15 * i));
+    tl.fromTo("#s3-prior", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.9);
+    tl.fromTo("#s3-holes", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.0);
+    card("#s3-c1", 0.8);
+    cap("#s3-cap1", 0.6, 4.4);
+    // KL стягивает облака к prior.
+    tl.to("#s3-holes", { opacity: 0, duration: 0.4 }, 4.6);
+    Object.entries(fin).forEach(([id, [cx, cy, rx, ry]]) => tl.to(id, { attr: { cx, cy, rx, ry }, duration: 2.6, ease: "power2.inOut" }, 4.9));
+    card("#s3-c2", 4.9);
+    cap("#s3-cap2", 4.6, 8.4);
+    // Генерация и интерполяция.
+    tl.to("#s3-c1", { opacity: 0, duration: 0.3 }, 8.5);
+    tl.to("#s3-c2", { opacity: 0, duration: 0.3 }, 8.5);
+    card("#s3-c3", 8.9);
+    tl.fromTo("#s3-gen", { opacity: 0, scale: 0.6, svgOrigin: "495 212" }, { opacity: 1, scale: 1, svgOrigin: "495 212", duration: 0.5, ease: "back.out(2)" }, 9.0);
+    cap("#s3-cap3", 8.7, 12.4);
+    tl.to("#s3-gen", { opacity: 0, duration: 0.4 }, 10.2);
+    card("#s3-c4", 10.3);
+    tl.fromTo("#s3-iline", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": lineLen + " 9999" }, duration: 1.0, ease: "power2.inOut" }, 10.4);
+    ts.forEach((t, i) => {
+      tl.fromTo(`#s3-d${i}`, { opacity: 0, scale: 0.4, svgOrigin: `${A[0] + (B[0] - A[0]) * t} ${A[1] + (B[1] - A[1]) * t}` }, { opacity: 1, scale: 1, svgOrigin: `${A[0] + (B[0] - A[0]) * t} ${A[1] + (B[1] - A[1]) * t}`, duration: 0.35, ease: "back.out(2)" }, 10.6 + 0.3 * i);
+      tl.fromTo(`#s3-t${i}`, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.7 + 0.3 * i);
+    });
+    // Ключевая идея.
+    cap("#s3-cap4", 12.7, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.45 }, 15.5);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

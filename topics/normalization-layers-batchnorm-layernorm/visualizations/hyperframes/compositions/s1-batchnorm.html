@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-wrap .title { font-size: 42px; }
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 0px; width: 700px; font-size: 30px; }
+  #s1-c2 { left: 1060px; top: 268px; width: 700px; font-size: 30px; }
+  #s1-c3 { left: 1060px; top: 484px; width: 700px; font-size: 26px; padding: 16px 32px; line-height: 1.3; }
+  #s1-wrap .card .f { font-size: 33px; }
+  #s1-wrap .card .n { font-size: 26px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">По какой оси считает статистики BatchNorm?</div></div>
+    <div class="badge">Knowledge Book · Normalization</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <text id="s1-hdr" x="470" y="40" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0">X ∈ ℝ<tspan font-size="20" dy="-12">N × C × H × W</tspan><tspan dy="12"> = (5, 3, H, W)</tspan></text>
+        <text id="s1-col1" x="320" y="88" text-anchor="middle" fill="#ff4d6d" font-size="26" font-weight="700" opacity="0">c = 1 (R)</text>
+        <text id="s1-col2" x="490" y="88" text-anchor="middle" fill="#3dba7a" font-size="26" font-weight="700" opacity="0">c = 2 (G)</text>
+        <text id="s1-col3" x="660" y="88" text-anchor="middle" fill="#4a9eff" font-size="26" font-weight="700" opacity="0">c = 3 (B)</text>
+        <g id="s1-cells"></g>
+        <text id="s1-nlab" x="88" y="350" text-anchor="middle" fill="#aab3c2" font-size="26" transform="rotate(-90 88 350)" opacity="0">батч: N = 5 картинок</text>
+        <rect id="s1-hl" x="240" y="100" width="160" height="476" rx="16" fill="rgba(255,122,47,0.10)" stroke="#ff7a2f" stroke-width="6" stroke-dasharray="0 9999" opacity="0"/>
+        <text id="s1-mu1" x="320" y="612" text-anchor="middle" fill="#ff7a2f" font-size="27" font-weight="700" opacity="0">μ<tspan font-size="19" dy="6">B</tspan><tspan dy="-6">, σ²</tspan><tspan font-size="19" dy="6">B</tspan></text>
+        <text id="s1-mu2" x="490" y="612" text-anchor="middle" fill="#ff7a2f" font-size="27" font-weight="700" opacity="0">μ<tspan font-size="19" dy="6">B</tspan><tspan dy="-6">, σ²</tspan><tspan font-size="19" dy="6">B</tspan></text>
+        <text id="s1-mu3" x="660" y="612" text-anchor="middle" fill="#ff7a2f" font-size="27" font-weight="700" opacity="0">μ<tspan font-size="19" dy="6">B</tspan><tspan dy="-6">, σ²</tspan><tspan font-size="19" dy="6">B</tspan></text>
+        <text id="s1-hw" x="820" y="350" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0"><tspan x="820" dy="0">в клетке —</tspan><tspan x="820" dy="30">H × W</tspan><tspan x="820" dy="30">значений</tspan></text>
+        <text id="s1-foot" x="490" y="652" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">одна статистика на канал: усредняем по N и по H × W</text>
+      </svg>
+      <div id="s1-c1" class="card"><div class="h">BatchNorm: статистики канала c</div>
+        <div class="f">μ<sub>B</sub> = (1/m) Σ x<sub>i</sub></div>
+        <div class="f">σ²<sub>B</sub> = (1/m) Σ (x<sub>i</sub> − μ<sub>B</sub>)²</div>
+        <div class="n">m = N·H·W — все значения канала по батчу и пространству</div></div>
+      <div id="s1-c2" class="card"><div class="h">Нормализация и γ, β</div>
+        <div class="f">x̂<sub>i</sub> = (x<sub>i</sub> − μ<sub>B</sub>) / √(σ²<sub>B</sub> + ε)</div>
+        <div class="f">y<sub>i</sub> = <span class="o">γ<sub>c</sub></span> · x̂<sub>i</sub> + <span class="o">β<sub>c</sub></span></div>
+        <div class="n">по одному γ и β на канал → всего 2·C параметров</div></div>
+      <div id="s1-c3" class="card"><div class="h">Обучение vs инференс</div>
+        <div><b class="b">train</b>: μ<sub>B</sub>, σ²<sub>B</sub> по батчу + ведём running mean/var</div>
+        <div><b class="g">eval</b>: только running mean/var → работает при batch size = 1</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Вход X формы <b>(N, C, H, W) = (5, 3, H, W)</b>: строки — 5 картинок батча, столбцы — 3 канала (RGB)</div>
+      <div id="s1-cap2" class="cap">BatchNorm берёт канал <b class="o">c</b> и все его <b>m = N·H·W</b> значений — по батчу и по пространству — и считает <b class="o">μ<sub>B</sub>, σ²<sub>B</sub></b></div>
+      <div id="s1-cap3" class="cap">Нормализуем <b>x̂ = (x − μ<sub>B</sub>)/√(σ²<sub>B</sub> + ε)</b>, затем <b>y = γ<sub>c</sub>·x̂ + β<sub>c</sub></b>: на канал 2 параметра, всего 2·C</div>
+      <div id="s1-cap4" class="cap">При обучении ведём <b class="g">running mean/var</b> по каналу; на инференсе берём их — стабильно даже при <b>batch size = 1</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    // Сетка N × C: столбцы — каналы, строки — примеры батча; в клетке точки = H × W значений.
+    const colX = [250, 420, 590], cellW = 140, cellH = 82, rowY = [110, 208, 306, 404, 502];
+    const colFill = ["#ff4d6d", "#3dba7a", "#4a9eff"];
+    const shade = [[0.30, 0.55, 0.42], [0.62, 0.36, 0.50], [0.44, 0.70, 0.33], [0.36, 0.48, 0.66], [0.58, 0.40, 0.46]];
+    const g = document.getElementById("s1-cells");
+    const NS = "http://www.w3.org/2000/svg";
+    const cells = [];
+    rowY.forEach((y, r) => {
+      const lab = document.createElementNS(NS, "text");
+      lab.setAttribute("id", `s1-row${r}`); lab.setAttribute("x", "226"); lab.setAttribute("y", (y + cellH / 2 + 9).toFixed(0));
+      lab.setAttribute("text-anchor", "end"); lab.setAttribute("fill", "#aab3c2"); lab.setAttribute("font-size", "24"); lab.setAttribute("opacity", "0");
+      lab.textContent = `n = ${r + 1}`; g.appendChild(lab); cells.push([lab, r * 3]);
+      colX.forEach((x, c) => {
+        const cg = document.createElementNS(NS, "g");
+        cg.setAttribute("id", `s1-cell${r}${c}`); cg.setAttribute("opacity", "0");
+        const rect = document.createElementNS(NS, "rect");
+        rect.setAttribute("x", x); rect.setAttribute("y", y); rect.setAttribute("width", cellW); rect.setAttribute("height", cellH); rect.setAttribute("rx", "10");
+        rect.setAttribute("fill", colFill[c]); rect.setAttribute("fill-opacity", shade[r][c].toFixed(2)); rect.setAttribute("stroke", "#2a3140"); rect.setAttribute("stroke-width", "2");
+        cg.appendChild(rect);
+        for (let i = 0; i < 4; i++) for (let j = 0; j < 3; j++) {
+          const d = document.createElementNS(NS, "circle");
+          d.setAttribute("cx", (x + 28 + i * 28).toFixed(0)); d.setAttribute("cy", (y + 22 + j * 19).toFixed(0)); d.setAttribute("r", "4.5");
+          d.setAttribute("fill", "#f0f4ff"); d.setAttribute("fill-opacity", ((i + j + r + c) % 3 === 0 ? 0.9 : 0.5).toFixed(1));
+          cg.appendChild(d);
+        }
+        g.appendChild(cg); cells.push([cg, r * 3 + c]);
+      });
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-hdr", { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.5 }, 0.3);
+    ["#s1-col1", "#s1-col2", "#s1-col3"].forEach((id, i) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.6 + 0.15 * i));
+    cells.forEach(([el, k]) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0.8 + 0.07 * k));
+    tl.fromTo("#s1-nlab", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.4);
+    tl.fromTo("#s1-hw", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.4);
+    cap("#s1-cap1", 0.6, 4.4);
+    // Канал c = 1: рамка по столбцу рисуется, появляются μ_B, σ²_B под столбцом.
+    tl.fromTo("#s1-hl", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.6);
+    tl.fromTo("#s1-hl", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "1400 9999" }, duration: 1.0, ease: "power2.inOut", immediateRender: false }, 4.6);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 4.9);
+    tl.fromTo("#s1-mu1", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, 5.6);
+    tl.fromTo("#s1-foot", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.8);
+    cap("#s1-cap2", 4.6, 8.4);
+    // «для каждого канала c»: рамка переезжает на c = 2, затем на c = 3.
+    tl.to("#s1-hl", { attr: { x: 410 }, duration: 0.7, ease: "power2.inOut" }, 6.6);
+    tl.fromTo("#s1-mu2", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, 7.2);
+    tl.to("#s1-hl", { attr: { x: 580 }, duration: 0.7, ease: "power2.inOut" }, 7.7);
+    tl.fromTo("#s1-mu3", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, 8.3);
+    cap("#s1-cap3", 8.6, 12.0);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.8);
+    cap("#s1-cap4", 12.2, 14.6);
+    tl.fromTo("#s1-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 12.4);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 14.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

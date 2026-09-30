@@ -6,7 +6,7 @@ tags:
   - domain/generative
 type: moc
 status: canonical
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 
 # MOC: генеративные модели

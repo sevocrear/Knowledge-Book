@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: agent-protocols-mcp-acp-ucp-and-harness
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # MCP, ACP, UCP и Agent Harness
 
@@ -53,6 +53,12 @@ updated: 2026-09-18
 - **Harness** — поводок и проверка: сколько шагов можно сделать, куда нельзя ходить, и как убедиться, что дело **сделано**, а не только сказано «готово».
 
 Cursor — это уже готовый harness. Настройка — не «включить всё», а повесить правильный поводок: короткие правила, нужные инструменты, проверка после правок.
+
+**Визуализация (HyperFrames, 42 с):** сцена 1 — карта слоёв: человек → редактор → агент и стрелки ACP / MCP / A2A / UCP к своим стыкам; сцена 2 — три примитива MCP, транспорт и направление разговора (ACP: редактор спрашивает, MCP: агент спрашивает); сцена 3 — agent harness: rules → loop ← MCP + guardrails → verify, fail возвращает в цикл, pass → Done.
+
+![Слои агентных протоколов и agent harness](./assets/visualizations/agent-protocol-layers-and-harness.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/agent-protocol-layers-and-harness.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
@@ -138,7 +144,7 @@ Harness — это уже продукт: Cursor, Claude Code, Codex. Прото
 }
 ```
 
-Секреты — в env / Interpolation (`${env:API_KEY}`), не в правилах и не в промпте. Allowlist инструментов: `mcpAllowlist` в настройках (например `"github:*"`, `"linear:list_issues"`).
+Секреты — в env через Interpolation (подстановка `env:API_KEY` в фигурных скобках, как в конфиге выше), не в правилах и не в промпте. Allowlist инструментов: `mcpAllowlist` в настройках (например `"github:*"`, `"linear:list_issues"`).
 
 ---
 
@@ -283,7 +289,7 @@ alwaysApply: false
 
 ### 2. Skills — процедуры, которые не должны висеть всегда
 
-Skill (`.cursor/skills/<name>/SKILL.md`) подхватывается, когда задача на него похожа. Сюда относятся: «сделай Manim», «разбери YouTube», «создай rule».
+Skill (`.cursor/skills/<name>/SKILL.md`) подхватывается, когда задача на него похожа. Сюда относятся: «сделай клип к теме» (kb-video, HyperFrames), «разбери YouTube», «создай rule».
 
 Хороший skill:
 

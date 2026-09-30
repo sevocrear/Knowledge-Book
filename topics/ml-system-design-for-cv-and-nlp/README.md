@@ -31,7 +31,7 @@ status: canonical
 lang: ru
 type: topic
 slug: ml-system-design-for-cv-and-nlp
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # System Design для Computer Vision и NLP
 
@@ -136,7 +136,7 @@ System Design — это умение заранее посчитать, ско�
 
 $$\rho = \frac{\lambda}{n\mu}$$
 
-Если $\rho \ge 1$, очередь растёт без Bound: никакой «оптимизации кода» это не спасёт, нужны ещё реплики, меньше работы на запрос или отказ в обслуживании.
+Если $\rho \ge 1$, очередь растёт без ограничения: никакой «оптимизации кода» это не спасёт, нужны ещё реплики, меньше работы на запрос или отказ в обслуживании.
 
 **Закон Литтла**: среднее число запросов в системе
 
@@ -223,9 +223,11 @@ $$T(B) = T_0 + t_{\text{item}} \cdot B.$$
 
 Это ровно то, что делают Triton Inference Server, TensorRT и batched ONNX Runtime: **подождать чуть-чуть**, чтобы заполнить SM'ы.
 
-<video src="./assets/visualizations/serving-load-balancer-batching.mp4" controls muted loop playsinline width="100%"></video>
+**Визуализация (HyperFrames, ~44 с):** закон очередей на пальцах — $\mu = 50$/с, 100 vs 1000 клиентов, $\rho = 0.8$ против $\rho = 8$ и таблица симуляции (сцена 1); балансировщик и 10 реплик, автоскейл по глубине очереди и GPU util (сцена 2); dynamic batching — $T(B) = T_0 + t_{\text{item}} B$, $\approx 100$ vs $\approx 250$ items/s при $\lambda = 250$/с (сцена 3).
 
-Клиенты бьют в балансировщик; на каждой GPU-ноде сборщик пачек наполняет кернел. Один GPU под 1000 клиентов краснеет очередью; несколько реплик с батчингом возвращают систему в зелёную зону $\rho < 1$.
+![Serving: закон очередей, балансировщик и dynamic batching](./assets/visualizations/serving-load-balancer-batching.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/serving-load-balancer-batching.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ### 100 vs 1000 для LLM — другая арифметика
 
@@ -328,7 +330,7 @@ RTSP × N → decode (NVDEC) → per-camera latest frame
 5. **Как обновлять модель без простоя?** — Canary, теневой трафик, сравнение калибровки и p99, мгновенный rollback.
 6. **Где кэшировать?** — Идентичные кадры/промпты, эмбеддинги документов RAG, префиксы system prompt.
 7. **Как не потерять трек при рестарте воркера?** — Состояние трекера вне процесса или checkpoint; балансировка по `camera_id`.
-8. **Стоимость.** — $/1k запросов или $/камера·час; часто выгоднее меньшая модель + эскалация, чем всегда гигант.
+8. **Стоимость.** — доллары за 1k запросов или за камера·час; часто выгоднее меньшая модель + эскалация, чем всегда гигант.
 
 ---
 

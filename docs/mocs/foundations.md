@@ -6,7 +6,7 @@ tags:
   - domain/ml-foundations
 type: moc
 status: canonical
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 
 # MOC: математика и основы ML

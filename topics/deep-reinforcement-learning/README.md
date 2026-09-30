@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: deep-reinforcement-learning
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Deep Reinforcement Learning (глубокое RL): От Основ к Управлению Роботами и Автономными Автомобилями
 
@@ -35,13 +35,14 @@ updated: 2026-09-18
 4. [Value-Based Методы](#value-based-методы)
 5. [Policy Gradient Методы](#policy-gradient-методы)
 6. [Actor-Critic Методы](#actor-critic-методы)
-7. [Современные Методы (2020-2026)](#современные-методы-2020-2026)
+7. [Современные Методы: PPO, SAC, TD3](#современные-методы-ppo-sac-td3)
 8. [Deep RL для Робототехники](#deep-rl-для-робототехники)
 9. [Deep RL для Автономных Автомобилей](#deep-rl-для-автономных-автомобилей)
 10. [Практические Реализации](#практические-реализации)
 11. [Сравнение Методов](#сравнение-методов)
 12. [Текущее Состояние и Тренды (2024-2026)](#текущее-состояние-и-тренды-2024-2026)
 13. [Источники](#источники)
+14. [Заключение](#заключение)
 
 ---
 
@@ -55,13 +56,19 @@ updated: 2026-09-18
 
 Представь, что ты учишься играть в видеоигру. Сначала ты не знаешь, какие кнопки нажимать, но каждый раз, когда ты делаешь что-то хорошее (например, собираешь монету), игра говорит тебе "молодец!" и дает очки. Когда ты делаешь что-то плохое (например, падаешь в яму), игра говорит "плохо" и забирает очки. Со временем ты учишься, какие действия приводят к хорошим результатам, и начинаешь играть все лучше и лучше. Deep Reinforcement Learning — это то же самое, но для компьютера: он учится на опыте, пробуя разные действия и получая награды или штрафы, пока не научится играть (или управлять роботом, или водить машину) очень хорошо.
 
+**Визуализация (HyperFrames, 43 с):** сцена 1 — цикл агент–среда (s_t → a_t → r_{t+1}, s_{t+1}), MDP и дисконтированный возврат G_t; сцена 2 — value-based DQN (Q-сеть, replay buffer, target-сеть) против policy gradient (∇ log π · Â) и actor-critic; сцена 3 — clipped-целевая функция PPO: почему отношение r_t(θ) обрезается до [1−ε, 1+ε].
+
+![Deep RL: цикл агент–среда, DQN vs policy gradient, PPO clip](./assets/visualizations/rl-agent-environment-loop-ppo.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/rl-agent-environment-loop-ppo.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ### Исторический Контекст
 
 - **1950-е**: Формализация Reinforcement Learning (Bellman, MDP)
 - **1980-1990-е**: Q-Learning, Policy Gradient методы
 - **2013**: Deep Q-Network (DQN) — прорыв в Deep RL
-- **2015-2017**: Развитие Actor-Critic методов (A3C, DDPG, TD3)
-- **2017-2018**: Proximal Policy Optimization (PPO), Soft Actor-Critic (SAC)
+- **2015-2017**: Развитие Actor-Critic методов (DDPG, A3C)
+- **2017-2018**: Proximal Policy Optimization (PPO), Soft Actor-Critic (SAC), TD3
 - **2019-2021**: Импульс в робототехнике, автономных автомобилях
 - **2022-2026**: Transformer-based RL, Foundation Models для RL, Sim-to-Real transfer
 
@@ -329,7 +336,9 @@ $$L(\theta) = \mathbb{E}_{(s,a,r,s') \sim \mathcal{D}} \left[ \left( r + \gamma 
 
 **Градиент:**
 
-$$\nabla_\theta L(\theta) = \mathbb{E}_{(s,a,r,s') \sim \mathcal{D}} \left[ \left( r + \gamma \max_{a'} Q(s',a'; \theta^-) - Q(s,a; \theta) \right) \nabla_\theta Q(s,a; \theta) \right]$$
+$$\nabla_\theta L(\theta) = -2\,\mathbb{E}_{(s,a,r,s') \sim \mathcal{D}} \left[ \left( r + \gamma \max_{a'} Q(s',a'; \theta^-) - Q(s,a; \theta) \right) \nabla_\theta Q(s,a; \theta) \right]$$
+
+(в статье DQN множитель $-2$ опущен — он поглощается learning rate; важно лишь, что шаг градиентного спуска сдвигает $Q(s,a;\theta)$ в сторону целевого значения)
 
 ### Улучшения DQN
 
@@ -506,7 +515,7 @@ class A3C(nn.Module):
 
 ---
 
-## Современные Методы (2020-2026)
+## Современные Методы: PPO, SAC, TD3
 
 ### Proximal Policy Optimization (PPO)
 
@@ -554,13 +563,13 @@ class PPO:
         # Преобразовать в тензоры
         states = torch.FloatTensor(states)
         actions = torch.LongTensor(actions)
-        old_log_probs = self.policy_old(states)[0].gather(1, actions.unsqueeze(1)).squeeze(1).detach()
+        old_log_probs = self.policy_old(states)[0].gather(1, actions.unsqueeze(1)).squeeze(1).log().detach()
         
         # Множественные обновления
         for _ in range(self.k_epochs):
             # Текущие вероятности
             probs, values = self.policy(states)
-            new_log_probs = probs.gather(1, actions.unsqueeze(1)).squeeze(1)
+            new_log_probs = probs.gather(1, actions.unsqueeze(1)).squeeze(1).log()
             
             # Отношение вероятностей
             ratio = torch.exp(new_log_probs - old_log_probs)
@@ -701,7 +710,9 @@ class SAC:
     def select_action(self, state, deterministic=False):
         state_tensor = torch.FloatTensor(state).unsqueeze(0)
         if deterministic:
-            action, _ = self.actor(state_tensor)
+            mean, _ = self.actor(state_tensor)
+            action = torch.tanh(mean) * (self.action_range[1] - self.action_range[0]) / 2.0 + \
+                     (self.action_range[1] + self.action_range[0]) / 2.0
         else:
             action, _ = self.actor.sample(state_tensor)
         return action.cpu().numpy()[0]
@@ -1192,7 +1203,7 @@ for i in range(10):
 ### Полный Пример: Управление Роботом
 
 ```python
-import gym
+import gymnasium as gym
 import numpy as np
 import torch
 from stable_baselines3 import SAC
@@ -1221,12 +1232,12 @@ agent.save("sac_halfcheetah")
 
 # Загрузка и использование
 agent = SAC.load("sac_halfcheetah")
-obs = env.reset()
+obs, _ = env.reset()
 for _ in range(1000):
     action, _states = agent.predict(obs, deterministic=True)
-    obs, reward, done, info = env.step(action)
-    if done:
-        obs = env.reset()
+    obs, reward, terminated, truncated, info = env.step(action)
+    if terminated or truncated:
+        obs, _ = env.reset()
 ```
 
 ---
@@ -1291,7 +1302,7 @@ for _ in range(1000):
 **Для Робототехники:**
 1. **SAC** — все еще актуален
 2. **Diffusion Policies** — новый тренд
-3. **RT-2** — foundation model подход
+3. **RT-2, OpenVLA, π0** — foundation model (VLA) подход
 
 **Для Автономных Автомобилей:**
 1. **End-to-End RL** — с улучшенной безопасностью

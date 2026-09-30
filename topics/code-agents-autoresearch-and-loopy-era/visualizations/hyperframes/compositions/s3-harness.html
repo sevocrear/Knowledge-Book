@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 0px; width: 700px; font-size: 28px; }
+  #s3-c1 .li { padding: 3px 0; }
+  #s3-c1 .li .k { color: #f0f4ff; font-weight: 600; }
+  #s3-c2 { left: 1060px; top: 330px; width: 700px; }
+  #s3-c2 .frac { display: flex; align-items: center; gap: 18px; font-size: 30px; }
+  #s3-c2 .frac .lhs { font-style: italic; font-size: 34px; white-space: nowrap; }
+  #s3-c2 .frac .rhs { display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.25; }
+  #s3-c2 .frac .num { color: #3dba7a; padding-bottom: 6px; border-bottom: 3px solid #e6ebf5; }
+  #s3-c2 .frac .den { color: #aab3c2; padding-top: 6px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Как снять человека с критического пути?</div></div>
+    <div class="badge">Knowledge Book · Code agents</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <defs>
+          <marker id="s3-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+        </defs>
+        <!-- человек: objective + guardrails -->
+        <g id="s3-human" opacity="0">
+          <rect x="0" y="250" width="170" height="130" rx="14" fill="#161a24" stroke="#4a9eff" stroke-width="3"/>
+          <text x="85" y="288" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="700">человек</text>
+          <text x="85" y="324" text-anchor="middle" fill="#4a9eff" font-size="23" font-weight="600">objective</text>
+          <text x="85" y="356" text-anchor="middle" fill="#4a9eff" font-size="23" font-weight="600">guardrails</text>
+        </g>
+        <line id="s3-ar-h" x1="174" y1="315" x2="204" y2="315" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <!-- harness -->
+        <g id="s3-frame" opacity="0">
+          <rect x="212" y="130" width="390" height="430" rx="18" fill="rgba(45,212,191,0.05)" stroke="#2dd4bf" stroke-width="3" stroke-dasharray="14 10"/>
+          <text x="232" y="164" fill="#2dd4bf" font-size="24" font-weight="700">agent harness</text>
+        </g>
+        <g id="s3-model" opacity="0">
+          <rect x="332" y="300" width="150" height="80" rx="14" fill="#1e3a5f" stroke="#4a9eff" stroke-width="3"/>
+          <text x="407" y="350" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">модель</text>
+        </g>
+        <g id="s3-p1" opacity="0"><rect x="222" y="320" width="96" height="40" rx="20" fill="#161a24" stroke="#2dd4bf" stroke-width="2.5"/><text x="270" y="347" text-anchor="middle" fill="#2dd4bf" font-size="22" font-weight="600">tools</text><line x1="318" y1="340" x2="332" y2="340" stroke="#2dd4bf" stroke-width="3"/></g>
+        <g id="s3-p2" opacity="0"><rect x="332" y="205" width="150" height="40" rx="20" fill="#161a24" stroke="#2dd4bf" stroke-width="2.5"/><text x="407" y="232" text-anchor="middle" fill="#2dd4bf" font-size="22" font-weight="600">guardrails</text><line x1="407" y1="245" x2="407" y2="300" stroke="#2dd4bf" stroke-width="3"/></g>
+        <g id="s3-p3" opacity="0"><rect x="496" y="320" width="96" height="40" rx="20" fill="#161a24" stroke="#2dd4bf" stroke-width="2.5"/><text x="544" y="347" text-anchor="middle" fill="#2dd4bf" font-size="22" font-weight="600">verify</text><line x1="482" y1="340" x2="496" y2="340" stroke="#2dd4bf" stroke-width="3"/></g>
+        <g id="s3-p4" opacity="0"><rect x="332" y="445" width="150" height="40" rx="20" fill="#161a24" stroke="#2dd4bf" stroke-width="2.5"/><text x="407" y="472" text-anchor="middle" fill="#2dd4bf" font-size="22" font-weight="600">outer loop</text><line x1="407" y1="380" x2="407" y2="445" stroke="#2dd4bf" stroke-width="3"/></g>
+        <text id="s3-note" x="407" y="532" text-anchor="middle" fill="#aab3c2" font-size="20" opacity="0">не «prompt harder», а код обвязки</text>
+        <!-- AutoResearch: параллельные кандидаты -->
+        <g id="s3-ar-hd" opacity="0">
+          <text x="640" y="162" fill="#ff7a2f" font-size="24" font-weight="700">AutoResearch</text>
+          <text x="640" y="190" fill="#aab3c2" font-size="20">параллельные кандидаты</text>
+          <text x="640" y="214" fill="#aab3c2" font-size="20">pass@tests (иллюстративно)</text>
+        </g>
+        <g id="s3-lane1" opacity="0">
+          <circle cx="652" cy="241" r="11" fill="none" stroke="#aab3c2" stroke-width="3" stroke-dasharray="52 12"/>
+          <text x="675" y="250" fill="#e6ebf5" font-size="24" font-weight="600">кандидат A</text>
+          <rect x="640" y="264" width="300" height="18" rx="6" fill="#2a3140"/>
+        </g>
+        <g id="s3-lane2" opacity="0">
+          <circle cx="652" cy="341" r="11" fill="none" stroke="#aab3c2" stroke-width="3" stroke-dasharray="52 12"/>
+          <text x="675" y="350" fill="#e6ebf5" font-size="24" font-weight="600">кандидат B</text>
+          <rect x="640" y="364" width="300" height="18" rx="6" fill="#2a3140"/>
+        </g>
+        <g id="s3-lane3" opacity="0">
+          <circle cx="652" cy="441" r="11" fill="none" stroke="#aab3c2" stroke-width="3" stroke-dasharray="52 12"/>
+          <text x="675" y="450" fill="#e6ebf5" font-size="24" font-weight="600">кандидат C</text>
+          <rect x="640" y="464" width="300" height="18" rx="6" fill="#2a3140"/>
+        </g>
+        <rect id="s3-b1" x="640" y="264" width="0" height="18" rx="6" fill="#4a9eff"/>
+        <rect id="s3-b2" x="640" y="364" width="0" height="18" rx="6" fill="#4a9eff"/>
+        <rect id="s3-b3" x="640" y="464" width="0" height="18" rx="6" fill="#4a9eff"/>
+        <rect id="s3-b2g" x="640" y="364" width="252" height="18" rx="6" fill="#3dba7a" opacity="0"/>
+        <text id="s3-v1" x="950" y="250" text-anchor="end" fill="#f0f4ff" font-size="24" font-weight="700" opacity="0">0.71</text>
+        <text id="s3-v2" x="950" y="350" text-anchor="end" fill="#f0f4ff" font-size="24" font-weight="700" opacity="0">0.84</text>
+        <text id="s3-v3" x="950" y="450" text-anchor="end" fill="#f0f4ff" font-size="24" font-weight="700" opacity="0">0.78</text>
+        <text id="s3-best" x="640" y="410" fill="#3dba7a" font-size="22" font-weight="700" opacity="0">✓ выбран evaluator</text>
+        <g id="s3-eval" opacity="0">
+          <rect x="632" y="540" width="336" height="76" rx="12" fill="rgba(255,122,47,0.12)" stroke="#ff7a2f" stroke-width="3"/>
+          <text x="800" y="571" text-anchor="middle" fill="#ff7a2f" font-size="19" font-weight="700">оценка раньше генерации</text>
+          <text x="800" y="600" text-anchor="middle" fill="#aab3c2" font-size="20">eval before scale</text>
+        </g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">AutoResearch: где работает</div>
+        <div class="li"><span class="k">объективная метрика</span>: loss, latency, pass@tests, recall@k</div>
+        <div class="li"><span class="k">быстрая, дешёвая верификация</span> кандидата</div>
+        <div class="li"><span class="k">большое, параллелизуемое</span> пространство экспериментов</div></div>
+      <div id="s3-c2" class="card"><div class="h">Новая единица эффективности</div>
+        <div class="frac"><span class="lhs">Leverage ≈</span><span class="rhs"><span class="num">полезные агентные токены</span><span class="den">человеческие токены и время</span></span></div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap"><b class="t">Harness</b> — всё вокруг модели: tools, guardrails, verify, outer loop. Проблемы агента чинит код обвязки, а не «prompt harder»</div>
+      <div id="s3-cap2" class="cap"><b class="o">AutoResearch</b>: цель и метрика формализованы → кандидаты гоняются параллельно, evaluator выбирает по метрике</div>
+      <div id="s3-cap3" class="cap key">Человек задаёт objective и guardrails; цикл крутится сам, а verification gate решает, что «готово»</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // Harness вокруг модели
+    tl.fromTo("#s3-model", { opacity: 0, scale: 0.85, svgOrigin: "407 340" }, { opacity: 1, scale: 1, svgOrigin: "407 340", duration: 0.5, ease: "back.out(1.6)" }, 0.3);
+    tl.fromTo("#s3-frame", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.6);
+    cap("#s3-cap1", 0.6, 4.6);
+    ["#s3-p1", "#s3-p2", "#s3-p3", "#s3-p4"].forEach((id, i) => {
+      tl.fromTo(id, { opacity: 0, scale: 0.8, svgOrigin: "407 340" }, { opacity: 1, scale: 1, svgOrigin: "407 340", duration: 0.4, ease: "back.out(1.8)" }, 1.0 + 0.4 * i);
+    });
+    tl.fromTo("#s3-note", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.8);
+    tl.fromTo("#s3-human", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 3.0);
+    tl.fromTo("#s3-ar-h", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "30 9999" }, duration: 0.35, ease: "power2.inOut" }, 3.4);
+    // AutoResearch: параллельные кандидаты, evaluator выбирает по метрике
+    cap("#s3-cap2", 4.8, 8.6);
+    tl.fromTo("#s3-ar-hd", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.9);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.0);
+    const vals = [0.71, 0.84, 0.78];
+    [1, 2, 3].forEach((n, i) => {
+      tl.fromTo(`#s3-lane${n}`, { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 5.2 + 0.25 * i);
+      tl.fromTo(`#s3-b${n}`, { attr: { width: 0 } }, { attr: { width: 300 * vals[i] }, duration: 1.1, ease: "power2.out" }, 5.7 + 0.25 * i);
+      tl.fromTo(`#s3-v${n}`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.6 + 0.25 * i);
+    });
+    tl.fromTo("#s3-eval", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 7.2);
+    tl.to("#s3-lane1", { opacity: 0.4, duration: 0.4 }, 7.8); tl.to("#s3-b1", { opacity: 0.4, duration: 0.4 }, 7.8); tl.to("#s3-v1", { opacity: 0.4, duration: 0.4 }, 7.8);
+    tl.to("#s3-lane3", { opacity: 0.4, duration: 0.4 }, 7.8); tl.to("#s3-b3", { opacity: 0.4, duration: 0.4 }, 7.8); tl.to("#s3-v3", { opacity: 0.4, duration: 0.4 }, 7.8);
+    tl.fromTo("#s3-b2g", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.8);
+    tl.fromTo("#s3-best", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 8.0);
+    // Ключевая идея + leverage
+    cap("#s3-cap3", 8.9, 0);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.2);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 12.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 190px; width: 700px; }
+  #s2-c3 { left: 1060px; top: 400px; width: 700px; }
+  #s2-c3 .s { font-size: 30px; line-height: 1.4; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как найти дефект на новом кадре?</div></div>
+    <div class="badge">Knowledge Book · AnomalyDINO</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <defs>
+          <radialGradient id="s2-blob" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff4d6d" stop-opacity="0.95"/>
+            <stop offset="45%" stop-color="#ff7a2f" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#ff7a2f" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <text id="s2-gridlbl" x="260" y="46" text-anchor="middle" fill="#aab3c2" font-size="24">тестовый кадр, 16 × 16 патчей</text>
+        <g id="s2-grid"></g>
+        <g id="s2-heat"></g>
+        <circle id="s2-blobc" cx="365" cy="265" r="84" fill="url(#s2-blob)" opacity="0"/>
+        <path id="s2-mask" opacity="0" d="" fill="none" stroke="#ff4d6d" stroke-width="5" stroke-linejoin="round" stroke-dasharray="0 9999"/>
+        <text id="s2-masklbl" x="470" y="606" text-anchor="end" fill="#ff4d6d" font-size="26" font-weight="700" opacity="0">маска дефекта</text>
+        <rect id="s2-selA" x="109" y="399" width="32" height="32" fill="none" stroke="#3dba7a" stroke-width="4" opacity="0"/>
+        <rect id="s2-selB" x="349" y="249" width="32" height="32" fill="none" stroke="#ff4d6d" stroke-width="4" opacity="0"/>
+        <text id="s2-lblA" x="98" y="452" fill="#3dba7a" font-size="24" font-weight="700" opacity="0">A</text>
+        <text id="s2-lblB" x="380" y="240" fill="#ff4d6d" font-size="24" font-weight="700" opacity="0">B</text>
+        <path id="s2-lnA" opacity="0" d="M 141 415 L 640 250" fill="none" stroke="#3dba7a" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <path id="s2-lnB" opacity="0" d="M 383 265 L 640 230" fill="none" stroke="#ff4d6d" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <g id="s2-bank" opacity="0">
+          <rect x="640" y="70" width="320" height="300" rx="18" fill="#161a24" stroke="#2dd4bf" stroke-width="4" stroke-dasharray="14 10"/>
+          <text x="800" y="112" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="700">memory bank M</text>
+          <g id="s2-bankcells"></g>
+        </g>
+        <g id="s2-resA" opacity="0">
+          <text x="640" y="430" fill="#3dba7a" font-size="28" font-weight="700">A: сосед в M близко</text>
+          <text x="640" y="466" fill="#3dba7a" font-size="28">d<tspan font-size="20" dy="6">NN</tspan><tspan dy="-6"> = 0.05</tspan></text>
+        </g>
+        <g id="s2-resB" opacity="0">
+          <text x="640" y="530" fill="#ff4d6d" font-size="28" font-weight="700">B: похожих в M нет</text>
+          <text x="640" y="566" fill="#ff4d6d" font-size="28">d<tspan font-size="20" dy="6">NN</tspan><tspan dy="-6"> = 0.58</tspan></text>
+        </g>
+        <text id="s2-illu" x="640" y="610" fill="#aab3c2" font-size="22" opacity="0">(значения иллюстративны)</text>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Косинусное расстояние</div>
+        <div class="f">d(x, y) = 1 − ⟨x, y⟩ / (‖x‖ · ‖y‖)</div></div>
+      <div id="s2-c2" class="card"><div class="h">Ближайший сосед в банке</div>
+        <div class="f">d<sub>NN</sub>(p; M) = min<sub>p<sub>ref</sub> ∈ M</sub> d(p, p<sub>ref</sub>)</div></div>
+      <div id="s2-c3" class="card"><div class="h">Anomaly map</div>
+        <div class="s">решётка <span class="r">d<sub>NN</sub></span> → bilinear upsampling до H × W → Gaussian blur, <span class="o">σ = 4.0</span> → порог (val) → маска</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Тестовый кадр режем на те же патчи. Для каждого патча ищем <b class="t">ближайший вектор в M</b> по косинусному расстоянию</div>
+      <div id="s2-cap2" class="cap">Патч <b class="g">A</b> из нормы: близкий сосед есть, d<sub>NN</sub> мало. Патч <b class="r">B</b> с пятном ни на что в M не похож — d<sub>NN</sub> велико</div>
+      <div id="s2-cap3" class="cap">Решётка d<sub>NN</sub> → <b>bilinear upsampling</b> до H × W → <b>Gaussian blur</b> (σ = 4.0): гладкая <b class="r">anomaly map</b></div>
+      <div id="s2-cap4" class="cap">Порог, подобранный на валидации (F1-max / PRO) → бинарная <b class="r">маска дефекта</b>: где именно брак</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const N = 16, CELL = 30, GX = 20, GY = 70;
+    const shades = ["#1e3a5f", "#24466f", "#1a3352"];
+    const defect = new Set(["10,5", "11,5", "12,5", "10,6", "11,6", "12,6", "13,6", "10,7", "11,7", "12,7", "11,8"]); // "c,r"
+    const g = document.getElementById("s2-grid"), gh = document.getElementById("s2-heat");
+    const heat = []; // [id, opacity]
+    // Слабые «ложные» отклики вне дефекта — фиксированный список.
+    const faint = { "2,2": 0.16, "6,13": 0.14, "14,12": 0.18, "4,9": 0.12, "9,1": 0.14, "1,14": 0.1 };
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+      const x = GX + c * CELL, y = GY + r * CELL, key = `${c},${r}`;
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("id", `s2-g-${r * N + c}`);
+      el.setAttribute("x", x + 1); el.setAttribute("y", y + 1); el.setAttribute("width", CELL - 2); el.setAttribute("height", CELL - 2);
+      el.setAttribute("rx", "3"); el.setAttribute("fill", defect.has(key) ? "#4a2f4a" : shades[(r * 7 + c * 3) % 3]); el.setAttribute("opacity", "0");
+      g.appendChild(el);
+      // Тепловая карта: дефект ~0.9, кольцо вокруг ~0.35, редкие слабые клетки.
+      let o = 0;
+      if (defect.has(key)) o = 0.9;
+      else if ([[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]].some(([dc, dr]) => defect.has(`${c + dc},${r + dr}`))) o = 0.35;
+      else if (faint[key]) o = faint[key];
+      if (o > 0) {
+        const h = document.createElementNS(NS, "rect");
+        h.setAttribute("id", `s2-h-${r * N + c}`);
+        h.setAttribute("x", x + 1); h.setAttribute("y", y + 1); h.setAttribute("width", CELL - 2); h.setAttribute("height", CELL - 2);
+        h.setAttribute("rx", "3"); h.setAttribute("fill", "#ff4d6d"); h.setAttribute("opacity", "0");
+        gh.appendChild(h); heat.push([`#s2-h-${r * N + c}`, o]);
+      }
+    }
+    // Контур маски: рёбра клеток дефекта, у которых сосед — не дефект.
+    const segs = [];
+    defect.forEach(key => {
+      const [c, r] = key.split(",").map(Number), x = GX + c * CELL, y = GY + r * CELL;
+      if (!defect.has(`${c},${r - 1}`)) segs.push(`M ${x} ${y} L ${x + CELL} ${y}`);
+      if (!defect.has(`${c},${r + 1}`)) segs.push(`M ${x} ${y + CELL} L ${x + CELL} ${y + CELL}`);
+      if (!defect.has(`${c - 1},${r}`)) segs.push(`M ${x} ${y} L ${x} ${y + CELL}`);
+      if (!defect.has(`${c + 1},${r}`)) segs.push(`M ${x + CELL} ${y} L ${x + CELL} ${y + CELL}`);
+    });
+    document.getElementById("s2-mask").setAttribute("d", segs.join(" "));
+    const maskLen = segs.length * CELL;
+    // Клетки банка: 9 × 6 бирюзовых квадратов.
+    const gb = document.getElementById("s2-bankcells");
+    for (let i = 0; i < 54; i++) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("x", 672 + (i % 9) * 29); el.setAttribute("y", 136 + Math.floor(i / 9) * 32);
+      el.setAttribute("width", "22"); el.setAttribute("height", "22"); el.setAttribute("rx", "4"); el.setAttribute("fill", "#2dd4bf"); el.setAttribute("opacity", (i % 4 === 1) ? "0.55" : "0.85");
+      gb.appendChild(el);
+    }
+    const lenA = Math.hypot(640 - 141, 250 - 415).toFixed(1), lenB = Math.hypot(640 - 383, 230 - 265).toFixed(1);
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    for (let i = 0; i < N * N; i++) tl.fromTo(`#s2-g-${i}`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3 + 0.004 * i);
+    tl.fromTo("#s2-bank", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.8);
+    cap("#s2-cap1", 0.6, 4.4);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.4);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.4);
+    // Патч A (норма) и патч B (дефект) → ближайший сосед в банке.
+    tl.fromTo("#s2-selA", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.8);
+    tl.fromTo("#s2-lblA", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.8);
+    tl.fromTo("#s2-lnA", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": lenA + " 9999" }, duration: 0.7, ease: "power2.inOut" }, 3.1);
+    tl.fromTo("#s2-resA", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.8);
+    cap("#s2-cap2", 4.6, 8.4);
+    tl.fromTo("#s2-selB", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.0);
+    tl.fromTo("#s2-lblB", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.0);
+    tl.fromTo("#s2-lnB", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": lenB + " 9999" }, duration: 0.7, ease: "power2.inOut" }, 5.3);
+    tl.fromTo("#s2-resB", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.0);
+    tl.fromTo("#s2-illu", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.4);
+    // Тепловая карта по всем патчам, затем «размытая» карта.
+    cap("#s2-cap3", 8.6, 12.2);
+    ["#s2-lnA", "#s2-lnB", "#s2-selA", "#s2-selB", "#s2-lblA", "#s2-lblB"].forEach(id => tl.to(id, { opacity: 0, duration: 0.4 }, 8.6));
+    heat.forEach(([id, o], i) => tl.fromTo(id, { opacity: 0 }, { opacity: o, duration: 0.5 }, 8.9 + 0.02 * i));
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.2);
+    heat.forEach(([id, o]) => tl.to(id, { opacity: o * 0.25, duration: 0.8 }, 10.6));
+    tl.fromTo("#s2-blobc", { opacity: 0, scale: 0.6, svgOrigin: "365 265" }, { opacity: 1, scale: 1, svgOrigin: "365 265", duration: 0.9, ease: "power2.out" }, 10.6);
+    // Порог → маска.
+    cap("#s2-cap4", 12.4, 15.5);
+    tl.fromTo("#s2-mask", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": maskLen + " 9999" }, duration: 1.0, ease: "power2.inOut" }, 12.6);
+    tl.fromTo("#s2-masklbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 13.4);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 15.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 40px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 300px; width: 700px; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Где живут эмбеддинги в ArcFace?</div></div>
+    <div class="badge">Knowledge Book · ArcFace</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <circle id="s1-sphere" cx="430" cy="340" r="290" fill="none" stroke="#1e3a5f" stroke-width="6"/>
+        <text id="s1-sphere-lbl" x="430" y="655" text-anchor="middle" fill="#aab3c2" font-size="26">единичная сфера: ‖z‖₂ = 1, ‖Wⱼ‖₂ = 1</text>
+        <g id="s1-w2" opacity="0"><line x1="430" y1="340" x2="243.6" y2="117.9" stroke="#b48ce6" stroke-width="9" stroke-linecap="round"/><circle cx="243.6" cy="117.9" r="12" fill="#b48ce6"/><text x="196" y="96" fill="#b48ce6" font-size="34" font-weight="700">W₂</text></g>
+        <g id="s1-w1" opacity="0"><line x1="430" y1="340" x2="710.1" y2="264.9" stroke="#3dba7a" stroke-width="9" stroke-linecap="round"/><circle cx="710.1" cy="264.9" r="12" fill="#3dba7a"/><text x="726" y="262" fill="#3dba7a" font-size="34" font-weight="700">W₁</text></g>
+        <path id="s1-arc" d="" fill="none" stroke="#ff7a2f" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <text id="s1-arc-lbl" x="600" y="300" fill="#ff7a2f" font-size="34" font-weight="700" opacity="0">θ₁</text>
+        <g id="s1-z" opacity="0"><line x1="430" y1="340" x2="652.2" y2="153.6" stroke="#4a9eff" stroke-width="10" stroke-linecap="round"/><circle cx="652.2" cy="153.6" r="13" fill="#4a9eff"/><text x="664" y="140" fill="#4a9eff" font-size="34" font-weight="700">z = f(x)</text></g>
+      </svg>
+      <div id="s1-c1" class="card"><div class="h">Нормировка</div><div class="f">‖z‖₂ = 1,&nbsp; ‖W<sub>j</sub>‖₂ = 1</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">z — эмбеддинг объекта, W<sub>j</sub> — прототип (вес) класса j</div></div>
+      <div id="s1-c2" class="card"><div class="h">Похожесть = угол</div><div class="f">z · W<sub>j</sub> = cos <span class="o">θ<sub>j</sub></span></div><div style="font-size:28px;color:#aab3c2;margin-top:8px">меньше угол θ<sub>j</sub> → выше cosine similarity</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Эмбеддинг <b class="b">z</b> и прототипы классов <b class="g">W₁</b>, <b class="p">W₂</b> L2-нормируем: все векторы лежат на единичной сфере</div>
+      <div id="s1-cap2" class="cap">Тогда скалярное произведение <b>z · W<sub>j</sub> = cos θ<sub>j</sub></b>: похожесть измеряется <b class="o">углом</b>, а не длиной</div>
+      <div id="s1-cap3" class="cap">Обычный softmax сравнивает <b>cos θ₁</b> и <b>cos θ₂</b>. ArcFace добавит к углу своего класса зазор <b class="o">m</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const cx = 430, cy = 340;
+    const pt = (r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cy - r * Math.sin(deg * Math.PI / 180)];
+    const arc = (r, a0, a1) => { const [x0, y0] = pt(r, a0), [x1, y1] = pt(r, a1); const sweep = a1 > a0 ? 0 : 1; return `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 0 ${sweep} ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+    const len = (r, a0, a1) => (r * Math.abs(a1 - a0) * Math.PI / 180).toFixed(1);
+    document.getElementById("s1-arc").setAttribute("d", arc(140, 15, 40));
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-sphere", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "1822.1 9999" }, duration: 1.2, ease: "power2.inOut" }, 0.3);
+    tl.fromTo("#s1-w1", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.2);
+    tl.fromTo("#s1-w2", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.6);
+    tl.fromTo("#s1-z", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 2.2);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.6);
+    cap("#s1-cap1", 0.6, 5.0);
+    tl.fromTo("#s1-arc", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": len(140, 15, 40) + " 9999" }, duration: 0.9, ease: "power2.inOut" }, 5.2);
+    tl.fromTo("#s1-arc-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.8);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 6.0);
+    cap("#s1-cap2", 5.3, 9.3);
+    cap("#s1-cap3", 9.5, 12.5);
+    tl.fromTo("#s1-z", { rotation: 0, svgOrigin: "430 340" }, { rotation: -6, svgOrigin: "430 340", duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 9.8);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 12.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

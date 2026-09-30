@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .title { font-size: 44px; }
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 40px; width: 636px; }
+  #s1-c2 { left: 1060px; top: 330px; width: 636px; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Что выдаёт encoder: точку или распределение?</div></div>
+    <div class="badge">Knowledge Book · VAE</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <!-- вход x и стрелка в encoder -->
+        <g id="s1-x" opacity="0">
+          <g id="s1-xcells"></g>
+          <text x="80" y="428" text-anchor="middle" fill="#4a9eff" font-size="38" font-weight="700">x</text>
+        </g>
+        <g id="s1-enc" opacity="0">
+          <line id="s1-encline" x1="152" y1="320" x2="262" y2="320" stroke="#4a9eff" stroke-width="7" stroke-linecap="butt" stroke-dasharray="0 9999"/>
+          <polygon id="s1-enchead" points="276,320 258,308 258,332" fill="#4a9eff" opacity="0"/>
+          <text x="212" y="288" text-anchor="middle" fill="#aab3c2" font-size="26">Encoder</text>
+        </g>
+        <!-- плоскость латентного пространства -->
+        <rect id="s1-panel" x="290" y="20" width="670" height="600" rx="20" fill="#161a24" stroke="#2a3140" stroke-width="2" opacity="0"/>
+        <g id="s1-axes" opacity="0">
+          <line x1="310" y1="320" x2="940" y2="320" stroke="#2a3140" stroke-width="2"/>
+          <line x1="625" y1="40" x2="625" y2="600" stroke="#2a3140" stroke-width="2"/>
+          <text x="930" y="350" text-anchor="end" fill="#aab3c2" font-size="26">z₁</text>
+          <text x="640" y="66" fill="#aab3c2" font-size="26">z₂</text>
+          <text x="625" y="652" text-anchor="middle" fill="#aab3c2" font-size="24">латентное пространство, 2D (иллюстративно)</text>
+        </g>
+        <!-- autoencoder: одна точка -->
+        <g id="s1-ae" opacity="0">
+          <circle cx="680" cy="250" r="15" fill="#ff7a2f"/>
+          <text x="680" y="204" text-anchor="middle" fill="#ff7a2f" font-size="30" font-weight="700">autoencoder: одна точка</text>
+        </g>
+        <!-- VAE: распределение -->
+        <ellipse id="s1-cloud" cx="680" cy="250" rx="2" ry="2" fill="#4a9eff" fill-opacity="0.2" stroke="#4a9eff" stroke-width="5" opacity="0"/>
+        <g id="s1-sigma" opacity="0">
+          <line id="s1-sig1" x1="680" y1="250" x2="680" y2="250" stroke="#b48ce6" stroke-width="7" stroke-linecap="round"/>
+          <line id="s1-sig2" x1="680" y1="250" x2="680" y2="250" stroke="#b48ce6" stroke-width="7" stroke-linecap="round"/>
+          <text x="755" y="236" text-anchor="middle" fill="#b48ce6" font-size="32" font-weight="700">σ₁</text>
+          <text x="664" y="222" text-anchor="end" fill="#b48ce6" font-size="32" font-weight="700">σ₂</text>
+        </g>
+        <g id="s1-mu" opacity="0">
+          <circle cx="680" cy="250" r="14" fill="#4a9eff" stroke="#0f1117" stroke-width="3"/>
+          <text x="646" y="284" text-anchor="middle" fill="#4a9eff" font-size="36" font-weight="700">μ</text>
+        </g>
+        <g id="s1-samples"></g>
+        <text id="s1-qlbl" x="680" y="400" text-anchor="middle" fill="#4a9eff" font-size="32" font-weight="700" opacity="0">q(z|x) = N(μ, σ²)</text>
+      </svg>
+      <div id="s1-c1" class="card"><div class="h">Encoder</div><div class="f">μ<sub>φ</sub>(x), log σ²<sub>φ</sub>(x) = Encoder<sub>φ</sub>(x)</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">на выходе среднее <span class="b">μ</span> и лог-дисперсия <span class="p" style="white-space:nowrap">log σ²</span> (для численной стабильности)</div></div>
+      <div id="s1-c2" class="card"><div class="h">Латентное распределение</div><div class="f">q<sub>φ</sub>(z|x) = N(<span class="b">μ<sub>φ</sub>(x)</span>, <span class="p">σ²<sub>φ</sub>(x)</span>·I)</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">prior: p(z) = N(0, I) — стандартное нормальное</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Обычный autoencoder кодирует вход <b class="b">x</b> в одну точку. VAE кодирует его в <b class="o">распределение вероятностей</b></div>
+      <div id="s1-cap2" class="cap">Encoder выдаёт параметры Gaussian: среднее <b class="b">μ</b> и лог-дисперсию <b class="p">log σ²</b> — то есть центр и размер облака</div>
+      <div id="s1-cap3" class="cap">Сэмплы <b class="g">z ~ N(μ, σ²)</b> заполняют облако вокруг <b class="b">μ</b>, поэтому латентное пространство получается непрерывным</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v)); parent.appendChild(el); return el; };
+    // Входной «пиксельный» тайл 4×4 (иллюстративно), детерминированный узор.
+    const pattern = [0.2, 0.9, 0.9, 0.2, 0.9, 0.5, 0.5, 0.9, 0.9, 0.5, 0.5, 0.9, 0.2, 0.9, 0.9, 0.2];
+    const cells = document.getElementById("s1-xcells");
+    pattern.forEach((a, i) => mk("rect", { x: 20 + (i % 4) * 30, y: 260 + Math.floor(i / 4) * 30, width: 28, height: 28, rx: 4, fill: "#4a9eff", "fill-opacity": a }, cells));
+
+    // Облако: μ, σ₁, σ₂.
+    const mu = [680, 250], rx = 150, ry = 90;
+    // Сэмплы z ~ N(μ, σ²) — фиксированные смещения в долях σ.
+    const offs = [[-0.7, 0.35], [0.55, 0.6], [0.85, 0.3], [-0.85, -0.2], [0.05, 0.8], [-0.55, -0.65], [0.15, -0.7]];
+    const gs = document.getElementById("s1-samples");
+    const sids = offs.map(([dx, dy], i) => { const id = `s1-smp${i}`; mk("circle", { id, cx: (mu[0] + dx * rx * 0.85).toFixed(1), cy: (mu[1] + dy * ry * 0.85).toFixed(1), r: 10, fill: "#3dba7a", opacity: 0 }, gs); return "#" + id; });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-x", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.3);
+    tl.fromTo("#s1-enc", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.8);
+    tl.fromTo("#s1-encline", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "110 9999" }, duration: 0.6, ease: "power2.inOut" }, 0.9);
+    tl.fromTo("#s1-enchead", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.45);
+    tl.fromTo("#s1-panel", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.0);
+    tl.fromTo("#s1-axes", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.2);
+    cap("#s1-cap1", 0.6, 4.0);
+    tl.fromTo("#s1-ae", { opacity: 0, scale: 0.9, svgOrigin: "680 250" }, { opacity: 1, scale: 1, svgOrigin: "680 250", duration: 0.5, ease: "power2.out" }, 1.7);
+    // Точка превращается в облако.
+    tl.to("#s1-ae", { opacity: 0, duration: 0.4 }, 4.1);
+    tl.fromTo("#s1-cloud", { opacity: 0, attr: { rx: 2, ry: 2 } }, { opacity: 1, attr: { rx, ry }, duration: 1.0, ease: "power2.inOut" }, 4.3);
+    tl.fromTo("#s1-mu", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.6);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 4.6);
+    cap("#s1-cap2", 4.3, 8.0);
+    tl.fromTo("#s1-sigma", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.6);
+    tl.fromTo("#s1-sig1", { attr: { x2: mu[0], y2: mu[1] } }, { attr: { x2: mu[0] + rx, y2: mu[1] }, duration: 0.7, ease: "power2.out" }, 5.7);
+    tl.fromTo("#s1-sig2", { attr: { x2: mu[0], y2: mu[1] } }, { attr: { x2: mu[0], y2: mu[1] - ry }, duration: 0.7, ease: "power2.out" }, 5.9);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.2);
+    cap("#s1-cap3", 8.3, 11.5);
+    sids.forEach((id, i) => tl.fromTo(id, { opacity: 0, scale: 0.4, svgOrigin: `${(mu[0] + offs[i][0] * rx * 0.85).toFixed(1)} ${(mu[1] + offs[i][1] * ry * 0.85).toFixed(1)}` }, { opacity: 1, scale: 1, svgOrigin: `${(mu[0] + offs[i][0] * rx * 0.85).toFixed(1)} ${(mu[1] + offs[i][1] * ry * 0.85).toFixed(1)}`, duration: 0.35, ease: "back.out(2)" }, 8.5 + 0.22 * i));
+    tl.fromTo("#s1-qlbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.0);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 11.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

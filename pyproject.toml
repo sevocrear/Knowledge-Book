@@ -28,13 +28,8 @@ tools = [
     "yt-dlp>=2026.3.17",
     "secretstorage>=3.3.3",
 ]
-viz = [
-    "manim>=0.18.0",
-    "imageio>=2.34",
-    "imageio-ffmpeg>=0.4.9",
-]
 
 [tool.pytest.ini_options]
 markers = [
-    "manim: requires manim, cairo/pango, ffmpeg (use: uv sync --group viz)",
+    "hyperframes: runs `npx hyperframes check` on topic compositions (Node 22+, ffmpeg; enable with KB_RUN_HYPERFRAMES=1)",
 ]

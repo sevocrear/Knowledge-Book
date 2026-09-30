@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 330px; width: 700px; }
+  #s1-c1 .f, #s1-c2 .f { font-size: 32px; }
+  .s1-ro { position: absolute; left: 40px; top: 486px; width: 320px; font-size: 30px; font-weight: 700; color: #f0f4ff; text-align: center; opacity: 0; }
+  .s1-ro span { color: #ff7a2f; }
+  #s1-note { position: absolute; left: 40px; top: 560px; width: 320px; font-size: 22px; line-height: 1.3; color: #aab3c2; text-align: center; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Как картинка превращается в шум?</div></div>
+    <div class="badge">Knowledge Book · Diffusion</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <text x="200" y="32" text-anchor="middle" fill="#aab3c2" font-size="24">x<tspan font-size="17" dy="6">t</tspan><tspan dy="-6"> — «картинка» 8×8</tspan></text>
+        <g id="s1-L0"></g><g id="s1-L1" opacity="0"></g><g id="s1-L2" opacity="0"></g><g id="s1-L3" opacity="0"></g><g id="s1-L4" opacity="0"></g>
+        <line x1="40" y1="430" x2="360" y2="430" stroke="#2a3140" stroke-width="4" stroke-linecap="round"/>
+        <line x1="40" y1="418" x2="40" y2="442" stroke="#aab3c2" stroke-width="3"/>
+        <line x1="360" y1="418" x2="360" y2="442" stroke="#aab3c2" stroke-width="3"/>
+        <text x="40" y="472" text-anchor="middle" fill="#aab3c2" font-size="22">t = 0</text>
+        <text x="360" y="472" text-anchor="middle" fill="#aab3c2" font-size="22">t = T = 1000</text>
+        <circle id="s1-mark" cx="40" cy="430" r="11" fill="#ff7a2f"/>
+        <text x="700" y="62" text-anchor="middle" fill="#aab3c2" font-size="24">плотность q(x<tspan font-size="17" dy="6">t</tspan><tspan dy="-6">) по одной координате</tspan></text>
+        <g id="s1-bars"></g>
+        <line x1="452" y1="400" x2="948" y2="400" stroke="#2a3140" stroke-width="4" stroke-linecap="round"/>
+        <text x="700" y="432" text-anchor="middle" fill="#aab3c2" font-size="22">0</text>
+        <text x="468" y="432" text-anchor="middle" fill="#aab3c2" font-size="22">−3</text>
+        <text x="932" y="432" text-anchor="middle" fill="#aab3c2" font-size="22">+3</text>
+        <text id="s1-gauss" x="700" y="490" text-anchor="middle" fill="#ff7a2f" font-size="30" font-weight="700" opacity="0">x<tspan font-size="20" dy="6">T</tspan><tspan dy="-6"> ≈ ε ~ N(0, I)</tspan></text>
+        <text id="s1-bimod" x="700" y="490" text-anchor="middle" fill="#4a9eff" font-size="30" font-weight="700">данные q(x₀): два «горба»</text>
+      </svg>
+      <div id="s1-r0" class="s1-ro" data-layout-allow-overlap>t = 0 · <span>ᾱ<sub>t</sub> = 1.00</span></div>
+      <div id="s1-r1" class="s1-ro" data-layout-allow-overlap>t = 100 · <span>ᾱ<sub>t</sub> = 0.90</span></div>
+      <div id="s1-r2" class="s1-ro" data-layout-allow-overlap>t = 250 · <span>ᾱ<sub>t</sub> = 0.52</span></div>
+      <div id="s1-r3" class="s1-ro" data-layout-allow-overlap>t = 500 · <span>ᾱ<sub>t</sub> = 0.08</span></div>
+      <div id="s1-r4" class="s1-ro" data-layout-allow-overlap>t = 1000 · <span>ᾱ<sub>t</sub> ≈ 0</span></div>
+      <div id="s1-note">картинка иллюстративна; linear-расписание β<sub>t</sub>: 0.0001 → 0.02, T = 1000</div>
+      <div id="s1-c1" class="card"><div class="h">Один шаг прямого процесса</div>
+        <div class="f">q(x<sub>t</sub> | x<sub>t−1</sub>) = N(x<sub>t</sub>; √(1−<span class="o">β<sub>t</sub></span>)·x<sub>t−1</sub>, <span class="o">β<sub>t</sub></span>·I)</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">β<sub>t</sub> — расписание шума: 0 &lt; β₁ &lt; … &lt; β<sub>T</sub> &lt; 1</div></div>
+      <div id="s1-c2" class="card"><div class="h">Замкнутая форма</div>
+        <div class="f">x<sub>t</sub> = √<span class="o">ᾱ<sub>t</sub></span>·x₀ + √(1−<span class="o">ᾱ<sub>t</sub></span>)·<span class="b">ε</span>,&nbsp; ε ~ N(0, I)</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">α<sub>t</sub> = 1 − β<sub>t</sub>,&nbsp; ᾱ<sub>t</sub> = ∏<sub>s≤t</sub> α<sub>s</sub> — накопленная доля сигнала</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Прямой процесс: к данным <b class="b">x₀</b> шаг за шагом добавляем гауссовский шум по расписанию <b class="o">β<sub>t</sub></b></div>
+      <div id="s1-cap2" class="cap">Замкнутая форма: <b>x<sub>t</sub> = √ᾱ<sub>t</sub>·x₀ + √(1−ᾱ<sub>t</sub>)·ε</b> — любой шаг t получаем из x₀ одним сэмплом ε</div>
+      <div id="s1-cap3" class="cap">При t → T доля сигнала <b class="o">ᾱ<sub>t</sub> → 0</b>: от x₀ ничего не остаётся, x<sub>T</sub> ≈ ε, распределение стало <b>N(0, I)</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // x₀ — «картинка» 8×8 (иллюстративно), ε — фиксированный сэмпл N(0, I) (константы, без Math.random).
+    const X0 = [-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-1,-1,-1,0.2,0.2,-1,-1,-1,-1,-1,0.2,1,1,0.2,-1,-1,-1,0.2,1,1,1,1,0.2,-1,-1,0.2,1,1,1,1,0.2,-1,-1,-1,0.2,1,1,0.2,-1,-1,-1,-1,-1,0.2,0.2,-1,-1,-1,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6,-0.6];
+    const EPS = [-0.26,0.51,-0.23,-0.32,-0.93,-0.21,1.11,0.42,1.04,0.25,0.39,0.19,-1.67,0.86,0.51,0.5,-1.69,-1.74,-0.89,-0.47,0.31,-0.05,0.52,-0.64,0.31,0.39,-0.66,1.72,0.56,1.2,-0.62,-0.74,-0.34,-0.11,0.63,0.25,-0.45,-0.96,-0.52,1.22,-0.81,0.24,0.43,-1.49,0.05,1.31,-2.01,-0.32,-0.11,-0.82,0.5,-0.06,-1.46,0.83,0.67,0.95,1.44,0.36,0.12,-1.3,0.62,-0.61,-0.45,-1.26];
+    // ᾱ_t для linear β_t ∈ [0.0001, 0.02], T = 1000: t = 0, 100, 250, 500, 1000.
+    const AB = [1.0, 0.897, 0.524, 0.0786, 0.00004];
+    const TS = [0, 100, 250, 500, 1000];
+    // Плотность q(x_t) по одной координате: смесь двух гауссиан → N(0, I) (30 бинов, высоты относительно пика при t = 0).
+    const H = [
+      [0,0,0,0,0,0,0,0.003,0.045,0.289,0.813,1,0.538,0.129,0.031,0.084,0.253,0.493,0.616,0.493,0.253,0.083,0.018,0.002,0,0,0,0,0,0],
+      [0,0,0,0,0.001,0.005,0.021,0.07,0.18,0.351,0.522,0.593,0.518,0.367,0.254,0.245,0.319,0.405,0.43,0.37,0.256,0.143,0.064,0.023,0.007,0.002,0,0,0,0],
+      [0.001,0.003,0.007,0.015,0.029,0.052,0.086,0.133,0.191,0.256,0.319,0.375,0.415,0.438,0.442,0.429,0.402,0.363,0.315,0.26,0.204,0.151,0.104,0.068,0.041,0.023,0.012,0.006,0.003,0.001],
+      [0.006,0.01,0.018,0.029,0.045,0.068,0.098,0.136,0.181,0.231,0.282,0.331,0.372,0.402,0.416,0.414,0.394,0.361,0.317,0.267,0.216,0.168,0.125,0.089,0.061,0.04,0.025,0.015,0.009,0.005],
+      [0.006,0.011,0.018,0.029,0.045,0.068,0.097,0.133,0.176,0.224,0.274,0.321,0.362,0.392,0.408,0.408,0.392,0.362,0.321,0.274,0.224,0.176,0.133,0.097,0.067,0.045,0.029,0.018,0.011,0.006]];
+    const col = v => { const u = (Math.max(-1, Math.min(1, v)) + 1) / 2; const c0 = [26, 32, 48], c1 = [207, 227, 255];
+      return "#" + c0.map((a, k) => Math.round(a + (c1[k] - a) * u).toString(16).padStart(2, "0")).join(""); };
+    const GX = 40, GY = 50, CELL = 40;
+    AB.forEach((ab, L) => {
+      const g = document.getElementById(`s1-L${L}`), sa = Math.sqrt(ab), sb = Math.sqrt(1 - ab);
+      X0.forEach((v, i) => { const r = document.createElementNS(NS, "rect");
+        r.setAttribute("id", `s1-L${L}c${i}`); r.setAttribute("x", GX + CELL * (i % 8) + 1); r.setAttribute("y", GY + CELL * Math.floor(i / 8) + 1);
+        r.setAttribute("width", CELL - 2); r.setAttribute("height", CELL - 2); r.setAttribute("rx", 4); r.setAttribute("fill", col(sa * v + sb * EPS[i])); g.appendChild(r); });
+    });
+    const BX = 460, BY = 400, BH = 280, BW = 14, BP = 16;
+    const bars = document.getElementById("s1-bars");
+    const bar = H[0].map((_, i) => { const r = document.createElementNS(NS, "rect"); r.setAttribute("id", `s1-b${i}`);
+      r.setAttribute("x", BX + BP * i); r.setAttribute("y", BY); r.setAttribute("width", BW); r.setAttribute("height", 0); r.setAttribute("rx", 3); r.setAttribute("fill", "#4a9eff"); bars.appendChild(r); return r; });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    X0.forEach((_, i) => tl.fromTo(`#s1-L0c${i}`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.3 + 0.012 * i));
+    bar.forEach((r, i) => tl.fromTo(r, { attr: { y: BY, height: 0 } }, { attr: { y: BY - BH * H[0][i], height: BH * H[0][i] }, duration: 0.6, ease: "power2.out" }, 0.5 + 0.02 * i));
+    tl.fromTo("#s1-r0", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.6);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.0);
+    cap("#s1-cap1", 0.6, 4.6);
+    // Шаги t = 100, 250, 500, 1000: новый слой поверх, столбики плотности и маркер на оси t.
+    [1, 2, 3, 4].forEach((L, k) => {
+      const t = 3.0 + 1.8 * k;
+      tl.fromTo(`#s1-L${L}`, { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power1.inOut" }, t);
+      bar.forEach((r, i) => tl.to(r, { attr: { y: BY - BH * H[L][i], height: BH * H[L][i] }, duration: 0.9, ease: "power1.inOut" }, t));
+      tl.to("#s1-mark", { attr: { cx: GX + 320 * TS[L] / 1000 }, duration: 0.9, ease: "power1.inOut" }, t);
+      tl.to(`#s1-r${L - 1}`, { opacity: 0, duration: 0.3 }, t);
+      tl.fromTo(`#s1-r${L}`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, t + 0.3);
+    });
+    cap("#s1-cap2", 4.8, 9.0);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.0);
+    cap("#s1-cap3", 9.2, 13.5);
+    tl.to("#s1-bimod", { opacity: 0, duration: 0.4 }, 4.8);
+    tl.fromTo("#s1-gauss", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 9.3);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 13.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

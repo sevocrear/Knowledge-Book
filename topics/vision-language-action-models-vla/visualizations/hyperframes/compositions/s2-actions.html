@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 660px; display: block; }
+  .s2-blk { position: absolute; box-sizing: border-box; border-radius: 22px; background: #221c33; border: 3px solid #b48ce6;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; }
+  #s2-vlm { left: 20px; top: 190px; width: 320px; height: 220px; }
+  #s2-vlm .big { font-size: 64px; font-weight: 800; color: #f0f4ff; line-height: 1; }
+  #s2-vlm .sm { font-size: 24px; line-height: 1.3; color: #aab3c2; margin-top: 10px; }
+  .s2-sec { position: absolute; white-space: nowrap; font-size: 28px; font-weight: 700; opacity: 0; line-height: 1.3; }
+  .s2-sec span { font-weight: 400; font-size: 24px; color: #aab3c2; }
+  #s2-seca { left: 400px; top: 40px; color: #ff7a2f; }
+  #s2-secb { left: 400px; top: 340px; color: #2dd4bf; }
+  .s2-cell { position: absolute; box-sizing: border-box; width: 104px; height: 100px; top: 150px; border-radius: 14px; background: #161a24; border: 2px solid #ff7a2f;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
+  .s2-cell .nm { font-size: 22px; color: #aab3c2; line-height: 1.2; }
+  .s2-cell .vl { font-size: 34px; font-weight: 700; color: #f0f4ff; line-height: 1.2; }
+  .s2-note { position: absolute; white-space: nowrap; font-size: 24px; color: #aab3c2; opacity: 0; }
+  #s2-nota { left: 400px; top: 262px; line-height: 1.3; }
+  #s2-notb { left: 400px; top: 620px; }
+  .s2-out { position: absolute; box-sizing: border-box; width: 500px; padding: 22px 30px; border-radius: 20px; background: #161a24; border: 2px solid #2a3140; opacity: 0; color: #e6ebf5; }
+  .s2-out .h { font-size: 24px; color: #aab3c2; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .s2-out .f { font-style: italic; font-size: 32px; line-height: 1.3; }
+  .s2-out .t { font-size: 26px; line-height: 1.3; margin-top: 8px; color: #aab3c2; }
+  .s2-out .t b { color: #f0f4ff; }
+  #s2-outa { left: 1230px; top: 46px; height: 214px; }
+  #s2-outb { left: 1230px; top: 400px; height: 226px; }
+  .s2-out .o { color: #ff7a2f; } .s2-out .tl { color: #2dd4bf; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как токены становятся действиями?</div></div>
+    <div class="badge">Knowledge Book · VLA</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 1760 660">
+        <defs>
+          <marker id="s2-ah-o" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#ff7a2f"/></marker>
+          <marker id="s2-ah-t" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#2dd4bf"/></marker>
+        </defs>
+        <path id="s2-arA" d="M 346 250 L 372 250 L 372 200 L 394 200" fill="none" stroke="#ff7a2f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#s2-ah-o)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s2-arB" d="M 346 350 L 372 350 L 372 510 L 394 510" fill="none" stroke="#2dd4bf" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#s2-ah-t)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s2-arA2" d="M 1182 200 L 1222 200" fill="none" stroke="#ff7a2f" stroke-width="5" stroke-linecap="round" marker-end="url(#s2-ah-o)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s2-arB2" d="M 1162 510 L 1222 510" fill="none" stroke="#2dd4bf" stroke-width="5" stroke-linecap="round" marker-end="url(#s2-ah-t)" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s2-bars"></g>
+      </svg>
+      <div id="s2-vlm" class="s2-blk"><div class="big">VLM</div><div class="sm">токены кадра + инструкции<br/>→ скрытые состояния</div></div>
+      <div id="s2-seca" class="s2-sec">A · дискретные action-токены<br/><span>RT-2, OpenVLA: действие «печатается» как текст</span></div>
+      <div id="s2-c0" class="s2-cell" style="left:400px"><div class="nm">dx</div><div class="vl">131</div></div>
+      <div id="s2-c1" class="s2-cell" style="left:512px"><div class="nm">dy</div><div class="vl">127</div></div>
+      <div id="s2-c2" class="s2-cell" style="left:624px"><div class="nm">dz</div><div class="vl">118</div></div>
+      <div id="s2-c3" class="s2-cell" style="left:736px"><div class="nm">droll</div><div class="vl">128</div></div>
+      <div id="s2-c4" class="s2-cell" style="left:848px"><div class="nm">dpitch</div><div class="vl">129</div></div>
+      <div id="s2-c5" class="s2-cell" style="left:960px"><div class="nm">dyaw</div><div class="vl">141</div></div>
+      <div id="s2-c6" class="s2-cell" style="left:1072px"><div class="nm">gripper</div><div class="vl">255</div></div>
+      <div id="s2-nota" class="s2-note">токены выдаются по одному, слева направо;<br/>каждое измерение — 1 из 256 бинов (числа иллюстративно)</div>
+      <div id="s2-outa" class="s2-out"><div class="h">детокенизация</div><div class="f">a = <span class="o">Detokenize</span>(VLM(I, T))</div><div class="t">7 чисел (Bridge): <b>dx, dy, dz, droll, dpitch, dyaw, gripper</b></div></div>
+      <div id="s2-secb" class="s2-sec">B · action expert: diffusion / flow matching<br/><span>Octo — diffusion head; π0, SmolVLA — flow-matching expert</span></div>
+      <div id="s2-notb" class="s2-note">из шума в плавный chunk действий (форма иллюстративно)</div>
+      <div id="s2-outb" class="s2-out"><div class="h">chunk действий</div><div class="f">a<sub>1</sub> … a<sub>n</sub></div><div class="t">chunk из n шагов. У Octo на выходе: <b>[batch, action_horizon, action_dim]</b></div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap"><b class="o">Вариант A</b>: LLM выдаёт действие как <b>дискретные токены</b> — 256 бинов на измерение, авторегрессивно</div>
+      <div id="s2-cap2" class="cap"><b class="t">Вариант B</b>: отдельный модуль (diffusion / flow matching) превращает шум в <b>chunk непрерывных действий</b></div>
+      <div id="s2-cap3" class="cap">В обоих случаях итог — команда роботу: смещение, поворот и <b>захват</b> (gripper)</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    // Столбики chunk-а: высоты «до» (шум) и «после» (плавная траектория) — иллюстративные константы.
+    const BASE = 600, W = 50, GAP = 14, X0 = 400;
+    const noisy  = [90, 40, 120, 60, 135, 30, 100, 70, 140, 50, 110, 80];
+    const smooth = [40, 52, 66, 82, 98, 110, 116, 112, 100, 84, 66, 50];
+    const g = document.getElementById("s2-bars");
+    const bars = noisy.map((h, i) => {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      el.setAttribute("id", `s2-bar${i}`); el.setAttribute("x", X0 + i * (W + GAP)); el.setAttribute("width", W);
+      el.setAttribute("y", BASE - h); el.setAttribute("height", h); el.setAttribute("rx", 6); el.setAttribute("fill", "#2dd4bf"); el.setAttribute("opacity", "0");
+      g.appendChild(el); return el;
+    });
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const draw = (id, len, t, d = 0.5) => tl.fromTo(id, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+    const pop = (id, t) => tl.fromTo(id, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, t);
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    pop("#s2-vlm", 0.3);
+    // Вариант A
+    cap("#s2-cap1", 0.6, 5.6);
+    draw("#s2-arA", 98, 1.0, 0.5);
+    tl.fromTo("#s2-seca", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.2);
+    for (let i = 0; i < 7; i++) pop(`#s2-c${i}`, 1.8 + 0.45 * i);
+    tl.fromTo("#s2-nota", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 2.4);
+    draw("#s2-arA2", 38, 4.9, 0.4);
+    tl.fromTo("#s2-outa", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.55, ease: "power2.out" }, 5.0);
+    // Вариант B
+    cap("#s2-cap2", 5.9, 10.6);
+    draw("#s2-arB", 230, 6.0, 0.6);
+    tl.fromTo("#s2-secb", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 6.3);
+    bars.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.6 + 0.05 * i));
+    bars.forEach((el, i) => tl.to(el, { attr: { y: BASE - smooth[i], height: smooth[i] }, duration: 2.0, ease: "power2.inOut" }, 7.8));
+    tl.fromTo("#s2-notb", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 7.0);
+    draw("#s2-arB2", 58, 9.7, 0.4);
+    tl.fromTo("#s2-outb", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.55, ease: "power2.out" }, 9.9);
+    // Итог
+    cap("#s2-cap3", 10.9, 15.3);
+    tl.to("#s2-outa", { borderColor: "#ff7a2f", duration: 0.5 }, 11.0);
+    tl.to("#s2-outb", { borderColor: "#2dd4bf", duration: 0.5 }, 11.0);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.5 }, 15.45);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

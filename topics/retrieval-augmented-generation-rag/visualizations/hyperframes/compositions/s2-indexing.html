@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 660px; display: block; }
+  .s2-hd { position: absolute; top: 0px; font-size: 30px; font-weight: 700; color: #f0f4ff; opacity: 0; }
+  .s2-hd span { color: #4a9eff; }
+  .s2-sub { position: absolute; top: 572px; font-size: 24px; line-height: 1.3; color: #aab3c2; opacity: 0; white-space: nowrap; }
+  .s2-sub b { color: #e6ebf5; font-weight: 600; }
+  #s2-doc { position: absolute; left: 110px; top: 120px; width: 180px; height: 240px; border-radius: 14px; background: #161a24; border: 2px solid #4a9eff; opacity: 0; }
+  #s2-doc i { display: block; height: 9px; border-radius: 5px; background: #2a3140; margin: 20px 18px 0; }
+  #s2-doc i.s { width: 60%; }
+  #s2-doc .t { position: absolute; left: 0; right: 0; bottom: 10px; text-align: center; font-size: 22px; color: #aab3c2; }
+  .s2-chunk { position: absolute; left: 430px; width: 260px; height: 72px; border-radius: 12px; background: #161a24; border: 2px solid #ff7a2f; opacity: 0; }
+  .s2-chunk span { position: absolute; left: 14px; top: 22px; font-size: 22px; font-weight: 700; color: #ff7a2f; }
+  .s2-chunk i { position: absolute; left: 112px; height: 8px; border-radius: 4px; background: #2a3140; }
+  .s2-chunk i.a { top: 20px; width: 128px; } .s2-chunk i.b { top: 42px; width: 80px; }
+  .s2-vec { position: absolute; left: 830px; width: 180px; height: 60px; opacity: 0; }
+  .s2-vec i { position: absolute; bottom: 0; width: 22px; border-radius: 5px 5px 2px 2px; background: #b48ce6; height: 0px; }
+  .s2-vec .ax { position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; background: #2a3140; }
+  #s2-store { position: absolute; left: 1180px; top: 60px; width: 540px; height: 500px; border-radius: 20px; background: #161a24; border: 2px solid #2a3140; overflow: hidden; opacity: 0; }
+  #s2-map { position: absolute; left: 0; top: 0; width: 540px; height: 500px; display: block; }
+  #s2-off { position: absolute; left: 1470px; top: -2px; white-space: nowrap; padding: 4px 16px; border-radius: 999px; border: 2px solid #ff7a2f; color: #ff7a2f; font-size: 24px; font-weight: 600; opacity: 0; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Что происходит offline: индексация</div></div>
+    <div class="badge">Knowledge Book · RAG</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 1760 660">
+        <defs>
+          <marker id="s2-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+        </defs>
+        <g id="s2-fan" stroke="#aab3c2" stroke-width="3" fill="none" stroke-linecap="round">
+          <path id="s2-f1" d="M 296 240 L 422 146" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+          <path id="s2-f2" d="M 296 240 L 422 246" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+          <path id="s2-f3" d="M 296 240 L 422 346" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+          <path id="s2-f4" d="M 296 240 L 422 446" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        </g>
+        <g id="s2-emb" stroke="#aab3c2" stroke-width="3" fill="none" stroke-linecap="round">
+          <path id="s2-e1" d="M 698 146 L 822 146" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+          <path id="s2-e2" d="M 698 246 L 822 246" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+          <path id="s2-e3" d="M 698 346 L 822 346" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+          <path id="s2-e4" d="M 698 446 L 822 446" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        </g>
+        <text id="s2-arr1" x="380" y="30" fill="#aab3c2" font-size="30" font-weight="700" opacity="0">→</text>
+        <text id="s2-arr2" x="775" y="30" fill="#aab3c2" font-size="30" font-weight="700" opacity="0">→</text>
+        <text id="s2-arr3" x="1120" y="30" fill="#aab3c2" font-size="30" font-weight="700" opacity="0">→</text>
+      </svg>
+      <div id="s2-hd1" class="s2-hd" style="left:40px"><span>1</span> · Документы</div>
+      <div id="s2-hd2" class="s2-hd" style="left:430px"><span>2</span> · Chunking</div>
+      <div id="s2-hd3" class="s2-hd" style="left:830px"><span>3</span> · Embedding</div>
+      <div id="s2-hd4" class="s2-hd" style="left:1180px"><span>4</span> · Vector Store</div>
+      <div id="s2-off">offline · заранее</div>
+
+      <div id="s2-doc"><i></i><i></i><i class="s"></i><i></i><i class="s"></i><div class="t">документ</div></div>
+
+      <div id="s2-ch1" class="s2-chunk" style="top:110px"><span>chunk 1</span><i class="a"></i><i class="b"></i></div>
+      <div id="s2-ch2" class="s2-chunk" style="top:210px"><span>chunk 2</span><i class="a"></i><i class="b"></i></div>
+      <div id="s2-ch3" class="s2-chunk" style="top:310px"><span>chunk 3</span><i class="a"></i><i class="b"></i></div>
+      <div id="s2-ch4" class="s2-chunk" style="top:410px"><span>chunk 4</span><i class="a"></i><i class="b"></i></div>
+
+      <div id="s2-v1" class="s2-vec" style="top:116px"><div class="ax"></div><i style="left:0px"></i><i style="left:28px"></i><i style="left:56px"></i><i style="left:84px"></i><i style="left:112px"></i><i style="left:140px"></i></div>
+      <div id="s2-v2" class="s2-vec" style="top:216px"><div class="ax"></div><i style="left:0px"></i><i style="left:28px"></i><i style="left:56px"></i><i style="left:84px"></i><i style="left:112px"></i><i style="left:140px"></i></div>
+      <div id="s2-v3" class="s2-vec" style="top:316px"><div class="ax"></div><i style="left:0px"></i><i style="left:28px"></i><i style="left:56px"></i><i style="left:84px"></i><i style="left:112px"></i><i style="left:140px"></i></div>
+      <div id="s2-v4" class="s2-vec" style="top:416px"><div class="ax"></div><i style="left:0px"></i><i style="left:28px"></i><i style="left:56px"></i><i style="left:84px"></i><i style="left:112px"></i><i style="left:140px"></i></div>
+
+      <div id="s2-store">
+        <svg id="s2-map" viewBox="0 0 540 500">
+          <g stroke="#2a3140" stroke-width="1.5">
+            <line x1="0" y1="125" x2="540" y2="125"/><line x1="0" y1="250" x2="540" y2="250"/><line x1="0" y1="375" x2="540" y2="375"/>
+            <line x1="135" y1="0" x2="135" y2="500"/><line x1="270" y1="0" x2="270" y2="500"/><line x1="405" y1="0" x2="405" y2="500"/>
+          </g>
+          <text x="20" y="484" fill="#aab3c2" font-size="22">пространство эмбеддингов (2D-проекция)</text>
+          <g id="s2-idx" fill="#4a9eff" opacity="0.85"></g>
+          <g id="s2-new"></g>
+          <g id="s2-newlbl" fill="#ff7a2f" font-size="20" font-weight="700" opacity="0">
+            <text x="346" y="127">chunk 1</text>
+            <text x="274" y="177" text-anchor="end">chunk 2</text>
+            <text x="366" y="197">chunk 3</text>
+            <text x="216" y="307">chunk 4</text>
+          </g>
+        </svg>
+      </div>
+
+      <div id="s2-sub2" class="s2-sub" style="left:430px;width:360px">фиксированный размер /<br/>семантически / иерархически</div>
+      <div id="s2-sub3" class="s2-sub" style="left:830px;width:350px"><b>модель эмбеддингов</b>:<br/>E5, BGE-M3, text-embedding-3</div>
+      <div id="s2-sub4" class="s2-sub" style="left:1210px;width:400px"><b>vector store</b>: FAISS, Qdrant,<br/>Chroma, Weaviate, Pinecone</div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Документы режем на <b class="o">chunks</b>: фиксированный размер, семантическое или иерархическое разбиение</div>
+      <div id="s2-cap2" class="cap">Каждый chunk превращаем в <b class="p">вектор</b> моделью эмбеддингов (E5, BGE-M3, text-embedding-3)</div>
+      <div id="s2-cap3" class="cap">Векторы кладём в <b class="b">vector store</b> (FAISS, Qdrant, Chroma, Weaviate, Pinecone) — это делается заранее, <b>offline</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Уже проиндексированные векторы (детерминированные координаты, 3 рыхлых кластера).
+    const idx = [[90,110],[130,80],[160,140],[110,170],[200,100],
+                 [440,220],[470,270],[400,290],[480,320],[430,350],[390,245],
+                 [140,380],[180,420],[110,440],[230,390],[260,450]];
+    const gi = document.getElementById("s2-idx");
+    idx.forEach(([x, y], i) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("id", `s2-i${i}`); c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", "8"); gi.appendChild(c); });
+    // Четыре новых chunk-вектора: стартуют у левого края карты на высоте своей строки, приземляются в свои точки.
+    const start = [[8, 86], [8, 186], [8, 286], [8, 386]];
+    const land = [[330, 120], [290, 170], [350, 190], [200, 300]];
+    const gn = document.getElementById("s2-new");
+    const news = land.map((_, i) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("id", `s2-n${i + 1}`); c.setAttribute("cx", start[i][0]); c.setAttribute("cy", start[i][1]); c.setAttribute("r", "10"); c.setAttribute("fill", "#ff7a2f"); c.setAttribute("opacity", "0"); gn.appendChild(c); return c; });
+    // Высоты столбиков «векторов» (6 компонент на chunk), детерминированные.
+    const H = [[34, 18, 52, 26, 44, 12], [12, 46, 30, 54, 20, 38], [50, 24, 14, 40, 32, 56], [28, 56, 22, 16, 48, 36]];
+    const rows = [146, 246, 346, 446];
+    const fanLen = [157.2, 126.1, 164.5, 241.2];
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    ["#s2-hd1", "#s2-arr1", "#s2-hd2", "#s2-arr2", "#s2-hd3", "#s2-arr3", "#s2-hd4"].forEach((id, i) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0.3 + 0.08 * i));
+    tl.fromTo("#s2-doc", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.5);
+    tl.fromTo("#s2-store", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.6);
+    cap("#s2-cap1", 0.6, 4.4);
+    // Chunking: документ «разлетается» на 4 chunk-карточки.
+    [1, 2, 3, 4].forEach((n, i) => {
+      tl.fromTo(`#s2-f${n}`, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": fanLen[i] + " 9999" }, duration: 0.45, ease: "power2.inOut" }, 1.2 + 0.2 * i);
+      tl.fromTo(`#s2-ch${n}`, { opacity: 0, x: -330, y: 240 - rows[i], scale: 0.55 }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.7, ease: "power2.out" }, 1.3 + 0.2 * i);
+    });
+    tl.fromTo("#s2-sub2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 2.6);
+    // Embedding: chunk → вектор (столбики растут).
+    cap("#s2-cap2", 4.6, 7.6);
+    [1, 2, 3, 4].forEach((n, i) => {
+      const t = 4.8 + 0.22 * i;
+      tl.fromTo(`#s2-e${n}`, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "124 9999" }, duration: 0.4, ease: "power2.inOut" }, t);
+      tl.fromTo(`#s2-v${n}`, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, t + 0.2);
+      H[i].forEach((h, k) => tl.fromTo(`#s2-v${n} i:nth-of-type(${k + 1})`, { height: 0 }, { height: h, duration: 0.5, ease: "power2.out" }, t + 0.3 + 0.05 * k));
+    });
+    tl.fromTo("#s2-sub3", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 5.4);
+    // Vector store: векторы улетают в карту.
+    cap("#s2-cap3", 7.8, 12.5);
+    [1, 2, 3, 4].forEach((n, i) => {
+      const t = 8.0 + 0.25 * i;
+      tl.to(`#s2-v${n}`, { opacity: 0, x: 120, duration: 0.5, ease: "power2.in" }, t);
+      tl.to(`#s2-e${n}`, { opacity: 0, duration: 0.4 }, t);
+      tl.fromTo(news[i], { opacity: 0 }, { opacity: 1, duration: 0.25 }, t + 0.35);
+      tl.to(news[i], { attr: { cx: land[i][0], cy: land[i][1] }, duration: 0.9, ease: "power2.inOut" }, t + 0.35);
+    });
+    tl.fromTo("#s2-newlbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.9);
+    tl.fromTo("#s2-sub4", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 10.0);
+    tl.fromTo("#s2-off", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 10.3);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.45 }, 12.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

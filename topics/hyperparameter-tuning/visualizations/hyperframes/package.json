@@ -1,0 +1,10 @@
+{
+  "name": "hyperparameter-tuning-grid-random-bayesian-hyperband",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "npx --yes hyperframes@0.8.81 check",
+    "snapshot": "npx --yes hyperframes@0.8.81 snapshot",
+    "render": "npx --yes hyperframes@0.8.81 render --quality looks --output renders/grid-random-bayesian-hyperband.mp4"
+  }
+}

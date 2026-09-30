@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 660px; display: block; }
+  .s3-box { position: absolute; box-sizing: border-box; border-radius: 20px; background: #161a24; border: 3px solid #2a3140;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    font-size: 30px; line-height: 1.25; color: #e6ebf5; font-weight: 600; opacity: 0; }
+  .s3-box .sub { font-size: 22px; line-height: 1.2; color: #aab3c2; font-weight: 400; margin-top: 6px; }
+  #s3-task { left: 0px; top: 290px; width: 220px; height: 100px; border-color: #f0f4ff; }
+  #s3-rules { left: 310px; top: 235px; width: 330px; height: 190px; border-color: #b48ce6; font-size: 27px; }
+  #s3-loop { left: 720px; top: 240px; width: 340px; height: 180px; border-color: #4a9eff; background: #1e3a5f; font-size: 36px; }
+  #s3-mcp { left: 720px; top: 30px; width: 340px; height: 110px; border-color: #4a9eff; }
+  #s3-guard { left: 720px; top: 520px; width: 340px; height: 110px; border-color: #ff7a2f; }
+  #s3-verify { left: 1180px; top: 250px; width: 310px; height: 160px; border-color: #3dba7a; }
+  #s3-done { left: 1620px; top: 290px; width: 140px; height: 100px; border-color: #3dba7a; color: #3dba7a; }
+  .s3-lbl { position: absolute; box-sizing: border-box; height: 44px; padding: 6px 14px; border-radius: 999px; background: #0f1117;
+    border: 2px solid; font-size: 26px; line-height: 28px; font-weight: 700; text-align: center; white-space: nowrap; opacity: 0; }
+  #s3-lfail { left: 1070px; top: 383px; width: 100px; border-color: #ff4d6d; color: #ff4d6d; }
+  #s3-lpass { left: 1500px; top: 278px; width: 110px; border-color: #3dba7a; color: #3dba7a; }
+  .s3-state { position: absolute; left: 1180px; top: 428px; width: 310px; font-size: 26px; line-height: 1.2; font-weight: 700; text-align: center; opacity: 0; }
+  #s3-vfail { color: #ff4d6d; }
+  #s3-vpass { color: #3dba7a; }
+  .s3-pk { position: absolute; width: 26px; height: 26px; border-radius: 50%; opacity: 0; }
+  #s3-pk1 { left: 1047px; top: 287px; background: #4a9eff; }
+  #s3-pk2 { left: 1167px; top: 357px; background: #ff4d6d; }
+  #s3-pk3 { left: 1047px; top: 287px; background: #4a9eff; }
+  #s3-pk4 { left: 1477px; top: 327px; background: #3dba7a; }
+  #s3-formula { left: 0px; top: 480px; width: 620px; padding: 18px 26px; font-size: 27px; line-height: 1.3; }
+  #s3-formula .f { font-size: 30px; }
+  #s3-hlbl { position: absolute; left: 320px; top: 6px; font-size: 24px; letter-spacing: 0.1em; text-transform: uppercase; color: #3dba7a; font-weight: 700; opacity: 0; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Что такое agent harness?</div></div>
+    <div class="badge">Knowledge Book · Agent protocols</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 1760 660">
+        <defs>
+          <marker id="s3-ah-g" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+          <marker id="s3-ah-r" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#ff4d6d"/></marker>
+          <marker id="s3-ah-gr" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#3dba7a"/></marker>
+        </defs>
+        <rect id="s3-hrect" x="300" y="2" width="1230" height="656" rx="28" fill="none" stroke="#3dba7a" stroke-width="3" stroke-dasharray="16 12" opacity="0"/>
+        <path id="s3-t1" d="M 220 340 L 315 340" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah-g)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s3-t2" d="M 640 330 L 715 330" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah-g)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s3-t3" d="M 890 140 L 890 235" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah-g)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s3-t4" d="M 890 520 L 890 425" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah-g)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s3-t5" d="M 1060 300 L 1175 300" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah-g)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s3-t7" d="M 1180 370 L 1065 370" fill="none" stroke="#ff4d6d" stroke-width="5" stroke-linecap="round" marker-end="url(#s3-ah-r)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s3-t6" d="M 1490 340 L 1615 340" fill="none" stroke="#3dba7a" stroke-width="6" stroke-linecap="round" marker-end="url(#s3-ah-gr)" stroke-dasharray="0 9999" opacity="0"/>
+      </svg>
+      <div id="s3-hlbl">Agent harness — всё вокруг модели</div>
+      <div id="s3-task" class="s3-box">Задача</div>
+      <div id="s3-rules" class="s3-box">Rules / AGENTS.md / skills<div class="sub">политика, стиль, процедуры</div></div>
+      <div id="s3-loop" class="s3-box">Agent loop<div class="sub" style="font-size:24px">LLM + шаги + вызовы tools</div></div>
+      <div id="s3-mcp" class="s3-box">MCP tool registry<div class="sub">инструменты</div></div>
+      <div id="s3-guard" class="s3-box">Guardrails<div class="sub">max steps, permissions</div></div>
+      <div id="s3-verify" class="s3-box">Verify<div class="sub">tests, hooks, browser</div></div>
+      <div id="s3-done" class="s3-box">Done</div>
+      <div id="s3-lfail" class="s3-lbl">fail</div>
+      <div id="s3-lpass" class="s3-lbl">pass</div>
+      <div id="s3-vfail" class="s3-state" data-layout-allow-overlap>✗ тесты упали</div>
+      <div id="s3-vpass" class="s3-state" data-layout-allow-overlap>✓ side effect есть</div>
+      <div id="s3-pk1" class="s3-pk"></div>
+      <div id="s3-pk2" class="s3-pk"></div>
+      <div id="s3-pk3" class="s3-pk"></div>
+      <div id="s3-pk4" class="s3-pk"></div>
+      <div id="s3-formula" class="card"><div class="h">Как протоколы входят в harness</div>
+        <div class="f">надёжность ≈ f(<span class="g">verify</span>, <span class="o">guardrails</span>, <span class="b">tool quality</span>)</div>
+        <div style="font-size:26px;color:#aab3c2;margin-top:6px">≫ f(длина system prompt)</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap"><b>Harness</b> — всё вокруг модели: инструменты, контекст, guardrails, цикл агента и шаг <b class="g">verify</b></div>
+      <div id="s3-cap2" class="cap"><b class="g">Verify</b> смотрит на side effect — тесты, hooks, браузер, — а не на слова агента: <b class="r">fail</b> → ещё круг</div>
+      <div id="s3-cap3" class="cap key">Протоколы — провода, harness выбирает и ограничивает их. Не промптить сильнее, а чинить harness</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const box = (id, t) => tl.fromTo(id, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, t);
+    const arrow = (id, len, t, d = 0.4) => tl.fromTo(id, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+    const packet = (id, dx, t, d = 0.7) => {
+      tl.set(id, { x: 0 }, t); tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.2 }, t);
+      tl.to(id, { x: dx, duration: d, ease: "power1.inOut" }, t + 0.2);
+      tl.to(id, { opacity: 0, duration: 0.2 }, t + 0.2 + d);
+    };
+
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-hrect", { opacity: 0 }, { opacity: 0.8, duration: 0.6 }, 0.3);
+    tl.fromTo("#s3-hlbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.5);
+    // Компоненты harness по схеме README: задача → rules → loop; MCP и guardrails входят в loop
+    box("#s3-task", 0.5);
+    arrow("#s3-t1", 95, 1.0); box("#s3-rules", 1.3);
+    arrow("#s3-t2", 75, 1.8);
+    tl.fromTo("#s3-loop", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.6)" }, 2.1);
+    box("#s3-mcp", 2.6); arrow("#s3-t3", 95, 2.9);
+    box("#s3-guard", 3.1); arrow("#s3-t4", 95, 3.4);
+    cap("#s3-cap1", 0.6, 5.0);
+    box("#s3-verify", 3.8); arrow("#s3-t5", 115, 4.1);
+    tl.fromTo("#s3-done", { opacity: 0, y: 24 }, { opacity: 0.45, y: 0, duration: 0.5, ease: "power2.out" }, 4.4);
+
+    // Круг 1: loop → verify → fail → обратно в loop
+    cap("#s3-cap2", 5.2, 9.6);
+    packet("#s3-pk1", 120, 5.4, 0.7);
+    tl.to("#s3-verify", { borderColor: "#ff4d6d", duration: 0.3 }, 6.3);
+    tl.fromTo("#s3-vfail", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.3);
+    arrow("#s3-t7", 115, 6.5); tl.fromTo("#s3-lfail", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.7);
+    packet("#s3-pk2", -120, 6.9, 0.7);
+    tl.fromTo("#s3-loop", { scale: 1 }, { scale: 1.06, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 7.7);
+    // Круг 2: pass → Done
+    packet("#s3-pk3", 120, 8.4, 0.7);
+    tl.to("#s3-vfail", { opacity: 0, duration: 0.3 }, 9.3);
+    tl.to("#s3-lfail", { opacity: 0, duration: 0.3 }, 9.3);
+    tl.to("#s3-t7", { opacity: 0, duration: 0.3 }, 9.3);
+    tl.to("#s3-verify", { borderColor: "#3dba7a", duration: 0.3 }, 9.3);
+    tl.fromTo("#s3-vpass", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.3);
+    arrow("#s3-t6", 125, 9.6); tl.fromTo("#s3-lpass", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.8);
+    packet("#s3-pk4", 130, 9.9, 0.6);
+    tl.to("#s3-done", { opacity: 1, duration: 0.4 }, 10.6);
+    tl.fromTo("#s3-done", { scale: 1 }, { scale: 1.1, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 10.7);
+
+    // Ключевая идея + формула из README
+    cap("#s3-cap3", 9.9, 0);
+    tl.fromTo("#s3-formula", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 10.8);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.5);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

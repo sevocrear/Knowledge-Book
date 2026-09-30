@@ -26,7 +26,7 @@ status: canonical
 lang: ru
 type: topic
 slug: retrieval-augmented-generation-rag
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Retrieval-Augmented Generation (RAG)
 
@@ -50,7 +50,9 @@ updated: 2026-09-18
 8. [Оценка качества](#оценка-качества)
 9. [Применения](#применения)
 10. [Текущее состояние (2023-2026)](#текущее-состояние-2023-2026)
-11. [Ссылки](#ссылки)
+11. [Визуализации и схемы](#визуализации-и-схемы)
+12. [Источники](#источники)
+13. [Заключение](#заключение)
 
 ---
 
@@ -86,7 +88,7 @@ updated: 2026-09-18
 
 RAG состоит из трёх основных этапов:
 
-```
+```text
 ┌─────────────┐
 │   Query     │  Пользователь задаёт вопрос
 └──────┬──────┘
@@ -95,15 +97,15 @@ RAG состоит из трёх основных этапов:
 ┌─────────────────────────────────────┐
 │  1. RETRIEVAL (Поиск)               │
 │  ┌───────────────────────────────┐  │
-│  │ Query Embedding              │  │
-│  │ (векторизация запроса)       │  │
+│  │ Query Embedding               │  │
+│  │ (векторизация запроса)        │  │
 │  └───────────┬───────────────────┘  │
-│              ▼                       │
+│              ▼                      │
 │  ┌───────────────────────────────┐  │
 │  │ Vector Search                 │  │
 │  │ (семантический поиск)         │  │
 │  └───────────┬───────────────────┘  │
-│              ▼                       │
+│              ▼                      │
 │  ┌───────────────────────────────┐  │
 │  │ Top-K Documents               │  │
 │  │ (релевантные документы)       │  │
@@ -117,10 +119,10 @@ RAG состоит из трёх основных этапов:
 │  │ Context Construction          │  │
 │  │ (формирование контекста)      │  │
 │  └───────────┬───────────────────┘  │
-│              ▼                       │
+│              ▼                      │
 │  ┌───────────────────────────────┐  │
 │  │ Prompt Engineering            │  │
-│  │ (создание промпта)           │  │
+│  │ (создание промпта)            │  │
 │  └───────────┬───────────────────┘  │
 └──────────────┼──────────────────────┘
                │
@@ -131,7 +133,7 @@ RAG состоит из трёх основных этапов:
 │  │ LLM Inference                 │  │
 │  │ (генерация ответа)            │  │
 │  └───────────┬───────────────────┘  │
-│              ▼                       │
+│              ▼                      │
 │  ┌───────────────────────────────┐  │
 │  │ Final Answer                  │  │
 │  │ (финальный ответ)             │  │
@@ -139,11 +141,11 @@ RAG состоит из трёх основных этапов:
 └─────────────────────────────────────┘
 ```
 
-**Визуализация (Manim):** зачем не «только LLM», затем query → embedding → Top‑K чанков → контекст в промпт → ответ.
+**Визуализация (HyperFrames, ~42 с):** почему не «просто LLM» — заморозка знаний, приватные данные, галлюцинации (сцена 1); offline-индексация: документы → chunking → embedding → vector store (сцена 2); online: query embedding → Top‑K по cosine → промпт с контекстом → LLM → ответ с источниками (сцена 3).
 
-<video src="./assets/visualizations/rag_pipeline.mp4" controls muted loop playsinline width="100%"></video>
+![RAG: индексация offline и retrieval → augmentation → generation online](./assets/visualizations/rag_pipeline.gif)
 
-*Fallback GIF:* `![](./assets/visualizations/rag_pipeline.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/rag_pipeline.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ### Детальный процесс
 
@@ -151,7 +153,7 @@ RAG состоит из трёх основных этапов:
 
 Перед использованием RAG нужно подготовить данные:
 
-```
+```text
 Документы → Chunking → Embedding → Vector Store
 ```
 
@@ -189,7 +191,7 @@ RAG состоит из трёх основных этапов:
 2. **Prompt Engineering**
    - Формирование промпта для LLM
    - Типичный формат:
-     ```
+     ```text
      Context: [найденные документы]
      
      Question: [вопрос пользователя]
@@ -225,18 +227,18 @@ $$q \rightarrow \mathbf{q} \in \mathbb{R}^n$$
 
 Для запроса $q$ находим Top-K документов:
 
-$$\text{Retrieve}(q, D, k) = \arg\max_{d \in D, |S|=k} \text{sim}(\mathbf{q}, \mathbf{d})$$
+$$\text{Retrieve}(q, D, k) = \arg\max_{S \subseteq D,\ |S| = k} \sum_{d \in S} \text{sim}(\mathbf{q}, \mathbf{d})$$
 
 где:
 - $D$ — множество документов
-- $k$ — количество возвращаемых документов
+- $k$ — количество возвращаемых документов ($S$ — выбранное подмножество из $k$ документов с наибольшей схожестью)
 - $\text{sim}(\cdot, \cdot)$ — функция схожести
 
 ### Косинусная схожесть
 
 Наиболее популярная метрика:
 
-$$\text{sim}_{\cos}(\mathbf{q}, \mathbf{d}) = \frac{\mathbf{q} \cdot \mathbf{d}}{||\mathbf{q}|| \cdot ||\mathbf{d}||} = \cos(\theta)$$
+$$\text{sim}_{\cos}(\mathbf{q}, \mathbf{d}) = \frac{\mathbf{q} \cdot \mathbf{d}}{\|\mathbf{q}\| \cdot \|\mathbf{d}\|} = \cos(\theta)$$
 
 где $\theta$ — угол между векторами.
 
@@ -244,11 +246,11 @@ $$\text{sim}_{\cos}(\mathbf{q}, \mathbf{d}) = \frac{\mathbf{q} \cdot \mathbf{d}}
 
 LLM генерирует ответ $a$ с вероятностью:
 
-$$P(a | q, D) = \prod_{i=1}^{|a|} P(a_i | q, \text{Retrieve}(q, D, k), a_{<i})$$
+$$P(a | q, D) = \prod_{i=1}^{|a|} P(a_i | q, \text{Retrieve}(q, D, k), a_{\lt i})$$
 
 где:
 - $a_i$ — $i$-й токен ответа
-- $a_{<i}$ — предыдущие токены
+- $a_{\lt i}$ — предыдущие токены
 - $\text{Retrieve}(q, D, k)$ — найденный контекст
 
 ### Score для релевантности
@@ -272,7 +274,7 @@ $$\text{score}(d, q) = \alpha \cdot \text{sim}_{\text{dense}}(\mathbf{q}, \mathb
 
 #### Архитектура
 
-```
+```text
 Query → Embedding → Vector Search → Top-K Docs → LLM → Answer
 ```
 
@@ -292,7 +294,7 @@ Query → Embedding → Vector Search → Top-K Docs → LLM → Answer
 
 #### Визуализация
 
-```
+```text
 ┌──────────┐
 │  Query   │
 └────┬─────┘
@@ -345,14 +347,14 @@ Query → Embedding → Vector Search → Top-K Docs → LLM → Answer
 
 #### Архитектура
 
-```
+```text
 Query → Query Rewriting → Embedding → Vector Search 
   → Re-ranking → Context Compression → LLM → Answer
 ```
 
 #### Визуализация
 
-```
+```text
 ┌──────────┐
 │  Query   │
 └────┬─────┘
@@ -422,40 +424,40 @@ Query → Query Rewriting → Embedding → Vector Search
 
 #### Архитектура
 
-```
+```text
 Query → Query Router → [Strategy 1 | Strategy 2 | Strategy 3] 
   → Retrieval → Synthesis → Answer
 ```
 
 #### Визуализация
 
-```
+```text
 ┌──────────┐
 │  Query   │
 └────┬─────┘
      │
      ▼
-┌──────────────┐
-│ Query Router │  (Определяет тип запроса)
-└───┬──────┬───┘
-    │      │      │
-    ▼      ▼      ▼
-┌─────┐ ┌─────┐ ┌─────┐
-│Sem. │ │Key. │ │Hybr.│  (Разные стратегии)
-│Srch │ │Srch │ │Srch │
-└──┬──┘ └──┬──┘ └──┬──┘
-   │       │       │
-   └───┬───┴───┬───┘
-       │       │
-       ▼       ▼
-┌──────────────┐
-│  Synthesis   │  (Map-reduce, Refine, etc.)
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│    Answer    │
-└──────────────┘
+┌────────────────────────┐
+│      Query Router      │  (Определяет тип запроса)
+└───┬────────┬────────┬──┘
+    │        │        │
+    ▼        ▼        ▼
+┌───────┐┌───────┐┌───────┐
+│ Sem.  ││ Key.  ││ Hybr. │  (Разные стратегии)
+│ Srch  ││ Srch  ││ Srch  │
+└───┬───┘└───┬───┘└───┬───┘
+    │        │        │
+    └────────┼────────┘
+             │
+             ▼
+     ┌──────────────┐
+     │  Synthesis   │  (Map-reduce, Refine, etc.)
+     └───────┬──────┘
+             │
+             ▼
+     ┌──────────────┐
+     │    Answer    │
+     └──────────────┘
 ```
 
 #### Когда использовать
@@ -468,7 +470,7 @@ Query → Query Router → [Strategy 1 | Strategy 2 | Strategy 3]
 
 ### Self-RAG
 
-**Self-Retrieval-Augmented Generation** — система с саморефлексией и адаптивным поиском.
+**Self-Reflective Retrieval-Augmented Generation** — система с саморефлексией и адаптивным поиском.
 
 #### Ключевые особенности
 
@@ -486,14 +488,14 @@ Query → Query Router → [Strategy 1 | Strategy 2 | Strategy 3]
 
 #### Архитектура
 
-```
+```text
 Query → [Need Retrieval?] → [Yes: Retrieve] → [Is Info Good?] 
   → Generate → [Is Answer Good?] → [Yes: Output | No: Regenerate]
 ```
 
 #### Визуализация
 
-```
+```text
 ┌──────────┐
 │  Query   │
 └────┬─────┘
@@ -502,37 +504,34 @@ Query → [Need Retrieval?] → [Yes: Retrieve] → [Is Info Good?]
 ┌─────────────────┐
 │ Need Retrieval? │  (Self-reflection)
 └───┬─────────┬───┘
-   No│       │Yes
-     │       │
-     ▼       ▼
+ No │         │ Yes
+    ▼         ▼
 ┌────────┐ ┌──────────────┐
 │Generate│ │   Retrieve   │
 └───┬────┘ └──────┬───────┘
     │             │
     │             ▼
     │      ┌──────────────┐
-    │      │ Is Info Good?│
+    │      │ Is Info Good?│  (Critique)
     │      └───┬──────┬───┘
-    │         No│    │Yes
-    │           │    │
-    │           ▼    ▼
+    │       No │      │ Yes
+    │          ▼      ▼
     │      ┌──────────────┐
     │      │   Generate   │
     │      └──────┬───────┘
     │             │
-    └─────────────┘
+    └──────┬──────┘
            │
            ▼
     ┌──────────────┐
-    │ Is Answer    │
+    │ Is Answer    │  (Self-critique)
     │ Good?        │
     └───┬──────┬───┘
-       No│    │Yes
-         │    │
-         ▼    ▼
-    ┌──────────────┐
-    │   Regenerate │ │ Output
-    └──────────────┘ └────────┘
+     No │      │ Yes
+        ▼      ▼
+┌────────────┐ ┌────────┐
+│ Regenerate │ │ Output │
+└────────────┘ └────────┘
 ```
 
 #### Когда использовать
@@ -559,14 +558,14 @@ Query → [Need Retrieval?] → [Yes: Retrieve] → [Is Info Good?]
 
 #### Архитектура
 
-```
+```text
 Query → Retrieve → Generate → [Error?] → [Yes: Corrective Retrieve] 
   → Regenerate → [Error?] → [No: Output]
 ```
 
 #### Визуализация
 
-```
+```text
 ┌──────────┐
 │  Query   │
 └────┬─────┘
@@ -584,22 +583,19 @@ Query → Retrieve → Generate → [Error?] → [Yes: Corrective Retrieve]
        ▼
 ┌──────────────┐
 │ Error        │
-│ Detection?   │
-└───┬──────┬───┘
-   No│    │Yes
-     │    │
-     ▼    ▼
-┌────────┐ ┌──────────────────┐
-│ Output │ │ Corrective       │
-│        │ │ Retrieve         │
-└────────┘ └──────┬────────────┘
-                  │
-                  ▼
-           ┌──────────────┐
-           │  Regenerate  │
-           └──────┬───────┘
-                  │
-                  └───▶ (Loop back to Error Detection)
+│ Detection?   │◀────────────────────┐
+└───┬──────┬───┘                     │
+ No │      │ Yes                     │
+    ▼      ▼                         │
+┌────────┐ ┌──────────────────┐      │
+│ Output │ │ Corrective       │      │
+│        │ │ Retrieve         │      │
+└────────┘ └────────┬─────────┘      │
+                    │                │
+                    ▼                │
+           ┌──────────────┐          │
+           │  Regenerate  │──────────┘  (Loop back to Error Detection)
+           └──────────────┘
 ```
 
 #### Когда использовать
@@ -627,55 +623,54 @@ Query → Retrieve → Generate → [Error?] → [Yes: Corrective Retrieve]
 
 #### Архитектура
 
-```
+```text
 Documents → Graph Construction → Query → Graph Traversal 
   → Relevant Subgraph → LLM → Answer
 ```
 
 #### Визуализация
 
-```
+```text
 ┌──────────────┐
 │  Documents   │
 └──────┬───────┘
        │
        ▼
-┌─────────────────┐
-│ Graph           │
-│ Construction    │
-│                 │
-│  Entity1 ──┐    │
-│           │    │
-│  Entity2──┼───▶│ Entity3
-│           │    │
-│  Entity4 ─┘    │
-└──────┬─────────┘
-       │
-       ▼
-┌──────────┐
-│  Query   │
-└────┬─────┘
-     │
-     ▼
-┌──────────────┐
-│ Graph        │
-│ Traversal    │
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│ Subgraph     │
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│     LLM      │
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│    Answer    │
-└──────────────┘
+┌───────────────────────────────┐
+│ Graph Construction            │
+│                               │
+│  Entity1 ──┐                  │
+│            │                  │
+│  Entity2 ──┼───▶ Entity3      │
+│            │                  │
+│  Entity4 ──┘                  │
+└───────────────┬───────────────┘
+                │
+                ▼
+          ┌──────────┐
+          │  Query   │
+          └────┬─────┘
+               │
+               ▼
+        ┌──────────────┐
+        │ Graph        │
+        │ Traversal    │
+        └──────┬───────┘
+               │
+               ▼
+        ┌──────────────┐
+        │ Subgraph     │
+        └──────┬───────┘
+               │
+               ▼
+        ┌──────────────┐
+        │     LLM      │
+        └──────┬───────┘
+               │
+               ▼
+        ┌──────────────┐
+        │    Answer    │
+        └──────────────┘
 ```
 
 #### Когда использовать
@@ -706,14 +701,14 @@ Documents → Graph Construction → Query → Graph Traversal
 
 #### Архитектура
 
-```
+```text
 Query → Plan → [Tool 1 | Tool 2 | Tool 3] → Execute 
   → Evaluate → [Done?] → [No: Continue] → [Yes: Synthesize] → Answer
 ```
 
 #### Визуализация
 
-```
+```text
 ┌──────────┐
 │  Query   │
 └────┬─────┘
@@ -724,37 +719,36 @@ Query → Plan → [Tool 1 | Tool 2 | Tool 3] → Execute
 └───┬──────────┘
     │
     ▼
-┌─────────────────────────┐
-│   Tool Selection        │
-│                         │
-│  ┌────┐  ┌────┐  ┌────┐│
-│  │Sem.│  │Key.│  │Web ││
-│  │Srch│  │Srch│  │Srch││
-│  └─┬──┘  └─┬──┘  └─┬──┘│
-└────┼───────┼───────┼────┘
-     │       │       │
-     └───┬───┴───┬───┘
-         │       │
-         ▼       ▼
-    ┌──────────────┐
-    │   Execute    │
-    └──────┬───────┘
-           │
-           ▼
-    ┌──────────────┐
-    │  Evaluate    │
-    └───┬──────┬───┘
-       Done│  │Not Done
-           │  │
-           ▼  ▼
-    ┌──────────────┐
-    │  Synthesize  │ │ Continue
-    └──────┬───────┘ └─────────┘
-           │
-           ▼
-    ┌──────────────┐
-    │    Answer    │
-    └──────────────┘
+┌───────────────────────────┐
+│   Tool Selection          │
+│                           │
+│  ┌──────┐┌──────┐┌──────┐ │
+│  │ Sem. ││ Key. ││ Web  │ │
+│  │ Srch ││ Srch ││ Srch │ │
+│  └──┬───┘└──┬───┘└──┬───┘ │
+└─────┼───────┼───────┼─────┘
+      │       │       │
+      └───────┼───────┘
+              │
+              ▼
+       ┌──────────────┐
+       │   Execute    │◀──────────┐
+       └──────┬───────┘           │
+              │                   │
+              ▼                   │
+       ┌──────────────┐           │
+       │  Evaluate    │           │
+       └───┬──────┬───┘           │
+     Done  │      │  Not Done     │
+           ▼      ▼               │
+┌──────────────┐ ┌──────────┐     │
+│  Synthesize  │ │ Continue │─────┘
+└──────┬───────┘ └──────────┘
+       │
+       ▼
+┌──────────────┐
+│    Answer    │
+└──────────────┘
 ```
 
 #### Когда использовать
@@ -903,7 +897,7 @@ def semantic_chunking(text, embedding_model, threshold=0.7):
 
 Иерархическое разбиение (документ → разделы → параграфы):
 
-```
+```text
 Document
 ├── Section 1
 │   ├── Paragraph 1.1
@@ -1023,7 +1017,7 @@ def query_expansion(query, thesaurus):
 
 **Архитектура двухэтапного поиска:**
 
-```
+```text
 Query
   │
   ▼
@@ -1055,7 +1049,7 @@ Query
 
 Битая Obsidian-вставка `![[Pasted image ...]]` заменена на схему ниже (исходный PNG в репозиторий не был закоммичен).
 
-```
+```text
 Bi-Encoder (retriever)              Cross-Encoder (reranker)
 ──────────────────────              ────────────────────────
 query ──► Enc_q ──► e_q             [query ; doc] ──► Enc ──► score
@@ -1067,7 +1061,7 @@ doc   ──► Enc_d ──► e_d                    ▲
 
 Чтобы понять Cross-Encoder, нужно сначала понять Bi-Encoder (который используется в обычном векторном поиске).
 
-##### Bi-Encoder (Двухэтапное кодирование)
+##### Bi-Encoder (Раздельное кодирование)
 
 **Принцип работы:**
 - Query и Document кодируются **независимо** друг от друга
@@ -1076,36 +1070,29 @@ doc   ──► Enc_d ──► e_d                    ▲
 
 **Архитектура:**
 
-```
-Query: "Что такое RAG?"
-  │
-  ▼
-┌──────────────┐
-│   Encoder    │
-└──────┬───────┘
-       │
-       ▼
-  [0.2, 0.5, ...]  ← Query Embedding (1536 dim)
-       │
-       │  Cosine Similarity
-       │
-       ▼
-  [0.3, 0.4, ...]  ← Document Embedding (1536 dim)
-       │
-       ▼
-┌──────────────┐
-│   Encoder    │
-└──────┬───────┘
-       │
-       ▼
-Document: "RAG combines retrieval..."
+```text
+Query: "Что такое RAG?"          Document: "RAG combines retrieval..."
+        │                                    │
+        ▼                                    ▼
+ ┌──────────────┐                     ┌──────────────┐
+ │   Encoder    │                     │   Encoder    │  (тот же или парный)
+ └──────┬───────┘                     └──────┬───────┘
+        │                                    │
+        ▼                                    ▼
+ [0.2, 0.5, ...]                      [0.3, 0.4, ...]
+ Query Embedding (1536 dim)           Document Embedding (1536 dim)
+        │                                    │
+        └──────────── Cosine Similarity ─────┘
+                            │
+                            ▼
+                       score = 0.87
 ```
 
 **Математически:**
 
 $$\mathbf{q} = \text{Encoder}_Q(\text{query})$$
 $$\mathbf{d} = \text{Encoder}_D(\text{document})$$
-$$\text{score} = \cos(\mathbf{q}, \mathbf{d}) = \frac{\mathbf{q} \cdot \mathbf{d}}{||\mathbf{q}|| \cdot ||\mathbf{d}||}$$
+$$\text{score} = \cos(\mathbf{q}, \mathbf{d}) = \frac{\mathbf{q} \cdot \mathbf{d}}{\|\mathbf{q}\| \cdot \|\mathbf{d}\|}$$
 
 **Преимущества Bi-Encoder:**
 - ✅ Очень быстрый поиск (можно предвычислить эмбеддинги документов)
@@ -1119,7 +1106,7 @@ $$\text{score} = \cos(\mathbf{q}, \mathbf{d}) = \frac{\mathbf{q} \cdot \mathbf{d
 
 **Пример проблемы Bi-Encoder:**
 
-```
+```text
 Query: "Как работает машинное обучение?"
 Document: "ML algorithms learn from data"
 
@@ -1138,18 +1125,18 @@ Bi-Encoder может дать низкий score, потому что:
 
 **Архитектура:**
 
-```
+```text
 ┌─────────────────────────────────────┐
-│         Cross-Encoder Model        │
+│         Cross-Encoder Model         │
 │                                     │
-│  Input: [CLS] Query [SEP] Document │
+│  Input: [CLS] Query [SEP] Document  │
 │         ↓                           │
-│     Transformer                    │
-│     (BERT, RoBERTa, etc.)          │
+│     Transformer                     │
+│     (BERT, RoBERTa, etc.)           │
 │         ↓                           │
-│     Classification Head            │
+│     Classification Head             │
 │         ↓                           │
-│      Score: 0.95                   │
+│      Score: 0.95                    │
 └─────────────────────────────────────┘
 ```
 
@@ -1162,7 +1149,7 @@ $$\text{score} = \text{CrossEncoder}([\text{query}; \text{document}])$$
 **Внутренняя работа Cross-Encoder:**
 
 1. **Токенизация:**
-   ```
+   ```text
    Input: "[CLS] Что такое RAG? [SEP] RAG combines retrieval..."
    Tokens: [CLS, Что, такое, RAG, ?, [SEP], RAG, combines, ...]
    ```
@@ -1179,7 +1166,7 @@ $$\text{score} = \text{CrossEncoder}([\text{query}; \text{document}])$$
 
 **Визуализация внимания в Cross-Encoder:**
 
-```
+```text
 Query:    "Что такое RAG?"
 Document: "RAG combines retrieval and generation"
 
@@ -1214,21 +1201,21 @@ Attention weights показывают связи:
 
 **Оптимальная стратегия:**
 
-```
+```text
 Stage 1: Bi-Encoder (быстрый поиск)
   └─> Находит Top-100 из миллионов документов
       Время: ~10ms
 
 Stage 2: Cross-Encoder (точное ранжирование)
   └─> Ранжирует Top-100 → Top-5
-      Время: ~100ms (10ms × 10 пар)
+      Время: ~100ms (≈1ms × 100 пар, батчами)
 
 Total: ~110ms (быстро и точно!)
 ```
 
 Если бы использовали только Cross-Encoder:
 - Нужно проверить миллионы пар
-- Время: ~100ms × 1,000,000 = 100,000 секунд (27 часов!) ❌
+- Время: ~1ms × 1,000,000 = ~1000 секунд (≈17 минут на один запрос!) ❌
 
 #### Cross-Encoder Re-ranking: Реализация
 
@@ -1425,7 +1412,7 @@ def evaluate_reranking(original_results, reranked_results, ground_truth):
 
 **До Re-ranking (Bi-Encoder):**
 
-```
+```text
 Query: "Что такое RAG?"
 
 Rank | Document                          | Score
@@ -1439,7 +1426,7 @@ Rank | Document                          | Score
 
 **После Re-ranking (Cross-Encoder):**
 
-```
+```text
 Query: "Что такое RAG?"
 
 Rank | Document                          | Score
@@ -1552,7 +1539,7 @@ text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
     chunk_overlap=200
 )
-chunks = text_splitter.split_documents(documents)
+chunks = text_splitter.create_documents(documents)
 
 # 3. Создание эмбеддингов и векторной БД
 embeddings = OpenAIEmbeddings()
@@ -1818,7 +1805,7 @@ def answer_relevance(query, answer, llm):
    - Использование инструментов
 
 4. **Эффективные эмбеддинги**
-   - Колоссальные модели (ColBERT, BGE-M3)
+   - Late-interaction / multi-vector модели (ColBERT, BGE-M3)
    - Квантизация и оптимизация
 
 5. **Оценка качества**
@@ -1899,7 +1886,7 @@ def answer_relevance(query, answer, llm):
 #### 6. LightRAG (Graph-based)
 
 **Граф-ориентированные визуализации:**
-- [LightRAG Paper](https://arxiv.org/abs/2405.19208) — схемы построения графа знаний
+- [LightRAG Paper](https://arxiv.org/abs/2410.05779) — схемы построения графа знаний
 - [Knowledge Graph RAG](https://neo4j.com/developer-blog/knowledge-graphs-rag/) — визуализация графов в RAG
 
 ### Рекомендуемые видео и анимации
@@ -1937,7 +1924,8 @@ def answer_relevance(query, answer, llm):
 ### Связанные темы
 
 - **Large Language Models (LLMs)** — основы работы LLM (в книге пока нет отдельного топика)
-- **Attention Mechanisms** — механизмы внимания в трансформерах (в книге пока нет отдельного топика)
+- [Transformers, Attention и Vision Transformers (ViT)](../transformers-attention-and-vision-transformers-vit/README.md) — механизмы внимания в трансформерах (bi-/cross-encoder — это Transformer-энкодеры)
+- [Embeddings и embedding matrix](../embeddings-and-embedding-matrix/README.md) — что такое векторные представления, которые ищет retriever
 - **Vector Databases** — детали векторных БД (в книге пока нет отдельного топика)
 - [Code Agents, AutoResearch и Loopy Era](../code-agents-autoresearch-and-loopy-era/README.md) — как строить автономные агентные циклы с метриками и верификацией
 - [MCP, ACP, UCP и Agent Harness](../agent-protocols-mcp-acp-ucp-and-harness/README.md) — MCP как слой инструментов рядом с RAG: агент ходит в системы, retriever — в индекс
@@ -1948,8 +1936,8 @@ def answer_relevance(query, answer, llm):
 1. **Статьи и исследования:**
    - "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" (Lewis et al., 2020) — [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
    - "Self-RAG: Learning to Retrieve, Generate, and Critique" (Asai et al., 2023) — [arXiv:2310.11511](https://arxiv.org/abs/2310.11511)
-   - "Corrective Retrieval Augmented Generation" (Jiang et al., 2024) — [arXiv:2401.15884](https://arxiv.org/abs/2401.15884)
-   - "LightRAG: A Lightweight Retrieval-Augmented Generation" (2024) — [arXiv:2405.19208](https://arxiv.org/abs/2405.19208)
+   - "Corrective Retrieval Augmented Generation" (Yan et al., 2024) — [arXiv:2401.15884](https://arxiv.org/abs/2401.15884)
+   - "LightRAG: Simple and Fast Retrieval-Augmented Generation" (Guo et al., 2024) — [arXiv:2410.05779](https://arxiv.org/abs/2410.05779)
 
 2. **Библиотеки и фреймворки:**
    - [LangChain](https://www.langchain.com/) — фреймворк для RAG с множеством компонентов

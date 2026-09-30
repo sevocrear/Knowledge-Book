@@ -23,7 +23,7 @@ status: canonical
 lang: ru
 type: topic
 slug: sota-metrics-for-detection-segmentation-multiclass-classification
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # SOTA-метрики и протоколы оценки для детекции, сегментации и мультиклассовой классификации
 
@@ -33,20 +33,20 @@ updated: 2026-09-18
 2. [Как объяснить 5-летнему ребёнку](#как-объяснить-5-летнему-ребёнку)
 3. [Два слоя “метрики”: что именно меряем](#два-слоя-метрики-что-именно-меряем)
 4. [Детекция (Object Detection)](#детекция-object-detection)
-  1. [COCO-style AP (де-факто стандарт)](#coco-style-ap-де-факто-стандарт)
-  2. [Pascal VOC mAP (исторический стандарт)](#pascal-voc-map-исторический-стандарт)
-  3. [Диагностические метрики: AR, AP по размерам, per-class](#диагностические-метрики-ar-ap-по-размерам-per-class)
-  4. [Что часто путают (NMS, мультикласс, IoU-пороги)](#что-часто-путают-nms-мультикласс-iou-пороги)
+   1. [COCO-style AP (де-факто стандарт)](#coco-style-ap-де-факто-стандарт)
+   2. [Pascal VOC mAP (исторический стандарт)](#pascal-voc-map-исторический-стандарт)
+   3. [Диагностические метрики: AR, AP по размерам, per-class](#диагностические-метрики-ar-ap-по-размерам-per-class)
+   4. [Что часто путают (NMS, мультикласс, IoU-пороги)](#что-часто-путают-nms-мультикласс-iou-пороги)
 5. [Сегментация](#сегментация)
-  1. [Семантическая сегментация: mIoU (де-факто стандарт)](#семантическая-сегментация-miou-де-факто-стандарт)
-  2. [Инстанс-сегментация: Mask AP (COCO)](#инстанс-сегментация-mask-ap-coco)
-  3. [Паноптик-сегментация: PQ (Panoptic Quality)](#паноптик-сегментация-pq-panoptic-quality)
-  4. [Нишевые/дополнительные метрики: Dice, Boundary F-score](#нишевыедополнительные-метрики-dice-boundary-f-score)
+   1. [Семантическая сегментация: mIoU (де-факто стандарт)](#семантическая-сегментация-miou-де-факто-стандарт)
+   2. [Инстанс-сегментация: Mask AP (COCO)](#инстанс-сегментация-mask-ap-coco)
+   3. [Паноптик-сегментация: PQ (Panoptic Quality)](#паноптик-сегментация-pq-panoptic-quality)
+   4. [Нишевые/дополнительные метрики: Dice, Boundary F-score](#нишевыедополнительные-метрики-dice-boundary-f-score)
 6. [Мультиклассовая классификация](#мультиклассовая-классификация)
-  1. [Top-1 / Top-k accuracy (ImageNet-стиль)](#top-1--top-k-accuracy-imagenet-стиль)
-  2. [Macro/micro/weighted F1 и balanced accuracy (дисбаланс)](#macromicroweighted-f1-и-balanced-accuracy-дисбаланс)
-  3. [Логлосс (NLL), калибровка, Brier/ECE](#логлосс-nll-калибровка-brierece)
-  4. [Multiclass ROC AUC / PR AUC: когда уместно](#multiclass-roc-auc--pr-auc-когда-уместно)
+   1. [Top-1 / Top-k accuracy (ImageNet-стиль)](#top-1--top-k-accuracy-imagenet-стиль)
+   2. [Macro/micro/weighted F1 и balanced accuracy (дисбаланс)](#macromicroweighted-f1-и-balanced-accuracy-дисбаланс)
+   3. [Логлосс (NLL), калибровка, Brier/ECE](#логлосс-nll-калибровка-brierece)
+   4. [Multiclass ROC AUC / PR AUC: когда уместно](#multiclass-roc-auc--pr-auc-когда-уместно)
 7. [Практический cheat sheet: что писать в статье/репорте](#практический-cheat-sheet-что-писать-в-статьерепорте)
 8. [Источники](#источники)
 
@@ -75,6 +75,12 @@ updated: 2026-09-18
 
 А метрики — это “оценки в дневнике”: за **точность**, **полноту** и **насколько сильно робот ошибался**.
 
+**Визуализация (HyperFrames, 44 с):** сцена 1 — детекция: IoU-матчинг предсказания с GT при пороге τ, кривая precision–recall и AP как площадь, COCO AP как среднее по порогам IoU 0.50:0.95; сцена 2 — сегментация: per-class IoU по пикселям и mIoU против обманчиво высокой pixel accuracy при доминирующем фоне; сцена 3 — мультикласс: Top-1/Top-5, матрица ошибок и macro vs micro F1 при дисбалансе классов.
+
+![COCO AP, mIoU, Top-1 и macro/micro F1: как считаются стандартные метрики](./assets/visualizations/coco-ap-miou-top1-f1.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/coco-ap-miou-top1-f1.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
+
 ---
 
 ## Два слоя “метрики”: что именно меряем
@@ -82,14 +88,14 @@ updated: 2026-09-18
 Почти все “SOTA-метрики” раскладываются на несколько базовых идей:
 
 1. **Совпадение предсказания с GT**:
-  - для боксов/масок: IoU,
-  - для keypoints: OKS,
-  - для классов: правильный класс в топе / матрица ошибок.
+   - для боксов/масок: IoU,
+   - для keypoints: OKS,
+   - для классов: правильный класс в топе / матрица ошибок.
 2. **Precision–Recall компромисс**: качество ранжирования confidence’ов.
 3. **Усреднение**:
-  - по порогам (IoU: 0.50…0.95),
-  - по классам (macro vs micro),
-  - по объектам/пикселям (class imbalance).
+   - по порогам (IoU: 0.50…0.95),
+   - по классам (macro vs micro),
+   - по объектам/пикселям (class imbalance).
 
 Отдельно: если важны **вероятности**, а не только ранжирование, добавляются метрики **калибровки** (NLL, ECE, Brier).
 
@@ -107,17 +113,17 @@ $$
 \mathrm{IoU}(B,\hat B)=\frac{|B\cap \hat B|}{|B\cup \hat B|}
 $$
 
-1. При фиксированном пороге $\tau$ (например, 0.5) делаем matching предсказаний на GT (обычно greedy по confidence с IoU-условием) и строим **Precision–Recall**.
-2. **AP при пороге $\tau$** — площадь под PR-кривой:
+2. При фиксированном пороге $\tau$ (например, 0.5) делаем matching предсказаний на GT (обычно greedy по confidence с IoU-условием) и строим **Precision–Recall**.
+3. **AP при пороге $\tau$** — площадь под PR-кривой:
 
 $$
 AP_{\tau}=\int_0^1 p(r)dr
 $$
 
-1. **COCO AP** усредняет AP по порогам IoU:
+4. **COCO AP** усредняет AP по 10 порогам IoU (и по классам: в COCO «AP» уже означает mAP):
 
 $$
-AP=\frac{1}{10}\sum_{\tau\in0.50,0.55,\dots,0.95} AP_{\tau}
+AP=\frac{1}{10}\sum_{\tau\in\{0.50,0.55,\dots,0.95\}} AP_{\tau}
 $$
 
 Что обычно репортят в таблицах:
@@ -136,7 +142,7 @@ $$
 
 VOC-стиль часто встречается в старых статьях/датасетах:
 
-- **[mAP@0.5](mailto:mAP@0.5)** (то есть AP только при $\tau=0.5$)
+- **mAP@0.5** (то есть AP только при $\tau=0.5$)
 - усреднение по классам: $\mathrm{mAP}=\frac{1}{C}\sum_c AP_c$
 
 VOC-числа **нельзя напрямую сравнивать** с COCO AP (разные пороги и протоколы).
@@ -159,7 +165,7 @@ VOC-числа **нельзя напрямую сравнивать** с COCO AP
   - `maxDets` (например, 100),
   - правилах ignore/crowd.
 
-См. также: `topics/non-maximum-suppression-nms/README.md`.
+См. также: [Non-Maximum Suppression (NMS)](../non-maximum-suppression-nms/README.md).
 
 ---
 
@@ -285,7 +291,7 @@ $$
 
 - **ECE** (Expected Calibration Error) — насколько вероятности соответствуют реальной частоте успеха.
 
-См. также: `topics/how-models-predict-confidence-and-calibration/README.md`.
+См. также: [Уверенность, калибровка и неопределённость](../how-models-predict-confidence-and-calibration/README.md).
 
 ### Multiclass ROC AUC / PR AUC: когда уместно
 
@@ -301,7 +307,7 @@ $$
 - OvR или micro-PR,
 - способ усреднения.
 
-См. также: `topics/roc-curve-and-roc-auc/README.md`.
+См. также: [ROC-кривые и ROC AUC](../roc-curve-and-roc-auc/README.md).
 
 ---
 
@@ -328,7 +334,7 @@ $$
 
 - фиксировать **протокол** (сплит, resize/crop, TTA, post-processing),
 - показывать **пер-классовые** метрики при long-tail,
-- добавлять **доверительные интервалы** или хотя бы std по нескольким сидами, если сравнение тонкое.
+- добавлять **доверительные интервалы** или хотя бы std по нескольким сидам, если сравнение тонкое.
 
 ---
 
@@ -336,11 +342,11 @@ $$
 
 - COCO: Microsoft COCO dataset and evaluation (AP/AR, IoU sweep).
 - LVIS: long-tail instance segmentation evaluation (часто показывает AP по частоте классов).
-- Pascal VOC: [mAP@0.5](mailto:mAP@0.5) протокол.
+- Pascal VOC: mAP@0.5 протокол.
 - Cityscapes / ADE20K: semantic segmentation протоколы вокруг mIoU.
 - Panoptic Segmentation: PQ (Panoptic Quality) метрика.
 - Внутри книги:
-  - `./topics/roc-curve-and-roc-auc/README.md`
-  - `./topics/how-models-predict-confidence-and-calibration/README.md`
-  - `./topics/non-maximum-suppression-nms/README.md`
+  - [ROC-кривые и ROC AUC](../roc-curve-and-roc-auc/README.md)
+  - [Уверенность, калибровка и неопределённость](../how-models-predict-confidence-and-calibration/README.md)
+  - [Non-Maximum Suppression (NMS)](../non-maximum-suppression-nms/README.md)
 

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-wrap .title { font-size: 38px; }
+  #s1-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 205px; width: 700px; }
+  #s1-c3 { left: 1060px; top: 462px; width: 700px; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Как картинка становится последовательностью токенов?</div></div>
+    <div class="badge">Knowledge Book · ViT</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <text id="s1-img-lbl" x="486" y="28" text-anchor="middle" fill="#aab3c2" font-size="26" opacity="0">изображение H × W × C</text>
+        <g id="s1-ghost" opacity="0"></g>
+        <g id="s1-grid" opacity="0">
+          <line x1="406" y1="44" x2="406" y2="364" stroke="#0f1117" stroke-width="5" stroke-dasharray="0 9999"/>
+          <line x1="486" y1="44" x2="486" y2="364" stroke="#0f1117" stroke-width="5" stroke-dasharray="0 9999"/>
+          <line x1="566" y1="44" x2="566" y2="364" stroke="#0f1117" stroke-width="5" stroke-dasharray="0 9999"/>
+          <line x1="326" y1="124" x2="646" y2="124" stroke="#0f1117" stroke-width="5" stroke-dasharray="0 9999"/>
+          <line x1="326" y1="204" x2="646" y2="204" stroke="#0f1117" stroke-width="5" stroke-dasharray="0 9999"/>
+          <line x1="326" y1="284" x2="646" y2="284" stroke="#0f1117" stroke-width="5" stroke-dasharray="0 9999"/>
+        </g>
+        <g id="s1-patches" opacity="0"></g>
+        <text id="s1-patch-lbl" x="690" y="210" fill="#aab3c2" font-size="26" opacity="0">патч P × P</text>
+        <text id="s1-row-lbl" x="486" y="428" text-anchor="middle" fill="#aab3c2" font-size="26" opacity="0">токены x₁ … x₁₆ ∈ ℝ<tspan font-size="18" dy="-10">D</tspan><tspan dy="10"> — линейная проекция E</tspan></text>
+        <g id="s1-cls" opacity="0">
+          <rect x="48" y="450" width="44" height="44" rx="6" fill="#ff7a2f" stroke="#f0f4ff" stroke-width="3"/>
+          <text x="70" y="479" text-anchor="middle" fill="#0f1117" font-size="17" font-weight="800">CLS</text>
+        </g>
+        <g id="s1-pos"></g>
+        <text id="s1-pos-lbl" x="486" y="584" text-anchor="middle" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">+ E<tspan font-size="20" dy="8">pos</tspan><tspan dy="-8"> — позиционные эмбеддинги</tspan></text>
+        <text id="s1-pos-note" x="486" y="628" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">1D по индексу патча или 2D по координатам (строка, столбец)</text>
+      </svg>
+      <div id="s1-c1" class="card"><div class="h">Патчи</div><div class="f">N = (H / P) · (W / P)</div><div style="font-size:28px;color:#aab3c2;margin-top:8px">224×224, P = 16 → 14 · 14 = 196 патчей</div></div>
+      <div id="s1-c2" class="card"><div class="h">Линейная проекция</div><div class="f">патч P×P×C → вектор P²·C</div><div class="f" style="margin-top:6px">x<sub>i</sub> = E · p<sub>i</sub> ∈ ℝ<sup>D</sup>,&nbsp; E ∈ ℝ<sup>(P²C) × D</sup></div><div style="font-size:28px;color:#aab3c2;margin-top:8px">E — обучаемая, общая для всех патчей</div></div>
+      <div id="s1-c3" class="card"><div class="h">CLS + позиции</div><div class="f">[x<sub>CLS</sub>; x₁; …; x<sub>N</sub>] + E<sub>pos</sub></div><div style="font-size:28px;color:#aab3c2;margin-top:8px"><span class="o">x<sub>CLS</sub></span> — обучаемый; E<sub>pos</sub> — у каждого токена</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Режем изображение H×W на патчи <b class="b">P×P</b>: получаем <b>N = (H/P)(W/P)</b> токенов (224×224, P = 16 → 196)</div>
+      <div id="s1-cap2" class="cap">Каждый патч разворачиваем в вектор длины <b>P²·C</b> и линейно проецируем в размерность <b class="b">D</b></div>
+      <div id="s1-cap3" class="cap">В начало добавляем learnable <b class="o">CLS</b>-токен и прибавляем <b>позиционные эмбеддинги</b> (1D по индексу или 2D по координатам)</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const IX = 326, IY = 44, CELL = 80, TOK = 44, ROW_Y = 450, ROW_X0 = 48, STEP = 52;
+    // Стилизованная «картинка»: небо (2 верхних ряда), трава (2 нижних), в центре оранжевый круг из 4 четвертей.
+    const sky = ["#5aa9ff", "#6cb4ff", "#4f9ef5", "#62adfa", "#74baff", "#5aa9ff", "#6cb4ff", "#7cc0ff"];
+    const grass = ["#3dba7a", "#35a86d", "#3dba7a", "#2f9d64", "#2f9d64", "#3dba7a", "#35a86d", "#3dba7a"];
+    const blob = { 5: [-1, -1], 6: [1, -1], 9: [-1, 1], 10: [1, 1] };
+    const r = 74;
+    const quarter = (sx, sy, cx, cy) => `M ${cx} ${cy} L ${cx + sx * r} ${cy} A ${r} ${r} 0 0 ${sx * sy > 0 ? 1 : 0} ${cx} ${cy + sy * r} Z`;
+    const gP = document.getElementById("s1-patches"), gG = document.getElementById("s1-ghost"), gPos = document.getElementById("s1-pos");
+    const patches = [];
+    for (let i = 0; i < 16; i++) {
+      const row = Math.floor(i / 4), col = i % 4;
+      const px = IX + col * CELL, py = IY + row * CELL;
+      const fill = row < 2 ? sky[i] : grass[i - 8];
+      // Призрак — в абсолютных координатах; сам патч — в локальных (0,0), позиция задаётся через x/y (origin 0 0).
+      const mk = (id, ghost) => {
+        const g = document.createElementNS(NS, "g"); g.setAttribute("id", id);
+        const ox = ghost ? px : 0, oy = ghost ? py : 0;
+        const rc = document.createElementNS(NS, "rect");
+        rc.setAttribute("x", ox); rc.setAttribute("y", oy); rc.setAttribute("width", CELL); rc.setAttribute("height", CELL);
+        rc.setAttribute("rx", ghost ? 0 : 6); rc.setAttribute("fill", fill); g.appendChild(rc);
+        if (blob[i]) { const q = document.createElementNS(NS, "path"); q.setAttribute("d", quarter(blob[i][0], blob[i][1], ox + 160 - col * CELL, oy + 160 - row * CELL)); q.setAttribute("fill", "#ffb020"); g.appendChild(q); }
+        return g;
+      };
+      gG.appendChild(mk(`s1-g${i}`, true));
+      const g = mk(`s1-p${i}`, false); gP.appendChild(g); gsap.set(g, { x: px, y: py, transformOrigin: "0px 0px" });
+      patches.push({ el: g, px, py, row, col });
+    }
+    for (let j = 0; j <= 16; j++) {
+      const t = document.createElementNS(NS, "text"); t.setAttribute("id", `s1-n${j}`);
+      t.setAttribute("x", ROW_X0 + STEP * j + TOK / 2); t.setAttribute("y", 528); t.setAttribute("text-anchor", "middle");
+      t.setAttribute("fill", "#ff7a2f"); t.setAttribute("font-size", "24"); t.setAttribute("font-weight", "700"); t.setAttribute("opacity", "0");
+      t.textContent = String(j); gPos.appendChild(t);
+    }
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-patches", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.3);
+    tl.fromTo("#s1-img-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.5);
+    cap("#s1-cap1", 0.6, 4.6);
+    // Линии сетки P×P прорастают.
+    tl.fromTo("#s1-grid", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.0);
+    tl.fromTo("#s1-grid line", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "320 9999" }, duration: 0.7, ease: "power2.inOut", stagger: 0.08 }, 1.0);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.4);
+    // Патчи слегка разъезжаются, сетка исчезает.
+    tl.to("#s1-grid", { opacity: 0, duration: 0.3 }, 2.6);
+    tl.to("#s1-img-lbl", { opacity: 0, duration: 0.3 }, 2.6);
+    patches.forEach(p => tl.to(p.el, { x: p.px + (p.col - 1.5) * 14, y: p.py + (p.row - 1.5) * 14, duration: 0.7, ease: "power2.inOut" }, 2.6));
+    tl.fromTo("#s1-patch-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.0);
+    // Каждый патч сжимается и улетает в ряд токенов (слот i+1, слот 0 — для CLS).
+    cap("#s1-cap2", 4.8, 8.8);
+    tl.fromTo("#s1-ghost", { opacity: 0 }, { opacity: 0.28, duration: 0.5 }, 5.0);
+    tl.to("#s1-patch-lbl", { opacity: 0, duration: 0.3 }, 5.0);
+    patches.forEach((p, i) => {
+      const tx = ROW_X0 + STEP * (i + 1), ty = ROW_Y;
+      tl.to(p.el, { x: tx, y: ty, scale: TOK / CELL, duration: 0.9, ease: "power2.inOut" }, 5.1 + 0.07 * i);
+    });
+    tl.fromTo("#s1-row-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.6);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 6.2);
+    // CLS-токен въезжает на позицию 0, затем позиции 0…16 и E_pos.
+    cap("#s1-cap3", 9.0, 13.4);
+    tl.fromTo("#s1-cls", { opacity: 0, x: -70 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.2);
+    tl.fromTo("#s1-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.6);
+    for (let j = 0; j <= 16; j++) tl.fromTo(`#s1-n${j}`, { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.3 }, 10.2 + 0.05 * j);
+    tl.fromTo("#s1-pos-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.6);
+    tl.fromTo("#s1-pos-note", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 11.2);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.45 }, 13.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

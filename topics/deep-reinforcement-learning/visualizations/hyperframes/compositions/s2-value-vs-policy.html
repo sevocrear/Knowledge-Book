@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 1760px; height: 400px; display: block; }
+  #s2-c1 { left: 0px; top: 412px; width: 840px; }
+  #s2-c2 { left: 920px; top: 412px; width: 840px; }
+  #s2-c1 .f, #s2-c2 .f { font-size: 33px; }
+  .s2-note { font-size: 25px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Учить ценность или сразу политику?</div></div>
+    <div class="badge">Knowledge Book · Deep RL</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 1760 400">
+        <defs>
+          <marker id="s2-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+          <marker id="s2-ah-o" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#ff7a2f"/></marker>
+        </defs>
+        <line x1="880" y1="10" x2="880" y2="390" stroke="#2a3140" stroke-width="3" stroke-dasharray="10 10"/>
+
+        <!-- ===== Левая колонка: value-based (DQN) ===== -->
+        <text id="s2-hL" x="0" y="34" fill="#4a9eff" font-size="30" font-weight="700" opacity="0">Value-based · DQN</text>
+        <g id="s2-sL" opacity="0">
+          <rect x="0" y="110" width="100" height="70" rx="12" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+          <text x="50" y="157" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">s</text>
+        </g>
+        <line id="s2-a1" x1="100" y1="145" x2="148" y2="145" stroke="#aab3c2" stroke-width="3" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <g id="s2-netL" opacity="0">
+          <rect x="152" y="90" width="230" height="110" rx="14" fill="#161a24" stroke="#4a9eff" stroke-width="4"/>
+          <text x="267" y="134" text-anchor="middle" fill="#f0f4ff" font-size="30" font-weight="700">Q-сеть</text>
+          <text x="267" y="174" text-anchor="middle" fill="#aab3c2" font-size="26">Q(s, a; θ)</text>
+        </g>
+        <line id="s2-a2" x1="382" y1="145" x2="430" y2="145" stroke="#aab3c2" stroke-width="3" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <g id="s2-qlbl" opacity="0">
+          <text x="452" y="118" fill="#aab3c2" font-size="24">a₁</text>
+          <text x="452" y="158" fill="#aab3c2" font-size="24">a₂</text>
+          <text x="452" y="198" fill="#aab3c2" font-size="24">a₃</text>
+          <text x="500" y="82" fill="#aab3c2" font-size="22">Q(s, a) (иллюстративно)</text>
+        </g>
+        <rect id="s2-q1" x="500" y="97" width="0" height="28" rx="6" fill="#4a9eff" opacity="0.8"/>
+        <rect id="s2-q2" x="500" y="137" width="0" height="28" rx="6" fill="#4a9eff"/>
+        <rect id="s2-q3" x="500" y="177" width="0" height="28" rx="6" fill="#4a9eff" opacity="0.8"/>
+        <rect id="s2-qmax" x="497" y="134" width="141" height="34" rx="8" fill="none" stroke="#ff7a2f" stroke-width="3" opacity="0"/>
+        <text id="s2-argmax" x="452" y="236" fill="#ff7a2f" font-size="26" font-weight="700" opacity="0">argmax → a₂</text>
+        <!-- replay buffer -->
+        <g id="s2-buf" opacity="0">
+          <rect x="0" y="290" width="560" height="90" rx="14" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+          <text x="16" y="328" fill="#aab3c2" font-size="24">replay</text>
+          <text x="16" y="358" fill="#aab3c2" font-size="24">buffer D</text>
+        </g>
+        <g id="s2-ch1" opacity="0"><rect x="150" y="318" width="92" height="36" rx="8" fill="#0f1117" stroke="#2a3140" stroke-width="2"/><text x="196" y="343" text-anchor="middle" fill="#e6ebf5" font-size="19">(s,a,r,s′)</text></g>
+        <g id="s2-ch2" opacity="0"><rect x="250" y="318" width="92" height="36" rx="8" fill="#0f1117" stroke="#2a3140" stroke-width="2"/><text x="296" y="343" text-anchor="middle" fill="#e6ebf5" font-size="19">(s,a,r,s′)</text></g>
+        <g id="s2-ch3" opacity="0"><rect x="350" y="318" width="92" height="36" rx="8" fill="#0f1117" stroke="#2a3140" stroke-width="2"/><text x="396" y="343" text-anchor="middle" fill="#e6ebf5" font-size="19">(s,a,r,s′)</text></g>
+        <g id="s2-ch4" opacity="0"><rect x="450" y="318" width="92" height="36" rx="8" fill="#0f1117" stroke="#2a3140" stroke-width="2"/><text x="496" y="343" text-anchor="middle" fill="#e6ebf5" font-size="19">(s,a,r,s′)</text></g>
+        <rect id="s2-pick" x="248" y="316" width="96" height="40" rx="9" fill="none" stroke="#ff7a2f" stroke-width="3" opacity="0"/>
+        <line id="s2-a3" x1="296" y1="312" x2="270" y2="206" stroke="#ff7a2f" stroke-width="3" stroke-dasharray="0 9999" marker-end="url(#s2-ah-o)" opacity="0"/>
+        <text id="s2-picklbl" x="320" y="270" fill="#ff7a2f" font-size="22" opacity="0">случайный батч</text>
+        <!-- target network -->
+        <g id="s2-tgt" opacity="0">
+          <rect x="660" y="90" width="200" height="110" rx="14" fill="#161a24" stroke="#b48ce6" stroke-width="4" stroke-dasharray="12 8"/>
+          <text x="760" y="134" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">target-сеть</text>
+          <text x="760" y="174" text-anchor="middle" fill="#b48ce6" font-size="26">Q(s′, a′; θ⁻)</text>
+          <text x="760" y="266" text-anchor="middle" fill="#aab3c2" font-size="21">копия θ, обновляется</text>
+          <text x="760" y="292" text-anchor="middle" fill="#aab3c2" font-size="21">периодически (target_update)</text>
+        </g>
+
+        <!-- ===== Правая колонка: policy-based ===== -->
+        <text id="s2-hR" x="920" y="34" fill="#b48ce6" font-size="30" font-weight="700" opacity="0">Policy-based · policy gradient</text>
+        <g id="s2-sR" opacity="0">
+          <rect x="920" y="110" width="100" height="70" rx="12" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+          <text x="970" y="157" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">s</text>
+        </g>
+        <line id="s2-a4" x1="1020" y1="145" x2="1068" y2="145" stroke="#aab3c2" stroke-width="3" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <g id="s2-netR" opacity="0">
+          <rect x="1072" y="90" width="230" height="110" rx="14" fill="#161a24" stroke="#b48ce6" stroke-width="4"/>
+          <text x="1187" y="134" text-anchor="middle" fill="#f0f4ff" font-size="30" font-weight="700">policy-сеть</text>
+          <text x="1187" y="174" text-anchor="middle" fill="#aab3c2" font-size="26">π<tspan font-size="18">θ</tspan>(a | s)</text>
+        </g>
+        <line id="s2-a5" x1="1302" y1="145" x2="1350" y2="145" stroke="#aab3c2" stroke-width="3" stroke-dasharray="0 9999" marker-end="url(#s2-ah)" opacity="0"/>
+        <g id="s2-plbl" opacity="0">
+          <text x="1372" y="118" fill="#aab3c2" font-size="24">a₁</text>
+          <text x="1372" y="158" fill="#aab3c2" font-size="24">a₂</text>
+          <text x="1372" y="198" fill="#aab3c2" font-size="24">a₃</text>
+          <text x="1372" y="82" fill="#aab3c2" font-size="22">π(a | s), Σ = 1 (иллюстративно)</text>
+        </g>
+        <rect id="s2-p1" x="1420" y="97" width="0" height="28" rx="6" fill="#b48ce6" opacity="0.8"/>
+        <rect id="s2-p2" x="1420" y="137" width="0" height="28" rx="6" fill="#b48ce6"/>
+        <rect id="s2-p3" x="1420" y="177" width="0" height="28" rx="6" fill="#b48ce6" opacity="0.8"/>
+        <circle id="s2-samp" cx="1660" cy="151" r="11" fill="#ff7a2f" opacity="0"/>
+        <text id="s2-samplbl" x="1372" y="246" fill="#ff7a2f" font-size="26" font-weight="700" opacity="0">a₂ ~ π<tspan font-size="18">θ</tspan>(·|s),  <tspan fill="#3dba7a">Â<tspan font-size="18">t</tspan> &gt; 0</tspan></text>
+        <text id="s2-up" x="1372" y="280" fill="#3dba7a" font-size="24" opacity="0">∇ log π · Â: π(a₂|s) ↑, другие ↓</text>
+        <!-- actor-critic -->
+        <g id="s2-ac" opacity="0">
+          <rect x="920" y="290" width="840" height="90" rx="14" fill="#161a24" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="940" y="326" fill="#2dd4bf" font-size="26" font-weight="700">Actor-critic</text>
+          <text x="1110" y="326" fill="#aab3c2" font-size="24">actor = π<tspan font-size="17">θ</tspan>(a|s) выбирает,  critic = V<tspan font-size="17">φ</tspan>(s) оценивает</text>
+          <text x="940" y="364" fill="#e6ebf5" font-size="24">advantage  A(s,a) = Q(s,a) − V(s)  — насколько a лучше среднего</text>
+        </g>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">DQN: цель и loss</div>
+        <div class="f">y = r + γ · max<sub>a′</sub> Q(s′, a′; <span class="p">θ⁻</span>)</div>
+        <div class="f" style="margin-top:6px">L(θ) = 𝔼<sub>(s,a,r,s′) ∼ D</sub>[ ( y − Q(s, a; θ) )² ]</div>
+        <div class="s2-note">θ⁻ — целевая сеть, D — replay buffer (случайная выборка)</div></div>
+      <div id="s2-c2" class="card"><div class="h">Policy gradient</div>
+        <div class="f">∇<sub>θ</sub>J(θ) = 𝔼<sub>τ</sub>[ Σ<sub>t</sub> ∇<sub>θ</sub> log π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>) · <span class="g">Â<sub>t</sub></span> ]</div>
+        <div class="f" style="margin-top:6px">θ ← θ + α ∇<sub>θ</sub> log π<sub>θ</sub>(a|s) · A<sup>π</sup>(s,a)</div>
+        <div class="s2-note">Â<sub>t</sub> — оценка advantage: REINFORCE — возврат G<sub>t</sub>, A2C — Q − V</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap"><b class="b">Value-based (DQN)</b>: сеть оценивает Q(s,a;θ) для каждого действия, агент берёт <b class="o">argmax</b>; переходы (s,a,r,s′) копятся в replay buffer</div>
+      <div id="s2-cap2" class="cap">Цель для Q: <b>r + γ·max<sub>a′</sub> Q(s′,a′;θ⁻)</b> — её считает <b class="p">целевая сеть θ⁻</b>; loss — квадрат ошибки, батч берётся из буфера случайно</div>
+      <div id="s2-cap3" class="cap"><b class="p">Policy-based</b>: сеть выдаёт π<sub>θ</sub>(a|s) напрямую; шаг по <b>∇ log π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>)·Â<sub>t</sub></b> повышает вероятность действий с <b class="g">Â<sub>t</sub> &gt; 0</b></div>
+      <div id="s2-cap4" class="cap"><b class="t">Actor-critic</b>: actor — политика, critic оценивает V(s); advantage A = Q − V снижает дисперсию градиента. PPO построен именно так</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const arrow = (id, t, len) => tl.fromTo(id, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len + " 9999" }, duration: 0.4, ease: "power2.inOut" }, t);
+    const show = (id, t, d = 0.45) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: d }, t);
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    show("#s2-hL", 0.3);
+    tl.fromTo("#s2-hR", { opacity: 0 }, { opacity: 0.35, duration: 0.45 }, 0.3);
+    // --- DQN: s → Q-сеть → Q(s,a) → argmax ---
+    cap("#s2-cap1", 0.6, 4.6);
+    tl.fromTo("#s2-sL", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 0.5);
+    arrow("#s2-a1", 0.8, 48);
+    tl.fromTo("#s2-netL", { opacity: 0, scale: 0.95, svgOrigin: "267 145" }, { opacity: 1, scale: 1, svgOrigin: "267 145", duration: 0.5, ease: "power2.out" }, 1.0);
+    arrow("#s2-a2", 1.4, 48);
+    show("#s2-qlbl", 1.6);
+    // Q(s,a) = 0.6 / 0.9 / 0.3 (иллюстративно), 180 px на 1.0
+    tl.fromTo("#s2-q1", { attr: { width: 0 } }, { attr: { width: 90 }, duration: 0.6, ease: "power2.out" }, 1.8);
+    tl.fromTo("#s2-q2", { attr: { width: 0 } }, { attr: { width: 135 }, duration: 0.6, ease: "power2.out" }, 1.95);
+    tl.fromTo("#s2-q3", { attr: { width: 0 } }, { attr: { width: 45 }, duration: 0.6, ease: "power2.out" }, 2.1);
+    show("#s2-qmax", 2.7, 0.35);
+    show("#s2-argmax", 2.8);
+    // replay buffer наполняется
+    show("#s2-buf", 3.0);
+    ["#s2-ch1", "#s2-ch2", "#s2-ch3", "#s2-ch4"].forEach((id, i) => tl.fromTo(id, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 3.3 + 0.22 * i));
+    // --- DQN: цель через target-сеть ---
+    cap("#s2-cap2", 4.8, 8.8);
+    show("#s2-pick", 5.0, 0.35);
+    arrow("#s2-a3", 5.2, 109.1);
+    show("#s2-picklbl", 5.5);
+    tl.fromTo("#s2-tgt", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 5.8);
+    tl.fromTo("#s2-c1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 6.0);
+    // --- Policy gradient ---
+    cap("#s2-cap3", 9.0, 12.4);
+    tl.to("#s2-hR", { opacity: 1, duration: 0.4 }, 9.0);
+    tl.fromTo("#s2-sR", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 9.0);
+    arrow("#s2-a4", 9.3, 48);
+    tl.fromTo("#s2-netR", { opacity: 0, scale: 0.95, svgOrigin: "1187 145" }, { opacity: 1, scale: 1, svgOrigin: "1187 145", duration: 0.5, ease: "power2.out" }, 9.5);
+    arrow("#s2-a5", 9.9, 48);
+    show("#s2-plbl", 10.0);
+    // π(a|s) = 0.2 / 0.5 / 0.3, 200 px на 1.0
+    tl.fromTo("#s2-p1", { attr: { width: 0 } }, { attr: { width: 40 }, duration: 0.6, ease: "power2.out" }, 10.2);
+    tl.fromTo("#s2-p2", { attr: { width: 0 } }, { attr: { width: 100 }, duration: 0.6, ease: "power2.out" }, 10.35);
+    tl.fromTo("#s2-p3", { attr: { width: 0 } }, { attr: { width: 60 }, duration: 0.6, ease: "power2.out" }, 10.5);
+    tl.fromTo("#s2-c2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 10.4);
+    tl.fromTo("#s2-samp", { opacity: 0, attr: { cx: 1520 } }, { opacity: 1, attr: { cx: 1540 }, duration: 0.4, ease: "back.out(1.6)" }, 11.0);
+    show("#s2-samplbl", 11.1);
+    // Â_t > 0 → π(a₂|s) растёт: 0.15 / 0.65 / 0.20
+    show("#s2-up", 11.8);
+    tl.to("#s2-p1", { attr: { width: 30 }, duration: 0.9, ease: "power2.inOut" }, 11.9);
+    tl.to("#s2-p2", { attr: { width: 130 }, duration: 0.9, ease: "power2.inOut" }, 11.9);
+    tl.to("#s2-p3", { attr: { width: 40 }, duration: 0.9, ease: "power2.inOut" }, 11.9);
+    tl.to("#s2-samp", { attr: { cx: 1570 }, duration: 0.9, ease: "power2.inOut" }, 11.9);
+    // --- Actor-critic ---
+    cap("#s2-cap4", 12.6, 0);
+    tl.fromTo("#s2-ac", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 12.7);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 14.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

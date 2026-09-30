@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-tbl { left: 1060px; top: 0px; width: 700px; font-size: 28px; }
+  #s2-tbl .row { display: flex; align-items: baseline; gap: 18px; padding: 12px 0; border-bottom: 1px solid #2a3140; opacity: 0.35; }
+  #s2-tbl .row:last-child { border-bottom: 0; }
+  #s2-tbl .nm { flex: 0 0 170px; font-weight: 700; font-size: 30px; }
+  #s2-tbl .cd { flex: 1 1 auto; font-style: italic; color: #e6ebf5; }
+  #s2-tbl .gr { flex: 0 0 auto; font-size: 24px; color: #aab3c2; text-align: right; }
+  #s2-c2 { left: 1060px; top: 400px; width: 700px; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Какие тройки полезны для обучения?</div></div>
+    <div class="badge">Knowledge Book · Metric learning</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <rect x="8" y="8" width="964" height="644" rx="18" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+        <!-- зоны: hard (диск D_ap), semi-hard (кольцо до D_ap + m), easy (снаружи) -->
+        <circle id="s2-zone-semi" cx="430" cy="340" r="260" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-zone-hard" cx="430" cy="340" r="150" fill="#ff4d6d" opacity="0"/>
+        <circle id="s2-ring-in" cx="430" cy="340" r="150" fill="none" stroke="#3dba7a" stroke-width="4" stroke-dasharray="0 9999"/>
+        <circle id="s2-ring-out" cx="430" cy="340" r="260" fill="none" stroke="#ff7a2f" stroke-width="4" stroke-dasharray="0 9999"/>
+        <line id="s2-lap" x1="430" y1="340" x2="580" y2="340" stroke="#3dba7a" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <line id="s2-lm" x1="580" y1="340" x2="690" y2="340" stroke="#ff7a2f" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <text id="s2-lap-lbl" x="505" y="372" text-anchor="middle" fill="#3dba7a" font-size="26" font-weight="700" opacity="0">D<tspan font-size="18" dy="6">ap</tspan></text>
+        <text id="s2-lm-lbl" x="635" y="372" text-anchor="middle" fill="#ff7a2f" font-size="26" font-weight="700" opacity="0">+ m</text>
+        <g id="s2-ga"><circle cx="430" cy="340" r="15" fill="#4a9eff"/><text x="430" y="322" text-anchor="middle" fill="#4a9eff" font-size="28" font-weight="700">a</text></g>
+        <g id="s2-gp"><circle cx="580" cy="340" r="13" fill="#3dba7a"/><text x="600" y="330" fill="#3dba7a" font-size="28" font-weight="700">p</text></g>
+        <!-- подписи зон -->
+        <text id="s2-lbl-easy" x="950" y="60" text-anchor="end" fill="#aab3c2" font-size="28" font-weight="700" opacity="0">easy: D<tspan font-size="20" dy="6">an</tspan><tspan dy="-6"> &gt; D</tspan><tspan font-size="20" dy="6">ap</tspan><tspan dy="-6"> + m</tspan></text>
+        <text id="s2-lbl-semi" x="430" y="122" text-anchor="middle" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">semi-hard</text>
+        <text id="s2-lbl-hard" x="430" y="262" text-anchor="middle" fill="#ff4d6d" font-size="28" font-weight="700" opacity="0">hard</text>
+        <text id="s2-lbl-95" x="950" y="628" text-anchor="end" fill="#aab3c2" font-size="28" font-weight="700" opacity="0">&gt; 95 % троек — easy, L = 0</text>
+        <g id="s2-pts"></g>
+      </svg>
+      <div id="s2-tbl" class="card"><div class="h">Тройки по трудности при margin m</div>
+        <div class="row" id="s2-row-easy"><span class="nm" style="color:#aab3c2">easy</span><span class="cd">D<sub>an</sub> &gt; D<sub>ap</sub> + m</span><span class="gr">градиент 0</span></div>
+        <div class="row" id="s2-row-semi"><span class="nm" style="color:#ff7a2f">semi-hard</span><span class="cd">D<sub>ap</sub> &lt; D<sub>an</sub> &lt; D<sub>ap</sub> + m</span><span class="gr">умеренный</span></div>
+        <div class="row" id="s2-row-hard"><span class="nm" style="color:#ff4d6d">hard</span><span class="cd">D<sub>an</sub> &lt; D<sub>ap</sub></span><span class="gr">максимальный</span></div>
+      </div>
+      <div id="s2-c2" class="card"><div class="h">Без майнера</div>
+        <div>после первой эпохи <b class="r">&gt; 95 %</b> случайных троек — easy</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">средний градиент по батчу ≈ 0, обучение «замерзает»; троек O(N³) — перебрать нельзя</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap"><b class="g">D<sub>ap</sub></b> и margin <b class="o">m</b> делят негативы на зоны. <b>easy</b>: D<sub>an</sub> &gt; D<sub>ap</sub> + m — лосс уже 0, градиента нет</div>
+      <div id="s2-cap2" class="cap"><b class="o">semi-hard</b>: D<sub>ap</sub> &lt; D<sub>an</sub> &lt; D<sub>ap</sub> + m — ненулевой умеренный градиент, «золотая середина» FaceNet</div>
+      <div id="s2-cap3" class="cap"><b class="r">hard</b>: D<sub>an</sub> &lt; D<sub>ap</sub> — максимальный градиент, но часто это шум разметки или outlier → коллапс эмбеддингов</div>
+      <div id="s2-cap4" class="cap">Случайные тройки: после первой эпохи <b class="r">&gt; 95 %</b> — easy, градиент ≈ 0, обучение «замерзает». Нужен <b class="o">майнер</b></div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const cx = 430, cy = 340, DAP = 150, M = 110; // px, иллюстративно
+    const pt = (r, deg) => [cx + r * Math.cos(deg * Math.PI / 180), cy - r * Math.sin(deg * Math.PI / 180)];
+    // Негативы: [радиус, угол] — детерминированные позиции по зонам.
+    const easy = [[300, 20], [330, 55], [310, 100], [350, 140], [300, 175], [320, 205], [295, 245], [285, 272], [305, 320], [345, 350], [275, 258], [330, 120], [380, 30], [370, 330], [360, 160]];
+    const semi = [[200, 120], [235, 215], [210, 300], [235, 45]];
+    const hard = [[95, 150], [110, 250]];
+    const g = document.getElementById("s2-pts");
+    const mk = (list, key, color) => list.map(([r, a], i) => {
+      const [x, y] = pt(r, a);
+      const el = document.createElementNS(NS, "circle");
+      el.setAttribute("id", `s2-n-${key}-${i}`); el.setAttribute("cx", x.toFixed(1)); el.setAttribute("cy", y.toFixed(1));
+      el.setAttribute("r", "11"); el.setAttribute("fill", color); el.setAttribute("opacity", "0");
+      g.appendChild(el); return el;
+    });
+    const pe = mk(easy, "e", "#aab3c2"), ps = mk(semi, "s", "#ff7a2f"), ph = mk(hard, "h", "#ff4d6d");
+    const circ = (r) => (2 * Math.PI * r).toFixed(1);
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-lap", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": DAP + " 9999" }, duration: 0.5, ease: "power2.inOut" }, 0.3);
+    tl.fromTo("#s2-lap-lbl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.7);
+    tl.fromTo("#s2-ring-in", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": circ(DAP) + " 9999" }, duration: 0.9, ease: "power2.inOut" }, 0.8);
+    tl.fromTo("#s2-lm", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": M + " 9999" }, duration: 0.5, ease: "power2.inOut" }, 1.2);
+    tl.fromTo("#s2-lm-lbl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.6);
+    tl.fromTo("#s2-ring-out", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": circ(DAP + M) + " 9999" }, duration: 1.0, ease: "power2.inOut" }, 1.7);
+    tl.fromTo("#s2-tbl", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.4);
+    // easy
+    cap("#s2-cap1", 0.6, 4.4);
+    pe.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.4 + 0.07 * i));
+    tl.fromTo("#s2-lbl-easy", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.8);
+    tl.to("#s2-row-easy", { opacity: 1, duration: 0.4 }, 2.8);
+    // semi-hard
+    cap("#s2-cap2", 4.6, 8.4);
+    tl.fromTo("#s2-zone-semi", { opacity: 0 }, { opacity: 0.12, duration: 0.5 }, 4.8);
+    ps.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.1 + 0.15 * i));
+    tl.fromTo("#s2-lbl-semi", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.4);
+    tl.to("#s2-row-semi", { opacity: 1, duration: 0.4 }, 5.2);
+    // hard
+    cap("#s2-cap3", 8.6, 12.0);
+    tl.fromTo("#s2-zone-hard", { opacity: 0 }, { opacity: 0.16, duration: 0.5 }, 8.8);
+    ph.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.1 + 0.2 * i));
+    tl.fromTo("#s2-lbl-hard", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.4);
+    tl.to("#s2-row-hard", { opacity: 1, duration: 0.4 }, 9.2);
+    // почти все случайные тройки — easy
+    cap("#s2-cap4", 12.2, 15.5);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 12.4);
+    tl.fromTo("#s2-lbl-95", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 12.6);
+    tl.to("#s2-zone-semi", { opacity: 0.04, duration: 0.6 }, 12.6);
+    tl.to("#s2-zone-hard", { opacity: 0.06, duration: 0.6 }, 12.6);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 15.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

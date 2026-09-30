@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; font-size: 30px; }
+  #s2-c1 .li { padding: 4px 0; }
+  #s2-c1 .k { color: #f0f4ff; font-weight: 600; }
+  #s2-c2 { left: 1060px; top: 215px; width: 700px; }
+  #s2-c3 { left: 1060px; top: 480px; width: 700px; font-size: 30px; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как несколько моделей делят одну GPU?</div></div>
+    <div class="badge">Knowledge Book · Triton</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <!-- 1. строгий FIFO -->
+        <text id="s2-h1" x="20" y="34" fill="#f0f4ff" font-size="26" font-weight="700" opacity="0">① строгий FIFO — одна модель за раз</text>
+        <g id="s2-fifo"></g>
+        <g id="s2-fifo-t"></g>
+        <line id="s2-end1" x1="560" y1="50" x2="560" y2="318" stroke="#aab3c2" stroke-width="3" stroke-dasharray="0 9999"/>
+        <text id="s2-end1-t" x="572" y="84" fill="#aab3c2" font-size="24" opacity="0">конец FIFO</text>
+        <!-- 2. concurrent -->
+        <text id="s2-h2" x="20" y="176" fill="#f0f4ff" font-size="26" font-weight="700" opacity="0">② concurrent — на одной GPU</text>
+        <g id="s2-conc"></g>
+        <g id="s2-conc-t"></g>
+        <line id="s2-end2" x1="332" y1="190" x2="332" y2="318" stroke="#3dba7a" stroke-width="3" stroke-dasharray="0 9999"/>
+        <text id="s2-end2-t" x="346" y="236" fill="#3dba7a" font-size="24" font-weight="700" opacity="0">раньше</text>
+        <text id="s2-ill" x="20" y="344" fill="#aab3c2" font-size="22" opacity="0">длины блоков — иллюстративно</text>
+        <!-- 3. backends -->
+        <text id="s2-h3" x="20" y="392" fill="#f0f4ff" font-size="26" font-weight="700" opacity="0">③ разные backends — один endpoint</text>
+        <g id="s2-ep" opacity="0">
+          <rect x="20" y="410" width="940" height="46" rx="12" fill="#161a24" stroke="#b48ce6" stroke-width="3"/>
+          <text x="490" y="442" text-anchor="middle" fill="#f0f4ff" font-size="24" font-weight="600">HTTP/REST · gRPC · C API</text>
+        </g>
+        <line id="s2-l1" x1="170" y1="456" x2="170" y2="500" stroke="#2a3140" stroke-width="4" stroke-dasharray="0 9999"/>
+        <line id="s2-l2" x1="490" y1="456" x2="490" y2="500" stroke="#2a3140" stroke-width="4" stroke-dasharray="0 9999"/>
+        <line id="s2-l3" x1="810" y1="456" x2="810" y2="500" stroke="#2a3140" stroke-width="4" stroke-dasharray="0 9999"/>
+        <g id="s2-m1" opacity="0">
+          <rect x="20" y="500" width="300" height="110" rx="14" fill="#161a24" stroke="#4a9eff" stroke-width="4"/>
+          <text x="170" y="546" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">детектор</text>
+          <text x="170" y="584" text-anchor="middle" fill="#4a9eff" font-size="26" font-weight="700">TensorRT</text>
+        </g>
+        <g id="s2-m2" opacity="0">
+          <rect x="340" y="500" width="300" height="110" rx="14" fill="#161a24" stroke="#2dd4bf" stroke-width="4"/>
+          <text x="490" y="546" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">классификатор</text>
+          <text x="490" y="584" text-anchor="middle" fill="#2dd4bf" font-size="26" font-weight="700">ONNX Runtime</text>
+        </g>
+        <g id="s2-m3" opacity="0">
+          <rect x="660" y="500" width="300" height="110" rx="14" fill="#161a24" stroke="#b48ce6" stroke-width="4"/>
+          <text x="810" y="546" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">постпроцессинг</text>
+          <text x="810" y="584" text-anchor="middle" fill="#b48ce6" font-size="26" font-weight="700">Python backend</text>
+        </g>
+        <text id="s2-gpu-note" x="490" y="645" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">все три — на одной GPU</text>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">config.pbtxt · instance_group</div>
+        <div class="li"><span class="k">gpus: [0]</span>, <span class="k">gpus: [1]</span> — по картам</div>
+        <div class="li">или несколько instance на <span class="g">одной GPU</span></div></div>
+      <div id="s2-c2" class="card"><div class="h">Симуляция из репозитория</div>
+        <div style="font-size:24px;color:#aab3c2;margin-bottom:6px">01_concurrent_model_multiplexing.py</div>
+        <div style="font-size:28px">две модели: concurrent vs строгий FIFO</div>
+        <div style="font-size:28px;margin-top:6px"><span class="g">throughput ↑</span> · <span class="g">p99 ожидания ↓</span></div></div>
+      <div id="s2-c3" class="card"><div class="h">Backends Triton</div>
+        <div style="font-size:28px">TensorRT · ONNX Runtime · PyTorch · OpenVINO · Python · FIL · vLLM</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Строгий <b class="r">FIFO</b>: пока детектор «думает», эмбеддер стоит в очереди за ним</div>
+      <div id="s2-cap2" class="cap"><b class="g">Concurrent</b>: несколько CUDA-потоков и instance — модели идут на GPU вместе</div>
+      <div id="s2-cap3" class="cap">Backends — TensorRT, ONNX, PyTorch: <b class="b">один endpoint</b>, клиенту всё равно, на чём обучили</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, txt) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); if (txt) el.textContent = txt; return el; };
+    const gFifo = document.getElementById("s2-fifo"), gFifoT = document.getElementById("s2-fifo-t");
+    const gConc = document.getElementById("s2-conc"), gConcT = document.getElementById("s2-conc-t");
+    const COL = { D: "#4a9eff", E: "#2dd4bf" }, NAME = { D: "детектор", E: "эмбеддер" };
+    // FIFO: D E D E подряд, блок 130 + зазор 6, y 50…104
+    const fifo = ["D", "E", "D", "E"].map((k, i) => {
+      const x = 20 + i * 136;
+      const r = mk("rect", { id: `s2-f${i}`, x, y: 50, width: 0, height: 54, rx: 8, fill: COL[k] });
+      const t = mk("text", { id: `s2-ft${i}`, x: x + 65, y: 84, "text-anchor": "middle", "font-size": 20, "font-weight": 700, fill: "#0f1117", opacity: 0 }, NAME[k]);
+      gFifo.appendChild(r); gFifoT.appendChild(t); return { r, t, x };
+    });
+    // Concurrent: D‖E, D‖E — две дорожки, блоки шире-но-параллельно (иллюстративно)
+    const conc = [];
+    [["D", 190], ["E", 252]].forEach(([k, y]) => [0, 1].forEach(j => {
+      const x = 20 + j * 156, id = `${k}${j}`;
+      const r = mk("rect", { id: `s2-c${id}`, x, y, width: 0, height: 54, rx: 8, fill: COL[k] });
+      const t = mk("text", { id: `s2-ct${id}`, x: x + 75, y: y + 34, "text-anchor": "middle", "font-size": 20, "font-weight": 700, fill: "#0f1117", opacity: 0 }, NAME[k]);
+      gConc.appendChild(r); gConcT.appendChild(t); conc.push({ r, t, j });
+    }));
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const show = (id, t, d = 0.4) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: d }, t);
+    const draw = (id, len, t, d = 0.4) => tl.fromTo(id, { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": len + " 9999" }, duration: d, ease: "power2.inOut" }, t);
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    cap("#s2-cap1", 0.6, 4.6);
+    show("#s2-h1", 0.5);
+    fifo.forEach(({ r, t }, i) => {
+      tl.fromTo(r, { attr: { width: 0 } }, { attr: { width: 130 }, duration: 0.5, ease: "none" }, 0.9 + i * 0.75);
+      tl.fromTo(t, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.35 + i * 0.75);
+    });
+    draw("#s2-end1", 268, 3.9, 0.6); show("#s2-end1-t", 4.2);
+    // concurrent
+    cap("#s2-cap2", 5.1, 9.4);
+    show("#s2-h2", 5.2);
+    conc.forEach(({ r, t, j }) => {
+      tl.fromTo(r, { attr: { width: 0 } }, { attr: { width: 150 }, duration: 0.6, ease: "none" }, 5.7 + j * 0.9);
+      tl.fromTo(t, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.15 + j * 0.9);
+    });
+    draw("#s2-end2", 128, 7.4, 0.5); show("#s2-end2-t", 7.7); show("#s2-ill", 8.0);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.6);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.0);
+    // backends
+    cap("#s2-cap3", 9.9, 14.2);
+    show("#s2-h3", 9.9); show("#s2-ep", 10.2);
+    ["#s2-l1", "#s2-l2", "#s2-l3"].forEach((id, i) => draw(id, 44, 10.6 + i * 0.15, 0.3));
+    ["#s2-m1", "#s2-m2", "#s2-m3"].forEach((id, i) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 10.8 + i * 0.3));
+    show("#s2-gpu-note", 11.9);
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 10.4);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.45 }, 14.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

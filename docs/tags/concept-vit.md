@@ -6,7 +6,7 @@ tags:
   - kb/tag-page
 type: index
 status: canonical
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 
 # Тег `concept/vit`
@@ -15,4 +15,5 @@ updated: 2026-09-18
 
 - [DINOv3: Self-Supervised Vision Transformer и 2D RoPE](../../topics/dinov3-self-supervised-vision-transformer-and-2d-rope/README.md) — Self-supervised ViT (student–teacher), 2D RoPE для патчей, глобальные и dense-фичи для классификации, детекции и сегментации.
 - [Transformers, Attention и Vision Transformers (ViT)](../../topics/transformers-attention-and-vision-transformers-vit/README.md) — Scaled dot-product attention, QKV, KV cache, positional encodings (в т.ч. RoPE), ViT и DETR-подобные детекция/сегментация.
+- [Сториборд клипа: ViT — патчи, self-attention и CLS](../../topics/transformers-attention-and-vision-transformers-vit/visualizations/hyperframes/storyboard.md) — Сториборд и команды сборки HyperFrames-клипа vit_patches_attention: картинка → патчи и токены с CLS, scaled dot-product attention для строки CLS, энкодер из L блоков и голова классификации.
 

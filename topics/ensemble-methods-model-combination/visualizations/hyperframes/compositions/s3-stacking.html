@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s3-c2 { left: 1060px; top: 220px; width: 700px; }
+  .card .f { font-size: 32px; }
+  .s3-sub { font-size: 25px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+  #s3-cmp { left: 1060px; top: 440px; width: 700px; font-size: 26px; padding-top: 18px; padding-bottom: 18px; }
+  #s3-cmp .h { margin-bottom: 4px; }
+  #s3-cmp .row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; border-bottom: 1px solid #2a3140; }
+  #s3-cmp .row:last-child { border-bottom: 0; }
+  #s3-cmp .nm { color: #f0f4ff; font-weight: 600; }
+  #s3-cmp .ef { font-size: 26px; }
+  #s3-cmp .tp { font-size: 22px; color: #aab3c2; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Stacking: кто решает, какой модели верить?</div></div>
+    <div class="badge">Knowledge Book · Ensembles</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <!-- вход -->
+        <g id="s3-in" opacity="0">
+          <circle cx="70" cy="330" r="32" fill="#1e3a5f" stroke="#4a9eff" stroke-width="4"/>
+          <text x="70" y="342" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700">x</text>
+          <text x="70" y="392" text-anchor="middle" fill="#aab3c2" font-size="22">объект</text>
+        </g>
+        <text id="s3-l0" x="300" y="46" text-anchor="middle" fill="#aab3c2" font-size="24" letter-spacing="1" opacity="0">УРОВЕНЬ 0 · базовые модели</text>
+        <text id="s3-l1" x="665" y="246" text-anchor="middle" fill="#aab3c2" font-size="24" letter-spacing="1" opacity="0">УРОВЕНЬ 1</text>
+        <g id="s3-ar-in"></g>
+        <g id="s3-base"></g>
+        <g id="s3-ar-pred"></g>
+        <g id="s3-preds"></g>
+        <g id="s3-meta" opacity="0">
+          <rect x="560" y="270" width="210" height="120" rx="16" fill="#161a24" stroke="#ff7a2f" stroke-width="4"/>
+          <text x="665" y="318" text-anchor="middle" fill="#f0f4ff" font-size="26" font-weight="700">мета-модель</text>
+          <text x="665" y="352" text-anchor="middle" fill="#aab3c2" font-size="22">LogReg</text>
+        </g>
+        <g id="s3-arrows"></g>
+        <g id="s3-out" opacity="0">
+          <rect x="832" y="286" width="138" height="88" rx="16" fill="#161a24" stroke="#3dba7a" stroke-width="4"/>
+          <text x="901" y="326" text-anchor="middle" fill="#f0f4ff" font-size="36" font-weight="800">ŷ</text>
+          <text x="901" y="358" text-anchor="middle" fill="#aab3c2" font-size="19">final_pred</text>
+        </g>
+        <!-- K фолдов -->
+        <g id="s3-folds" opacity="0">
+          <text x="60" y="636" fill="#f0f4ff" font-size="24" font-weight="700">K = 5 фолдов:</text>
+          <rect x="270" y="606" width="110" height="44" rx="8" fill="#1e3a5f" stroke="#4a9eff" stroke-width="2"/>
+          <rect x="390" y="606" width="110" height="44" rx="8" fill="#1e3a5f" stroke="#4a9eff" stroke-width="2"/>
+          <rect x="510" y="606" width="110" height="44" rx="8" fill="#1e3a5f" stroke="#4a9eff" stroke-width="2"/>
+          <rect x="630" y="606" width="110" height="44" rx="8" fill="#1e3a5f" stroke="#4a9eff" stroke-width="2"/>
+          <rect x="750" y="606" width="110" height="44" rx="8" fill="#1e3a5f" stroke="#4a9eff" stroke-width="2"/>
+          <text x="325" y="636" text-anchor="middle" fill="#f0f4ff" font-size="22" font-weight="700">1</text>
+          <text x="445" y="636" text-anchor="middle" fill="#f0f4ff" font-size="22" font-weight="700">2</text>
+          <text x="565" y="636" text-anchor="middle" fill="#f0f4ff" font-size="22" font-weight="700">3</text>
+          <text x="685" y="636" text-anchor="middle" fill="#f0f4ff" font-size="22" font-weight="700">4</text>
+          <text x="805" y="636" text-anchor="middle" fill="#f0f4ff" font-size="22" font-weight="700">5</text>
+          <text x="880" y="636" fill="#aab3c2" font-size="21">train f<tspan font-size="15" dy="5">j</tspan></text>
+        </g>
+        <g id="s3-hi" opacity="0">
+          <rect x="270" y="606" width="110" height="44" rx="8" fill="rgba(255,122,47,0.28)" stroke="#ff7a2f" stroke-width="4"/>
+          <text x="325" y="592" text-anchor="middle" fill="#ff7a2f" font-size="21" font-weight="600">фолд k: предсказать → OOF</text>
+        </g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Два уровня (Wolpert, 1992)</div>
+        <div class="f">meta ← [pred<sub>1</sub>, pred<sub>2</sub>, pred<sub>3</sub>, pred<sub>4</sub>] → ŷ</div>
+        <div class="s3-sub">мета-модель учится, <b>когда и какой</b> базовой модели доверять</div></div>
+      <div id="s3-c2" class="card"><div class="h">Мета-признаки без утечки</div>
+        <div class="f">f<sub>j</sub>: учить без фолда k → предсказать k</div>
+        <div class="s3-sub">OOF-предсказания = входы мета-модели; на тесте базовые модели обучены на всём train</div></div>
+      <div id="s3-cmp" class="card"><div class="h">Что снижает каждый метод</div>
+        <div class="row"><span class="nm" style="color:#4a9eff">Bagging / RF</span><span class="ef"><span class="b">variance</span></span><span class="tp">M моделей параллельно</span></div>
+        <div class="row"><span class="nm" style="color:#3dba7a">Boosting</span><span class="ef"><span class="g">bias</span></span><span class="tp">M моделей последовательно</span></div>
+        <div class="row"><span class="nm" style="color:#ff7a2f">Stacking</span><span class="ef"><span class="o">bias и variance</span></span><span class="tp">инференс M + 1</span></div>
+      </div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap"><b>Stacking</b>: базовые модели уровня 0 (RF, XGBoost, SVM, kNN) дают pred<sub>1</sub>…pred<sub>4</sub>; <b class="o">мета-модель</b> уровня 1 учится их комбинировать</div>
+      <div id="s3-cap2" class="cap">Чтобы мета-модель не переобучилась: <b>K фолдов</b>, f<sub>j</sub> учат без фолда k и предсказывают на нём — <b class="o">OOF-предсказания</b> = мета-признаки</div>
+      <div id="s3-cap3" class="cap key"><b class="b">Bagging</b> усредняет независимые модели (↓ variance), <b class="g">boosting</b> чинит ошибки по очереди (↓ bias), <b class="o">stacking</b> учит мета-модель, кому верить</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const models = [["RF", "#3dba7a"], ["XGBoost", "#ff7a2f"], ["SVM", "#b48ce6"], ["kNN", "#2dd4bf"]];
+    const yc = [110, 250, 390, 520];
+    const gAi = document.getElementById("s3-ar-in"), gB = document.getElementById("s3-base"), gAp = document.getElementById("s3-ar-pred"), gP = document.getElementById("s3-preds");
+    const L = (x0, y0, x1, y1) => Math.hypot(x1 - x0, y1 - y0).toFixed(1);
+    const gA = document.getElementById("s3-arrows");
+    const arrows = {};
+    const mkArrow = (id, x0, y0, x1, y1, col, parent) => {
+      const ang = Math.atan2(y1 - y0, x1 - x0), len = Math.hypot(x1 - x0, y1 - y0);
+      const bx = x1 - 14 * Math.cos(ang), by = y1 - 14 * Math.sin(ang), nx = -Math.sin(ang) * 7, ny = Math.cos(ang) * 7;
+      const p = document.createElementNS(NS, "path");
+      p.setAttribute("id", `${id}-l`); p.setAttribute("d", `M ${x0} ${y0} L ${bx.toFixed(1)} ${by.toFixed(1)}`);
+      p.setAttribute("fill", "none"); p.setAttribute("stroke", col); p.setAttribute("stroke-width", "5"); p.setAttribute("stroke-linecap", "round");
+      p.setAttribute("stroke-dasharray", "0 9999"); p.setAttribute("opacity", "0");
+      const h = document.createElementNS(NS, "polygon");
+      h.setAttribute("id", `${id}-h`); h.setAttribute("fill", col); h.setAttribute("opacity", "0");
+      h.setAttribute("points", `${x1} ${y1} ${(bx + nx).toFixed(1)} ${(by + ny).toFixed(1)} ${(bx - nx).toFixed(1)} ${(by - ny).toFixed(1)}`);
+      (parent || gA).appendChild(p); (parent || gA).appendChild(h); arrows[id] = (len - 14).toFixed(1);
+    };
+    const drawArrow = (tl, id, t, dur) => {
+      tl.fromTo(`#${id}-l`, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": arrows[id] + " 9999" }, duration: dur, ease: "power2.inOut" }, t);
+      tl.fromTo(`#${id}-h`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, t + dur - 0.1);
+    };
+    mkArrow("s3-ar-out", 776, 330, 830, 330, "#ff7a2f");
+    const arPr = [], preds = [];
+    models.forEach(([name, col], k) => {
+      const y = yc[k];
+      mkArrow(`s3-ai-${k}`, 106, 330 + (y - 330) * 0.12, 188, y, "#aab3c2", gAi);
+      const b = document.createElementNS(NS, "g");
+      b.setAttribute("id", `s3-b${k}`); b.setAttribute("opacity", "0");
+      b.innerHTML = `<rect x="190" y="${y - 40}" width="220" height="80" rx="14" fill="#161a24" stroke="${col}" stroke-width="4"/>
+        <text x="300" y="${y + 11}" text-anchor="middle" fill="#f0f4ff" font-size="30" font-weight="700">${name}</text>`;
+      gB.appendChild(b);
+      const ty = 300 + 20 * k;
+      const p = document.createElementNS(NS, "path");
+      p.setAttribute("id", `s3-ap-${k}`); p.setAttribute("d", `M 416 ${y} L 548 ${ty}`);
+      p.setAttribute("fill", "none"); p.setAttribute("stroke", "#2a3140"); p.setAttribute("stroke-width", "4"); p.setAttribute("stroke-linecap", "round");
+      p.setAttribute("stroke-dasharray", "0 9999"); p.setAttribute("opacity", "0");
+      gAp.appendChild(p); arPr.push([p, L(416, y, 548, ty)]);
+      const d = document.createElementNS(NS, "g");
+      d.setAttribute("id", `s3-pd${k}`); d.setAttribute("opacity", "0");
+      d.innerHTML = `<circle id="s3-pc${k}" cx="416" cy="${y}" r="11" fill="${col}"/>`;
+      gP.appendChild(d);
+      const lbl = document.createElementNS(NS, "text");
+      lbl.setAttribute("id", `s3-pl${k}`); lbl.setAttribute("x", "430"); lbl.setAttribute("y", y + (y < 330 ? -12 : 30));
+      lbl.setAttribute("fill", col); lbl.setAttribute("font-size", "22"); lbl.setAttribute("font-weight", "600"); lbl.setAttribute("opacity", "0");
+      lbl.innerHTML = `pred<tspan font-size="16" dy="5">${k + 1}</tspan>`;
+      gP.appendChild(lbl);
+      preds.push([`#s3-pc${k}`, 416, y, 548, ty]);
+    });
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-in", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    tl.fromTo("#s3-l0", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.5);
+    models.forEach((m, k) => {
+      drawArrow(tl, `s3-ai-${k}`, 0.7 + 0.25 * k, 0.35);
+      tl.fromTo(`#s3-b${k}`, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 0.9 + 0.25 * k);
+    });
+    cap("#s3-cap1", 0.6, 4.8);
+    // Предсказания уходят в мета-модель
+    tl.fromTo("#s3-l1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.0);
+    tl.fromTo("#s3-meta", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 2.1);
+    arPr.forEach(([p, len], k) => tl.fromTo(p, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len + " 9999" }, duration: 0.4, ease: "power2.inOut" }, 2.2 + 0.15 * k));
+    preds.forEach(([id, x0, y0, x1, y1], k) => {
+      tl.fromTo(`#s3-pd${k}`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 2.5 + 0.2 * k);
+      tl.fromTo(`#s3-pl${k}`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.5 + 0.2 * k);
+      tl.fromTo(id, { attr: { cx: x0, cy: y0 } }, { attr: { cx: x1, cy: y1 }, duration: 0.7, ease: "power2.inOut" }, 2.6 + 0.2 * k);
+    });
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 2.8);
+    drawArrow(tl, "s3-ar-out", 3.7, 0.35);
+    tl.fromTo("#s3-out", { opacity: 0, scale: 0.85, svgOrigin: "901 330" }, { opacity: 1, scale: 1, svgOrigin: "901 330", duration: 0.5, ease: "back.out(1.6)" }, 3.95);
+    // K фолдов: OOF-предсказания
+    cap("#s3-cap2", 5.0, 9.0);
+    tl.fromTo("#s3-folds", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 5.2);
+    tl.fromTo("#s3-hi", { opacity: 0, x: 0 }, { opacity: 1, x: 0, duration: 0.35 }, 5.7);
+    [1, 2, 3, 4].forEach(k => tl.to("#s3-hi", { x: 120 * k, duration: 0.4, ease: "power2.inOut" }, 6.2 + 0.6 * (k - 1)));
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.5);
+    // Итог: что снижает каждый метод
+    cap("#s3-cap3", 9.2, 0);
+    tl.fromTo("#s3-cmp", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.4);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

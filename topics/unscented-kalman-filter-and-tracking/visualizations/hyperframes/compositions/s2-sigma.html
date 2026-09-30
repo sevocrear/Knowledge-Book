@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s2-c3 { left: 1060px; top: 10px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 335px; width: 700px; }
+  .ov { text-decoration: overline; }
+  .card sup { font-size: 0.6em; }
+  .card sub { font-size: 0.6em; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как sigma points заменяют якобиан?</div></div>
+    <div class="badge">Knowledge Book · UKF</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <rect x="10" y="90" width="420" height="500" rx="16" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+        <rect x="550" y="90" width="420" height="500" rx="16" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+        <text x="220" y="66" text-anchor="middle" fill="#aab3c2" font-size="26">вход: n = 2, контур √(n+λ)·σ</text>
+        <text x="760" y="66" text-anchor="middle" fill="#aab3c2" font-size="26">выход: Y<tspan font-size="18" dy="6">i</tspan><tspan dy="-6"> = f(χ</tspan><tspan font-size="18" dy="6">i</tspan><tspan dy="-6">)</tspan></text>
+        <text x="490" y="636" text-anchor="middle" fill="#aab3c2" font-size="24">иллюстративно: та же f, что в сцене 1; α = 1, κ = 3 − n = 1, β = 2</text>
+
+        <path id="s2-in-fill" d="" fill="rgba(74,158,255,0.16)" stroke="none"/>
+        <path id="s2-in-line" d="" fill="none" stroke="#4a9eff" stroke-width="5" stroke-linejoin="round"/>
+
+        <path id="s2-true-fill" d="" fill="rgba(223,230,245,0.14)" stroke="none" opacity="0"/>
+        <path id="s2-true-line" d="" fill="none" stroke="#dfe6f5" stroke-width="4" stroke-linejoin="round" opacity="0"/>
+        <text id="s2-true-lbl" x="760" y="124" text-anchor="middle" fill="#dfe6f5" font-size="24" opacity="0">настоящее распределение</text>
+
+        <line id="s2-arrow" x1="446" y1="340" x2="522" y2="340" stroke="#f0f4ff" stroke-width="6" stroke-linecap="round" opacity="0"/>
+        <polygon id="s2-arrow-head" points="540,340 520,328 520,352" fill="#f0f4ff" opacity="0"/>
+        <text id="s2-arrow-lbl" x="490" y="312" text-anchor="middle" fill="#f0f4ff" font-size="44" font-style="italic" font-weight="700" opacity="0">f</text>
+
+        <path id="s2-ekf-line" d="" fill="none" stroke="#ff4d6d" stroke-width="4" stroke-linejoin="round" stroke-dasharray="0 99999"/>
+        <text id="s2-ekf-lbl" x="830" y="572" text-anchor="middle" fill="#ff4d6d" font-size="24" opacity="0">EKF (для сравнения)</text>
+
+        <path id="s2-py-fill" d="" fill="rgba(61,186,122,0.20)" stroke="none" opacity="0"/>
+        <path id="s2-py-line" d="" fill="none" stroke="#3dba7a" stroke-width="6" stroke-linejoin="round" stroke-dasharray="0 99999"/>
+
+        <circle id="s2-sg0" cx="0" cy="0" r="13" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-sg1" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-sg2" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-sg3" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-sg4" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <text id="s2-sl0" x="0" y="0" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">χ₀ = <tspan class="ov">x</tspan></text>
+        <text id="s2-sl1" x="0" y="0" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">χ₁</text>
+        <text id="s2-sl2" x="0" y="0" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">χ₂</text>
+        <text id="s2-sl3" x="0" y="0" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">χ₃</text>
+        <text id="s2-sl4" x="0" y="0" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">χ₄</text>
+        <text id="s2-sw0" x="0" y="0" fill="#f0f4ff" font-size="26" opacity="0">W₀ = 1/3</text>
+        <text id="s2-sw1" x="0" y="0" fill="#f0f4ff" font-size="26" opacity="0">1/6</text>
+        <text id="s2-sw2" x="0" y="0" fill="#f0f4ff" font-size="26" opacity="0">1/6</text>
+        <text id="s2-sw3" x="0" y="0" fill="#f0f4ff" font-size="26" opacity="0">1/6</text>
+        <text id="s2-sw4" x="0" y="0" fill="#f0f4ff" font-size="26" opacity="0">1/6</text>
+
+        <circle id="s2-yd0" cx="0" cy="0" r="13" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-yd1" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-yd2" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-yd3" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <circle id="s2-yd4" cx="0" cy="0" r="10" fill="#ff7a2f" opacity="0"/>
+        <text id="s2-yl0" x="0" y="0" fill="#ff7a2f" font-size="26" font-weight="700" paint-order="stroke" stroke="#161a24" stroke-width="6" opacity="0">Y₀ = f(<tspan class="ov">x</tspan>)</text>
+        <text id="s2-yl1" x="0" y="0" fill="#ff7a2f" font-size="26" font-weight="700" paint-order="stroke" stroke="#161a24" stroke-width="6" opacity="0">Y₁</text>
+        <text id="s2-yl2" x="0" y="0" fill="#ff7a2f" font-size="26" font-weight="700" paint-order="stroke" stroke="#161a24" stroke-width="6" opacity="0">Y₂</text>
+        <text id="s2-yl3" x="0" y="0" fill="#ff7a2f" font-size="26" font-weight="700" paint-order="stroke" stroke="#161a24" stroke-width="6" opacity="0">Y₃</text>
+        <text id="s2-yl4" x="0" y="0" fill="#ff7a2f" font-size="26" font-weight="700" paint-order="stroke" stroke="#161a24" stroke-width="6" opacity="0">Y₄</text>
+
+        <g id="s2-ym" opacity="0">
+          <line id="s2-ym-a" x1="0" y1="0" x2="0" y2="0" stroke="#3dba7a" stroke-width="7" stroke-linecap="round"/>
+          <line id="s2-ym-b" x1="0" y1="0" x2="0" y2="0" stroke="#3dba7a" stroke-width="7" stroke-linecap="round"/>
+        </g>
+        <text id="s2-ym-lbl" x="0" y="0" text-anchor="end" fill="#3dba7a" font-size="30" font-weight="700" opacity="0"><tspan class="ov">y</tspan></text>
+        <text id="s2-py-lbl" x="620" y="572" text-anchor="middle" fill="#3dba7a" font-size="24" opacity="0">эллипс P<tspan font-size="17" dy="5">y</tspan></text>
+      </svg>
+
+      <div id="s2-c1" class="card" data-layout-allow-overlap><div class="h">Sigma points: выбор</div>
+        <div class="f">χ<sub>0</sub> = <span class="ov">x</span></div>
+        <div class="f">χ<sub>i</sub> = <span class="ov">x</span> ± √((n+λ)P)<sub>i</sub></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">2n + 1 = 5 точек при n = 2; λ = α²(n+κ) − n = 1 при α = 1, κ = 3 − n = 1</div></div>
+      <div id="s2-c2" class="card"><div class="h">Веса sigma points</div>
+        <div class="f">W<sub>0</sub><sup>(m)</sup> = λ/(n+λ) = 1/3</div>
+        <div class="f">W<sub>i</sub> = 1/(2(n+λ)) = 1/6</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">для ковариации: W<sub>0</sub><sup>(c)</sup> = W<sub>0</sub><sup>(m)</sup> + (1 − α² + β)<br/>β = 2 для гауссовских распределений</div></div>
+      <div id="s2-c3" class="card" data-layout-allow-overlap><div class="h">Unscented transform</div>
+        <div class="f" style="font-size:33px">Y<sub>i</sub> = f(χ<sub>i</sub>),&nbsp; <span class="ov">y</span> = Σ W<sub>i</sub><sup>(m)</sup> Y<sub>i</sub></div>
+        <div class="f" style="font-size:33px">P<sub>y</sub> = Σ W<sub>i</sub><sup>(c)</sup> (Y<sub>i</sub> − <span class="ov">y</span>)(·)<sup>T</sup></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">точность до 2-го порядка, у EKF — 1-го</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">UKF вместо якобиана берёт <b class="o">2n + 1</b> sigma points: среднее <b>x̄</b> и точки <b>±</b> вдоль осей √((n+λ)P)</div>
+      <div id="s2-cap2" class="cap">У точек есть веса: центр <b>W₀ = λ/(n+λ)</b>, остальные <b>W<sub>i</sub> = 1/(2(n+λ))</b>, сумма весов среднего равна 1</div>
+      <div id="s2-cap3" class="cap">Каждую sigma point пропускаем через нелинейную <b>f</b>: <b class="o">Y<sub>i</sub> = f(χ<sub>i</sub>)</b>, только вычисления функции, без производных</div>
+      <div id="s2-cap4" class="cap">По образам восстанавливаем <b class="g">ȳ</b> и <b class="g">P<sub>y</sub></b>: гауссиана по 5 точкам, точность до 2-го порядка против 1-го у EKF</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const D2R = Math.PI / 180;
+    const r0 = 5, t0 = 55, sr = 1.0, st = 26;
+    const n = 2, alpha = 1, kappa = 3 - n, beta = 2, lam = alpha * alpha * (n + kappa) - n; // λ = 1
+    const K = Math.sqrt(n + lam);
+    const N = 72;
+    const f = (r, t) => [r * Math.cos(t * D2R), r * Math.sin(t * D2R)];
+    const inPx = (r, t) => [220 + (r - r0) * 76, 340 - (t - t0) * 5];
+    const outPx = (X, Y) => [572 + (X + 0.9) * 52, 520 - (Y - 0.6) * 52];
+    const fmt = (v) => v.toFixed(1);
+    const toPath = (pts) => "M " + pts.map(p => fmt(p[0]) + " " + fmt(p[1])).join(" L ") + " Z";
+    const perim = (pts) => pts.reduce((s, p, i) => { const q = pts[(i + 1) % pts.length]; return s + Math.hypot(q[0] - p[0], q[1] - p[1]); }, 0);
+    const set = (id, pts) => { document.getElementById(id).setAttribute("d", toPath(pts)); return perim(pts).toFixed(1); };
+    const place = (id, x, y) => { const e = document.getElementById(id); e.setAttribute("x", fmt(x)); e.setAttribute("y", fmt(y)); };
+    const placeC = (id, x, y) => { const e = document.getElementById(id); e.setAttribute("cx", fmt(x)); e.setAttribute("cy", fmt(y)); };
+
+    // контуры: вход, настоящий образ, линеаризация (EKF)
+    const inPts = [], truePts = [], ekfPts = [];
+    const m0 = f(r0, t0);
+    for (let i = 0; i < N; i++) {
+      const a = 2 * Math.PI * i / N;
+      const dr = K * sr * Math.cos(a), dt = K * st * Math.sin(a);
+      inPts.push(inPx(r0 + dr, t0 + dt));
+      const y = f(r0 + dr, t0 + dt); truePts.push(outPx(y[0], y[1]));
+      const dth = dt * D2R;
+      ekfPts.push(outPx(m0[0] + Math.cos(t0 * D2R) * dr - r0 * Math.sin(t0 * D2R) * dth,
+                        m0[1] + Math.sin(t0 * D2R) * dr + r0 * Math.cos(t0 * D2R) * dth));
+    }
+    set("s2-in-line", inPts); set("s2-in-fill", inPts);
+    set("s2-true-line", truePts); set("s2-true-fill", truePts);
+    const lenEkf = set("s2-ekf-line", ekfPts);
+
+    // sigma points и их образы
+    const sg = [[r0, t0], [r0 + K * sr, t0], [r0, t0 + K * st], [r0 - K * sr, t0], [r0, t0 - K * st]];
+    const Wm = [lam / (n + lam), ...Array(2 * n).fill(1 / (2 * (n + lam)))];
+    const Wc = Wm.slice(); Wc[0] += 1 - alpha * alpha + beta;
+    const Y = sg.map(p => f(p[0], p[1]));
+    const ym = [0, 1].map(j => Y.reduce((s, y, i) => s + Wm[i] * y[j], 0));
+    const P = [[0, 0], [0, 0]];
+    Y.forEach((y, i) => { const d = [y[0] - ym[0], y[1] - ym[1]]; for (let a = 0; a < 2; a++) for (let b = 0; b < 2; b++) P[a][b] += Wc[i] * d[a] * d[b]; });
+    const tr = P[0][0] + P[1][1], det = P[0][0] * P[1][1] - P[0][1] * P[0][1];
+    const disc = Math.sqrt(tr * tr / 4 - det), l1 = tr / 2 + disc, l2 = tr / 2 - disc;
+    const phi = 0.5 * Math.atan2(2 * P[0][1], P[0][0] - P[1][1]);
+    const pyPts = [];
+    for (let i = 0; i < N; i++) {
+      const a = 2 * Math.PI * i / N, u = K * Math.sqrt(l1) * Math.cos(a), v = K * Math.sqrt(l2) * Math.sin(a);
+      pyPts.push(outPx(ym[0] + u * Math.cos(phi) - v * Math.sin(phi), ym[1] + u * Math.sin(phi) + v * Math.cos(phi)));
+    }
+    const lenPy = set("s2-py-line", pyPts); set("s2-py-fill", pyPts);
+
+    const sgPx = sg.map(p => inPx(p[0], p[1]));
+    const yPx = Y.map(y => outPx(y[0], y[1]));
+    const ymPx = outPx(ym[0], ym[1]);
+    // [x, y, anchor, weight x, weight y]
+    const lblIn = [[220, 304, "middle", 220, 392], [368, 332, "start", 368, 362], [220, 156, "middle", 220, 186], [24, 332, "start", 24, 362], [220, 508, "middle", 220, 536]];
+    lblIn.forEach(([x, y, an, wx, wy], i) => {
+      placeC("s2-sg" + i, sgPx[i][0], sgPx[i][1]); place("s2-sl" + i, x, y); place("s2-sw" + i, wx, wy);
+      document.getElementById("s2-sl" + i).setAttribute("text-anchor", an);
+      document.getElementById("s2-sw" + i).setAttribute("text-anchor", an);
+      placeC("s2-yd" + i, sgPx[i][0], sgPx[i][1]);
+    });
+    // подписи образов (позиции подобраны вручную)
+    const lblOut = [[yPx[0][0] + 16, yPx[0][1] - 14], [yPx[1][0] + 16, yPx[1][1] - 12], [yPx[2][0] + 16, yPx[2][1] - 14], [yPx[3][0] - 44, yPx[3][1] + 30], [yPx[4][0] - 46, yPx[4][1] - 14]];
+    lblOut.forEach(([x, y], i) => place("s2-yl" + i, x, y));
+    // крест для ȳ
+    const setLine = (id, x1, y1, x2, y2) => { const e = document.getElementById(id); e.setAttribute("x1", fmt(x1)); e.setAttribute("y1", fmt(y1)); e.setAttribute("x2", fmt(x2)); e.setAttribute("y2", fmt(y2)); };
+    setLine("s2-ym-a", ymPx[0] - 12, ymPx[1] - 12, ymPx[0] + 12, ymPx[1] + 12);
+    setLine("s2-ym-b", ymPx[0] - 12, ymPx[1] + 12, ymPx[0] + 12, ymPx[1] - 12);
+    place("s2-ym-lbl", ymPx[0] - 20, ymPx[1] + 34);
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, a, b) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, a); if (b) tl.to(id, { opacity: 0, duration: 0.35 }, b); };
+    const draw = (id, len, at, dur) => tl.fromTo(id, { attr: { "stroke-dasharray": "0 99999" } }, { attr: { "stroke-dasharray": len + " 99999" }, duration: dur, ease: "power2.inOut" }, at);
+    const show = (id, at, dur = 0.4) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: dur }, at);
+
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // 1. выбор sigma points
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.0);
+    cap("#s2-cap1", 0.6, 4.8);
+    [0, 1, 2, 3, 4].forEach(i => { show("#s2-sg" + i, 1.2 + 0.5 * i, 0.35); show("#s2-sl" + i, 1.3 + 0.5 * i, 0.35); });
+    // 2. веса
+    cap("#s2-cap2", 5.0, 8.6);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.4);
+    [0, 1, 2, 3, 4].forEach(i => show("#s2-sw" + i, 5.7 + 0.25 * i, 0.35));
+    // 3. каждая точка через f
+    show("#s2-true-fill", 8.7, 0.6); show("#s2-true-line", 8.7, 0.6); show("#s2-true-lbl", 8.9);
+    show("#s2-arrow", 8.7, 0.4); show("#s2-arrow-head", 8.8, 0.3); show("#s2-arrow-lbl", 8.8);
+    cap("#s2-cap3", 8.8, 12.2);
+    [0, 1, 2, 3, 4].forEach(i => {
+      show("#s2-yd" + i, 9.2, 0.2);
+      tl.to("#s2-yd" + i, { attr: { cx: fmt(yPx[i][0]), cy: fmt(yPx[i][1]) }, duration: 2.0, ease: "power2.inOut" }, 9.5);
+      show("#s2-yl" + i, 11.6 + 0.12 * i, 0.3);
+    });
+    tl.to("#s2-c1", { opacity: 0, duration: 0.35 }, 11.0);
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 11.4);
+    // 4. ȳ и P_y
+    cap("#s2-cap4", 12.4, 15.5);
+    show("#s2-ym", 12.5, 0.4); show("#s2-ym-lbl", 12.6, 0.4);
+    draw("#s2-py-line", lenPy, 12.9, 1.3); show("#s2-py-fill", 13.4, 0.6); show("#s2-py-lbl", 13.6);
+    draw("#s2-ekf-line", lenEkf, 14.4, 1.0); show("#s2-ekf-lbl", 14.8);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 15.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

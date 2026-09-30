@@ -22,26 +22,32 @@ status: canonical
 lang: ru
 type: topic
 slug: vision-based-robot-training-methods
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Vision-Based Robot Training: Open-Source Methods and Best Practices
 
 ## Оглавление
 
-1. Введение: обучение роботов с визуальным восприятием
-2. Основные подходы: Imitation Learning, RL, VLA
-3. Лучшие Open-Source методы (2024-2025): OpenVLA, Octo, RT-1/RT-2, AutoRT
-4. Обучение для разных типов роботов: гуманоиды, четвероногие, колёсные
-5. Датасеты и данные: Open X-Embodiment, RT-1 Dataset
-6. Практические примеры: код и использование
-7. Sim-to-Real transfer: от симуляции к реальности
-8. Сравнение методов и выбор подхода
-9. Связанные темы и источники
-10. Как объяснить это 5‑летнему ребёнку
+1. [Введение: обучение роботов с визуальным восприятием](#1-введение-обучение-роботов-с-визуальным-восприятием)
+2. [Основные подходы: Imitation Learning, RL, VLA](#2-основные-подходы-imitation-learning-rl-vla)
+3. [Лучшие Open-Source методы (2024-2025)](#3-лучшие-open-source-методы-2024-2025)
+4. [Обучение для разных типов роботов](#4-обучение-для-разных-типов-роботов)
+5. [Датасеты и данные: Open X-Embodiment, RT-1 Dataset](#5-датасеты-и-данные-open-x-embodiment-rt-1-dataset)
+6. [Практические примеры: код и использование](#6-практические-примеры-код-и-использование)
+7. [Sim-to-Real transfer: от симуляции к реальности](#7-sim-to-real-transfer-от-симуляции-к-реальности)
+8. [Сравнение методов и выбор подхода](#8-сравнение-методов-и-выбор-подхода)
+9. [Связанные темы и источники](#9-связанные-темы-и-источники)
+10. [Как объяснить это 5-летнему ребёнку](#10-как-объяснить-это-5-летнему-ребёнку)
+
+**Визуализация (HyperFrames, 43 с):** сцена 1 — петля «камера → политика → действие» и imitation learning на демонстрациях с проблемой distribution shift; сцена 2 — RL в симуляторе, sim-to-real gap и domain randomization; сцена 3 — VLA-модель на данных многих роботов (Open X-Embodiment).
+
+![Обучение робота по камере: imitation learning, RL в симуляторе и VLA](./assets/visualizations/robot-learning-il-rl-vla.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/robot-learning-il-rl-vla.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
-### 1. Введение: обучение роботов с визуальным восприятием
+## 1. Введение: обучение роботов с визуальным восприятием
 
 **Проблема:**
 - Роботы должны понимать окружающий мир через камеры
@@ -67,9 +73,9 @@ updated: 2026-09-18
 
 ---
 
-### 2. Основные подходы: Imitation Learning, RL, VLA
+## 2. Основные подходы: Imitation Learning, RL, VLA
 
-#### 2.1. Imitation Learning (Поведенческое клонирование)
+### 2.1. Imitation Learning (Поведенческое клонирование)
 
 **Идея:** Учиться на демонстрациях эксперта
 
@@ -103,7 +109,7 @@ for image, expert_action in demonstrations:
     loss.backward()
 ```
 
-#### 2.2. Reinforcement Learning
+### 2.2. Reinforcement Learning
 
 **Идея:** Обучение через взаимодействие и награды
 
@@ -127,7 +133,7 @@ model = PPO('CnnPolicy', env, verbose=1)
 model.learn(total_timesteps=1_000_000)
 ```
 
-#### 2.3. Vision-Language-Action (VLA)
+### 2.3. Vision-Language-Action (VLA)
 
 **Идея:** Объединение vision, language и action
 
@@ -152,7 +158,7 @@ action = model.predict(
 )
 ```
 
-#### 2.4. Гибридные подходы
+### 2.4. Гибридные подходы
 
 **Imitation Learning → RL:**
 1. Pre-train на демонстрациях (IL)
@@ -164,9 +170,9 @@ action = model.predict(
 
 ---
 
-### 3. Лучшие Open-Source методы (2024-2025)
+## 3. Лучшие Open-Source методы (2024-2025)
 
-#### 3.1. OpenVLA
+### 3.1. OpenVLA
 
 **Описание:**
 - Полностью open-source VLA модель
@@ -182,7 +188,7 @@ action = model.predict(
 **Архитектура:**
 - Vision: SigLIP + DinoV2 (fused)
 - Language: LLaMA 2 7B (исторический backbone оригинального OpenVLA; более новые open VLA часто берут Llama 3 / Qwen2.5-VL class bases)
-- Action: MLP decoder
+- Action: дискретные action-токены (256 бинов на каждое измерение действия) — предсказываются самим LLM, отдельной action-головы нет
 
 **Использование:**
 ```python
@@ -209,7 +215,7 @@ model = get_peft_model(model, lora_config)
 
 **Документация:** [openvla.github.io](https://openvla.github.io/)
 
-#### 3.2. Octo
+### 3.2. Octo
 
 **Описание:**
 - Diffusion-based роботическая политика
@@ -223,9 +229,9 @@ model = get_peft_model(model, lora_config)
 - ✅ Меньше параметров, чем VLA
 
 **Архитектура:**
-- Vision: ViT encoder
-- Language: T5 encoder
-- Action: Diffusion decoder (1D UNet)
+- Vision: лёгкий CNN-токенизатор изображений + transformer-backbone (ViT-стиль)
+- Language: T5-base encoder
+- Action: diffusion action head (небольшой MLP, не UNet), предсказывает chunk действий
 
 **Использование:**
 ```python
@@ -254,12 +260,12 @@ action = model.sample_action(
 
 **Документация:** [octo-models.github.io](https://octo-models.github.io/)
 
-#### 3.3. RT-1 / RT-2 (Google)
+### 3.3. RT-1 / RT-2 (Google)
 
 **Описание:**
 - Transformer-based роботические модели
 - RT-1: 35M параметров, 130k демонстраций
-- RT-2: использует PaLM-E (540B), co-fine-tuning
+- RT-2: строится на VLM PaLI-X (55B) или PaLM-E (12B), co-fine-tuning на web- и робо-данных
 
 **Статус:**
 - ⚠️ **Не полностью open-source** (веса частично доступны)
@@ -295,7 +301,7 @@ class RT1(nn.Module):
 ```
 
 **RT-2:**
-- Использует pre-trained PaLM-E
+- Использует pre-trained VLM (PaLI-X 55B / PaLM-E 12B), действия выводятся как текстовые токены
 - Co-fine-tuning на роботических данных
 - Лучшая генерализация
 
@@ -303,7 +309,7 @@ class RT1(nn.Module):
 - RT-1: [arXiv:2212.06817](https://arxiv.org/abs/2212.06817)
 - RT-2: [arXiv:2307.15818](https://arxiv.org/abs/2307.15818)
 
-#### 3.4. AutoRT
+### 3.4. AutoRT
 
 **Описание:**
 - Система для масштабного сбора данных
@@ -339,11 +345,11 @@ autort.collect_data(
 )
 ```
 
-**GitHub:** [auto-rt/auto-rt](https://github.com/auto-rt/auto-rt)
+**Статья:** [arXiv:2401.12963](https://arxiv.org/abs/2401.12963) (код и веса не опубликованы)
 
-**Статья:** [auto-rt.github.io](https://auto-rt.github.io/)
+**Сайт:** [auto-rt.github.io](https://auto-rt.github.io/)
 
-#### 3.5. SmolVLA
+### 3.5. SmolVLA
 
 **Описание:**
 - Сверхкомпактная VLA модель от Hugging Face (2025)
@@ -384,11 +390,13 @@ action_chunk = model.predict_async(
 )
 ```
 
-**GitHub:** [lerobot/smolvla](https://github.com/huggingface/lerobot)
+**GitHub:** [huggingface/lerobot](https://github.com/huggingface/lerobot)
+
 **Hugging Face:** [lerobot/smolvla_base](https://huggingface.co/lerobot/smolvla_base)
+
 **Статья:** [arXiv:2506.01844](https://arxiv.org/abs/2506.01844)
 
-#### 3.6. Другие методы
+### 3.6. Другие методы
 
 **Diffusion Policy:**
 - Использует diffusion models для генерации действий
@@ -400,15 +408,19 @@ action_chunk = model.predict_async(
 - Эффективен для манипуляции
 - GitHub: [tonyzhaozh/act](https://github.com/tonyzhaozh/act)
 
-**BC-Z (Behavioral Cloning from Zero):**
-- Обучение с нуля на демонстрациях
-- Простая архитектура
+**BC-Z (Jang et al., 2021):**
+- Behavioral cloning на ~100 задачах с обусловливанием на инструкцию или видео
+- «Z» — zero-shot обобщение на новые задачи; простая архитектура (ResNet + FiLM)
+
+**Более новые open-weight VLA (2025–2026):**
+- π0 / π0.5 (Physical Intelligence, код и веса в openpi) — flow-matching action expert поверх PaliGemma
+- GR00T N1 / N1.5 (NVIDIA, 2025) — VLA для гуманоидов, обучена на смеси реальных, синтетических и видеоданных
 
 ---
 
-### 4. Обучение для разных типов роботов
+## 4. Обучение для разных типов роботов
 
-#### 4.1. Гуманоиды (Humanoids)
+### 4.1. Гуманоиды (Humanoids)
 
 **Примеры:** Atlas (Boston Dynamics), Digit (Agility), Optimus (Tesla)
 
@@ -448,7 +460,7 @@ action = model.predict(
 - Humanoid демонстрации (ограниченные)
 - Симуляция (MuJoCo, Isaac Sim)
 
-#### 4.2. Четвероногие (Quadrupeds)
+### 4.2. Четвероногие (Quadrupeds)
 
 **Примеры:** Spot (Boston Dynamics), ANYmal, Unitree Go1/A1
 
@@ -495,7 +507,7 @@ for terrain_type in ['flat', 'rough', 'stairs', 'slope']:
 - Quadruped демонстрации
 - Симуляция (Isaac Sim, PyBullet)
 
-#### 4.3. Колёсные роботы (Wheeled Robots)
+### 4.3. Колёсные роботы (Wheeled Robots)
 
 **Примеры:** TurtleBot, Fetch, Mobile Manipulators
 
@@ -541,7 +553,7 @@ robot.arm.execute(manip_action)
 - Open X-Embodiment (много колёсных роботов)
 - RT-1 Dataset
 
-#### 4.4. Манипуляторы (Manipulators)
+### 4.4. Манипуляторы (Manipulators)
 
 **Примеры:** Franka Panda, UR5, Kuka
 
@@ -579,18 +591,17 @@ action_chunk = model.predict(image, instruction)
 
 ---
 
-### 5. Датасеты и данные: Open X-Embodiment, RT-1 Dataset
+## 5. Датасеты и данные: Open X-Embodiment, RT-1 Dataset
 
-#### 5.1. Open X-Embodiment
+### 5.1. Open X-Embodiment
 
 **Описание:**
 - Крупнейший open-source датасет роботических демонстраций
-- 970k+ демонстраций
-- 25+ различных роботов
+- 1M+ траекторий (в релизе 2023 — 60 датасетов, 22 типа роботов, 21 институт)
 - Множество задач и сред
 
 **Содержимое:**
-- Различные типы роботов (манипуляторы, мобильные, гуманоиды)
+- Различные типы роботов (в основном манипуляторы, есть мобильные манипуляторы, квадрупед и двурукие системы)
 - Разнообразные задачи (манипуляция, навигация)
 - Различные сенсоры (RGB камеры, depth, proprioception)
 
@@ -613,9 +624,9 @@ for example in dataset['train']:
 
 **Ссылки:**
 - [GitHub](https://github.com/google-deepmind/open_x_embodiment)
-- [Hugging Face](https://huggingface.co/datasets/open-x-embodiment/open-x-embodiment)
+- [Сайт проекта](https://robotics-transformer-x.github.io/) (данные в формате RLDS/TFDS в Google Cloud Storage)
 
-#### 5.2. RT-1 Dataset
+### 5.2. RT-1 Dataset
 
 **Описание:**
 - 130k демонстраций
@@ -635,12 +646,11 @@ for example in dataset['train']:
 # Используется в обучении RT-1 и RT-2
 ```
 
-#### 5.3. Bridge Dataset
+### 5.3. Bridge Dataset
 
 **Описание:**
-- 7k демонстраций
-- Сложные манипуляционные задачи
-- Двурукая манипуляция
+- BridgeData V2 (2023): 60k+ траекторий на одноруком WidowX 250 в 24 средах (исходный Bridge Data 2021 — 7.2k демонстраций)
+- Разнообразные манипуляционные задачи, инструкции на естественном языке
 
 **Использование:**
 ```python
@@ -649,7 +659,7 @@ from bridge_dataset import BridgeDataset
 dataset = BridgeDataset(data_path="bridge_data/")
 ```
 
-#### 5.4. Создание собственного датасета
+### 5.4. Создание собственного датасета
 
 **Сбор данных:**
 ```python
@@ -686,9 +696,9 @@ class DataCollector:
 
 ---
 
-### 6. Практические примеры: код и использование
+## 6. Практические примеры: код и использование
 
-#### 6.1. Полный пример: обучение манипулятора с OpenVLA
+### 6.1. Полный пример: обучение манипулятора с OpenVLA
 
 ```python
 import torch
@@ -754,7 +764,7 @@ for epoch in range(10):
 model.save_pretrained("fine_tuned_openvla/")
 ```
 
-#### 6.2. Пример: использование Octo для робота
+### 6.2. Пример: использование Octo для робота
 
 ```python
 from octo.model.octo import OctoModel
@@ -789,7 +799,7 @@ while True:
         break
 ```
 
-#### 6.3. Пример: Sim-to-Real transfer
+### 6.3. Пример: Sim-to-Real transfer
 
 ```python
 # 1. Обучение в симуляции
@@ -818,9 +828,9 @@ fine_tune_model(model, real_data)
 
 ---
 
-### 7. Sim-to-Real transfer: от симуляции к реальности
+## 7. Sim-to-Real transfer: от симуляции к реальности
 
-#### 7.1. Проблема Sim-to-Real Gap
+### 7.1. Проблема Sim-to-Real Gap
 
 **Вызовы:**
 - Различия в физике (трение, упругость)
@@ -828,7 +838,7 @@ fine_tune_model(model, real_data)
 - Сенсорные различия (шум, калибровка)
 - Аппаратные различия (динамика, задержки)
 
-#### 7.2. Методы решения
+### 7.2. Методы решения
 
 **1. Domain Randomization:**
 ```python
@@ -877,7 +887,7 @@ residual_policy = train_residual(real_robot, base_policy)
 final_policy = lambda state: base_policy(state) + residual_policy(state)
 ```
 
-#### 7.3. Симуляторы
+### 7.3. Симуляторы
 
 **1. Isaac Sim (NVIDIA):**
 - Реалистичная физика
@@ -899,9 +909,9 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 
 ---
 
-### 8. Сравнение методов и выбор подхода
+## 8. Сравнение методов и выбор подхода
 
-#### 8.1. Сравнительная таблица
+### 8.1. Сравнительная таблица
 
 | Метод | Параметры | Данные | Скорость обучения | Генерализация | Open Source | Лучшее применение |
 |-------|-----------|--------|-------------------|---------------|-------------|-------------------|
@@ -909,11 +919,11 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 | **OpenVLA** | 7B | 970k | Быстро (fine-tune) | Отличная | ✅ | Универсальные задачи |
 | **Octo** | 27M-93M | 800k | Быстро | Хорошая | ✅ | Плавные движения |
 | **RT-1** | 35M | 130k | Средне | Хорошая | ⚠️ | Манипуляция |
-| **RT-2** | 540B | 130k | Медленно | Отличная | ❌ | Генерализация |
-| **ACT** | ~10M | Зависит | Быстро | Средняя | ✅ | Chunk-based задачи |
+| **RT-2** | 12B / 55B | 130k + web-данные | Медленно | Отличная | ❌ | Генерализация |
+| **ACT** | ~80M | Зависит | Быстро | Средняя | ✅ | Chunk-based задачи |
 | **Diffusion Policy** | ~50M | Зависит | Средне | Хорошая | ✅ | Плавные траектории |
 
-#### 8.2. Выбор метода
+### 8.2. Выбор метода
 
 **Используйте SmolVLA, если:**
 - ✅ Очень ограниченные ресурсы (consumer GPU или CPU)
@@ -942,7 +952,7 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 - ✅ Нужна простая архитектура
 - ✅ Ограниченные ресурсы
 
-#### 8.3. Рекомендации по типу робота
+### 8.3. Рекомендации по типу робота
 
 **Гуманоиды:**
 - OpenVLA (hierarchical) или RT-2
@@ -963,9 +973,9 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 
 ---
 
-### 9. Связанные темы и источники
+## 9. Связанные темы и источники
 
-#### 9.1. Связанные техники
+### 9.1. Связанные техники
 
 - **Vision-Language-Action (VLA) Models**: детали в отдельном документе
 - **Deep Reinforcement Learning**: RL методы для роботов
@@ -973,14 +983,14 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 - **Diffusion Models**: для генерации действий
 - **Transformer Architecture**: основа многих моделей
 
-#### 9.2. Связанные документы
+### 9.2. Связанные документы
 
 - **[Vision-Language-Action (VLA) Models](../vision-language-action-models-vla/README.md)**: детальное описание VLA
 - **[Deep Reinforcement Learning](../deep-reinforcement-learning/README.md)**: RL для роботов
 - **[Transformers, Attention and Vision Transformers](../transformers-attention-and-vision-transformers-vit/README.md)**: архитектура Transformer
 - **[Low-Rank Adaptation (LoRA)](../low-rank-adaptation-lora/README.md)**: эффективный fine-tuning
 
-#### 9.3. Ключевые статьи
+### 9.3. Ключевые статьи
 
 1. **OpenVLA: An Open-Source Vision-Language-Action Model** (2024)
    - Kim et al.
@@ -988,8 +998,8 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
    - [GitHub](https://github.com/openvla/openvla)
 
 2. **Octo: An Open-Source Generalist Robot Policy** (2024)
-   - Shafiullah et al.
-   - [arXiv:2409.10693](https://arxiv.org/abs/2409.10693)
+   - Octo Model Team (Ghosh, Walke, Pertsch et al.), RSS 2024
+   - [arXiv:2405.12213](https://arxiv.org/abs/2405.12213)
    - [GitHub](https://github.com/octo-models/octo)
 
 3. **RT-1: Robotics Transformer for Real-World Control at Scale** (2022)
@@ -1001,6 +1011,8 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
    - [arXiv:2307.15818](https://arxiv.org/abs/2307.15818)
 
 5. **AutoRT: Embodied Foundation Models for Large Scale Orchestration of Robotic Agents** (2024)
+   - Ahn et al., Google DeepMind
+   - [arXiv:2401.12963](https://arxiv.org/abs/2401.12963)
    - [auto-rt.github.io](https://auto-rt.github.io/)
 
 6. **Open X-Embodiment: Robotic Learning Datasets and RT-X Models** (2023)
@@ -1012,7 +1024,7 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
    - [GitHub](https://github.com/huggingface/lerobot)
    - [Hugging Face Model](https://huggingface.co/lerobot/smolvla_base)
 
-#### 9.4. Библиотеки и инструменты
+### 9.4. Библиотеки и инструменты
 
 - **OpenVLA**: [GitHub](https://github.com/openvla/openvla)
 - **Octo**: [GitHub](https://github.com/octo-models/octo)
@@ -1021,15 +1033,15 @@ final_policy = lambda state: base_policy(state) + residual_policy(state)
 - **ROS (Robot Operating System)**: интеграция с роботами
 - **Hugging Face**: модели и датасеты
 
-#### 9.5. Датасеты
+### 9.5. Датасеты
 
 - **Open X-Embodiment**: [GitHub](https://github.com/google-deepmind/open_x_embodiment)
 - **RT-1 Dataset**: частично доступен
-- **Bridge Dataset**: сложные манипуляции
+- **BridgeData V2**: [rail-berkeley.github.io/bridgedata](https://rail-berkeley.github.io/bridgedata/)
 
 ---
 
-### 10. Как объяснить это 5‑летнему ребёнку
+## 10. Как объяснить это 5-летнему ребёнку
 
 **Представь, что ты хочешь научить робота делать разные вещи, просто показывая ему, что делать, или говоря ему инструкции.**
 

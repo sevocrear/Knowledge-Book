@@ -19,7 +19,7 @@ status: canonical
 lang: ru
 type: topic
 slug: generative-adversarial-networks-gans
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Generative Adversarial Networks (GAN)
 
@@ -43,6 +43,12 @@ updated: 2026-09-18
 ## Как объяснить 5-летнему ребёнку
 
 Два робота играют в игру. Один рисует поддельные картинки, другой угадывает: настоящая это или подделка. Чем лучше угадывает «детектив», тем лучше учится рисовать «художник». Когда детектив уже почти не отличает рисунок от настоящей фотографии — художник научился придумывать очень правдоподобные картинки. Это и есть GAN.
+
+**Визуализация (HyperFrames, 42 с):** сцена 1 — пайплайн z ~ N(0, I) → G → G(z) и x ~ p_data → D → вероятность «настоящее»; сцена 2 — минимаксный критерий и чередование шагов D и G с non-saturating loss; сцена 3 — как p_g движется к p_data, оптимальный D* = ½, mode collapse и его лечение.
+
+![GAN: игра генератора и дискриминатора — пайплайн, минимакс, движение p_g](./assets/visualizations/gan-generator-discriminator-game.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/gan-generator-discriminator-game.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
@@ -163,7 +169,7 @@ $$
 
 ### Алгоритм обучения
 
-```
+```text
 1. Sample minibatch of noise: {z₁, z₂, ..., zₘ} ~ p_z(z)
 2. Sample minibatch of real data: {x₁, x₂, ..., xₘ} ~ p_data(x)
 3. Update Discriminator (maximize):
@@ -255,7 +261,7 @@ class Discriminator(nn.Module):
         return self.main(input).view(-1, 1).squeeze(1)
 
 # Training Function
-def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002, beta1=0.5):
+def train_gan(generator, discriminator, dataloader, device, nz=100, epochs=50, lr=0.0002, beta1=0.5):
     # Loss function
     criterion = nn.BCELoss()
     
@@ -321,7 +327,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 
 **Решения**:
 - **Progressive GAN**: постепенно повышать разрешение
-- **Wasserstein GAN (WGAN)**: вместо дивергенции Йенсена–Шеннона (JS divergence) использовать расстояние Васерштейна (Wasserstein distance)
+- **Wasserstein GAN (WGAN)**: вместо дивергенции Йенсена–Шеннона (JS divergence) использовать расстояние Вассерштейна (Wasserstein distance)
 - **Gradient Penalty**: WGAN-GP добавляет штраф по градиенту для стабильности
 - **Spectral Normalization**: ограничивает константу Липшица дискриминатора
 
@@ -353,7 +359,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 - Использует strided convolutions, batch norm
 
 ### 2. WGAN / WGAN-GP (2017)
-- Расстояние Васерштейна для стабильности
+- Расстояние Вассерштейна для стабильности
 - Gradient penalty как способ обеспечить ограничение Липшица
 - Более стабильное обучение
 
@@ -410,7 +416,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 **Да, но они уже не так доминируют, как раньше:**
 
 1. **Конкретные применения**:
-   - **StyleGAN3**: всё ещё state-of-the-art для качественной генерации лиц
+   - **StyleGAN2/StyleGAN3**: по-прежнему сильный baseline для качественной генерации лиц (FFHQ), хотя по FID их уже догоняют и обгоняют diffusion-модели
    - **Редактирование изображений**: GAN inversion для семантического редактирования
    - **Перенос домена**: unsupervised domain adaptation
    - **Аугментация данных**: генерация синтетических обучающих примеров
@@ -462,7 +468,7 @@ def train_gan(generator, discriminator, dataloader, device, epochs=50, lr=0.0002
 
 **Целевая функция VAE**:
 $$
-\mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))
+\mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - D_{KL}(q_\phi(\mathbf{z}|\mathbf{x}) \,\|\, p(\mathbf{z}))
 $$
 
 **Целевая функция GAN**:
@@ -516,7 +522,7 @@ $$
 
 - См.: [Variational Autoencoders (VAEs)](../variational-autoencoders-vaes/README.md)
 - См.: [Diffusion Models](../diffusion-models/README.md)
-- См.: [Knowledge-book Generative Models index](../../README.md#generative-models)
+- См.: [Knowledge-book Generative Models index](../../README.md#генеративные-модели)
 
 ---
 

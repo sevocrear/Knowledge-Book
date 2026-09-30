@@ -1,0 +1,10 @@
+{
+  "name": "metric-learning-losses-and-miners",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "npx --yes hyperframes@0.8.81 check",
+    "snapshot": "npx --yes hyperframes@0.8.81 snapshot",
+    "render": "npx --yes hyperframes@0.8.81 render --quality looks --output renders/metric-learning-losses-and-miners.mp4"
+  }
+}

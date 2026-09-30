@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 0px; width: 700px; padding: 20px 30px; }
+  #s3-c2 { left: 1060px; top: 300px; width: 700px; padding: 18px 30px; }
+  .card .f2 { font-style: italic; font-size: 34px; line-height: 1.35; }
+  .card .n2 { font-size: 25px; color: #aab3c2; margin-top: 6px; line-height: 1.25; }
+  #s3-c2 .row { font-size: 27px; line-height: 1.3; padding: 8px 0; border-bottom: 1px solid #2a3140; }
+  #s3-c2 .row:last-child { border-bottom: 0; }
+  #s3-c2 .row .k { font-weight: 700; }
+  #s3-c2 .row .v { color: #aab3c2; display: block; font-size: 24px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Куда движется p<sub>g</sub> при обучении?</div></div>
+    <div class="badge">Knowledge Book · GAN</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <rect x="10" y="10" width="960" height="640" rx="24" fill="none" stroke="#2a3140" stroke-width="3"/>
+        <g id="s3-legend" opacity="0">
+          <circle cx="50" cy="48" r="11" fill="#4a9eff"/><text x="72" y="57" fill="#4a9eff" font-size="26" font-weight="700">x ~ p<tspan font-size="18" dy="6">data</tspan><tspan dy="-6"> — настоящие</tspan></text>
+          <circle cx="50" cy="92" r="11" fill="#ff7a2f"/><text x="72" y="101" fill="#ff7a2f" font-size="26" font-weight="700">G(z) ~ p<tspan font-size="18" dy="6">g</tspan><tspan dy="-6"> — подделки</tspan></text>
+        </g>
+        <text id="s3-modeA" x="290" y="150" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">мода 1</text>
+        <text id="s3-modeB" x="700" y="320" text-anchor="middle" fill="#aab3c2" font-size="24" opacity="0">мода 2</text>
+        <g id="s3-lost" opacity="0">
+          <circle cx="700" cy="450" r="112" fill="none" stroke="#ff4d6d" stroke-width="5" stroke-dasharray="16 12"/>
+          <text x="700" y="600" text-anchor="middle" fill="#ff4d6d" font-size="28" font-weight="700">мода потеряна: mode collapse</text>
+        </g>
+        <text id="s3-ill" x="960" y="640" text-anchor="end" fill="#aab3c2" font-size="22" opacity="0">точки — иллюстративно</text>
+        <g id="s3-real"></g>
+        <g id="s3-fake"></g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Оптимальный дискриминатор</div>
+        <div class="f2">D*(x) = p<sub>data</sub>(x) / (p<sub>data</sub>(x) + p<sub>g</sub>(x))</div>
+        <div class="n2">при p<sub>g</sub> = p<sub>data</sub>: D*(x) = ½ всюду — равновесие Нэша, глобальный минимум для G</div></div>
+      <div id="s3-c2" class="card"><div class="h">Проблемы и решения</div>
+        <div class="row"><span class="k" style="color:#ff4d6d">mode collapse</span> — мало разнообразия<span class="v">unrolled GANs, mini-batch discrimination, feature matching</span></div>
+        <div class="row"><span class="k" style="color:#ff7a2f">нестабильность</span> — collapse обучения<span class="v">WGAN: Wasserstein вместо JS-дивергенции; WGAN-GP; spectral normalization</span></div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Настоящие <b class="b">x ~ p<sub>data</sub></b> и подделки <b class="o">G(z) ~ p<sub>g</sub></b>: в начале обучения два облака далеки друг от друга</div>
+      <div id="s3-cap2" class="cap">Шаги G сдвигают <b class="o">p<sub>g</sub></b> к <b class="b">p<sub>data</sub></b>. Глобальный оптимум — <b>p<sub>g</sub> = p<sub>data</sub></b>: тогда D*(x) = ½ всюду</div>
+      <div id="s3-cap3" class="cap"><b class="r">Mode collapse</b>: G покрывает лишь часть мод. Лечат mini-batch discrimination, feature matching, unrolled GANs</div>
+      <div id="s3-cap4" class="cap key">GAN = минимаксная игра G и D с равновесием при p<sub>g</sub> = p<sub>data</sub>. Сэмплы резкие, но обучение нестабильно → WGAN / WGAN-GP, spectral norm</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Две моды p_data: центры A и B; все смещения — константы, без Math.random.
+    const A = [290, 250], B = [700, 450];
+    const realOff = [[-70, -20], [-40, 34], [-12, -52], [18, 12], [50, -34], [66, 28], [-28, -6], [6, 56], [38, 50], [-56, 54], [24, -28], [-78, 18]];
+    const fakeOff = [[-58, 4], [-30, -40], [-2, 30], [30, -12], [58, 12], [10, -56], [-44, 48], [48, 48]];
+    const startC = [480, 560];
+    const startOff = [[-40, -14], [-24, 16], [-8, -30], [8, 6], [24, -18], [40, 12], [-32, 30], [0, 28], [16, -34], [-16, -4], [32, -4], [-44, 12], [44, -26], [20, 24], [-8, 14], [36, 28]];
+    const collOff = [[-30, -12], [-16, 18], [-4, -28], [8, 8], [20, -18], [30, 12], [-24, 26], [2, 26], [14, -30], [-10, -2], [26, -4], [-34, 8], [34, -20], [16, 22], [-6, 12], [28, 26]];
+    const gr = document.getElementById("s3-real"), gf = document.getElementById("s3-fake");
+    const reals = [];
+    [A, B].forEach((c, ci) => realOff.forEach(([dx, dy], i) => {
+      const el = document.createElementNS(NS, "circle");
+      el.setAttribute("id", `s3-r${ci}-${i}`); el.setAttribute("cx", c[0] + dx); el.setAttribute("cy", c[1] + dy);
+      el.setAttribute("r", "11"); el.setAttribute("fill", "#4a9eff"); el.setAttribute("opacity", "0");
+      gr.appendChild(el); reals.push(el);
+    }));
+    const fakes = [];
+    startOff.forEach(([dx, dy], i) => {
+      const el = document.createElementNS(NS, "circle");
+      el.setAttribute("id", `s3-f${i}`); el.setAttribute("cx", startC[0] + dx); el.setAttribute("cy", startC[1] + dy);
+      el.setAttribute("r", "10"); el.setAttribute("fill", "#ff7a2f"); el.setAttribute("opacity", "0");
+      gf.appendChild(el); fakes.push(el);
+    });
+    const after = i => { const c = i < 8 ? A : B; const [dx, dy] = fakeOff[i % 8]; return [c[0] + dx, c[1] + dy]; };
+    const coll = i => [A[0] + collOff[i][0], A[1] + collOff[i][1]];
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-legend", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    reals.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.4 + 0.03 * i));
+    tl.fromTo("#s3-modeA", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.0);
+    tl.fromTo("#s3-modeB", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.1);
+    fakes.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.2 + 0.03 * i));
+    tl.fromTo("#s3-ill", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.4);
+    cap("#s3-cap1", 0.6, 4.0);
+    // Обучение: p_g едет к p_data (обе моды покрыты)
+    fakes.forEach((el, i) => { const [x, y] = after(i); tl.to(el, { attr: { cx: x, cy: y }, duration: 2.4, ease: "power2.inOut" }, 2.2 + 0.02 * i); });
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 4.4);
+    cap("#s3-cap2", 4.2, 7.6);
+    // Mode collapse: все подделки схлопываются в моду 1
+    fakes.forEach((el, i) => { const [x, y] = coll(i); tl.to(el, { attr: { cx: x, cy: y }, duration: 1.4, ease: "power2.inOut" }, 7.8 + 0.02 * i); });
+    tl.fromTo("#s3-lost", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 8.9);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.4);
+    cap("#s3-cap3", 7.8, 11.0);
+    // Лечение: разнообразие возвращается, обе моды снова покрыты
+    tl.to("#s3-lost", { opacity: 0, duration: 0.4 }, 11.2);
+    fakes.forEach((el, i) => { const [x, y] = after(i); tl.to(el, { attr: { cx: x, cy: y }, duration: 1.4, ease: "power2.inOut" }, 11.3 + 0.02 * i); });
+    cap("#s3-cap4", 11.3, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 14.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

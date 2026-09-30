@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s3-c2 { left: 1060px; top: 396px; width: 700px; }
+  .s3-sub { font-size: 28px; color: #aab3c2; margin-top: 8px; }
+  .f2 { font-style: italic; font-size: 30px; margin-top: 8px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Почему HOTA — современный стандарт?</div></div>
+    <div class="badge">Knowledge Book · Tracking metrics</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <text x="20" y="40" fill="#aab3c2" font-size="22">та же последовательность (иллюстративно), один порог α</text>
+        <line x1="20" y1="400" x2="960" y2="400" stroke="#2a3140" stroke-width="3"/>
+        <!-- DetA -->
+        <rect id="s3-b1" x="40" y="400" width="150" height="0" rx="10" fill="#4a9eff"/>
+        <text id="s3-v1" x="115" y="378" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700" opacity="0">0.85</text>
+        <text id="s3-l1" x="115" y="440" text-anchor="middle" fill="#4a9eff" font-size="30" font-weight="700" opacity="0">DetA</text>
+        <text id="s3-l1b" x="115" y="474" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">11 / (11 + 1 + 1)</text>
+        <text id="s3-mul" x="262" y="316" text-anchor="middle" fill="#f0f4ff" font-size="64" font-weight="700" opacity="0">·</text>
+        <!-- AssA -->
+        <rect id="s3-b2" x="330" y="400" width="150" height="0" rx="10" fill="#2dd4bf"/>
+        <text id="s3-v2" x="405" y="378" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700" opacity="0">0.65</text>
+        <text id="s3-l2" x="405" y="440" text-anchor="middle" fill="#2dd4bf" font-size="30" font-weight="700" opacity="0">AssA</text>
+        <text id="s3-l2b" x="405" y="474" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">по TP: A 3/6, B 5/6</text>
+        <!-- √ → HOTA_α -->
+        <g id="s3-arrow" opacity="0">
+          <line x1="520" y1="290" x2="630" y2="290" stroke="#ff7a2f" stroke-width="5" stroke-linecap="round"/>
+          <polygon points="628,278 650,290 628,302" fill="#ff7a2f"/>
+          <text x="575" y="272" text-anchor="middle" fill="#ff7a2f" font-size="28" font-weight="700">√</text>
+        </g>
+        <rect id="s3-b3" x="690" y="400" width="150" height="0" rx="10" fill="#ff7a2f"/>
+        <text id="s3-v3" x="765" y="378" text-anchor="middle" fill="#f0f4ff" font-size="34" font-weight="700" opacity="0">0.74</text>
+        <text id="s3-l3" x="765" y="440" text-anchor="middle" fill="#ff7a2f" font-size="30" font-weight="700" opacity="0">HOTA<tspan font-size="22" dy="6">α</tspan></text>
+        <text id="s3-l3b" x="765" y="474" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">√(0.85 · 0.65)</text>
+        <!-- усреднение по α -->
+        <g id="s3-alpha" opacity="0">
+          <line x1="60" y1="580" x2="920" y2="580" stroke="#2a3140" stroke-width="4" stroke-linecap="round"/>
+          <text x="60" y="618" fill="#aab3c2" font-size="22">α = 0.05</text>
+          <text x="920" y="618" text-anchor="end" fill="#aab3c2" font-size="22">0.95</text>
+          <text x="490" y="548" text-anchor="middle" fill="#e6ebf5" font-size="24" font-weight="700">HOTA = среднее HOTA<tspan font-size="18" dy="5">α</tspan><tspan dy="-5"> по 19 порогам α (шаг 0.05)</tspan></text>
+          <g id="s3-dots"></g>
+        </g>
+        <text id="s3-loca" x="490" y="652" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">LocA — средний IoU по TP — репортится отдельно, в HOTA<tspan font-size="16" dy="4">α</tspan><tspan dy="-4"> напрямую не входит</tspan></text>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">HOTA при пороге overlap</div>
+        <div class="f">HOTA<sub>α</sub> = √( <span class="b">DetA<sub>α</sub></span> · <span class="t">AssA<sub>α</sub></span> )</div>
+        <div class="f2"><span class="b">DetA<sub>α</sub></span> = |TP| / (|TP| + |FN| + |FP|)</div>
+        <div class="f2"><span class="t">AssA<sub>α</sub></span> = ⟨ TPA / (TPA + FNA + FPA) ⟩<sub>c ∈ TP</sub></div>
+        <div class="s3-sub">TPA — сколько раз GT-трек и предсказанный трек совпали во времени; FNA / FPA — недостающие и лишние элементы</div></div>
+      <div id="s3-c2" class="card"><div class="h">Итог по порогам</div>
+        <div class="f">HOTA = 1/|𝒜| · Σ<sub>α ∈ 𝒜</sub> HOTA<sub>α</sub></div>
+        <div class="f2">𝒜 = {0.05, 0.10, …, 0.95} — 19 порогов</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap"><b class="o">HOTA</b> раскладывает качество на детекцию <b class="b">DetA</b> (TP / FN / FP) и ассоциацию <b class="t">AssA</b> — совпадения треков во времени</div>
+      <div id="s3-cap2" class="cap">HOTA<sub>α</sub> = √(DetA<sub>α</sub> · AssA<sub>α</sub>) — <b>геометрическое среднее</b> не даёт спрятать слабую сторону; итог — среднее по α от 0.05 до 0.95</div>
+      <div id="s3-cap3" class="cap key">MOT оценивают набором: минимум <b class="o">HOTA</b> + <b class="p">IDF1</b> + <b class="b">MOTA</b>, отдельно смотрят IDs / Frag / FN / FP — одной метрики почти никогда не достаточно</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); parent.appendChild(el); return el; };
+    const dots = document.getElementById("s3-dots");
+    const dotEls = [];
+    for (let k = 0; k < 19; k++) dotEls.push(mk("circle", { id: `s3-d${k}`, cx: 60 + k * (860 / 18), cy: 580, r: 9, fill: "#ff7a2f", opacity: 0 }, dots));
+    const H = 300; // px на 1.0 (иллюстративно: DetA = 11/13 ≈ 0.85, AssA ≈ 0.65, HOTA_α = √(0.85·0.65) ≈ 0.74)
+    const bar = (b, v, val, t) => {
+      tl.fromTo(b, { attr: { y: 400, height: 0 } }, { attr: { y: 400 - v * H, height: v * H }, duration: 0.9, ease: "power2.out" }, t);
+      tl.fromTo(val, { opacity: 0, y: 0 }, { opacity: 1, y: -v * H, duration: 0.9, ease: "power2.out" }, t);
+    };
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 0.8);
+    cap("#s3-cap1", 0.6, 4.8);
+    tl.fromTo(["#s3-l1", "#s3-l1b"], { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.2);
+    bar("#s3-b1", 0.85, "#s3-v1", 1.4);
+    tl.fromTo(["#s3-l2", "#s3-l2b"], { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.6);
+    bar("#s3-b2", 0.65, "#s3-v2", 2.8);
+    // Геометрическое среднее → HOTA_α
+    cap("#s3-cap2", 5.0, 9.4);
+    tl.fromTo("#s3-mul", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.2);
+    tl.fromTo("#s3-arrow", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 5.4);
+    tl.fromTo(["#s3-l3", "#s3-l3b"], { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.8);
+    bar("#s3-b3", 0.74, "#s3-v3", 6.0);
+    tl.fromTo("#s3-alpha", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 7.2);
+    tl.fromTo(dotEls, { opacity: 0, scale: 0.4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3, stagger: 0.06 }, 7.5);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.0);
+    tl.fromTo("#s3-loca", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.0);
+    cap("#s3-cap3", 9.6, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

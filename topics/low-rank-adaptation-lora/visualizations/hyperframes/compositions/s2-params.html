@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 20px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 340px; width: 700px; }
+  #s2-c1 .f, #s2-c2 .f { font-size: 30px; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Сколько параметров экономит LoRA?</div></div>
+    <div class="badge">Knowledge Book · LoRA</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <!-- Группа 1: параметры одного слоя 4096×4096 -->
+        <g id="s2-g1" opacity="0">
+          <text x="240" y="52" text-anchor="middle" fill="#aab3c2" font-size="26">один слой d = k = 4096</text>
+          <line x1="40" y1="560" x2="440" y2="560" stroke="#2a3140" stroke-width="3"/>
+          <text x="160" y="596" text-anchor="middle" fill="#aab3c2" font-size="24">full FT</text>
+          <text x="160" y="624" text-anchor="middle" fill="#aab3c2" font-size="22">d · k</text>
+          <text x="320" y="596" text-anchor="middle" fill="#aab3c2" font-size="24">LoRA, r = 8</text>
+          <text x="320" y="624" text-anchor="middle" fill="#aab3c2" font-size="22">r (d + k)</text>
+        </g>
+        <rect id="s2-bar1" x="100" y="560" width="120" height="0" rx="8" fill="#ff7a2f"/>
+        <text id="s2-val1" x="160" y="164" text-anchor="middle" fill="#ff7a2f" font-size="30" font-weight="700" opacity="0">16 777 216</text>
+        <rect id="s2-bar2" x="260" y="560" width="120" height="0" rx="2" fill="#3dba7a"/>
+        <text id="s2-val2" x="320" y="536" text-anchor="middle" fill="#3dba7a" font-size="30" font-weight="700" opacity="0">65 536</text>
+        <text id="s2-x1" x="380" y="440" text-anchor="middle" fill="#3dba7a" font-size="30" font-weight="700" opacity="0">×256 меньше</text>
+        <!-- Группа 2: память обучения LLaMA-7B -->
+        <g id="s2-g2" opacity="0">
+          <text x="730" y="52" text-anchor="middle" fill="#aab3c2" font-size="26">LLaMA-7B: память при обучении</text>
+          <line x1="540" y1="560" x2="940" y2="560" stroke="#2a3140" stroke-width="3"/>
+          <text x="660" y="596" text-anchor="middle" fill="#aab3c2" font-size="24">full FT</text>
+          <text x="660" y="624" text-anchor="middle" fill="#aab3c2" font-size="22">FP32 + Adam</text>
+          <text x="820" y="596" text-anchor="middle" fill="#aab3c2" font-size="24">LoRA, r = 8</text>
+          <text x="820" y="624" text-anchor="middle" fill="#aab3c2" font-size="22">Q / K / V / O</text>
+        </g>
+        <rect id="s2-bar3" x="600" y="560" width="120" height="0" rx="8" fill="#ff7a2f"/>
+        <text id="s2-val3" x="660" y="164" text-anchor="middle" fill="#ff7a2f" font-size="30" font-weight="700" opacity="0">≈ 112 GB</text>
+        <rect id="s2-bar4" x="760" y="560" width="120" height="0" rx="8" fill="#3dba7a"/>
+        <text id="s2-val4" x="820" y="448" text-anchor="middle" fill="#3dba7a" font-size="30" font-weight="700" opacity="0">≈ 28.1 GB</text>
+        <g id="s2-x2" opacity="0"><text x="880" y="336" text-anchor="middle" fill="#3dba7a" font-size="32" font-weight="700">≈ ×4</text><text x="880" y="368" text-anchor="middle" fill="#3dba7a" font-size="26" font-weight="700">меньше</text></g>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Параметры одного слоя</div>
+        <div class="f">full FT: d · k = 4096 · 4096 = <span class="o">16 777 216</span></div>
+        <div class="f" style="margin-top:6px">LoRA: r(d + k) = 8 · (4096 + 4096) = <span class="g">65 536</span></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">в 256 раз меньше обучаемых параметров</div></div>
+      <div id="s2-c2" class="card"><div class="h">LLaMA-7B, r = 8, α = 16, слои Q / K / V / O</div>
+        <div class="f">≈ <span class="g">8.4M</span> обучаемых против <span class="o">7B</span> → ≈ 800×</div>
+        <div class="f" style="margin-top:6px">память: ≈ <span class="o">112 GB</span> → ≈ <span class="g">28.1 GB</span></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">градиенты и моменты Adam хранятся только для B и A</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Слой 4096 × 4096: full FT учит <b class="o">16 777 216</b> весов, LoRA с r = 8 — <b class="g">65 536</b>: в 256 раз меньше</div>
+      <div id="s2-cap2" class="cap">LLaMA-7B, r = 8 на Q / K / V / O: ≈ <b class="g">8.4M</b> обучаемых параметров против <b class="o">7B</b> — примерно в 800 раз меньше</div>
+      <div id="s2-cap3" class="cap">Память обучения: ≈ <b class="o">112 GB</b> → ≈ <b class="g">28.1 GB</b> — градиенты и моменты Adam нужны только для B и A</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const H = 380, Y0 = 560; // высота столбика для максимума, ось
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const bar = (id, h, t) => tl.fromTo(id, { attr: { y: Y0, height: 0 } }, { attr: { y: Y0 - h, height: h }, duration: 0.8, ease: "power2.out" }, t);
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // Группа 1: 16 777 216 vs 65 536 (отношение 1/256 → столбик LoRA ≈ 1.5 px, рисуем 4 px)
+    tl.fromTo("#s2-g1", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.4);
+    cap("#s2-cap1", 0.6, 4.8);
+    bar("#s2-bar1", H, 1.0);
+    tl.fromTo("#s2-val1", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 1.6);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.4);
+    bar("#s2-bar2", 4, 2.2);
+    tl.fromTo("#s2-val2", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 2.6);
+    tl.fromTo("#s2-x1", { opacity: 0, scale: 0.8, svgOrigin: "380 430" }, { opacity: 1, scale: 1, svgOrigin: "380 430", duration: 0.5, ease: "back.out(1.6)" }, 3.2);
+    // LLaMA-7B: параметры (карточка) и память (столбики)
+    cap("#s2-cap2", 5.0, 9.4);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.4);
+    cap("#s2-cap3", 9.6, 14.5);
+    tl.fromTo("#s2-g2", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 9.6);
+    bar("#s2-bar3", H, 10.0);
+    tl.fromTo("#s2-val3", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 10.6);
+    bar("#s2-bar4", H * 28.1 / 112, 11.0);
+    tl.fromTo("#s2-val4", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 11.5);
+    tl.fromTo("#s2-x2", { opacity: 0, scale: 0.8, svgOrigin: "880 350" }, { opacity: 1, scale: 1, svgOrigin: "880 350", duration: 0.5, ease: "back.out(1.6)" }, 12.1);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 14.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

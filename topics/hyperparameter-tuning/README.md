@@ -24,13 +24,19 @@ status: canonical
 lang: ru
 type: topic
 slug: hyperparameter-tuning
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Настройка гиперпараметров (Hyperparameter Tuning)
 
 ## Как объяснить 5-летнему ребёнку
 
 Представь, что ты печёшь торт. Рецепт говорит: «добавь сахар» — но не говорит, сколько. Слишком мало — невкусно, слишком много — приторно. Ты пробуешь: одну ложку, две, три... и находишь самое вкусное количество. Настройка гиперпараметров — это то же самое: мы пробуем разные «рецепты» для нашей модели и выбираем тот, при котором она работает лучше всего.
+
+**Визуализация (HyperFrames, 43 с):** сцена 1 — grid vs random search на 2D-пространстве (у сетки 3 уникальных значения важного параметра, у random — 9); сцена 2 — Bayesian Optimization: суррогат μ(λ) ± σ(λ) и acquisition EI выбирают следующую точку; сцена 3 — Successive Halving / Hyperband: слабые конфигурации обрываются рано, бюджет удваивается каждый раунд.
+
+![Grid / Random Search → Bayesian Optimization → Hyperband](./assets/visualizations/grid-random-bayesian-hyperband.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/grid-random-bayesian-hyperband.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
@@ -49,13 +55,13 @@ updated: 2026-09-18
 7. [Bandit-based методы: Hyperband и BOHB](#bandit-based-методы-hyperband-и-bohb)
    - [Successive Halving](#successive-halving)
    - [Hyperband](#hyperband)
-   - [BOHB](#bohb)
+   - [BOHB (Bayesian Optimization + HyperBand)](#bohb-bayesian-optimization--hyperband)
 8. [Population-Based Training (PBT)](#population-based-training-pbt)
 9. [Эволюционные алгоритмы (Evolutionary Strategies)](#эволюционные-алгоритмы-evolutionary-strategies)
 10. [Neural Architecture Search (NAS)](#neural-architecture-search-nas)
-11. [Автоматический подбор гиперпараметров learning rate](#автоматический-подбор-learning-rate)
+11. [Автоматический подбор Learning Rate](#автоматический-подбор-learning-rate)
     - [LR Range Test / LR Finder](#lr-range-test--lr-finder)
-    - [Cosine Annealing, OneCycleLR](#cosine-annealing-onecyclelr)
+    - [Learning Rate Schedules](#learning-rate-schedules)
 12. [Практические рекомендации](#практические-рекомендации)
 13. [Сравнение методов](#сравнение-методов)
 14. [Что используется больше всего (2024-2026)](#что-используется-больше-всего-2024-2026)
@@ -134,11 +140,11 @@ $$\lambda^* = \arg\min_{\lambda \in \Lambda} \mathcal{L}_{\text{val}}\big(f(\cdo
 ```
 Данные: [████████████████████████████████████████]
 
-Fold 1: [VAL ][  TRAIN  ][  TRAIN  ][  TRAIN  ][  TRAIN  ]  → score₁
-Fold 2: [TRAIN][  VAL   ][  TRAIN  ][  TRAIN  ][  TRAIN  ]  → score₂
-Fold 3: [TRAIN][  TRAIN ][  VAL    ][  TRAIN  ][  TRAIN  ]  → score₃
-Fold 4: [TRAIN][  TRAIN ][  TRAIN  ][  VAL    ][  TRAIN  ]  → score₄
-Fold 5: [TRAIN][  TRAIN ][  TRAIN  ][  TRAIN  ][  VAL    ]  → score₅
+Fold 1: [  VAL  ][ TRAIN ][ TRAIN ][ TRAIN ][ TRAIN ]  → score₁
+Fold 2: [ TRAIN ][  VAL  ][ TRAIN ][ TRAIN ][ TRAIN ]  → score₂
+Fold 3: [ TRAIN ][ TRAIN ][  VAL  ][ TRAIN ][ TRAIN ]  → score₃
+Fold 4: [ TRAIN ][ TRAIN ][ TRAIN ][  VAL  ][ TRAIN ]  → score₄
+Fold 5: [ TRAIN ][ TRAIN ][ TRAIN ][ TRAIN ][  VAL  ]  → score₅
 
 Итоговый score = mean(score₁ … score₅)  ±  std(score₁ … score₅)
 ```
@@ -174,7 +180,9 @@ $$\text{CV}(\lambda) = \frac{1}{K}\sum_{k=1}^{K} \mathcal{L}\big(f_{-k}(\cdot\,;
 
 Задаём **сетку** значений для каждого гиперпараметра и перебираем **все возможные комбинации**.
 
-$$\Lambda_{\text{grid}} = \lambda_1^{(1)} \times \lambda_2^{(1)} \times \ldots = \{(\lambda_1, \lambda_2, \ldots) : \lambda_i \in S_i\}$$
+$$\Lambda_{\text{grid}} = S_1 \times S_2 \times \ldots \times S_d = \{(\lambda_1, \lambda_2, \ldots, \lambda_d) : \lambda_i \in S_i\}$$
+
+где $S_i$ — конечное множество значений $i$-го гиперпараметра.
 
 **Пример**: `learning_rate` ∈ {0.001, 0.01, 0.1}, `max_depth` ∈ {3, 5, 7} → 9 комбинаций.
 
@@ -215,7 +223,9 @@ $$\lambda_i \sim p(\lambda), \quad i = 1, \ldots, N$$
 
 **Интуиция**: при Grid Search с $n$ точками по каждой оси мы получаем только $n$ уникальных значений каждого гиперпараметра. При Random Search с $n^d$ точками мы получаем $n^d$ уникальных значений каждого — гораздо лучше покрываем важные оси.
 
-**Схема:** [Random vs Grid Search](https://miro.medium.com/v2/resize:fit:1400/1*ZTlQm_WRcrNqL-nLnx6GJA.png)
+**Схема:**
+
+![Grid Search vs Random Search: при одном важном гиперпараметре случайный поиск даёт 9 уникальных значений вместо 3](./assets/images/grid_vs_random_search.png)
 
 ### Плюсы и минусы
 
@@ -315,7 +325,7 @@ $$\text{EI}(\lambda) = (y^* - \mu(\lambda))\,\Phi(Z) + \sigma(\lambda)\,\phi(Z),
 | Функция | Формула (для GP) | Свойство |
 |---|---|---|
 | **Probability of Improvement (PI)** | $\Phi\big(\frac{y^* - \mu}{\sigma}\big)$ | Exploitation-oriented |
-| **Upper Confidence Bound (UCB)** | $\mu(\lambda) - \kappa \cdot \sigma(\lambda)$ | Настраиваемый баланс ($\kappa$) |
+| **Confidence Bound (UCB / LCB)** | $\mu(\lambda) - \kappa \cdot \sigma(\lambda)$ (LCB при минимизации; UCB $= \mu + \kappa\sigma$ при максимизации) | Настраиваемый баланс ($\kappa$) |
 | **Expected Improvement (EI)** | см. выше | Баланс explore/exploit |
 | **Knowledge Gradient** | — | Теоретически оптимальный, дорогой |
 
@@ -326,7 +336,7 @@ $$\text{EI}(\lambda) = (y^* - \mu(\lambda))\,\Phi(Z) + \sigma(\lambda)\,\phi(Z),
 **Ключевые особенности:**
 - **Define-by-Run** API — пространство поиска определяется в коде (а не в конфиге)
 - **TPE** по умолчанию, также доступны GP, CMA-ES, Random Search
-- **Pruning** — ранняя остановка неперспективных экспериментов (через callbacks)
+- **Pruning** — ранняя остановка неперспективных экспериментов (через `trial.report()` / `trial.should_prune()` или интеграционные callbacks)
 - **Multi-objective** — оптимизация нескольких метрик одновременно (Pareto-front)
 - **Distributed** — параллельный запуск на нескольких воркерах через RDB-хранилище
 - **Dashboard** — визуализация через optuna-dashboard
@@ -366,7 +376,7 @@ Bayesian Optimization тратит **полный бюджет** на кажду
 
 ### Hyperband
 
-**Hyperband** (Li et al., 2017) — решает дилемму Successive Halving: «много конфигураций с малым бюджетом» vs «мало конфигураций с большим бюджетом».
+**Hyperband** (Li et al., 2018) — решает дилемму Successive Halving: «много конфигураций с малым бюджетом» vs «мало конфигураций с большим бюджетом».
 
 **Решение**: запустить **несколько раундов** Successive Halving с разными начальными бюджетами:
 
@@ -458,7 +468,7 @@ $$\text{BOHB} = \underbrace{\text{Bayesian Opt (TPE)}}_{\text{умный выб�
 
 Контроллер (RNN) генерирует описание архитектуры → обучается через RL (reward = accuracy на валидации).
 
-**Минус**: астрономические вычислительные затраты (800 GPU-дней в оригинальной работе).
+**Минус**: астрономические вычислительные затраты (800 GPU в течение ~4 недель, ≈22 400 GPU-дней в оригинальной работе; NASNet — ≈2 000 GPU-дней).
 
 #### 2. DARTS — Differentiable Architecture Search (Liu et al., 2019)
 
@@ -470,13 +480,13 @@ $$\bar{o}(x) = \sum_{o \in \mathcal{O}} \frac{\exp(\alpha_o)}{\sum_{o'}\exp(\alp
 - Внутренний уровень: обновляем веса $\theta$ (SGD)
 - Внешний уровень: обновляем архитектурные параметры $\alpha$ (SGD на валидации)
 
-**Плюс**: поиск за ~1 GPU-день (vs ~800 для RL-NAS).
+**Плюс**: поиск за ~1.5–4 GPU-дня на CIFAR-10 (vs ≈2 000 GPU-дней у NASNet и ≈22 400 у RL-NAS).
 
-#### 3. Efficient NAS (2023-2026)
+#### 3. Efficient NAS (2019+)
 
-- **Once-for-All (OFA)**: обучить одну суперсеть, из которой извлекаются подсети
-- **Zero-Cost NAS**: оценка архитектуры **без обучения** (по градиентам, спектру якобиана)
-- **Hardware-Aware NAS**: оптимизация не только accuracy, но и latency/memory
+- **Once-for-All (OFA, Cai et al., 2020)**: обучить одну суперсеть, из которой извлекаются подсети
+- **Zero-Cost NAS** (Abdelfattah et al., 2021): оценка архитектуры **без обучения** (по градиентам, спектру якобиана)
+- **Hardware-Aware NAS** (MnasNet, Tan et al., 2019): оптимизация не только accuracy, но и latency/memory
 
 ### Где используется NAS
 
@@ -525,9 +535,11 @@ Loss
 | **Warmup + Cosine** | Warm-up, затем cosine decay | Transformers, ViT |
 
 **OneCycleLR** (Smith & Topin, 2019) — особенно популярен:
-- Фаза 1: LR растёт от $\eta_0/\text{div}$ до $\eta_0$
+- Фаза 1: LR растёт от $\eta_0/\text{div}$ до $\eta_0$ (в PyTorch `div_factor=25`)
 - Фаза 2: LR уменьшается от $\eta_0$ до $\eta_0/\text{div}$
-- Фаза 3: LR уменьшается до $\eta_0 / (10 \cdot \text{div})$
+- Фаза 3: LR уменьшается до $\eta_0 / (\text{div} \cdot \text{final\_div})$, где `final_div_factor=1e4` по умолчанию
+
+> В PyTorch `OneCycleLR` по умолчанию двухфазный (`three_phase=False`): после warm-up LR сразу убывает (cosine) от $\eta_0$ до $\eta_0/(\text{div}\cdot\text{final\_div})$.
 
 ---
 
@@ -720,7 +732,6 @@ print(f"Best params: {study.best_params}")
 
 ```python
 import optuna
-from optuna.integration import PyTorchLightningPruningCallback
 import torch
 import torch.nn as nn
 
@@ -852,7 +863,7 @@ print(f"Best config: {analysis.best_config}")
 - Bergstra, J. et al. (2013). *Making a Science of Model Search: Hyperparameter Optimization in Hundreds of Dimensions*. ICML (Hyperopt)
 - Akiba, T. et al. (2019). *Optuna: A Next-generation Hyperparameter Optimization Framework*. KDD
 - Snoek, J. et al. (2012). *Practical Bayesian Optimization of Machine Learning Algorithms*. NeurIPS
-- Li, L. et al. (2017). *Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization*. JMLR
+- Li, L. et al. (2018). *Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization*. JMLR 18(185) (arXiv 2016, ICLR 2017)
 - Falkner, S. et al. (2018). *BOHB: Robust and Efficient Hyperparameter Optimization at Scale*. ICML
 - Jaderberg, M. et al. (2017). *Population Based Training of Neural Networks*. arXiv
 - Hansen, N. & Ostermeier, A. (2001). *Completely Derandomized Self-Adaptation in Evolution Strategies*. Evolutionary Computation

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  @property --n { syntax: "<integer>"; inherits: true; initial-value: 0; }
+  #s1-step { position: absolute; left: 330px; top: 172px; width: 320px; text-align: center; font-size: 30px; font-weight: 700; color: #f0f4ff; opacity: 0; }
+  #s1-step::before { counter-reset: n var(--n); content: "шаг t = " counter(n); }
+  #s1-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 320px; width: 700px; }
+  .s1-note { font-size: 27px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Как агент учится у среды?</div></div>
+    <div class="badge">Knowledge Book · Deep RL</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <defs>
+          <marker id="s1-ah-o" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 12 7 L 1 13 z" fill="#ff7a2f"/></marker>
+          <marker id="s1-ah-g" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 12 7 L 1 13 z" fill="#3dba7a"/></marker>
+        </defs>
+        <!-- Агент -->
+        <g id="s1-agent" opacity="0">
+          <rect x="300" y="30" width="380" height="120" rx="18" fill="#161a24" stroke="#4a9eff" stroke-width="4"/>
+          <text x="490" y="82" text-anchor="middle" fill="#f0f4ff" font-size="36" font-weight="700">Агент</text>
+          <text x="490" y="124" text-anchor="middle" fill="#aab3c2" font-size="26">политика π(a|s)</text>
+        </g>
+        <!-- Среда -->
+        <g id="s1-env" opacity="0">
+          <rect x="300" y="510" width="380" height="120" rx="18" fill="#161a24" stroke="#3dba7a" stroke-width="4"/>
+          <text x="490" y="562" text-anchor="middle" fill="#f0f4ff" font-size="36" font-weight="700">Среда</text>
+          <text x="490" y="604" text-anchor="middle" fill="#aab3c2" font-size="26">P(s′|s,a),  R(s,a,s′)</text>
+        </g>
+        <!-- Правый канал: действие a_t, агент → среда (длина 150+480+150 = 780) -->
+        <polyline id="s1-arrA" points="680,90 790,90 790,570 680,570" fill="none" stroke="#ff7a2f" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="0 9999" marker-end="url(#s1-ah-o)" opacity="0"/>
+        <text id="s1-lblA" x="812" y="340" fill="#ff7a2f" font-size="34" font-weight="700" opacity="0">a<tspan font-size="24">t</tspan></text>
+        <text id="s1-lblA2" x="812" y="374" fill="#aab3c2" font-size="22" opacity="0">действие</text>
+        <!-- Левый канал: s_{t+1}, r_{t+1}, среда → агент -->
+        <polyline id="s1-arrS" points="300,570 190,570 190,90 300,90" fill="none" stroke="#3dba7a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="0 9999" marker-end="url(#s1-ah-g)" opacity="0"/>
+        <text id="s1-lblS" x="168" y="326" text-anchor="end" fill="#3dba7a" font-size="34" font-weight="700" opacity="0">r<tspan font-size="24">t+1</tspan></text>
+        <text id="s1-lblS2" x="168" y="366" text-anchor="end" fill="#4a9eff" font-size="34" font-weight="700" opacity="0">s<tspan font-size="24">t+1</tspan></text>
+        <text id="s1-lblS3" x="168" y="400" text-anchor="end" fill="#aab3c2" font-size="22" opacity="0">отклик среды</text>
+        <!-- Бегущие «пакеты» -->
+        <circle id="s1-tokA" cx="680" cy="90" r="13" fill="#ff7a2f" opacity="0"/>
+        <circle id="s1-tokS" cx="300" cy="570" r="13" fill="#3dba7a" opacity="0"/>
+        <!-- Дисконтированный возврат: столбики r₁, γr₂, … (γ = 0.9, иллюстративно) -->
+        <g id="s1-ret" opacity="0">
+          <text x="490" y="262" text-anchor="middle" fill="#f0f4ff" font-size="26" font-weight="700">G<tspan font-size="18">t</tspan> = r₁ + γ·r₂ + γ²·r₃ + …</text>
+          <text x="490" y="292" text-anchor="middle" fill="#aab3c2" font-size="22">γ = 0.9 (иллюстративно)</text>
+          <line x1="320" y1="455" x2="660" y2="455" stroke="#2a3140" stroke-width="3"/>
+          <text x="350" y="486" text-anchor="middle" fill="#aab3c2" font-size="22">r₁</text>
+          <text x="420" y="486" text-anchor="middle" fill="#aab3c2" font-size="22">γr₂</text>
+          <text x="490" y="486" text-anchor="middle" fill="#aab3c2" font-size="22">γ²r₃</text>
+          <text x="560" y="486" text-anchor="middle" fill="#aab3c2" font-size="22">γ³r₄</text>
+          <text x="630" y="486" text-anchor="middle" fill="#aab3c2" font-size="22">γ⁴r₅</text>
+        </g>
+        <rect id="s1-b1" x="325" y="455" width="50" height="0" rx="6" fill="#3dba7a"/>
+        <rect id="s1-b2" x="395" y="455" width="50" height="0" rx="6" fill="#3dba7a" fill-opacity="0.85"/>
+        <rect id="s1-b3" x="465" y="455" width="50" height="0" rx="6" fill="#3dba7a" fill-opacity="0.7"/>
+        <rect id="s1-b4" x="535" y="455" width="50" height="0" rx="6" fill="#3dba7a" fill-opacity="0.55"/>
+        <rect id="s1-b5" x="605" y="455" width="50" height="0" rx="6" fill="#3dba7a" fill-opacity="0.4"/>
+      </svg>
+      <div id="s1-step" style="--n:0"></div>
+      <div id="s1-c1" class="card"><div class="h">Формализация: MDP</div>
+        <div class="f">(S, A, P, R, γ)</div>
+        <div class="s1-note">S — состояния, A — действия<br/>P(s′|s,a) — переходы, R(s,a,s′) — награда<br/>γ ∈ [0,1] — коэффициент дисконтирования</div></div>
+      <div id="s1-c2" class="card"><div class="h">Цель агента</div>
+        <div class="f">G<sub>t</sub> = Σ<sub>k≥t</sub> γ<sup>k−t</sup> r<sub>k+1</sub></div>
+        <div class="f" style="margin-top:6px">π* = argmax<sub>π</sub> 𝔼<sub>π</sub>[ Σ<sub>t</sub> γ<sup>t</sup> R<sub>t+1</sub> ]</div>
+        <div class="s1-note">V<sup>π</sup>(s), Q<sup>π</sup>(s,a) — ожидаемый возврат из s / из пары (s,a)</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Агент видит состояние <b class="b">s<sub>t</sub></b>, выбирает действие <b class="o">a<sub>t</sub></b> по политике π(a|s); среда отвечает наградой <b class="g">r<sub>t+1</sub></b> и новым состоянием s<sub>t+1</sub></div>
+      <div id="s1-cap2" class="cap">Формально это <b>MDP</b> (S, A, P, R, γ): переходы P(s′|s,a) и награда R(s,a,s′) — свойство среды, а политика <b class="b">π</b> — то, что мы учим</div>
+      <div id="s1-cap3" class="cap">Цель — максимум ожидаемого возврата <b>G<sub>t</sub> = Σ γ<sup>k</sup> r<sub>k+1</sub></b>: дисконт <b class="o">γ ∈ [0,1]</b> делает далёкие награды дешевле</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s1-agent", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+    tl.fromTo("#s1-env", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.5);
+    // Стрелки цикла «рисуются»
+    tl.fromTo("#s1-arrA", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "780 9999" }, duration: 0.9, ease: "power2.inOut" }, 0.8);
+    tl.fromTo("#s1-lblA", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.4);
+    tl.fromTo("#s1-lblA2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.4);
+    tl.fromTo("#s1-arrS", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "780 9999" }, duration: 0.9, ease: "power2.inOut" }, 1.6);
+    tl.fromTo("#s1-lblS", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.2);
+    tl.fromTo("#s1-lblS2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.2);
+    tl.fromTo("#s1-lblS3", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.2);
+    tl.fromTo("#s1-step", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.4);
+    cap("#s1-cap1", 0.6, 4.8);
+    // Три цикла: a_t едет к среде, затем (s_{t+1}, r_{t+1}) возвращаются к агенту; счётчик шагов растёт.
+    const cycle = (t, n) => {
+      tl.fromTo("#s1-tokA", { attr: { cx: 680, cy: 90 }, opacity: 0 }, { opacity: 1, duration: 0.15, immediateRender: false }, t);
+      tl.to("#s1-tokA", { attr: { cx: 790 }, duration: 0.22, ease: "none" }, t);
+      tl.to("#s1-tokA", { attr: { cy: 570 }, duration: 0.6, ease: "none" }, t + 0.22);
+      tl.to("#s1-tokA", { attr: { cx: 680 }, duration: 0.22, ease: "none" }, t + 0.82);
+      tl.to("#s1-tokA", { opacity: 0, duration: 0.15 }, t + 1.0);
+      tl.fromTo("#s1-tokS", { attr: { cx: 300, cy: 570 }, opacity: 0 }, { opacity: 1, duration: 0.15, immediateRender: false }, t + 1.15);
+      tl.to("#s1-tokS", { attr: { cx: 190 }, duration: 0.22, ease: "none" }, t + 1.15);
+      tl.to("#s1-tokS", { attr: { cy: 90 }, duration: 0.6, ease: "none" }, t + 1.37);
+      tl.to("#s1-tokS", { attr: { cx: 300 }, duration: 0.22, ease: "none" }, t + 1.97);
+      tl.to("#s1-tokS", { opacity: 0, duration: 0.15 }, t + 2.15);
+      tl.to("#s1-step", { "--n": n, snap: "--n", duration: 0.2 }, t + 2.1);
+    };
+    cycle(2.6, 1); cycle(5.0, 2); cycle(7.4, 3);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 5.2);
+    cap("#s1-cap2", 5.0, 8.6);
+    // Возврат с дисконтом: столбики 140·0.9^k
+    cap("#s1-cap3", 8.8, 12.5);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.0);
+    tl.fromTo("#s1-ret", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 9.2);
+    const H = [140, 126, 113.4, 102.1, 91.9];
+    H.forEach((h, i) => tl.fromTo(`#s1-b${i + 1}`, { attr: { y: 455, height: 0 } }, { attr: { y: 455 - h, height: h }, duration: 0.6, ease: "power2.out" }, 9.5 + 0.25 * i));
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 12.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

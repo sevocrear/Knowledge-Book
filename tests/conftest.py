@@ -1,15 +1,18 @@
-"""Skip Manim tests when the optional viz dependency group is not installed."""
+"""Пропуск тестов с маркером `hyperframes`, если не включён настоящий прогон `npx hyperframes check`."""
 
 from __future__ import annotations
+
+import os
+import shutil
 
 import pytest
 
 
 def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]) -> None:
-    try:
-        import manim  # noqa: F401
-    except ImportError:
-        skip = pytest.mark.skip(reason="manim not installed (run: uv sync --group viz)")
-        for item in items:
-            if "manim" in item.keywords:
-                item.add_marker(skip)
+    enabled = os.environ.get("KB_RUN_HYPERFRAMES") == "1" and shutil.which("npx") is not None
+    if enabled:
+        return
+    skip = pytest.mark.skip(reason="hyperframes check отключён (KB_RUN_HYPERFRAMES=1 и Node 22+ с npx)")
+    for item in items:
+        if "hyperframes" in item.keywords:
+            item.add_marker(skip)

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 220px; width: 700px; }
+  .card .f { font-size: 32px; }
+  .s2-sub { font-size: 25px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+  #s2-bars { position: absolute; left: 1060px; top: 444px; width: 700px; height: 216px; opacity: 0; }
+  #s2-bars .ttl { position: absolute; left: 0; top: 0; font-size: 22px; color: #aab3c2; letter-spacing: 0.02em; }
+  #s2-bars .axis { position: absolute; left: 0; right: 0; bottom: 44px; height: 2px; background: #2a3140; }
+  .s2-bar { position: absolute; bottom: 46px; width: 110px; height: 0px; border-radius: 10px 10px 4px 4px; }
+  .s2-bar-lbl { position: absolute; bottom: 4px; width: 110px; font-size: 24px; color: #aab3c2; text-align: center; }
+  .s2-bar-val { position: absolute; bottom: 54px; width: 110px; font-size: 30px; font-weight: 700; text-align: center; color: #f0f4ff; opacity: 0; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Boosting: как модели чинят друг друга?</div></div>
+    <div class="badge">Knowledge Book · Ensembles</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <!-- оси -->
+        <line id="s2-ax-x" x1="70" y1="590" x2="930" y2="590" stroke="#2a3140" stroke-width="4" stroke-dasharray="0 9999"/>
+        <line id="s2-ax-y" x1="70" y1="590" x2="70" y2="70" stroke="#2a3140" stroke-width="4" stroke-dasharray="0 9999"/>
+        <text x="936" y="598" fill="#aab3c2" font-size="26" opacity="0.9">x</text>
+        <text x="58" y="62" fill="#aab3c2" font-size="26" opacity="0.9">y</text>
+        <!-- подписи стадий -->
+        <text id="s2-st0" x="100" y="106" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0" data-layout-allow-overlap>m = 0: F<tspan font-size="20" dy="6">0</tspan><tspan dy="-6">(x) = среднее y — константа</tspan></text>
+        <text id="s2-st1" x="100" y="106" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0" data-layout-allow-overlap>m = 1: F<tspan font-size="20" dy="6">1</tspan><tspan dy="-6"> = F</tspan><tspan font-size="20" dy="6">0</tspan><tspan dy="-6"> + η·h</tspan><tspan font-size="20" dy="6">1</tspan><tspan dy="-6">, h</tspan><tspan font-size="20" dy="6">1</tspan><tspan dy="-6"> обучено на остатках</tspan></text>
+        <text id="s2-st2" x="100" y="106" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0" data-layout-allow-overlap>m = 2: F<tspan font-size="20" dy="6">2</tspan><tspan dy="-6"> = F</tspan><tspan font-size="20" dy="6">1</tspan><tspan dy="-6"> + η·h</tspan><tspan font-size="20" dy="6">2</tspan><tspan dy="-6"> — новые остатки меньше</tspan></text>
+        <text id="s2-st3" x="100" y="106" fill="#f0f4ff" font-size="28" font-weight="700" opacity="0" data-layout-allow-overlap>m = 3: F<tspan font-size="20" dy="6">3</tspan><tspan dy="-6"> = F</tspan><tspan font-size="20" dy="6">2</tspan><tspan dy="-6"> + η·h</tspan><tspan font-size="20" dy="6">3</tspan><tspan dy="-6"> — ступеньки ближе к точкам</tspan></text>
+        <!-- остатки, кривые, точки -->
+        <g id="s2-res"></g>
+        <g id="s2-fits"></g>
+        <g id="s2-pts"></g>
+        <!-- легенда -->
+        <g id="s2-legend" opacity="0">
+          <circle cx="110" cy="618" r="8" fill="#4a9eff"/><text x="126" y="626" fill="#aab3c2" font-size="22">y<tspan font-size="16" dy="5">i</tspan></text>
+          <line x1="190" y1="618" x2="240" y2="618" stroke="#3dba7a" stroke-width="6" stroke-linecap="round"/><text x="250" y="626" fill="#aab3c2" font-size="22">F<tspan font-size="16" dy="5">m</tspan><tspan dy="-5">(x)</tspan></text>
+          <rect x="342" y="606" width="8" height="24" fill="#ff7a2f"/><text x="360" y="626" fill="#aab3c2" font-size="22">остаток r<tspan font-size="16" dy="5">i</tspan><tspan dy="-5"> = y</tspan><tspan font-size="16" dy="5">i</tspan><tspan dy="-5"> − F</tspan><tspan font-size="16" dy="5">m−1</tspan><tspan dy="-5">(x</tspan><tspan font-size="16" dy="5">i</tspan><tspan dy="-5">)</tspan></text>
+        </g>
+        <text id="s2-eta" x="100" y="140" fill="#aab3c2" font-size="22" opacity="0">η = 0.5, точки и остатки — иллюстративно</text>
+        <text id="s2-ada" x="930" y="562" text-anchor="end" fill="#ff7a2f" font-size="24" font-weight="700" opacity="0">AdaBoost: объектам с ошибкой поднимаем вес w<tspan font-size="18" dy="6">i</tspan><tspan dy="-6"> ↑</tspan></text>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">Псевдо-остатки (Friedman, 2001)</div>
+        <div class="f">r<sub>i</sub> = −∂L(y<sub>i</sub>, F<sub>m−1</sub>(x<sub>i</sub>)) / ∂F<sub>m−1</sub>(x<sub>i</sub>)</div>
+        <div class="s2-sub">MSE: r<sub>i</sub> = y<sub>i</sub> − F<sub>m−1</sub>(x<sub>i</sub>); log-loss: r<sub>i</sub> = y<sub>i</sub> − p<sub>i</sub></div></div>
+      <div id="s2-c2" class="card"><div class="h">Шаг бустинга</div>
+        <div class="f">F<sub>m</sub> = F<sub>m−1</sub> + <span class="o">η</span>·γ<sub>m</sub>·h<sub>m</sub></div>
+        <div class="s2-sub">h<sub>m</sub> — дерево на (x<sub>i</sub>, r<sub>i</sub>), γ<sub>m</sub> — шаг из line search, <span class="o">η</span> — learning rate, обычно 0.01–0.3</div></div>
+      <div id="s2-bars">
+        <div class="ttl">Остаточная ошибка Σ r<sub>i</sub>², % от m = 0 (иллюстративно)</div>
+        <div class="axis"></div>
+        <div id="s2-bar0" class="s2-bar" style="left:60px;background:#aab3c2"></div><div id="s2-val0" class="s2-bar-val" style="left:60px">100%</div><div class="s2-bar-lbl" style="left:60px">m = 0</div>
+        <div id="s2-bar1" class="s2-bar" style="left:220px;background:#3dba7a"></div><div id="s2-val1" class="s2-bar-val" style="left:220px">42%</div><div class="s2-bar-lbl" style="left:220px">m = 1</div>
+        <div id="s2-bar2" class="s2-bar" style="left:380px;background:#3dba7a"></div><div id="s2-val2" class="s2-bar-val" style="left:380px">15%</div><div class="s2-bar-lbl" style="left:380px">m = 2</div>
+        <div id="s2-bar3" class="s2-bar" style="left:540px;background:#3dba7a"></div><div id="s2-val3" class="s2-bar-val" style="left:540px">6%</div><div class="s2-bar-lbl" style="left:540px">m = 3</div>
+      </div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap"><b>Boosting</b> строит модели <b>последовательно</b>: F<sub>M</sub>(x) = Σ α<sub>m</sub>·h<sub>m</sub>(x), каждая новая h<sub>m</sub> ловит ошибки предыдущих → снижает <b class="o">bias</b></div>
+      <div id="s2-cap2" class="cap"><b>Gradient Boosting</b>: h<sub>m</sub> учится предсказывать <b class="o">псевдо-остатки</b> r<sub>i</sub> = −∂L/∂F<sub>m−1</sub>; для MSE это просто y<sub>i</sub> − F<sub>m−1</sub>(x<sub>i</sub>)</div>
+      <div id="s2-cap3" class="cap">Шаг F<sub>m</sub> = F<sub>m−1</sub> + <b class="o">η</b>·γ<sub>m</sub>·h<sub>m</sub>: learning rate η сдерживает каждое дерево, остатки и ошибка <b class="g">падают с каждым m</b></div>
+      <div id="s2-cap4" class="cap"><b>AdaBoost</b> вместо остатков растит <b class="o">веса</b> ошибочных объектов; <b>XGBoost / LightGBM / CatBoost</b> — промышленный gradient boosting</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Иллюстративные данные (12 точек) и градиентный бустинг на «пеньках» с η = 0.5, MSE, γ = 1.
+    const ys = [0.9, 1.2, 1.0, 1.5, 2.9, 3.3, 3.6, 3.8, 4.7, 5.2, 5.4, 5.5];
+    const n = ys.length, eta = 0.5;
+    const px = i => 110 + i * 70, py = y => 590 - y * 80;
+    let F = new Array(n).fill(ys.reduce((a, b) => a + b, 0) / n);
+    const stages = [F.slice()];
+    for (let m = 0; m < 3; m++) {
+      const r = ys.map((y, i) => y - F[i]);
+      let best = null;
+      for (let s = 1; s < n; s++) {
+        const l = r.slice(0, s), rr = r.slice(s);
+        const ml = l.reduce((a, b) => a + b, 0) / l.length, mr = rr.reduce((a, b) => a + b, 0) / rr.length;
+        const e = l.reduce((a, v) => a + (v - ml) ** 2, 0) + rr.reduce((a, v) => a + (v - mr) ** 2, 0);
+        if (best === null || e < best[0]) best = [e, s, ml, mr];
+      }
+      F = F.map((f, i) => f + eta * (i < best[1] ? best[2] : best[3]));
+      stages.push(F.slice());
+    }
+    // Ступенчатые кривые F_m (по одному <path> на стадию, кроссфейд)
+    const gF = document.getElementById("s2-fits");
+    stages.forEach((Fm, m) => {
+      let d = "";
+      Fm.forEach((f, i) => {
+        const x0 = px(i) - 35, x1 = px(i) + 35, y = py(f).toFixed(1);
+        d += (i === 0 ? `M ${x0} ${y}` : ` L ${x0} ${y}`) + ` L ${x1} ${y}`;
+      });
+      const p = document.createElementNS(NS, "path");
+      p.setAttribute("id", `s2-f${m}`); p.setAttribute("d", d); p.setAttribute("fill", "none");
+      p.setAttribute("stroke", "#3dba7a"); p.setAttribute("stroke-width", "6"); p.setAttribute("stroke-linejoin", "round"); p.setAttribute("opacity", "0");
+      gF.appendChild(p);
+    });
+    // Остатки — прямоугольники (attr y/height), точки — круги
+    const gR = document.getElementById("s2-res"), gP = document.getElementById("s2-pts");
+    const resGeom = (m, i) => { const a = py(ys[i]), b = py(stages[m][i]); return { y: Math.min(a, b).toFixed(1), height: Math.abs(a - b).toFixed(1) }; };
+    const res = [], pts = [];
+    for (let i = 0; i < n; i++) {
+      const rc = document.createElementNS(NS, "rect");
+      const g0 = resGeom(0, i);
+      rc.setAttribute("id", `s2-r${i}`); rc.setAttribute("x", px(i) - 4); rc.setAttribute("width", "8");
+      rc.setAttribute("y", g0.y); rc.setAttribute("height", "0"); rc.setAttribute("fill", "#ff7a2f"); rc.setAttribute("opacity", "0");
+      gR.appendChild(rc); res.push(rc);
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("id", `s2-p${i}`); c.setAttribute("cx", px(i)); c.setAttribute("cy", py(ys[i]).toFixed(1));
+      c.setAttribute("r", "9"); c.setAttribute("fill", "#4a9eff"); c.setAttribute("stroke", "#ff7a2f"); c.setAttribute("stroke-width", "0"); c.setAttribute("opacity", "0");
+      gP.appendChild(c); pts.push(c);
+    }
+    const H = 78; // px на 100 %
+    const pct = [1.0, 0.42, 0.15, 0.06];
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-ax-x", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "860 9999" }, duration: 0.5, ease: "power2.inOut" }, 0.3);
+    tl.fromTo("#s2-ax-y", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "520 9999" }, duration: 0.5, ease: "power2.inOut" }, 0.3);
+    pts.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.6 + 0.05 * i));
+    tl.fromTo("#s2-legend", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.2);
+    tl.fromTo("#s2-eta", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+    cap("#s2-cap1", 0.6, 4.6);
+    // m = 0: константа и остатки
+    tl.fromTo("#s2-f0", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.5);
+    tl.fromTo("#s2-st0", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+    res.forEach((el, i) => { const g = resGeom(0, i); tl.fromTo(el, { opacity: 0, attr: { y: py(stages[0][i]).toFixed(1), height: 0 } }, { opacity: 1, attr: { y: g.y, height: g.height }, duration: 0.5, ease: "power2.out" }, 2.1 + 0.04 * i); });
+    tl.fromTo("#s2-bars", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 2.6);
+    tl.fromTo("#s2-bar0", { height: 0 }, { height: pct[0] * H, duration: 0.7, ease: "power2.out" }, 2.8);
+    tl.fromTo("#s2-val0", { y: 0, opacity: 0 }, { y: -pct[0] * H, opacity: 1, duration: 0.7, ease: "power2.out" }, 2.8);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 3.2);
+    // Стадии m = 1..3
+    const stage = (m, t) => {
+      tl.to(`#s2-f${m - 1}`, { opacity: 0, duration: 0.5 }, t);
+      tl.fromTo(`#s2-f${m}`, { opacity: 0 }, { opacity: 1, duration: 0.5 }, t);
+      tl.to(`#s2-st${m - 1}`, { opacity: 0, duration: 0.3 }, t);
+      tl.fromTo(`#s2-st${m}`, { opacity: 0 }, { opacity: 1, duration: 0.4 }, t + 0.2);
+      res.forEach((el, i) => { const g = resGeom(m, i); tl.to(el, { attr: { y: g.y, height: g.height }, duration: 0.8, ease: "power2.inOut" }, t + 0.1); });
+      tl.fromTo(`#s2-bar${m}`, { height: 0 }, { height: pct[m] * H, duration: 0.7, ease: "power2.out" }, t + 0.4);
+      tl.fromTo(`#s2-val${m}`, { y: 0, opacity: 0 }, { y: -pct[m] * H, opacity: 1, duration: 0.7, ease: "power2.out" }, t + 0.4);
+    };
+    cap("#s2-cap2", 4.8, 8.8);
+    stage(1, 5.0);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 6.4);
+    stage(2, 7.4);
+    cap("#s2-cap3", 9.0, 12.6);
+    stage(3, 9.6);
+    // AdaBoost: объекты с наибольшим остатком «тяжелеют»
+    cap("#s2-cap4", 12.8, 15.6);
+    const last = stages[3];
+    const order = ys.map((y, i) => [Math.abs(y - last[i]), i]).sort((a, b) => b[0] - a[0]).slice(0, 4).map(v => v[1]);
+    order.forEach((i, k) => tl.to(`#s2-p${i}`, { attr: { r: 15, "stroke-width": 4 }, duration: 0.5, ease: "back.out(1.6)" }, 13.1 + 0.15 * k));
+    tl.fromTo("#s2-ada", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 13.3);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 15.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

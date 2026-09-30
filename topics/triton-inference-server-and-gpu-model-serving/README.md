@@ -26,13 +26,19 @@ status: canonical
 lang: ru
 type: topic
 slug: triton-inference-server-and-gpu-model-serving
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Triton Inference Server и развёртывание моделей на 1–N GPU
 
 ## Как объяснить 5-летнему ребёнку
 
 Представь кухню ресторана с одной плитой. Если каждый официант сам готовит один заказ и ждёт, пока плита остынет, гости голодные. Умный повар делает так: собирает похожие заказы в одну сковороду (батч), параллельно греет суп и жарит котлеты на разных конфорках одной плиты и говорит официантам «не стойте у плиты — отдайте заказ на стойку». Triton — такой повар для нейросетей: принимает запросы по HTTP/gRPC, сам собирает пачки и крутит несколько моделей на одной (или нескольких) видеокартах, чтобы гости не ждали зря.
+
+**Визуализация (HyperFrames, 43 с):** сцена 1 — одиночные запросы копятся в очереди и уходят на GPU одной пачкой (dynamic batching); сцена 2 — несколько моделей и instance делят одну GPU (concurrent execution, разные backends); сцена 3 — model repository, путь запроса и когда Triton окупается на 1 GPU.
+
+![Triton: dynamic batching и concurrent models](./assets/visualizations/triton-dynamic-batching-concurrent-models.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/triton-dynamic-batching-concurrent-models.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ## Оглавление
 
@@ -176,7 +182,7 @@ Model repository с версиями `1/`, `2/`. Canary: 5% трафика на 
 
 - **TensorRT / ONNX Runtime / OpenVINO** — граф, fusion, INT8/FP8.
 - **Квантизация весов** LLM: GPTQ, AWQ, bitsandbytes NF4, FP8 на Hopper/Blackwell.
-- **Спекулятивный декодирование** (draft + verify) — выше tokens/s при том же GPU.
+- **Спекулятивное декодирование** (draft + verify) — выше tokens/s при том же GPU.
 - **Меньше токенов** на ответ: хороший системный промпт, constrained decoding; см. [токенизацию](../tokenization-and-text-compression-in-llms/README.md).
 
 ### B. LLM: continuous batching и память KV
@@ -206,12 +212,12 @@ Model repository с версиями `1/`, `2/`. Canary: 5% трафика на 
 
 SOTA-практика для детекции/сегментации/эмбеддингов:
 
-1. Экспорт в ONNX → TensorRT engine (или `torch.compile` / TensorRT Torch-TensorRT).
+1. Экспорт в ONNX → TensorRT engine (или `torch.compile` / Torch-TensorRT).
 2. Triton: dynamic batching + 1–2 instance на GPU.
 3. Пре/пост на CPU или Python backend; тяжёлый decode видео — NVDEC ([кодеки](../video-codecs-h264-h265-and-gpu-decode/README.md)).
 4. Latest-frame очередь для камер, не бесконечный FIFO ([System Design](../ml-system-design-for-cv-and-nlp/README.md)).
 
-Альтернативы легче Triton: **NVIDIA Dynamo / NIM**, **DeepStream** (видеопайплайны), **BentoML**, **Ray Serve** + ORT.
+Альтернативы и надстройки: **NVIDIA Dynamo / NIM** (NIM — контейнеры поверх Triton/TensorRT-LLM), **DeepStream** (видеопайплайны), **BentoML**, **Ray Serve** + ORT.
 
 ### D. Оркестрация 1–N GPU и «100×» трафика
 

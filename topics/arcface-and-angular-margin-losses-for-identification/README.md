@@ -22,7 +22,7 @@ status: canonical
 lang: ru
 type: topic
 slug: arcface-and-angular-margin-losses-for-identification
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # ArcFace и angular-margin losses для идентификации
 
@@ -55,11 +55,11 @@ ArcFace - это функция потерь для обучения эмбед�
 **Как объяснить 5-летнему ребёнку.**  
 Представь, что у каждого человека или товара есть точка на круглой карте. ArcFace учит ставить точки так, чтобы "свои" стояли очень кучно, а "чужие" - с заметным промежутком. Тогда легче понять, кто есть кто.
 
-**Визуализация (Manim):** эмбеддинг и веса классов на единичной сфере, угол $\theta$, угловой margin $m$, идея $s\cos(\theta_y+m)$.
+**Визуализация (HyperFrames, 42 с):** эмбеддинг $z$ и прототипы классов $W_j$ на единичной сфере и угол $\theta$ (сцена 1); что делает угловой margin $m$ — логит $s\cos(\theta_y+m)$ ниже $s\cos\theta_y$, и эмбеддинг «доворачивается» к своему классу (сцена 2); компактные классы с зазором $\ge m$ и сравнение SphereFace / CosFace / ArcFace (сцена 3).
 
-<video src="./assets/visualizations/arcface_angular_margin.mp4" controls muted loop playsinline width="100%"></video>
+![ArcFace: угловой margin на гиперсфере](./assets/visualizations/arcface_angular_margin.gif)
 
-*Fallback GIF:* `![](./assets/visualizations/arcface_angular_margin.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/arcface_angular_margin.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
@@ -79,14 +79,14 @@ ArcFace - это функция потерь для обучения эмбед�
 
 Пусть $z_i = f_\theta(x_i)$ - эмбеддинг, $W_j$ - вес (прототип) класса $j$. В ArcFace обычно используют:
 
-- нормировку: $z_i_2 = 1$, $W_j_2 = 1$;
+- нормировку: $\|z_i\|_2 = 1$, $\|W_j\|_2 = 1$;
 - масштаб логитов $s$;
 - угловой margin $m$ для истинного класса $y_i$.
 
 Тогда логиты имеют вид:
 
 $$
-\text{logit}*{y_i} = s \cdot \cos(\theta*{y_i} + m), \quad
+\text{logit}_{y_i} = s \cdot \cos(\theta_{y_i} + m), \quad
 \text{logit}_{j \neq y_i} = s \cdot \cos(\theta_j),
 $$
 
@@ -131,12 +131,12 @@ $$
 1. **Backbone** (ResNet/IR-ResNet/MobileFaceNet/ViT-variant) выдает эмбеддинг.
 2. **Обучение** с ArcFace на большом ID-супервизированном датасете.
 3. **Inference**:
-  - face detect + align;
-  - embedding extraction;
-  - cosine similarity с gallery/prototypes.
+   - face detect + align;
+   - embedding extraction;
+   - cosine similarity с gallery/prototypes.
 4. **Режимы**:
-  - verification (1:1): сравнить пару, принять/отклонить по порогу;
-  - identification (1:N): найти top-K в gallery.
+   - verification (1:1): сравнить пару, принять/отклонить по порогу;
+   - identification (1:N): найти top-K в gallery.
 5. **Калибровка порога** по TAR@FAR на валидации, близкой к продовым условиям.
 
 Важно для лиц:
@@ -154,16 +154,16 @@ ArcFace хорошо работает для SKU, когда задача бли
 Рекомендованный процесс:
 
 1. **Определить единицу идентичности**:
-  - SKU-level (один ID на товар);
-  - variant-level (объем, вкус, упаковка как отдельные ID).
+   - SKU-level (один ID на товар);
+   - variant-level (объем, вкус, упаковка как отдельные ID).
 2. **Собрать hard negatives**:
-  - visually similar SKU той же категории;
-  - private label vs брендовые аналоги.
+   - visually similar SKU той же категории;
+   - private label vs брендовые аналоги.
 3. **Обучать эмбеддинг** с ArcFace или гибридом (ArcFace + retrieval fine-tuning).
 4. **Использовать ANN-индекс** (HNSW/IVF/PQ) для 1:N поиска в каталоге.
 5. **Open-set fallback**:
-  - если max similarity ниже порога -> "unknown SKU";
-  - отправлять на human review / OCR / barcode fallback.
+   - если max similarity ниже порога -> "unknown SKU";
+   - отправлять на human review / OCR / barcode fallback.
 
 Практический паттерн для ритейла: двухступенчатая схема
 
@@ -180,8 +180,8 @@ ArcFace обучается как классификационный лосс, �
 
 - валидировать порог не только на "чистом" in-domain, но и на unknown/novel классах;
 - мониторить две кривые:
-  - false accept (чужой принят как свой),
-  - false reject (свой отклонен);
+   - false accept (чужой принят как свой),
+   - false reject (свой отклонен);
 - выбирать порог по бизнес-стоимости ошибок, а не только по EER.
 
 Для SKU часто применяют class-conditional или category-conditional thresholds (например, напитки и косметика имеют разную "плотность" признаков).
@@ -236,8 +236,8 @@ ArcFace обучается как классификационный лосс, �
 2. Batch sampler с классовым балансом (P x K).
 3. Сильный, но реалистичный augment policy (без уничтожения fine-grained признаков).
 4. Валидация:
-  - retrieval: Recall@K, mAP;
-  - verification: ROC-AUC, TAR@FAR, EER.
+   - retrieval: Recall@K, mAP;
+   - verification: ROC-AUC, TAR@FAR, EER.
 5. Domain-specific threshold calibration.
 6. Deployment через embedding + ANN + rerank.
 
@@ -261,11 +261,11 @@ ArcFace обучается как классификационный лосс, �
 ## Источники
 
 - Внутри knowledge-book:
-  - `./topics/contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md`
-  - `./topics/embeddings-and-embedding-matrix/README.md`
-  - `./topics/roc-curve-and-roc-auc/README.md`
-  - `./topics/how-models-predict-confidence-and-calibration/README.md`
-  - `./topics/dinov3-self-supervised-vision-transformer-and-2d-rope/README.md`
+  - [Contrastive и metric learning для fine-grained распознавания](../contrastive-and-metric-learning-for-fine-grained-visual-recognition/README.md)
+  - [Эмбеддинги и матрица эмбеддингов](../embeddings-and-embedding-matrix/README.md)
+  - [ROC-кривые и ROC AUC](../roc-curve-and-roc-auc/README.md)
+  - [Уверенность, калибровка и неопределённость](../how-models-predict-confidence-and-calibration/README.md)
+  - [DINOv3: self-supervised ViT и 2D RoPE](../dinov3-self-supervised-vision-transformer-and-2d-rope/README.md)
 - Базовые статьи:
   - ArcFace: Additive Angular Margin Loss for Deep Face Recognition (CVPR 2019)
   - CosFace: Large Margin Cosine Loss for Deep Face Recognition (CVPR 2018)

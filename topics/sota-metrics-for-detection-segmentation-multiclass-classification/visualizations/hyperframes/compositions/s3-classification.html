@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-wrap .title { font-size: 42px; }
+  #s3-c1 { left: 1060px; top: 0px; width: 700px; font-size: 28px; }
+  #s3-c2 { left: 1060px; top: 262px; width: 700px; font-size: 28px; }
+  .s3-li { padding: 4px 0; line-height: 1.3; }
+  .s3-li .k { color: #f0f4ff; font-weight: 700; }
+  .s3-sub { font-size: 25px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Чем мерить мультиклассовую классификацию?</div></div>
+    <div class="badge">Knowledge Book · Metrics</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <!-- Top-k: ранжированный список для одной картинки -->
+        <text id="s3-rk-ttl" x="40" y="48" fill="#aab3c2" font-size="22" opacity="0">softmax, GT = «собака» (иллюстративно)</text>
+        <g id="s3-ranks"></g>
+        <text id="s3-top1" x="40" y="440" fill="#ff4d6d" font-size="30" font-weight="700" opacity="0">Top-1 ✗</text>
+        <text id="s3-top1-sub" x="190" y="440" fill="#aab3c2" font-size="22" opacity="0">1-е место — «кошка»</text>
+        <text id="s3-top5" x="40" y="490" fill="#3dba7a" font-size="30" font-weight="700" opacity="0">Top-5 ✓</text>
+        <text id="s3-top5-sub" x="190" y="490" fill="#aab3c2" font-size="22" opacity="0">«собака» — 3-е место</text>
+        <!-- Матрица ошибок 3×3 -->
+        <g id="s3-cm-hdr" opacity="0">
+          <text x="730" y="48" text-anchor="middle" fill="#aab3c2" font-size="22">матрица ошибок (иллюстративно)</text>
+          <text x="590" y="120" text-anchor="middle" fill="#e6ebf5" font-size="26" font-weight="700">A</text>
+          <text x="690" y="120" text-anchor="middle" fill="#e6ebf5" font-size="26" font-weight="700">B</text>
+          <text x="790" y="120" text-anchor="middle" fill="#e6ebf5" font-size="26" font-weight="700">C</text>
+          <text x="512" y="200" text-anchor="end" fill="#e6ebf5" font-size="26" font-weight="700">A</text>
+          <text x="512" y="300" text-anchor="end" fill="#e6ebf5" font-size="26" font-weight="700">B</text>
+          <text x="512" y="400" text-anchor="end" fill="#e6ebf5" font-size="26" font-weight="700">C</text>
+          <text x="505" y="92" text-anchor="middle" fill="#aab3c2" font-size="20">GT ↓</text>
+          <text x="690" y="88" text-anchor="middle" fill="#aab3c2" font-size="20">pred →</text>
+        </g>
+        <g id="s3-cm-diag" opacity="0">
+          <rect x="542" y="142" width="96" height="96" rx="10" fill="#3dba7a" opacity="0.22"/>
+          <rect x="642" y="242" width="96" height="96" rx="10" fill="#3dba7a" opacity="0.22"/>
+          <rect x="742" y="342" width="96" height="96" rx="10" fill="#3dba7a" opacity="0.22"/>
+        </g>
+        <g id="s3-cells"></g>
+        <g id="s3-tot" opacity="0">
+          <text x="878" y="120" text-anchor="middle" fill="#aab3c2" font-size="20">всего</text>
+          <text x="878" y="200" text-anchor="middle" fill="#e6ebf5" font-size="26">100</text>
+          <text x="878" y="300" text-anchor="middle" fill="#e6ebf5" font-size="26">20</text>
+          <text x="878" y="400" text-anchor="middle" fill="#e6ebf5" font-size="26">10</text>
+        </g>
+        <g id="s3-f1" opacity="0">
+          <text x="946" y="120" text-anchor="middle" fill="#aab3c2" font-size="20">F1</text>
+          <text x="946" y="200" text-anchor="middle" fill="#3dba7a" font-size="26" font-weight="700">0.91</text>
+          <text x="946" y="300" text-anchor="middle" fill="#3dba7a" font-size="26" font-weight="700">0.68</text>
+          <text x="946" y="400" text-anchor="middle" fill="#ff4d6d" font-size="26" font-weight="700">0.45</text>
+        </g>
+        <text id="s3-lt" x="740" y="480" text-anchor="middle" fill="#e6ebf5" font-size="25" opacity="0">long-tail: <tspan fill="#4a9eff" font-weight="700">A</tspan> — 100 примеров, <tspan fill="#ff4d6d" font-weight="700">C</tspan> — 10</text>
+        <g id="s3-mm" opacity="0">
+          <rect x="500" y="512" width="466" height="120" rx="14" fill="#161a24" stroke="#2a3140" stroke-width="3"/>
+          <text x="520" y="558" fill="#e6ebf5" font-size="27">micro-F1 = <tspan fill="#4a9eff" font-weight="700">0.84</tspan><tspan fill="#aab3c2" font-size="22"> · глобально</tspan></text>
+          <text x="520" y="606" fill="#e6ebf5" font-size="27">macro-F1 = <tspan fill="#ff7a2f" font-weight="700">0.68</tspan><tspan fill="#aab3c2" font-size="22"> · по классам</tspan></text>
+        </g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Top-1 / Top-k accuracy</div>
+        <div class="s3-li"><span class="k">Top-1</span> — правильный класс на 1-м месте</div>
+        <div class="s3-li"><span class="k">Top-5</span> — правильный класс в топ-5 (ImageNet)</div>
+        <div class="s3-sub">top-k уместен, когда классы похожи или допустимы «подсказки»</div></div>
+      <div id="s3-c2" class="card"><div class="h">F1 при дисбалансе классов</div>
+        <div class="s3-li"><span class="k">Micro-F1</span>: TP/FP/FN считаем глобально — <span class="b">доминируют частые классы</span></div>
+        <div class="s3-li"><span class="k">Macro-F1</span>: средний F1 по классам — <span class="o">каждый класс весит одинаково</span></div>
+        <div class="s3-sub">при long-tail показывать macro-F1 + confusion matrix (или per-class recall)</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap"><b>Top-1</b> — правильный класс на первом месте, <b>Top-5</b> — в первой пятёрке: здесь <b class="r">Top-1 ✗</b>, <b class="g">Top-5 ✓</b></div>
+      <div id="s3-cap2" class="cap"><b>Матрица ошибок</b>: диагональ — верные ответы. Класс A частый, класс C редкий — <b>long-tail</b>, accuracy тут плохой ориентир</div>
+      <div id="s3-cap3" class="cap"><b class="b">Micro-F1 = 0.84</b> — TP/FP/FN глобально, тянет частый класс A; <b class="o">macro-F1 = 0.68</b> — средний F1 по классам, видит слабый C</div>
+      <div id="s3-cap4" class="cap key">Метрика + протокол: детекция — COCO AP@[.50:.95], сегментация — mIoU, классификация — Top-1, при дисбалансе macro-F1 и матрица ошибок</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Ранжированный список softmax (иллюстративно), GT — «собака» на 3-м месте
+    const ranks = [["кошка", 0.41, false], ["лиса", 0.33, false], ["собака", 0.15, true], ["волк", 0.07, false], ["рысь", 0.04, false]];
+    const gR = document.getElementById("s3-ranks");
+    const rows = [];
+    ranks.forEach(([name, p, gt], i) => {
+      const y = 100 + i * 60;
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("id", `s3-rk-${i}`); g.setAttribute("opacity", "0");
+      const col = gt ? "#3dba7a" : "#4a9eff";
+      g.innerHTML = `<text x="40" y="${y + 8}" fill="#aab3c2" font-size="22">${i + 1}.</text>
+        <text x="80" y="${y + 8}" fill="${gt ? "#3dba7a" : "#e6ebf5"}" font-size="26" font-weight="${gt ? 700 : 400}">${name}</text>
+        <rect x="200" y="${y - 16}" width="200" height="30" rx="8" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+        <rect id="s3-rb-${i}" x="200" y="${y - 16}" width="0" height="30" rx="8" fill="${col}"/>
+        <text x="414" y="${y + 8}" fill="#e6ebf5" font-size="24">${p.toFixed(2)}</text>`;
+      gR.appendChild(g); rows.push({ g, i, w: p * 200 });
+    });
+    const gtTag = document.createElementNS(NS, "text");
+    gtTag.setAttribute("id", "s3-gt-tag"); gtTag.setAttribute("x", "80"); gtTag.setAttribute("y", "252"); gtTag.setAttribute("fill", "#3dba7a");
+    gtTag.setAttribute("font-size", "18"); gtTag.setAttribute("font-weight", "700"); gtTag.setAttribute("opacity", "0"); gtTag.textContent = "GT";
+    gR.appendChild(gtTag);
+    // Матрица ошибок 3×3 (строки GT, столбцы pred), иллюстративно
+    const cm = [[90, 5, 5], [4, 14, 2], [3, 2, 5]];
+    const gC = document.getElementById("s3-cells");
+    const cells = [];
+    cm.forEach((row, r) => row.forEach((v, c) => {
+      const t = document.createElementNS(NS, "text");
+      t.setAttribute("id", `s3-cm-${r}-${c}`); t.setAttribute("x", 590 + c * 100); t.setAttribute("y", 200 + r * 100);
+      t.setAttribute("text-anchor", "middle"); t.setAttribute("fill", r === c ? "#f0f4ff" : "#aab3c2");
+      t.setAttribute("font-size", r === c ? "30" : "26"); t.setAttribute("font-weight", r === c ? "700" : "400"); t.setAttribute("opacity", "0");
+      t.textContent = v; gC.appendChild(t); cells.push(t);
+    }));
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    // 1. Top-1 / Top-5
+    tl.fromTo("#s3-rk-ttl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3);
+    rows.forEach(({ g, i, w }) => {
+      tl.fromTo(g, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 0.5 + 0.2 * i);
+      tl.fromTo(`#s3-rb-${i}`, { attr: { width: 0 } }, { attr: { width: w.toFixed(1) }, duration: 0.5, ease: "power2.out" }, 0.7 + 0.2 * i);
+    });
+    tl.fromTo("#s3-gt-tag", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.6);
+    tl.fromTo("#s3-top1", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4 }, 2.0);
+    tl.fromTo("#s3-top1-sub", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.2);
+    tl.fromTo("#s3-top5", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4 }, 2.6);
+    tl.fromTo("#s3-top5-sub", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.8);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.2);
+    cap("#s3-cap1", 0.6, 4.2);
+    // 2. Матрица ошибок и long-tail
+    tl.fromTo("#s3-cm-hdr", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.4);
+    cells.forEach((t, i) => tl.fromTo(t, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.7 + 0.08 * i));
+    tl.fromTo("#s3-cm-diag", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 5.6);
+    tl.fromTo("#s3-tot", { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.4 }, 6.0);
+    tl.fromTo("#s3-lt", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 }, 6.4);
+    cap("#s3-cap2", 4.4, 8.0);
+    // 3. Macro vs micro F1
+    tl.fromTo("#s3-f1", { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.4 }, 8.3);
+    tl.fromTo("#s3-mm", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 8.7);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 8.5);
+    cap("#s3-cap3", 8.2, 11.4);
+    // 4. Ключевая идея
+    cap("#s3-cap4", 11.6, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 14.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

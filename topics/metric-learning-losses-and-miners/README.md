@@ -26,7 +26,7 @@ status: canonical
 lang: ru
 type: topic
 slug: metric-learning-losses-and-miners
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Лоссы metric learning и подбор майнеров
 
@@ -75,6 +75,12 @@ Metric learning учит сеть $f_\theta$ отображать объекты
 
 **Как объяснить 5-летнему ребёнку.**
 Мы расставляем игрушки на столе: одинаковые — рядом, разные — далеко. Один способ — брать по две игрушки и сравнивать (пары), другой — по три (тройки), третий — нарисовать для каждого вида игрушек «домик» и подвигать игрушки к своему домику (прототипы). А «майнер» — это помощник, который приносит только те игрушки, которые ты пока путаешь: с очевидными и так всё понятно.
+
+**Визуализация (HyperFrames, 42 с):** сцена 1 — якорь, positive и negative и triplet loss с margin (p стягивается к якорю, n выталкивается за границу D<sub>ap</sub> + m); сцена 2 — зоны easy / semi-hard / hard негативов и почему случайные тройки почти не дают градиента; сцена 3 — конвейер «сэмплер P×K → майнер → лосс» и batch-hard отбор тройки.
+
+![Triplet loss, зоны негативов и майнер перед лоссом](./assets/visualizations/metric-learning-losses-and-miners.gif)
+
+*Полная версия: [MP4 1080p](./assets/visualizations/metric-learning-losses-and-miners.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 
@@ -455,7 +461,7 @@ $$
 | Triplet margin (L2-нормированные эмбеддинги) | $0.2$ (FaceNet), $0.3$ (re-ID); soft-margin — без $m$ |
 | ArcFace | $s=64,\ m=0.5$; CosFace $m=0.35$; для мелких датасетов $s=30$ |
 | SupCon / NT-Xent $\tau$ | SupCon $0.07$–$0.1$; SimCLR $0.1$–$0.5$; CLIP — обучаемая, старт $0.07$ |
-| Multi-Similarity | $\alpha=2,\ \beta=50,\ \lambda=1$ (PML) или $0.5$ (статья); miner $\epsilon=0.1$ |
+| Multi-Similarity | $\alpha=2,\ \beta=50$; $\lambda=0.5$ (PML `base`, официальный код) или $1$ (текст статьи); miner $\epsilon=0.1$ |
 | Proxy-Anchor | $\alpha=32,\ \delta=0.1$; lr прокси $=100\times$ lr backbone |
 | Circle | $\gamma=80$ (pair) / $256$ (class), $m=0.25$–$0.4$ |
 | P×K сэмплер | $P=32,\ K=4$ (батч 128); re-ID $16\times4$ |

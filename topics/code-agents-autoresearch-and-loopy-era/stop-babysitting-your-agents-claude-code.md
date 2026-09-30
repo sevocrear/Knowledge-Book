@@ -21,7 +21,7 @@ updated: 2026-09-18
 ---
 # Stop Babysitting Your Agents (Claude Code)
 
-Доклад **Sid Bindisaria** (founding engineer Claude Code) — практический playbook уровня «Claude Code 301»: как перестать быть glorified QA и вернуть время за счёт **verification loops**, **параллельных сессий** и **фоновых рутин**.
+Доклад **Sid Bidasaria** (founding engineer Claude Code) — практический playbook уровня «Claude Code 301»: как перестать быть glorified QA и вернуть время за счёт **verification loops**, **параллельных сессий** и **фоновых рутин**.
 
 - Видео: [Stop babysitting your agents](https://www.youtube.com/watch?v=wI0ptqCSL0I)
 - Канонический обзор темы агентов и loops: [README](./README.md)
@@ -310,6 +310,6 @@ Karpathy в [основном README](./README.md) даёт **философию
 
 ### Внешние материалы
 
-- [Stop babysitting your agents — Sid Bindisaria (YouTube)](https://www.youtube.com/watch?v=wI0ptqCSL0I)
+- [Stop babysitting your agents — Sid Bidasaria (YouTube)](https://www.youtube.com/watch?v=wI0ptqCSL0I)
 - [MonkeyType](https://monkeytype.com) (демо-приложение из доклада)
 - [Claude Code on the Web](https://claude.ai) (remote sessions)

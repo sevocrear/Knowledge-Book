@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s1</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s1-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s1-c1 { left: 1060px; top: 10px; width: 700px; }
+  #s1-c2 { left: 1060px; top: 325px; width: 700px; }
+  .ov { text-decoration: overline; }
+  .title { font-size: 40px; }
+</style>
+<div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+  <div id="s1-wrap" class="wrap">
+    <div class="head"><div class="pill">1 / 3</div><div class="title">Почему Kalman Filter ломается на нелинейности?</div></div>
+    <div class="badge">Knowledge Book · UKF</div>
+    <div class="stage">
+      <svg id="s1-svg" viewBox="0 0 980 660">
+        <rect x="10" y="90" width="420" height="500" rx="16" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+        <rect x="550" y="90" width="420" height="500" rx="16" fill="#161a24" stroke="#2a3140" stroke-width="2"/>
+        <text x="220" y="66" text-anchor="middle" fill="#aab3c2" font-size="26">вход: x ~ N(<tspan class="ov">x</tspan>, P)</text>
+        <text x="760" y="66" text-anchor="middle" fill="#aab3c2" font-size="26">выход: y = f(x)</text>
+        <text x="420" y="578" text-anchor="end" fill="#aab3c2" font-size="24">r →</text>
+        <text x="28" y="122" fill="#aab3c2" font-size="24">θ ↑</text>
+        <text x="960" y="578" text-anchor="end" fill="#aab3c2" font-size="24">x →</text>
+        <text x="568" y="122" fill="#aab3c2" font-size="24">y ↑</text>
+        <text x="490" y="636" text-anchor="middle" fill="#aab3c2" font-size="24">иллюстративно: f — переход из полярных координат (r, θ) в декартовы (x, y)</text>
+
+        <path id="s1-in-fill" d="" fill="rgba(74,158,255,0.20)" stroke="none" opacity="0"/>
+        <path id="s1-in-line" d="" fill="none" stroke="#4a9eff" stroke-width="6" stroke-linejoin="round" stroke-dasharray="0 99999"/>
+        <circle id="s1-in-mean" cx="220" cy="340" r="9" fill="#4a9eff" opacity="0"/>
+        <text id="s1-in-mean-lbl" x="236" y="330" fill="#4a9eff" font-size="30" font-weight="700" opacity="0"><tspan class="ov">x</tspan></text>
+
+        <line id="s1-arrow" x1="446" y1="340" x2="522" y2="340" stroke="#f0f4ff" stroke-width="6" stroke-dasharray="0 9999"/>
+        <polygon id="s1-arrow-head" points="540,340 520,328 520,352" fill="#f0f4ff" opacity="0"/>
+        <text id="s1-arrow-lbl" x="490" y="312" text-anchor="middle" fill="#f0f4ff" font-size="44" font-style="italic" font-weight="700" opacity="0">f</text>
+
+        <path id="s1-true-fill" d="" fill="rgba(223,230,245,0.16)" stroke="none" opacity="0"/>
+        <path id="s1-true-line" d="" fill="none" stroke="#dfe6f5" stroke-width="6" stroke-linejoin="round" stroke-dasharray="0 99999"/>
+        <text id="s1-true-lbl" x="760" y="124" text-anchor="middle" fill="#dfe6f5" font-size="24" opacity="0">«банан» — настоящее</text>
+
+        <path id="s1-ekf-fill" d="" fill="rgba(255,77,109,0.14)" stroke="none" opacity="0"/>
+        <path id="s1-ekf-line" d="" fill="none" stroke="#ff4d6d" stroke-width="6" stroke-linejoin="round" stroke-dasharray="0 99999"/>
+        <circle id="s1-fmean" cx="0" cy="0" r="9" fill="#ff4d6d" opacity="0"/>
+        <text id="s1-fmean-lbl" x="0" y="0" fill="#ff4d6d" font-size="28" font-weight="700" opacity="0">f(<tspan class="ov">x</tspan>)</text>
+        <text id="s1-ekf-lbl" x="740" y="562" text-anchor="middle" fill="#ff4d6d" font-size="24" opacity="0">EKF: линеаризация</text>
+      </svg>
+      <div id="s1-c1" class="card"><div class="h">Kalman Filter: линейный случай</div>
+        <div class="f">x<sub>t</sub> = F·x<sub>t−1</sub> + w<sub>t</sub></div>
+        <div class="f">z<sub>t</sub> = H·x<sub>t</sub> + v<sub>t</sub></div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">f и h линейны, шумы гауссовские: гауссиана остаётся гауссианой</div></div>
+      <div id="s1-c2" class="card"><div class="h">EKF: линеаризация якобианами</div>
+        <div class="f">F<sub>t</sub> = ∂f/∂x,&nbsp; H<sub>t</sub> = ∂h/∂x</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">Тейлор 1-го порядка в точке оценки: нужны производные, есть ошибка линеаризации, при сильной нелинейности возможна расходимость</div></div>
+    </div>
+    <div class="caps">
+      <div id="s1-cap1" class="cap">Kalman Filter точен, пока <b>f</b> и <b>h</b> линейны: гауссовское состояние остаётся <b class="b">гауссианой</b></div>
+      <div id="s1-cap2" class="cap">Нелинейная <b>f</b> гнёт облако в «банан», а <b class="r">EKF</b> заменяет f касательной: эллипс по якобиану</div>
+      <div id="s1-cap3" class="cap">Тейлор 1-го порядка даёт ошибку линеаризации, нужны якобианы. <b class="g">UKF</b> обходится без производных</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const D2R = Math.PI / 180;
+    const r0 = 5, t0 = 55, sr = 1.0, st = 26, K = Math.sqrt(3); // K = √(n+λ), n = 2, λ = 1
+    const N = 72;
+    const f = (r, t) => [r * Math.cos(t * D2R), r * Math.sin(t * D2R)];
+    const inPx = (r, t) => [220 + (r - r0) * 76, 340 - (t - t0) * 5];
+    const outPx = (X, Y) => [572 + (X + 0.9) * 52, 520 - (Y - 0.6) * 52];
+    const fmt = (v) => v.toFixed(1);
+    const toPath = (pts) => "M " + pts.map(p => fmt(p[0]) + " " + fmt(p[1])).join(" L ") + " Z";
+    const perim = (pts) => pts.reduce((s, p, i) => { const q = pts[(i + 1) % pts.length]; return s + Math.hypot(q[0] - p[0], q[1] - p[1]); }, 0);
+    const set = (id, pts) => { document.getElementById(id).setAttribute("d", toPath(pts)); return perim(pts).toFixed(1); };
+
+    const ang = (i) => 2 * Math.PI * i / N;
+    const inPts = [], truePts = [], ekfPts = [];
+    const m0 = f(r0, t0);
+    for (let i = 0; i < N; i++) {
+      const a = ang(i);
+      const dr = K * sr * Math.cos(a), dt = K * st * Math.sin(a);       // контур √(n+λ)·σ
+      inPts.push(inPx(r0 + dr, t0 + dt));
+      const y = f(r0 + dr, t0 + dt);                                    // настоящий образ через f
+      truePts.push(outPx(y[0], y[1]));
+      const dth = dt * D2R;                                             // линеаризация: y ≈ f(x̄) + J·dx
+      const X = m0[0] + Math.cos(t0 * D2R) * dr - r0 * Math.sin(t0 * D2R) * dth;
+      const Y = m0[1] + Math.sin(t0 * D2R) * dr + r0 * Math.cos(t0 * D2R) * dth;
+      ekfPts.push(outPx(X, Y));
+    }
+    const lenIn = set("s1-in-line", inPts); set("s1-in-fill", inPts);
+    const lenTrue = set("s1-true-line", truePts); set("s1-true-fill", truePts);
+    const lenEkf = set("s1-ekf-line", ekfPts); set("s1-ekf-fill", ekfPts);
+    const fm = outPx(m0[0], m0[1]);
+    ["s1-fmean"].forEach(id => { const e = document.getElementById(id); e.setAttribute("cx", fmt(fm[0])); e.setAttribute("cy", fmt(fm[1])); });
+    const fl = document.getElementById("s1-fmean-lbl"); fl.setAttribute("x", fmt(fm[0] + 14)); fl.setAttribute("y", fmt(fm[1] - 12));
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0_, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0_); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const draw = (id, len, at, dur) => tl.fromTo(id, { attr: { "stroke-dasharray": "0 99999" } }, { attr: { "stroke-dasharray": len + " 99999" }, duration: dur, ease: "power2.inOut" }, at);
+    const show = (id, at, dur = 0.4) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: dur }, at);
+
+    tl.fromTo("#s1-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    draw("#s1-in-line", lenIn, 0.4, 1.2); show("#s1-in-fill", 1.0, 0.6);
+    show("#s1-in-mean", 1.5); show("#s1-in-mean-lbl", 1.6);
+    tl.fromTo("#s1-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.2);
+    cap("#s1-cap1", 0.6, 4.6);
+
+    // f: гауссиана → «банан»
+    draw("#s1-arrow", 76, 4.9, 0.6); show("#s1-arrow-head", 5.3, 0.3); show("#s1-arrow-lbl", 5.0);
+    draw("#s1-true-line", lenTrue, 5.5, 1.5); show("#s1-true-fill", 6.2, 0.7); show("#s1-true-lbl", 6.4);
+    cap("#s1-cap2", 4.9, 9.3);
+    // EKF: эллипс по якобиану
+    draw("#s1-ekf-line", lenEkf, 7.4, 1.3); show("#s1-ekf-fill", 8.0, 0.6); show("#s1-ekf-lbl", 8.2);
+    show("#s1-fmean", 8.4); show("#s1-fmean-lbl", 8.5);
+    tl.fromTo("#s1-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 7.6);
+    cap("#s1-cap3", 9.6, 13.4);
+    tl.to("#s1-wrap", { opacity: 0, duration: 0.4 }, 13.55);
+    window.__timelines["s1"] = tl;
+  })();
+</script>
+</template>
+</body></html>

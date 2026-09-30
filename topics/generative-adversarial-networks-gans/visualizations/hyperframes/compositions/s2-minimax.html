@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  .s2-step { position: absolute; top: 30px; width: 330px; height: 130px; box-sizing: border-box; border-radius: 24px; background: #161a24; border: 3px solid #2a3140;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0.35; }
+  .s2-step .t { font-size: 40px; font-weight: 800; line-height: 1.05; }
+  .s2-step .s { font-size: 22px; color: #aab3c2; margin-top: 8px; line-height: 1.2; }
+  #s2-stepD { left: 60px; border-color: #4a9eff; } #s2-stepD .t { color: #4a9eff; }
+  #s2-stepG { left: 590px; border-color: #ff7a2f; } #s2-stepG .t { color: #ff7a2f; }
+  #s2-loop { position: absolute; left: 0; width: 980px; top: 210px; text-align: center; font-size: 24px; color: #aab3c2; opacity: 0; }
+  .s2-gl { position: absolute; left: 80px; font-size: 30px; font-weight: 700; opacity: 0; }
+  #s2-glx { top: 290px; color: #4a9eff; } #s2-glg { top: 460px; color: #ff7a2f; }
+  .s2-val { position: absolute; left: 800px; width: 170px; font-size: 40px; font-weight: 700; color: #f0f4ff; opacity: 0; }
+  .s2-val::before { counter-reset: n var(--n); content: "0." counter(n); }
+  @property --n { syntax: "<integer>"; inherits: true; initial-value: 0; }
+  #s2-vx { top: 322px; } #s2-vg { top: 492px; }
+  #s2-ill { position: absolute; left: 80px; top: 615px; font-size: 22px; color: #aab3c2; opacity: 0; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; padding: 20px 30px; }
+  #s2-c2 { left: 1060px; top: 268px; width: 700px; padding: 18px 30px; border-color: #4a9eff; }
+  #s2-c3 { left: 1060px; top: 470px; width: 700px; padding: 18px 30px; border-color: #ff7a2f; }
+  .card .f2 { font-style: italic; font-size: 32px; line-height: 1.35; }
+  .card .n2 { font-size: 25px; color: #aab3c2; margin-top: 6px; line-height: 1.25; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Как чередуются шаги D и G?</div></div>
+    <div class="badge">Knowledge Book · GAN</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <defs>
+          <marker id="s2-ah" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 10 6 L 1 11 z" fill="#aab3c2"/></marker>
+        </defs>
+        <path id="s2-arDG" d="M 400 70 L 578 70" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s2-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <path id="s2-arGD" d="M 580 120 L 402 120" fill="none" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" marker-end="url(#s2-ah)" stroke-dasharray="0 9999" opacity="0"/>
+        <g id="s2-gx" opacity="0">
+          <line x1="80" y1="345" x2="780" y2="345" stroke="#2a3140" stroke-width="10" stroke-linecap="round"/>
+          <line x1="430" y1="330" x2="430" y2="360" stroke="#aab3c2" stroke-width="3"/>
+          <text x="80" y="395" fill="#aab3c2" font-size="22">0 — подделка</text>
+          <text x="430" y="395" text-anchor="middle" fill="#aab3c2" font-size="22">0.5</text>
+          <text x="780" y="395" text-anchor="end" fill="#aab3c2" font-size="22">1 — настоящее</text>
+          <circle id="s2-mx" cx="465" cy="345" r="16" fill="#4a9eff"/>
+        </g>
+        <g id="s2-gg" opacity="0">
+          <line x1="80" y1="515" x2="780" y2="515" stroke="#2a3140" stroke-width="10" stroke-linecap="round"/>
+          <line x1="430" y1="500" x2="430" y2="530" stroke="#aab3c2" stroke-width="3"/>
+          <text x="80" y="565" fill="#aab3c2" font-size="22">0 — подделка</text>
+          <text x="430" y="565" text-anchor="middle" fill="#aab3c2" font-size="22">0.5</text>
+          <text x="780" y="565" text-anchor="end" fill="#aab3c2" font-size="22">1 — настоящее</text>
+          <circle id="s2-mg" cx="395" cy="515" r="16" fill="#ff7a2f"/>
+        </g>
+      </svg>
+      <div id="s2-stepD" class="s2-step"><div class="t">Шаг D</div><div class="s">обновить дискриминатор</div></div>
+      <div id="s2-stepG" class="s2-step"><div class="t">Шаг G</div><div class="s">обновить генератор</div></div>
+      <div id="s2-loop">повторять до сходимости; D часто обновляют чаще G (например, 5:1)</div>
+      <div id="s2-glx" class="s2-gl">D(x) — ответ D на настоящее</div>
+      <div id="s2-glg" class="s2-gl">D(G(z)) — ответ D на подделку</div>
+      <div id="s2-vx" class="s2-val" style="--n:55"></div>
+      <div id="s2-vg" class="s2-val" style="--n:45"></div>
+      <div id="s2-ill">значения D(·) — иллюстративно</div>
+      <div id="s2-c1" class="card"><div class="h">Минимаксный критерий</div>
+        <div class="f2">min<sub>G</sub> max<sub>D</sub> V(D, G) = E<sub>x∼p<sub>data</sub></sub>[log D(x)] + E<sub>z∼p<sub>z</sub></sub>[log(1 − D(G(z)))]</div>
+        <div class="n2">D максимизирует V, G минимизирует; p<sub>z</sub> — шум, обычно N(0, I)</div></div>
+      <div id="s2-c2" class="card"><div class="h" style="color:#4a9eff">Шаг D — максимизирует V</div>
+        <div class="f2">loss<sub>D</sub> = −[log D(x) + log(1 − D(G(z)))]</div>
+        <div class="n2">D(x) → 1 для настоящих, D(G(z)) → 0 для подделок</div></div>
+      <div id="s2-c3" class="card"><div class="h" style="color:#ff7a2f">Шаг G — non-saturating loss</div>
+        <div class="f2">loss<sub>G</sub> = −log D(G(z))</div>
+        <div class="n2">вместо min log(1 − D(G(z))) — эквивалентно максимизировать log D(G(z))</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap">Одна игра на двоих: <b>min<sub>G</sub> max<sub>D</sub> V(D, G)</b> — <b class="b">D</b> максимизирует критерий, <b class="o">G</b> его минимизирует</div>
+      <div id="s2-cap2" class="cap">Шаг <b class="b">D</b>: максимизировать log D(x) + log(1 − D(G(z))) — <b>D(x) → 1</b>, <b>D(G(z)) → 0</b></div>
+      <div id="s2-cap3" class="cap">Шаг <b class="o">G</b>: минимизировать log(1 − D(G(z))) или, эквивалентно, максимизировать <b>log D(G(z))</b> — non-saturating</div>
+      <div id="s2-cap4" class="cap">Чередуем шаги до сходимости: <b class="b">D</b> толкает D(G(z)) к 0, <b class="o">G</b> тянет обратно к 1 — «гонка вооружений»</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const X = v => (80 + 700 * v).toFixed(1); // положение маркера на шкале 0..1
+    // Иллюстративные значения D(x), D(G(z)) по шагам
+    const gauge = (v, x, t, dur) => { tl.to("#s2-mx", { attr: { cx: X(x) }, duration: dur, ease: "power2.inOut" }, t); tl.to("#s2-vx", { "--n": Math.round(x * 100), snap: "--n", duration: dur, ease: "power2.inOut" }, t);
+      tl.to("#s2-mg", { attr: { cx: X(v) }, duration: dur, ease: "power2.inOut" }, t); tl.to("#s2-vg", { "--n": Math.round(v * 100), snap: "--n", duration: dur, ease: "power2.inOut" }, t); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 0.5);
+    tl.fromTo("#s2-stepD", { opacity: 0, y: -20 }, { opacity: 0.35, y: 0, duration: 0.5, ease: "power2.out" }, 0.8);
+    tl.fromTo("#s2-stepG", { opacity: 0, y: -20 }, { opacity: 0.35, y: 0, duration: 0.5, ease: "power2.out" }, 1.0);
+    tl.fromTo("#s2-arDG", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "178 9999" }, duration: 0.5, ease: "power2.inOut" }, 1.3);
+    tl.fromTo("#s2-arGD", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": "178 9999" }, duration: 0.5, ease: "power2.inOut" }, 1.6);
+    tl.fromTo("#s2-loop", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.0);
+    tl.fromTo("#s2-glx", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.3);
+    tl.fromTo("#s2-gx", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 2.4);
+    tl.fromTo("#s2-vx", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.6);
+    tl.fromTo("#s2-glg", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.7);
+    tl.fromTo("#s2-gg", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 2.8);
+    tl.fromTo("#s2-vg", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.0);
+    tl.fromTo("#s2-ill", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.2);
+    cap("#s2-cap1", 0.6, 4.2);
+    // Шаг D: D(x) 0.55 → 0.85, D(G(z)) 0.45 → 0.15
+    tl.to("#s2-stepD", { opacity: 1, scale: 1.04, duration: 0.4, ease: "power2.out" }, 4.4);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 4.5);
+    gauge(0.15, 0.85, 4.8, 1.4);
+    cap("#s2-cap2", 4.4, 7.6);
+    // Шаг G: D(G(z)) 0.15 → 0.45, D(x) не меняется
+    tl.to("#s2-stepD", { opacity: 0.35, scale: 1, duration: 0.4 }, 7.8);
+    tl.to("#s2-stepG", { opacity: 1, scale: 1.04, duration: 0.4, ease: "power2.out" }, 7.8);
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 7.9);
+    gauge(0.45, 0.85, 8.2, 1.4);
+    cap("#s2-cap3", 7.8, 11.0);
+    // Ещё один круг: D, затем G — гонка продолжается
+    tl.to("#s2-stepG", { opacity: 0.35, scale: 1, duration: 0.3 }, 11.2);
+    tl.to("#s2-stepD", { opacity: 1, scale: 1.04, duration: 0.3, ease: "power2.out" }, 11.2);
+    gauge(0.25, 0.80, 11.3, 0.8);
+    tl.to("#s2-stepD", { opacity: 0.35, scale: 1, duration: 0.3 }, 12.3);
+    tl.to("#s2-stepG", { opacity: 1, scale: 1.04, duration: 0.3, ease: "power2.out" }, 12.3);
+    gauge(0.40, 0.80, 12.4, 0.8);
+    cap("#s2-cap4", 11.2, 13.5);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 13.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

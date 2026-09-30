@@ -26,7 +26,7 @@ status: canonical
 lang: ru
 type: topic
 slug: video-codecs-h264-h265-and-gpu-decode
-updated: 2026-09-18
+updated: 2026-09-29
 ---
 # Видеокодеки: H.264, H.265 и декодирование IP-камер на GPU
 
@@ -144,11 +144,11 @@ $$
 
 На камерах ради низкой задержки часто **IPPP без B** и короткий GOP (1–2 с), либо intra-refresh (порция intra-блоков в каждом кадре вместо большого I).
 
-<video src="./assets/visualizations/gop-i-p-b-prediction.mp4" controls muted loop playsinline width="100%"></video>
+**Визуализация (HyperFrames, ~42 с):** intra — блок → DCT → квантование → нули дёшевы (сцена 1); inter — вектор движения, предсказание $\tilde{\mathbf{X}}$ и почти пустой остаток $\mathbf{R}$ (сцена 2); GOP из I/P/B со ссылками между кадрами и бюджетом бит, плюс камерный вариант IPPP без B (сцена 3).
 
-Клип: GOP из I/P/B. I хранит картинку, P и B — только отличие. Столбики — типичный бюджет битов: I гораздо толще P и B.
+![Видеокодеки: intra, inter и GOP из I/P/B-кадров](./assets/visualizations/gop-i-p-b-prediction.gif)
 
-*Fallback GIF:* `![](./assets/visualizations/gop-i-p-b-prediction.gif)`
+*Полная версия: [MP4 1080p](./assets/visualizations/gop-i-p-b-prediction.mp4) · сториборд и исходники сцен: [`visualizations/hyperframes/`](./visualizations/hyperframes/storyboard.md).*
 
 ---
 

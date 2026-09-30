@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s2</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s2-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s2-c1 { left: 1060px; top: 0px; width: 700px; }
+  #s2-c2 { left: 1060px; top: 214px; width: 700px; }
+  #s2-c3 { left: 1060px; top: 452px; width: 700px; }
+  #s2-c3 .f { font-size: 32px; }
+  .s2-note { font-size: 26px; color: #aab3c2; margin-top: 8px; line-height: 1.3; }
+  .s2-vals { position: relative; height: 52px; margin-top: 6px; }
+  .s2-val { position: absolute; left: 0; top: 0; font-size: 36px; font-weight: 700; color: #f0f4ff; white-space: nowrap; }
+  .s2-src { font-size: 22px; color: #aab3c2; letter-spacing: 0; text-transform: none; }
+</style>
+<div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+  <div id="s2-wrap" class="wrap">
+    <div class="head"><div class="pill">2 / 3</div><div class="title">Что делать, если боксы не пересекаются?</div></div>
+    <div class="badge">Knowledge Book · Detection losses</div>
+    <div class="stage">
+      <svg id="s2-svg" viewBox="0 0 980 660">
+        <!-- Сетка единиц: 12 × 4, u = 70 px, начало (50, 140) -->
+        <g id="s2-grid" stroke="#2a3140" stroke-width="1.5"></g>
+        <!-- C: минимальный охватывающий бокс -->
+        <rect id="s2-C" x="50" y="140" width="840" height="280" rx="4" fill="none" stroke="#ff7a2f" stroke-width="5" stroke-dasharray="0 9999" opacity="0"/>
+        <text id="s2-C-lbl" x="880" y="128" text-anchor="end" fill="#ff7a2f" font-size="28" font-weight="700" opacity="0">C — охватывающий бокс</text>
+        <!-- B = gt -->
+        <g id="s2-B" opacity="0">
+          <rect x="50" y="140" width="280" height="210" rx="4" fill="#3dba7a" fill-opacity="0.18" stroke="#3dba7a" stroke-width="6"/>
+          <text x="60" y="176" fill="#3dba7a" font-size="30" font-weight="700">B = gt</text>
+        </g>
+        <!-- A = pred (двигается по x) -->
+        <rect id="s2-A" x="120" y="210" width="280" height="210" rx="4" fill="#4a9eff" fill-opacity="0.18" stroke="#4a9eff" stroke-width="6" opacity="0"/>
+        <text id="s2-A-lbl" x="130" y="404" fill="#4a9eff" font-size="30" font-weight="700" opacity="0">A = pred</text>
+        <!-- пересечение -->
+        <rect id="s2-I" x="120" y="210" width="210" height="140" fill="#2dd4bf" fill-opacity="0.5" opacity="0"/>
+        <text id="s2-I-lbl" x="225" y="290" text-anchor="middle" fill="#0f1117" font-size="30" font-weight="700" opacity="0">A∩B</text>
+        <!-- DIoU: центры и расстояние между ними -->
+        <g id="s2-D" opacity="0">
+          <line id="s2-D-line" x1="190" y1="245" x2="610" y2="315" stroke="#b48ce6" stroke-width="5" stroke-dasharray="0 9999" stroke-linecap="round"/>
+          <circle cx="190" cy="245" r="9" fill="#b48ce6"/>
+          <circle cx="610" cy="315" r="9" fill="#b48ce6"/>
+          <text x="400" y="265" text-anchor="middle" fill="#b48ce6" font-size="30" font-weight="700">ρ</text>
+        </g>
+        <text id="s2-foot" x="50" y="520" fill="#aab3c2" font-size="24">площади в клетках сетки (иллюстративно): |A| = |B| = 12</text>
+        <text id="s2-foot2" x="50" y="556" fill="#aab3c2" font-size="24" opacity="0">A∩B = 0 везде справа: IoU не различает «близко» и «далеко»</text>
+      </svg>
+      <div id="s2-c1" class="card"><div class="h">IoU loss</div>
+        <div class="f">IoU = |A∩B| / |A∪B|</div>
+        <div class="s2-vals">
+          <div id="s2-v1a" class="s2-val" data-layout-allow-overlap>= 6 / 18 = <span class="t" data-layout-allow-overlap>0.33</span></div>
+          <div id="s2-v1b" class="s2-val" style="opacity:0" data-layout-allow-overlap>= 0 / 24 = <span class="r" data-layout-allow-overlap>0</span> &nbsp;→ градиент = 0</div>
+        </div></div>
+      <div id="s2-c2" class="card"><div class="h">GIoU <span class="s2-src">· в статье GIoU (Rezatofighi et al., 2019)</span></div>
+        <div class="f">GIoU = IoU − |C ∖ (A∪B)| / |C|</div>
+        <div class="s2-vals">
+          <div id="s2-v2a" class="s2-val" data-layout-allow-overlap>= 0 − 24 / 48 = <span class="o" data-layout-allow-overlap>−0.50</span></div>
+          <div id="s2-v2b" class="s2-val" style="opacity:0" data-layout-allow-overlap>= 0 − 16 / 40 = <span class="o" data-layout-allow-overlap>−0.40</span> &nbsp;↑</div>
+        </div></div>
+      <div id="s2-c3" class="card"><div class="h">DIoU / CIoU <span class="s2-src">· в статье DIoU (Zheng et al., 2020)</span></div>
+        <div class="f"><span class="p">DIoU</span>: + ρ²(центры) / c² &nbsp;·&nbsp; <span class="p">CIoU</span>: + α·v</div>
+        <div class="s2-note">c — диагональ C, v — соотношение сторон w/h</div></div>
+    </div>
+    <div class="caps">
+      <div id="s2-cap1" class="cap"><b class="t">IoU</b> = пересечение / объединение: A∩B = 6, A∪B = 18 → IoU = 0.33. IoU-loss оптимизирует метрику детекции напрямую</div>
+      <div id="s2-cap2" class="cap">Боксы разошлись: <b class="r">IoU = 0</b> при любом расстоянии — loss не меняется, <b>градиент нулевой</b>, боксу некуда «идти»</div>
+      <div id="s2-cap3" class="cap"><b class="o">GIoU</b> вычитает долю пустоты в охватывающем боксе <b class="o">C</b>: чем дальше боксы, тем ниже GIoU — <b>градиент есть</b></div>
+      <div id="s2-cap4" class="cap"><b class="p">DIoU</b> добавляет расстояние между центрами, <b class="p">CIoU</b> — ещё и соотношение сторон. Так учат боксы современные YOLO</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const u = 70, ox = 50, oy = 140;
+    const grid = document.getElementById("s2-grid");
+    for (let i = 0; i <= 12; i++) { const l = document.createElementNS(NS, "line"); l.setAttribute("id", `s2-gx${i}`); l.setAttribute("x1", ox + i * u); l.setAttribute("y1", oy); l.setAttribute("x2", ox + i * u); l.setAttribute("y2", oy + 4 * u); grid.appendChild(l); }
+    for (let j = 0; j <= 4; j++) { const l = document.createElementNS(NS, "line"); l.setAttribute("id", `s2-gy${j}`); l.setAttribute("x1", ox); l.setAttribute("y1", oy + j * u); l.setAttribute("x2", ox + 12 * u); l.setAttribute("y2", oy + j * u); grid.appendChild(l); }
+    // Позиции A по x (в клетках): 1 — перекрытие (IoU 6/18), 8 — далеко (GIoU −0.50), 6 — ближе (GIoU −0.40).
+    const ax = k => ox + k * u;
+    const perimC = 2 * (840 + 280);
+    const dLen = Math.hypot(610 - 190, 315 - 245).toFixed(1);
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s2-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s2-B", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.3);
+    tl.fromTo("#s2-A", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.6);
+    tl.fromTo("#s2-A-lbl", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.6);
+    tl.fromTo("#s2-I", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.0);
+    tl.fromTo("#s2-I-lbl", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.0);
+    tl.fromTo("#s2-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.2);
+    cap("#s2-cap1", 0.6, 4.4);
+    // A уезжает вправо: x 1 → 8 клеток; пересечение схлопывается; IoU → 0.
+    tl.to("#s2-A", { attr: { x: ax(8) }, duration: 1.8, ease: "power2.inOut" }, 4.6);
+    tl.to("#s2-A-lbl", { attr: { x: ax(8) + 10 }, duration: 1.8, ease: "power2.inOut" }, 4.6);
+    tl.to("#s2-I", { attr: { width: 0 }, duration: 1.0, ease: "power2.in" }, 4.6);
+    tl.to("#s2-I-lbl", { opacity: 0, duration: 0.3 }, 4.7);
+    tl.to("#s2-v1a", { opacity: 0, duration: 0.4 }, 5.6);
+    tl.to("#s2-v1b", { opacity: 1, duration: 0.4 }, 5.6);
+    tl.fromTo("#s2-foot2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.4);
+    cap("#s2-cap2", 4.6, 8.6);
+    // Покачивание вдали: IoU всё равно 0.
+    tl.fromTo("#s2-A", { x: 0 }, { x: -40, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 6.8);
+    tl.fromTo("#s2-A-lbl", { x: 0 }, { x: -40, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 6.8);
+    // GIoU: рисуем охватывающий бокс C.
+    tl.fromTo("#s2-C", { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": perimC + " 9999" }, duration: 1.0, ease: "power2.inOut" }, 8.8);
+    tl.fromTo("#s2-C-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.4);
+    tl.fromTo("#s2-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.2);
+    tl.to("#s2-foot2", { opacity: 0, duration: 0.3 }, 8.8);
+    cap("#s2-cap3", 8.8, 12.4);
+    // A приближается: x 8 → 6 клеток; C сужается 840 → 700; GIoU −0.50 → −0.40.
+    tl.to("#s2-A", { attr: { x: ax(6) }, duration: 1.4, ease: "power2.inOut" }, 10.6);
+    tl.to("#s2-A-lbl", { attr: { x: ax(6) + 10 }, duration: 1.4, ease: "power2.inOut" }, 10.6);
+    tl.to("#s2-C", { attr: { width: 700 }, duration: 1.4, ease: "power2.inOut" }, 10.6);
+    tl.to("#s2-C-lbl", { attr: { x: 740 }, duration: 1.4, ease: "power2.inOut" }, 10.6);
+    tl.to("#s2-v2a", { opacity: 0, duration: 0.4 }, 11.4);
+    tl.to("#s2-v2b", { opacity: 1, duration: 0.4 }, 11.4);
+    // DIoU: расстояние между центрами.
+    tl.fromTo("#s2-D", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 12.6);
+    tl.fromTo("#s2-D-line", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": dLen + " 9999" }, duration: 0.8, ease: "power2.inOut" }, 12.6);
+    tl.fromTo("#s2-c3", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 12.9);
+    cap("#s2-cap4", 12.6, 15.5);
+    tl.to("#s2-wrap", { opacity: 0, duration: 0.4 }, 15.55);
+    window.__timelines["s2"] = tl;
+  })();
+</script>
+</template>
+</body></html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  #s3-c1 { left: 1060px; top: 0px; width: 700px; font-size: 27px; }
+  #s3-c1 .row { display: flex; align-items: baseline; gap: 14px; padding: 9px 0; border-bottom: 1px solid #2a3140; }
+  #s3-c1 .row:last-child { border-bottom: 0; }
+  #s3-c1 .nm { flex: 0 0 290px; font-weight: 700; color: #f0f4ff; font-size: 25px; }
+  #s3-c1 .cd { flex: 1 1 auto; color: #e6ebf5; }
+  #s3-c2 { left: 1060px; top: 380px; width: 700px; font-size: 28px; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Что делает майнер перед лоссом?</div></div>
+    <div class="badge">Knowledge Book · Metric learning</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <!-- пайплайн: сэмплер → майнер → лосс -->
+        <g id="s3-b1" opacity="0.35"><rect x="20" y="20" width="290" height="90" rx="16" fill="#161a24" stroke="#4a9eff" stroke-width="4"/><text x="165" y="60" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">1 · Сэмплер P×K</text><text x="165" y="92" text-anchor="middle" fill="#aab3c2" font-size="20">P классов по K примеров</text></g>
+        <line id="s3-ar1" x1="316" y1="65" x2="339" y2="65" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <g id="s3-b2" opacity="0.35"><rect x="345" y="20" width="290" height="90" rx="16" fill="#161a24" stroke="#ff7a2f" stroke-width="4"/><text x="490" y="60" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">2 · Майнер</text><text x="490" y="92" text-anchor="middle" fill="#aab3c2" font-size="20">отбирает трудные тройки</text></g>
+        <line id="s3-ar2" x1="641" y1="65" x2="664" y2="65" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999"/>
+        <g id="s3-b3" opacity="0.35"><rect x="670" y="20" width="290" height="90" rx="16" fill="#161a24" stroke="#3dba7a" stroke-width="4"/><text x="815" y="60" text-anchor="middle" fill="#f0f4ff" font-size="28" font-weight="700">3 · Лосс</text><text x="815" y="92" text-anchor="middle" fill="#aab3c2" font-size="20">max(0, D<tspan font-size="16" dy="4">ap</tspan><tspan dy="-4"> − D</tspan><tspan font-size="16" dy="4">an</tspan><tspan dy="-4"> + m)</tspan></text></g>
+        <!-- батч P×K -->
+        <text id="s3-grid-ttl" x="40" y="168" fill="#aab3c2" font-size="24" opacity="0">батч 4×4, строка = класс</text>
+        <g id="s3-grid"></g>
+        <g id="s3-sel-a" opacity="0"><rect x="34" y="184" width="92" height="92" rx="14" fill="none" stroke="#4a9eff" stroke-width="6"/><text x="80" y="242" text-anchor="middle" fill="#0f1117" font-size="34" font-weight="700">a</text></g>
+        <g id="s3-sel-p" opacity="0"><rect x="316" y="184" width="92" height="92" rx="14" fill="none" stroke="#3dba7a" stroke-width="6"/><text x="362" y="242" text-anchor="middle" fill="#0f1117" font-size="34" font-weight="700">p</text></g>
+        <g id="s3-sel-n" opacity="0"><rect x="128" y="372" width="92" height="92" rx="14" fill="none" stroke="#ff4d6d" stroke-width="6"/><text x="174" y="430" text-anchor="middle" fill="#0f1117" font-size="34" font-weight="700">n</text></g>
+        <!-- расстояния от якоря a -->
+        <g id="s3-axis" opacity="0">
+          <text x="500" y="168" fill="#aab3c2" font-size="24">D от якоря a (иллюстративно)</text>
+          <line x1="520" y1="330" x2="940" y2="330" stroke="#aab3c2" stroke-width="3"/>
+          <polygon points="940,322 956,330 940,338" fill="#aab3c2"/>
+          <text x="520" y="368" fill="#aab3c2" font-size="22">0</text>
+          <text x="956" y="368" text-anchor="end" fill="#aab3c2" font-size="22">D →</text>
+          <circle cx="536" cy="548" r="9" fill="#3dba7a"/><text x="554" y="556" fill="#aab3c2" font-size="22">positives (K − 1 = 3)</text>
+          <circle cx="536" cy="584" r="9" fill="#ff4d6d"/><text x="554" y="592" fill="#aab3c2" font-size="22">negatives (12)</text>
+        </g>
+        <g id="s3-ticks"></g>
+        <g id="s3-mk-p" opacity="0"><line x1="721.6" y1="250" x2="721.6" y2="304" stroke="#3dba7a" stroke-width="4" stroke-dasharray="8 6"/><text x="721.6" y="240" text-anchor="middle" fill="#3dba7a" font-size="24" font-weight="700">самый далёкий positive</text></g>
+        <g id="s3-mk-n" opacity="0"><line x1="751" y1="356" x2="751" y2="420" stroke="#ff4d6d" stroke-width="4" stroke-dasharray="8 6"/><text x="751" y="452" text-anchor="middle" fill="#ff4d6d" font-size="24" font-weight="700">самый близкий negative</text></g>
+        <text id="s3-mk-chk" x="740" y="494" text-anchor="middle" fill="#ff7a2f" font-size="26" font-weight="700" opacity="0">D<tspan font-size="18" dy="6">an</tspan><tspan dy="-6"> − D</tspan><tspan font-size="18" dy="6">ap</tspan><tspan dy="-6"> = 0.07 &lt; m ⇒ в лосс</tspan></text>
+        <!-- тройка (a, p, n), уезжающая в лосс -->
+        <g id="s3-trip" opacity="0">
+          <rect id="s3-trip-box" x="560" y="600" width="260" height="46" rx="23" fill="#161a24" stroke="#ff7a2f" stroke-width="3"/>
+          <circle id="s3-trip-a" cx="600" cy="623" r="11" fill="#4a9eff"/><circle id="s3-trip-p" cx="660" cy="623" r="11" fill="#3dba7a"/><circle id="s3-trip-n" cx="720" cy="623" r="11" fill="#ff4d6d"/>
+          <text id="s3-trip-t" x="760" y="632" fill="#f0f4ff" font-size="26" font-weight="700" data-layout-allow-overlap>(a, p, n)</text>
+        </g>
+      </svg>
+      <div id="s3-c1" class="card"><div class="h">Майнеры (pytorch-metric-learning)</div>
+        <div class="row"><span class="nm">TripletMarginMiner</span><span class="cd">semihard: 0 &lt; D<sub>an</sub> − D<sub>ap</sub> &lt; m (FaceNet)</span></div>
+        <div class="row"><span class="nm">BatchHardMiner</span><span class="cd">самый далёкий p, самый близкий n; K ≥ 4</span></div>
+        <div class="row"><span class="nm">DistanceWeightedMiner</span><span class="cd">негативы с весом ∝ 1/q(D)</span></div></div>
+      <div id="s3-c2" class="card"><div class="h">Кому майнер не нужен</div>
+        <div><b class="b">ArcFace / CosFace</b>, <b class="p">Proxy-Anchor</b>, <b class="t">SupCon</b>, <b class="t">InfoNCE</b></div>
+        <div style="font-size:26px;color:#aab3c2;margin-top:8px">softmax / log-sum-exp по батчу или по всем классам = встроенный мягкий mining; майнер сверху — двойная фокусировка на шуме</div></div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap"><b class="b">Сэмплер P×K</b>: P классов по K примеров — иначе в случайном батче почти нет positives и любой майнер бесполезен</div>
+      <div id="s3-cap2" class="cap"><b class="o">Майнер</b> (batch-hard): для якоря берёт <b class="g">самый далёкий positive</b> и <b class="r">самый близкий negative</b> — трудно, но в пределах батча</div>
+      <div id="s3-cap3" class="cap key">Лосс не выбирают отдельно от сэмплера и майнера: triplet без semi-hard mining почти не учится; ArcFace и Proxy-Anchor майнер не нужен</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    // Сетка P×K = 4×4: строка = класс.
+    const colors = ["#4a9eff", "#b48ce6", "#2dd4bf", "#ff7a2f"];
+    const gG = document.getElementById("s3-grid");
+    const cells = [];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("id", `s3-cell-${r}-${c}`);
+      el.setAttribute("x", 40 + c * 94); el.setAttribute("y", 190 + r * 94); el.setAttribute("width", "80"); el.setAttribute("height", "80");
+      el.setAttribute("rx", "12"); el.setAttribute("fill", colors[r]); el.setAttribute("opacity", "0");
+      gG.appendChild(el); cells.push([el, r, c]);
+    }
+    // Расстояния от якоря a = (0,0) до остальных 15 примеров (иллюстративно, доля от длины оси).
+    const X0 = 520, X1 = 940;
+    const posD = [0.25, 0.32, 0.48];                                   // тот же класс
+    const negD = [0.55, 0.60, 0.64, 0.70, 0.74, 0.79, 0.83, 0.86, 0.90, 0.93, 0.96, 1.0];
+    const gT = document.getElementById("s3-ticks");
+    const mk = (list, key, color, dy) => list.map((v, i) => {
+      const el = document.createElementNS(NS, "circle");
+      el.setAttribute("id", `s3-tk-${key}-${i}`); el.setAttribute("cx", (X0 + v * (X1 - X0)).toFixed(1)); el.setAttribute("cy", 330 + dy);
+      el.setAttribute("r", "9"); el.setAttribute("fill", color); el.setAttribute("opacity", "0");
+      gT.appendChild(el); return el;
+    });
+    const tp = mk(posD, "p", "#3dba7a", -12), tn = mk(negD, "n", "#ff4d6d", 12);
+    // самый далёкий positive: 0.48 → x = 721.6; самый близкий negative: 0.55 → x = 751
+    const hp = tp[2], hn = tn[0];
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    tl.fromTo("#s3-b1", { opacity: 0.35, scale: 0.97, svgOrigin: "165 65" }, { opacity: 1, scale: 1, svgOrigin: "165 65", duration: 0.4, ease: "power2.out" }, 0.3);
+    tl.fromTo("#s3-grid-ttl", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.5);
+    cells.forEach(([el, r, c]) => tl.fromTo(el, { opacity: 0 }, { opacity: 0.9, duration: 0.25 }, 0.6 + 0.06 * (r * 4 + c)));
+    cap("#s3-cap1", 0.6, 4.4);
+    tl.fromTo("#s3-ar1", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "23 9999" }, duration: 0.3, ease: "power2.inOut" }, 1.8);
+    tl.fromTo("#s3-b2", { opacity: 0.35, scale: 0.97, svgOrigin: "490 65" }, { opacity: 1, scale: 1, svgOrigin: "490 65", duration: 0.4, ease: "power2.out" }, 2.1);
+    tl.fromTo("#s3-sel-a", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.4);
+    tl.fromTo("#s3-axis", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.6);
+    tp.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 2.9 + 0.12 * i));
+    tn.forEach((el, i) => tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 3.3 + 0.08 * i));
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 3.0);
+    // Batch-hard: самый далёкий positive, самый близкий negative
+    cap("#s3-cap2", 4.6, 8.6);
+    tl.fromTo("#s3-mk-p", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.8);
+    tl.fromTo(hp, { scale: 1, svgOrigin: "721.6 318" }, { scale: 1.6, svgOrigin: "721.6 318", duration: 0.4, ease: "back.out(2)", immediateRender: false }, 4.8);
+    tl.fromTo("#s3-sel-p", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.0);
+    tl.fromTo("#s3-mk-n", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.6);
+    tl.fromTo(hn, { scale: 1, svgOrigin: "751 342" }, { scale: 1.6, svgOrigin: "751 342", duration: 0.4, ease: "back.out(2)", immediateRender: false }, 5.6);
+    tl.fromTo("#s3-sel-n", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.8);
+    cells.forEach(([el, r, c]) => { if (!((r === 0 && (c === 0 || c === 3)) || (r === 2 && c === 1))) tl.to(el, { opacity: 0.3, duration: 0.5 }, 6.0); });
+    tl.fromTo("#s3-mk-chk", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.3);
+    // Тройка уезжает в лосс
+    tl.fromTo("#s3-trip", { opacity: 0, x: 0, y: 0 }, { opacity: 1, x: 0, y: 0, duration: 0.4 }, 6.8);
+    tl.fromTo("#s3-ar2", { attr: { "stroke-dasharray": "0 9999" } }, { attr: { "stroke-dasharray": "23 9999" }, duration: 0.3, ease: "power2.inOut" }, 7.2);
+    tl.to("#s3-trip", { x: 90, y: -500, duration: 1.0, ease: "power2.inOut" }, 7.4);
+    tl.fromTo("#s3-b3", { opacity: 0.35, scale: 0.97, svgOrigin: "815 65" }, { opacity: 1, scale: 1, svgOrigin: "815 65", duration: 0.4, ease: "power2.out" }, 8.2);
+    tl.to("#s3-trip", { opacity: 0, duration: 0.3 }, 8.5);
+    // Ключевая идея
+    cap("#s3-cap3", 8.9, 0);
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.2);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 12.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>

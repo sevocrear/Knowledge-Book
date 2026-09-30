@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8" /><title>s3</title></head>
+<body>
+<template>
+<link rel="stylesheet" href="theme.css" />
+<style>
+  #s3-svg { position: absolute; left: 0; top: 0; width: 980px; height: 660px; display: block; }
+  @property --n { syntax: "<integer>"; inherits: true; initial-value: 0; }
+  #s3-cnt-lbl { position: absolute; left: 60px; top: 496px; width: 900px; font-size: 26px; color: #aab3c2; opacity: 0; }
+  #s3-cnt { position: absolute; left: 60px; top: 540px; width: 600px; font-size: 72px; font-weight: 800; color: #ff7a2f; line-height: 1; opacity: 0; }
+  #s3-cnt::before { counter-reset: n var(--n); content: counter(n); }
+  #s3-cnt::after { content: " параметров"; font-size: 34px; font-weight: 600; color: #f0f4ff; }
+  #s3-c1 { left: 1060px; top: 0; width: 700px; }
+  #s3-c2 { left: 1060px; top: 268px; width: 700px; font-size: 29px; }
+  #s3-c2 .row { padding: 6px 0; border-bottom: 1px solid #2a3140; opacity: 0; }
+  #s3-c2 .row:last-child { border-bottom: 0; }
+  #s3-c2 .row .k { color: #aab3c2; font-size: 23px; display: block; }
+</style>
+<div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+  <div id="s3-wrap" class="wrap">
+    <div class="head"><div class="pill">3 / 3</div><div class="title">Сколько параметров у Conv2d?</div></div>
+    <div class="badge">Knowledge Book · CNN</div>
+    <div class="stage">
+      <svg id="s3-svg" viewBox="0 0 980 660">
+        <!-- вход: 4 канала -->
+        <g id="s3-in"></g>
+        <text id="s3-in-lbl" x="154" y="412" text-anchor="middle" fill="#4a9eff" font-size="26" font-weight="700" opacity="0">вход: in = 4</text>
+        <text id="s3-in-hw" x="154" y="444" text-anchor="middle" fill="#aab3c2" font-size="22" opacity="0">H×W не влияют</text>
+        <line id="s3-ar1" x1="268" y1="290" x2="318" y2="290" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <polygon id="s3-ah1" points="316,280 330,290 316,300" fill="#aab3c2" opacity="0"/>
+        <!-- один фильтр 3×3×4 -->
+        <g id="s3-filt"></g>
+        <text id="s3-f-lbl" x="416" y="426" text-anchor="middle" fill="#ff7a2f" font-size="26" font-weight="700" opacity="0">фильтр 3×3×4</text>
+        <text id="s3-f-w" x="416" y="458" text-anchor="middle" fill="#f0f4ff" font-size="24" opacity="0">4 · 3 · 3 = 36 весов</text>
+        <text id="s3-f-b" x="416" y="490" text-anchor="middle" fill="#f0f4ff" font-size="24" opacity="0">+ 1 bias = 37</text>
+        <line id="s3-ar2" x1="512" y1="290" x2="556" y2="290" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <polygon id="s3-ah2" points="554,280 568,290 554,300" fill="#aab3c2" opacity="0"/>
+        <!-- 5 фильтров -->
+        <g id="s3-five"></g>
+        <text id="s3-five-lbl" x="682" y="352" text-anchor="middle" fill="#ff7a2f" font-size="26" font-weight="700" opacity="0">× 5 фильтров</text>
+        <text id="s3-five-w" x="682" y="384" text-anchor="middle" fill="#f0f4ff" font-size="24" opacity="0">5 · 37 = 185</text>
+        <line id="s3-ar3" x1="800" y1="290" x2="836" y2="290" stroke="#aab3c2" stroke-width="5" stroke-linecap="round" stroke-dasharray="0 9999" opacity="0"/>
+        <polygon id="s3-ah3" points="834,280 848,290 834,300" fill="#aab3c2" opacity="0"/>
+        <!-- выход: 5 каналов -->
+        <g id="s3-out"></g>
+        <text id="s3-out-lbl" x="972" y="352" text-anchor="end" fill="#3dba7a" font-size="26" font-weight="700" opacity="0">out = 5</text>
+      </svg>
+      <div id="s3-cnt-lbl">Conv2d(4, 5, kernel_size = 3), bias = True</div>
+      <div id="s3-cnt" style="--n:0"></div>
+      <div id="s3-c1" class="card"><div class="h">Параметры Conv2d (с bias)</div>
+        <div class="f">params = <span class="g">out</span> · (<span class="b">in</span> · <span class="o">K<sub>h</sub> · K<sub>w</sub></span> + 1)</div>
+        <div style="font-size:28px;color:#aab3c2;margin-top:8px">без bias: out · in · K<sub>h</sub> · K<sub>w</sub>; пример: 5 · (4 · 3 · 3 + 1) = <b style="color:#ff7a2f">185</b></div></div>
+      <div id="s3-c2" class="card"><div class="h">Другие слои</div>
+        <div id="s3-r1" class="row"><span class="k">Depthwise Conv (groups = in, out = in)</span>in · K<sub>h</sub> · K<sub>w</sub> (+ bias)</div>
+        <div id="s3-r2" class="row"><span class="k">Pointwise Conv 1×1</span>in · out (+ bias)</div>
+        <div id="s3-r3" class="row"><span class="k">Linear (in_features, out_features)</span>in · out + out, напр. 128 · 64 + 64</div>
+        <div id="s3-r4" class="row"><span class="k">BatchNorm, C каналов (γ и β)</span>2 · C</div>
+      </div>
+    </div>
+    <div class="caps">
+      <div id="s3-cap1" class="cap">Conv2d(in = 4, out = 5, K = 3): один фильтр — <b class="o">4 · 3 · 3 = 36</b> весов, плюс bias → <b>37</b></div>
+      <div id="s3-cap2" class="cap">Фильтров 5 → <b class="o">5 · 37 = 185</b> параметров. Размера входа H×W в формуле нет — только каналы и ядро</div>
+      <div id="s3-cap3" class="cap key">Параметры слоя = чисел в одном фильтре × число фильтров. Depthwise + pointwise (MobileNet) режут это произведение</div>
+    </div>
+  </div>
+</div>
+<script>
+  (() => {
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); parent.appendChild(el); return el; };
+    // Вход: 4 плоскости 140×140 со сдвигом 16
+    const gIn = document.getElementById("s3-in"), inP = [];
+    for (let i = 0; i < 4; i++) inP.push(mk("rect", { id: `s3-in-${i}`, x: 60 + 16 * i, y: 242 - 16 * i, width: 140, height: 140, rx: 10, fill: "#1e3a5f", stroke: "#4a9eff", "stroke-width": 3, opacity: 0 }, gIn));
+    // Один фильтр: 4 слоя 3×3 (клетка 32) со сдвигом 14
+    const gF = document.getElementById("s3-filt"), fL = [];
+    for (let i = 0; i < 4; i++) {
+      const g = mk("g", { id: `s3-fl-${i}`, opacity: 0 }, gF);
+      const x0 = 350 + 14 * i, y0 = 300 - 14 * i;
+      mk("rect", { x: x0 - 2, y: y0 - 2, width: 100, height: 100, rx: 8, fill: "#0f1117", stroke: "#ff7a2f", "stroke-width": 3 }, g);
+      for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) mk("rect", { x: x0 + c * 32 + 2, y: y0 + r * 32 + 2, width: 28, height: 28, rx: 4, fill: "rgba(255,122,47,0.35)" }, g);
+      fL.push(g);
+    }
+    // Пять фильтров-иконок
+    const g5 = document.getElementById("s3-five"), five = [];
+    for (let j = 0; j < 5; j++) {
+      const g = mk("g", { id: `s3-f5-${j}`, opacity: 0 }, g5);
+      const x0 = 572 + 44 * j;
+      for (let i = 0; i < 3; i++) mk("rect", { x: x0 + 5 * i, y: 290 - 5 * i, width: 30, height: 30, rx: 5, fill: "rgba(255,122,47,0.35)", stroke: "#ff7a2f", "stroke-width": 2 }, g);
+      five.push(g);
+    }
+    // Выход: 5 плоскостей
+    const gO = document.getElementById("s3-out"), outP = [];
+    for (let i = 0; i < 5; i++) outP.push(mk("rect", { id: `s3-out-${i}`, x: 860 + 10 * i, y: 268 - 10 * i, width: 56, height: 56, rx: 8, fill: "#2a4a2e", stroke: "#3dba7a", "stroke-width": 3, opacity: 0 }, gO));
+
+    const tl = gsap.timeline({ paused: true });
+    const cap = (id, t0, t1) => { tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t0); if (t1) tl.to(id, { opacity: 0, duration: 0.35 }, t1); };
+    const arrow = (line, head, len, t) => {
+      tl.fromTo(line, { opacity: 0, attr: { "stroke-dasharray": "0 9999" } }, { opacity: 1, attr: { "stroke-dasharray": len + " 9999" }, duration: 0.35, ease: "power2.inOut" }, t);
+      tl.fromTo(head, { opacity: 0 }, { opacity: 1, duration: 0.2 }, t + 0.3);
+    };
+    tl.fromTo("#s3-wrap", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+    inP.forEach((el, i) => tl.fromTo(el, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 0.3 + i * 0.12));
+    tl.fromTo("#s3-in-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.7);
+    tl.fromTo("#s3-in-hw", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.0);
+    arrow("#s3-ar1", "#s3-ah1", 50, 1.0);
+    fL.forEach((el, i) => tl.fromTo(el, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 1.4 + i * 0.15));
+    tl.fromTo("#s3-f-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.8);
+    tl.fromTo("#s3-f-w", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.4);
+    tl.fromTo("#s3-f-b", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.2);
+    tl.fromTo("#s3-cnt-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.4);
+    tl.fromTo("#s3-cnt", { opacity: 0, "--n": 0 }, { opacity: 1, "--n": 37, snap: "--n", duration: 0.8, ease: "power2.out" }, 3.5);
+    cap("#s3-cap1", 0.6, 5.2);
+    // × 5 фильтров → 5 выходных каналов, счётчик 37 → 185
+    arrow("#s3-ar2", "#s3-ah2", 44, 5.3);
+    five.forEach((el, j) => tl.fromTo(el, { opacity: 0, scale: 0.6, svgOrigin: `${592 + 44 * j} 300` }, { opacity: 1, scale: 1, svgOrigin: `${592 + 44 * j} 300`, duration: 0.35, ease: "back.out(1.6)" }, 5.6 + j * 0.15));
+    tl.fromTo("#s3-five-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 6.1);
+    arrow("#s3-ar3", "#s3-ah3", 36, 6.4);
+    outP.forEach((el, i) => tl.fromTo(el, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.35, ease: "power2.out" }, 6.7 + i * 0.1));
+    tl.fromTo("#s3-out-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.0);
+    tl.fromTo("#s3-five-w", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.2);
+    tl.to("#s3-cnt", { "--n": 185, snap: "--n", duration: 1.2, ease: "power2.out" }, 7.2);
+    tl.fromTo("#s3-c1", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 7.6);
+    cap("#s3-cap2", 5.4, 9.3);
+    // Другие слои
+    tl.fromTo("#s3-c2", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 9.4);
+    ["#s3-r1", "#s3-r2", "#s3-r3", "#s3-r4"].forEach((id, i) => tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.8 + i * 0.45));
+    cap("#s3-cap3", 9.6, 0);
+    tl.to("#s3-wrap", { opacity: 0, duration: 0.5 }, 13.45);
+    window.__timelines["s3"] = tl;
+  })();
+</script>
+</template>
+</body></html>
